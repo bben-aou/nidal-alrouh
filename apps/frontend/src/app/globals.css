@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nidal Al-Rouh Design System - Compassionate, calming, culturally sensitive */
+
+@layer base {
+  :root {
+    /* Core Colors - Warm, calming palette */
+    --background: 40 30% 97%; /* Soft off-white */
+    --foreground: 210 15% 20%; /* Dark gray for readability */
+
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 210 15% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 15% 20%;
+
+    /* Primary - Calming teal/blue (soul, journey) */
+    --primary: 192 27% 52%; /* #5B9FAA - calming water */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 192 35% 70%; /* Lighter variant */
+    --primary-dark: 192 30% 38%; /* Darker variant */
+
+    /* Secondary - Sage green (hope, healing) */
+    --secondary: 145 20% 63%; /* #88B89D - gentle hope */
+    --secondary-foreground: 210 15% 20%;
+    --secondary-light: 145 25% 75%;
+
+    /* Accent - Warm earth (grounding, safety) */
+    --accent: 30 47% 80%; /* #E4C9B5 - warm embrace */
+    --accent-foreground: 210 15% 20%;
+    --accent-dark: 30 40% 65%;
+
+    /* Muted - Soft neutrals */
+    --muted: 40 20% 93%;
+    --muted-foreground: 210 10% 45%;
+
+    /* Destructive/Crisis - Gentle warning */
+    --destructive: 0 70% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 210 15% 88%;
+    --input: 210 15% 90%;
+    --ring: 192 27% 52%;
+
+    /* Radius - Gentle curves */
+    --radius: 0.75rem;
+
+    /* Shadows - Soft and calming */
+    --shadow-sm: 0 2px 8px hsl(210 15% 20% / 0.08);
+    --shadow-md: 0 4px 16px hsl(210 15% 20% / 0.12);
+    --shadow-lg: 0 8px 32px hsl(210 15% 20% / 0.16);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(192 27% 52%), hsl(145 20% 63%));
+    --gradient-warm: linear-gradient(180deg, hsl(30 47% 80%), hsl(40 30% 97%));
+    --gradient-calm: linear-gradient(135deg, hsl(192 35% 70% / 0.2), hsl(145 25% 75% / 0.2));
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 210 20% 12%;
+    --foreground: 40 20% 92%;
+
+    --card: 210 18% 16%;
+    --card-foreground: 40 20% 92%;
+
+    --popover: 210 18% 16%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 192 30% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 192 35% 70%;
+    --primary-dark: 192 30% 45%;
+
+    --secondary: 145 22% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 145 25% 65%;
+
+    --accent: 30 40% 60%;
+    --accent-foreground: 0 0% 100%;
+    --accent-dark: 30 35% 50%;
+
+    --muted: 210 15% 22%;
+    --muted-foreground: 210 10% 65%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 24%;
+    --input: 210 15% 22%;
+    --ring: 192 30% 58%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  /* RTL Support */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  [dir="ltr"] {
+    direction: ltr;
+  }
+}
+
+@layer components {
+  /* Crisis Button - Always visible, dignified */
+  .crisis-button {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 50;
+    background-color: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+    @apply px-6 py-3 rounded-full font-medium shadow-lg;
+    @apply hover:scale-105 transition-all duration-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-destructive/30;
+  }
+
+  /* Hero Gradient Background */
+  .hero-gradient {
+    background: var(--gradient-calm);
+  }
+
+  /* Card with soft shadow */
+  .card-soft {
+    @apply bg-card rounded-xl p-6;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Gentle hover effect */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Empathy-focused button */
+  .btn-empathy {
+    @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-lg;
+    @apply font-medium hover:bg-secondary-light transition-all duration-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-secondary/30;
+  }
+
+  /* Safe space indicator */
+  .safe-indicator {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full;
+    @apply bg-accent/20 text-accent-foreground text-sm font-medium;
+  }
+}
