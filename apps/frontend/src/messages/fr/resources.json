@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "title": "Ressources de Santé Mentale",
+    "subtitle": "Découvrez des ressources utiles pour votre parcours de bien-être mental"
+  },
+  "search": {
+    "placeholder": "Rechercher des ressources..."
+  },
+  "categories": {
+    "title": "Catégories de Ressources",
+    "subtitle": "Explorez notre collection complète de ressources de santé mentale",
+    "articles": {
+      "title": "Articles",
+      "description": "Articles approfondis sur les sujets de santé mentale"
+    },
+    "videos": {
+      "title": "Vidéos",
+      "description": "Contenu vidéo éducatif et thérapeutique"
+    },
+    "podcasts": {
+      "title": "Podcasts",
+      "description": "Contenu audio pour le bien-être mental"
+    },
+    "guides": {
+      "title": "Guides",
+      "description": "Guides étape par étape et cahiers d'exercices"
+    }
+  },
+  "featured": {
+    "title": "Ressources en Vedette",
+    "subtitle": "Ressources sélectionnées pour soutenir votre parcours de bien-être mental",
+    "mentalHealth": {
+      "title": "Comprendre la Santé Mentale",
+      "description": "Un guide complet sur les bases de la santé mentale"
+    },
+    "stressManagement": {
+      "title": "Techniques de Gestion du Stress",
+      "description": "Stratégies pratiques pour gérer le stress quotidien"
+    },
+    "selfCare": {
+      "title": "Essentiels des Soins Personnels",
+      "description": "Pratiques quotidiennes pour maintenir le bien-être mental"
+    }
+  },
+  "newsletter": {
+    "title": "Restez Informé",
+    "description": "Abonnez-vous à notre newsletter pour recevoir les dernières ressources de santé mentale et insights directement dans votre boîte de réception.",
+    "emailPlaceholder": "Entrez votre email",
+    "subscribe": "S'abonner"
+  },
+  "actions": {
+    "view": "Voir",
+    "read": "Lire",
+    "watch": "Regarder",
+    "listen": "Écouter",
+    "download": "Télécharger"
+  }
+}

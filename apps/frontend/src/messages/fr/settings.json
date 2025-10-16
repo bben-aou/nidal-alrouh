@@ -1,0 +1,102 @@
+{
+  "title": "Paramètres",
+  "subtitle": "Gérer les préférences de votre compte",
+  "notifications": {
+    "title": "Notifications",
+    "description": "Gérer vos préférences de notification",
+    "email": "Notifications par e-mail",
+    "emailDescription": "Recevoir des notifications par e-mail",
+    "push": "Notifications push",
+    "pushDescription": "Recevoir des notifications push sur votre appareil",
+    "sms": "Notifications SMS",
+    "smsDescription": "Recevoir des notifications par SMS"
+  },
+  "privacy": {
+    "title": "Confidentialité et sécurité",
+    "description": "Contrôler vos paramètres de confidentialité et de sécurité",
+    "profileVisible": "Visibilité du profil",
+    "profileVisibleDescription": "Rendre votre profil visible aux autres utilisateurs",
+    "showActivity": "Afficher le statut d'activité",
+    "showActivityDescription": "Permettre aux autres de voir quand vous êtes actif",
+    "allowMessages": "Autoriser les messages directs",
+    "allowMessagesDescription": "Permettre aux autres utilisateurs de vous envoyer des messages directs"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "description": "Personnaliser votre expérience",
+    "theme": "Thème",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeSystem": "Système",
+    "language": "Langue",
+    "timezone": "Fuseau horaire"
+  },
+  "sections": {
+    "profile": {
+      "title": "Informations du Profil",
+      "name": {
+        "label": "Nom Complet",
+        "placeholder": "Entrez votre nom complet"
+      },
+      "email": {
+        "label": "Adresse Email",
+        "placeholder": "Entrez votre adresse email"
+      },
+      "phone": {
+        "label": "Numéro de Téléphone",
+        "placeholder": "Entrez votre numéro de téléphone"
+      },
+      "bio": {
+        "label": "Biographie",
+        "placeholder": "Parlez-nous de vous"
+      }
+    },
+    "preferences": {
+      "title": "Préférences",
+      "language": {
+        "label": "Langue",
+        "description": "Choisissez votre langue préférée"
+      },
+      "theme": {
+        "label": "Thème",
+        "description": "Choisissez votre thème préféré",
+        "light": "Clair",
+        "dark": "Sombre",
+        "system": "Système"
+      },
+      "notifications": {
+        "label": "Notifications",
+        "description": "Gérez vos préférences de notification",
+        "email": "Notifications par email",
+        "push": "Notifications push",
+        "sms": "Notifications SMS"
+      }
+    },
+    "privacy": {
+      "title": "Confidentialité et Sécurité",
+      "changePassword": {
+        "label": "Changer le Mot de Passe",
+        "description": "Mettez à jour le mot de passe de votre compte"
+      },
+      "twoFactor": {
+        "label": "Authentification à Deux Facteurs",
+        "description": "Ajoutez une couche de sécurité supplémentaire à votre compte"
+      },
+      "dataExport": {
+        "label": "Exporter les Données",
+        "description": "Téléchargez une copie de vos données"
+      }
+    }
+  },
+  "actions": {
+    "save": "Enregistrer les Modifications",
+    "cancel": "Annuler",
+    "delete": "Supprimer le Compte",
+    "export": "Exporter les Données"
+  },
+  "messages": {
+    "saved": "Paramètres enregistrés avec succès",
+    "error": "Échec de l'enregistrement des paramètres",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée."
+  }
+}

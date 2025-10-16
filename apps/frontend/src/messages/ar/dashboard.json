@@ -1,0 +1,40 @@
+{
+  "title": "لوحة التحكم",
+  "welcome": "مرحباً بعودتك",
+  "overview": "نظرة عامة",
+  "stats": {
+    "totalUsers": "إجمالي المستخدمين",
+    "activeSessions": "الجلسات النشطة",
+    "completedSessions": "الجلسات المكتملة",
+    "satisfaction": "معدل الرضا",
+    "appointments": "المواعيد",
+    "messages": "الرسائل",
+    "growth": "معدل النمو"
+  },
+  "activities": {
+    "newAppointment": "تم جدولة موعد جديد",
+    "newMessage": "تم استلام رسالة جديدة",
+    "newUser": "تم تسجيل مستخدم جديد"
+  },
+  "actions": {
+    "scheduleAppointment": "جدولة موعد",
+    "sendMessage": "إرسال رسالة",
+    "manageUsers": "إدارة المستخدمين"
+  },
+  "quickActions": {
+    "title": "الإجراءات السريعة",
+    "newSession": "بدء جلسة جديدة",
+    "viewProfile": "عرض الملف الشخصي",
+    "settings": "الإعدادات",
+    "help": "الحصول على المساعدة"
+  },
+  "recentActivity": {
+    "title": "النشاط الأخير",
+    "noActivity": "لا يوجد نشاط حديث"
+  },
+  "upcomingAppointments": {
+    "title": "المواعيد القادمة",
+    "noAppointments": "لا توجد مواعيد قادمة",
+    "viewAll": "عرض الكل"
+  }
+}

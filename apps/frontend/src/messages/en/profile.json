@@ -1,0 +1,96 @@
+{
+  "title": "Profile",
+  "subtitle": "Manage your personal information",
+  "fields": {
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "location": "Location",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us about yourself..."
+  },
+  "sections": {
+    "personal": {
+      "title": "Personal Information",
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Enter your first name"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Enter your last name"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Enter your email address"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Enter your phone number"
+      },
+      "dateOfBirth": {
+        "label": "Date of Birth",
+        "placeholder": "Select your date of birth"
+      },
+      "gender": {
+        "label": "Gender",
+        "placeholder": "Select your gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "preferNotToSay": "Prefer not to say"
+      }
+    },
+    "address": {
+      "title": "Address Information",
+      "street": {
+        "label": "Street Address",
+        "placeholder": "Enter your street address"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Enter your city"
+      },
+      "state": {
+        "label": "State/Province",
+        "placeholder": "Enter your state or province"
+      },
+      "zipCode": {
+        "label": "ZIP/Postal Code",
+        "placeholder": "Enter your ZIP or postal code"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Select your country"
+      }
+    },
+    "professional": {
+      "title": "Professional Information",
+      "occupation": {
+        "label": "Occupation",
+        "placeholder": "Enter your occupation"
+      },
+      "company": {
+        "label": "Company",
+        "placeholder": "Enter your company name"
+      },
+      "bio": {
+        "label": "Professional Bio",
+        "placeholder": "Tell us about your professional background"
+      }
+    }
+  },
+  "actions": {
+    "save": "Save Profile",
+    "cancel": "Cancel",
+    "edit": "Edit Profile",
+    "uploadPhoto": "Upload Photo",
+    "removePhoto": "Remove Photo"
+  },
+  "messages": {
+    "saved": "Profile updated successfully",
+    "error": "Failed to update profile",
+    "photoUploaded": "Profile photo updated successfully",
+    "photoRemoved": "Profile photo removed successfully"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "title": "Rejoignez notre communauté",
+    "subtitle": "Connectez-vous avec d'autres dans leur parcours de bien-être mental",
+    "joinNow": "Rejoindre maintenant",
+    "joinCommunity": "Rejoindre la communauté",
+    "browseDiscussions": "Parcourir les discussions"
+  },
+  "stats": {
+    "members": "Membres actifs",
+    "discussions": "Discussions",
+    "events": "Événements mensuels",
+    "countries": "Pays",
+    "support": "Groupes de soutien"
+  },
+  "events": {
+    "title": "Événements à venir",
+    "subtitle": "Rejoignez nos événements et ateliers communautaires",
+    "viewAll": "Voir tous les événements",
+    "register": "S'inscrire",
+    "noEvents": "Aucun événement à venir",
+    "attendees": "participants",
+    "joinEvent": "Rejoindre l'événement",
+    "mentalHealthWorkshop": {
+      "title": "Atelier de santé mentale",
+      "description": "Apprenez les stratégies d'adaptation et les techniques de pleine conscience",
+      "location": "Centre communautaire"
+    },
+    "supportGroup": {
+      "title": "Réunion de groupe de soutien",
+      "description": "Partagez vos expériences et soutenez-vous mutuellement",
+      "location": "En ligne"
+    },
+    "wellnessSession": {
+      "title": "Session de bien-être",
+      "description": "Concentrez-vous sur les soins personnels et le bien-être mental",
+      "location": "Centre de bien-être"
+    }
+  },
+  "discussions": {
+    "title": "Discussions récentes",
+    "subtitle": "Rejoignez les conversations en cours dans notre communauté",
+    "viewAll": "Voir toutes les discussions",
+    "startDiscussion": "Commencer une discussion",
+    "noDiscussions": "Aucune discussion récente",
+    "copingStrategies": {
+      "title": "Stratégies d'adaptation efficaces pour le stress quotidien"
+    },
+    "workLifeBalance": {
+      "title": "Maintenir l'équilibre travail-vie personnelle"
+    },
+    "anxietySupport": {
+      "title": "Soutien et gestion de l'anxiété"
+    }
+  },
+  "guidelines": {
+    "title": "Directives de la communauté",
+    "description": "Veuillez lire et suivre nos directives communautaires pour assurer un environnement sûr et favorable pour tous.",
+    "respect": "Traitez tout le monde avec respect et gentillesse",
+    "privacy": "Respectez la vie privée et la confidentialité",
+    "support": "Offrez du soutien, pas des conseils médicaux",
+    "inclusive": "Gardez les discussions inclusives et accueillantes",
+    "readMore": "Lire plus"
+  }
+}

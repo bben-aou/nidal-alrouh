@@ -57,9 +57,17 @@
     --shadow-lg: 0 8px 32px hsl(210 15% 20% / 0.16);
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(192 27% 52%), hsl(145 20% 63%));
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(192 27% 52%),
+      hsl(145 20% 63%)
+    );
     --gradient-warm: linear-gradient(180deg, hsl(30 47% 80%), hsl(40 30% 97%));
-    --gradient-calm: linear-gradient(135deg, hsl(192 35% 70% / 0.2), hsl(145 25% 75% / 0.2));
+    --gradient-calm: linear-gradient(
+      135deg,
+      hsl(192 35% 70% / 0.2),
+      hsl(145 25% 75% / 0.2)
+    );
 
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -111,20 +119,27 @@
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "kern" 1, "liga" 1;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 600;
     letter-spacing: -0.025em;
   }
 
   /* RTL Support */
-  [dir="rtl"] {
+  [dir='rtl'] {
     direction: rtl;
   }
 
-  [dir="ltr"] {
+  [dir='ltr'] {
     direction: ltr;
   }
 }
@@ -141,6 +156,37 @@
     @apply px-6 py-3 rounded-full font-medium shadow-lg;
     @apply hover:scale-105 transition-all duration-300;
     @apply focus:outline-none focus:ring-4 focus:ring-destructive/30;
+  }
+
+  .scrollbar-soft {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary)) hsl(var(--muted));
+    /* Reduce layout shift on some browsers */
+    scrollbar-gutter: stable;
+  }
+  .scrollbar-soft::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-soft::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: var(--radius);
+  }
+  .scrollbar-soft::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .scrollbar-soft:hover::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary-dark));
+  }
+  .dark .scrollbar-soft::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  .dark .scrollbar-soft::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
   }
 
   /* Hero Gradient Background */

@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "arabicTitle": "نضال الروح",
+    "latinTitle": "Nidal Al-Rouh",
+    "tagline": "You are not alone in your journey",
+    "description": "A mental health support platform for Morocco, connecting those seeking help with people who can help them.",
+    "trustIndicators": {
+      "nonprofit": "Non-profit",
+      "confidential": "Confidential & Anonymous"
+    },
+    "buttons": {
+      "needSupport": "I need support",
+      "wantToHelp": "I want to help"
+    },
+    "encouragement": "Taking the first step takes courage. We are here to accompany you."
+  },
+  "features": {
+    "title": "How we can help you",
+    "subtitle": "Tools and resources designed to accompany you on your journey",
+    "items": {
+      "communityForum": {
+        "title": "Community Forum",
+        "description": "Share your experience and support others in a safe and moderated space"
+      },
+      "privateMessaging": {
+        "title": "Private Messaging",
+        "description": "Connect with peers and professionals in complete confidentiality"
+      },
+      "educationalResources": {
+        "title": "Educational Resources",
+        "description": "Access articles, coping strategies and emergency resources"
+      },
+      "communityEvents": {
+        "title": "Community Events",
+        "description": "Join group walks, meetings and creative activities"
+      },
+      "protectedAnonymity": {
+        "title": "Protected Anonymity",
+        "description": "Participate anonymously if you prefer - your privacy is respected"
+      },
+      "personalTracking": {
+        "title": "Personal Tracking",
+        "description": "Track your mood and progress in a private journal"
+      }
+    }
+  },
+  "about": {
+    "title": "Our mission",
+    "description": "Nidal Al-Rouh was born from a lived experience to help people who suffer in silence. We believe that no one should face their mental health challenges alone.",
+    "meaning": "\u201cNidal Al-Rouh\u201d means \u201cthe struggle of the soul\u201d or \u201cthe journey of the soul\u201d \u2014 acknowledging the inner battle while celebrating the resilience that lives within each of us.",
+    "values": {
+      "compassion": {
+        "title": "Compassion",
+        "description": "Creating a safe space where every journey is honored with dignity and respect"
+      },
+      "confidentiality": {
+        "title": "Confidentiality",
+        "description": "Your privacy and security are our absolute priority"
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "Mental health support should be available to everyone, everywhere"
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "title": "About Nidal Al-Rouh",
+    "subtitle": "Empowering mental wellness through compassionate care and innovative solutions",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "To provide accessible, culturally-sensitive mental health support that bridges traditional healing practices with modern therapeutic approaches.",
+    "founded": "Founded in 2023 with a vision to transform mental health care"
+  },
+  "values": {
+    "title": "Our Values",
+    "subtitle": "The principles that guide everything we do",
+    "compassion": {
+      "title": "Compassion",
+      "description": "We approach every individual with empathy, understanding, and genuine care for their wellbeing."
+    },
+    "community": {
+      "title": "Community",
+      "description": "We believe in the power of connection and support within our diverse community."
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "description": "Mental health support should be available to everyone, regardless of background or circumstances."
+    },
+    "excellence": {
+      "title": "Excellence",
+      "description": "We strive for the highest standards in care, continuously improving our services."
+    }
+  },
+  "story": {
+    "title": "Our Story",
+    "description": "Founded with the vision of making mental health support accessible to Arabic-speaking communities worldwide, Nidal Al-Rouh combines traditional wisdom with modern therapeutic practices."
+  },
+  "achievements": {
+    "users": "10,000+ Users Supported",
+    "sessions": "50,000+ Sessions Completed",
+    "professionals": "500+ Mental Health Professionals",
+    "languages": "Available in 3 Languages"
+  },
+  "team": {
+    "title": "Meet Our Team",
+    "subtitle": "Our diverse team of mental health professionals, technologists, and community advocates work together to provide exceptional care.",
+    "description": "Our diverse team of mental health professionals, technologists, and community advocates work together to provide exceptional care.",
+    "joinUs": "Join Our Team",
+    "joinDescription": "We're always looking for passionate individuals who want to make a difference in mental health care.",
+    "getInvolved": "Get Involved"
+  }
+}

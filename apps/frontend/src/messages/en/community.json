@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "title": "Join Our Community",
+    "subtitle": "Connect with others on their mental wellness journey",
+    "joinNow": "Join Now",
+    "joinCommunity": "Join Community",
+    "browseDiscussions": "Browse Discussions"
+  },
+  "stats": {
+    "members": "Active Members",
+    "discussions": "Discussions",
+    "events": "Monthly Events",
+    "countries": "Countries",
+    "support": "Support Groups"
+  },
+  "events": {
+    "title": "Upcoming Events",
+    "subtitle": "Join our community events and workshops",
+    "viewAll": "View All Events",
+    "register": "Register",
+    "noEvents": "No upcoming events",
+    "attendees": "attendees",
+    "joinEvent": "Join Event",
+    "mentalHealthWorkshop": {
+      "title": "Mental Health Workshop",
+      "description": "Learn coping strategies and mindfulness techniques",
+      "location": "Community Center"
+    },
+    "supportGroup": {
+      "title": "Support Group Meeting",
+      "description": "Share experiences and support each other",
+      "location": "Online"
+    },
+    "wellnessSession": {
+      "title": "Wellness Session",
+      "description": "Focus on self-care and mental wellness",
+      "location": "Wellness Center"
+    }
+  },
+  "discussions": {
+    "title": "Recent Discussions",
+    "subtitle": "Join ongoing conversations in our community",
+    "viewAll": "View All Discussions",
+    "startDiscussion": "Start Discussion",
+    "noDiscussions": "No recent discussions",
+    "copingStrategies": {
+      "title": "Effective Coping Strategies for Daily Stress"
+    },
+    "workLifeBalance": {
+      "title": "Maintaining Work-Life Balance"
+    },
+    "anxietySupport": {
+      "title": "Anxiety Support and Management"
+    }
+  },
+  "guidelines": {
+    "title": "Community Guidelines",
+    "description": "Please read and follow our community guidelines to ensure a safe and supportive environment for everyone.",
+    "respect": "Treat everyone with respect and kindness",
+    "privacy": "Respect privacy and confidentiality",
+    "support": "Offer support, not medical advice",
+    "inclusive": "Keep discussions inclusive and welcoming",
+    "readMore": "Read More"
+  }
+}

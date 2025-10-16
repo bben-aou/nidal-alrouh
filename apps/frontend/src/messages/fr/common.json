@@ -1,0 +1,67 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "resources": "Ressources",
+    "community": "Communauté",
+    "login": "Se connecter"
+  },
+  "general": {
+    "welcome": "Bienvenue",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès"
+  },
+  "language": {
+    "english": "English",
+    "arabic": "العربية",
+    "french": "Français",
+    "selectLanguage": "Choisir la langue"
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil",
+    "goBack": "Retour"
+  },
+  "footer": {
+    "brand": {
+      "tagline": "Plateforme de soutien en santé mentale pour le Maroc. Sans but lucratif, open-source, née d'une expérience vécue."
+    },
+    "resources": {
+      "title": "Ressources",
+      "about": "À propos",
+      "community": "Forum communautaire",
+      "resources": "Ressources éducatives",
+      "events": "Événements"
+    },
+    "legal": {
+      "title": "Légal",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "codeOfConduct": "Code de conduite",
+      "accessibility": "Accessibilité"
+    },
+    "bottom": {
+      "copy": "© {year} Nidal Al-Rouh. Projet open-source à but non lucratif.",
+      "madeWith": "Fait avec",
+      "forCommunity": "pour la communauté marocaine"
+    }
+  },
+  "crisis": {
+    "buttonLabel": "Aide d'urgence",
+    "title": "Aide d'urgence immédiate",
+    "intro": "Si vous êtes en crise ou pensez à vous faire du mal, veuillez contacter immédiatement:",
+    "contactsTitle": "Contacts d'urgence",
+    "lines": {
+      "nationalHotline": {
+        "label": "Ligne d'écoute nationale",
+        "number": "0801 00 47 47"
+      },
+      "medical": { "label": "Urgences médicales", "number": "141" },
+      "police": { "label": "Police/Urgences", "number": "19" }
+    },
+    "availability": "Vous n'êtes pas seul(e). Ces lignes sont disponibles 24h/24 et 7j/7.",
+    "close": "Fermer"
+  }
+}

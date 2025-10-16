@@ -1,0 +1,96 @@
+{
+  "title": "Profil",
+  "subtitle": "Gérer vos informations personnelles",
+  "fields": {
+    "name": "Nom complet",
+    "email": "Adresse e-mail",
+    "phone": "Numéro de téléphone",
+    "location": "Localisation",
+    "bio": "Biographie",
+    "bioPlaceholder": "Parlez-nous de vous..."
+  },
+  "sections": {
+    "personal": {
+      "title": "Informations Personnelles",
+      "firstName": {
+        "label": "Prénom",
+        "placeholder": "Entrez votre prénom"
+      },
+      "lastName": {
+        "label": "Nom de Famille",
+        "placeholder": "Entrez votre nom de famille"
+      },
+      "email": {
+        "label": "Adresse Email",
+        "placeholder": "Entrez votre adresse email"
+      },
+      "phone": {
+        "label": "Numéro de Téléphone",
+        "placeholder": "Entrez votre numéro de téléphone"
+      },
+      "dateOfBirth": {
+        "label": "Date de Naissance",
+        "placeholder": "Sélectionnez votre date de naissance"
+      },
+      "gender": {
+        "label": "Genre",
+        "placeholder": "Sélectionnez votre genre",
+        "male": "Homme",
+        "female": "Femme",
+        "other": "Autre",
+        "preferNotToSay": "Préfère ne pas dire"
+      }
+    },
+    "address": {
+      "title": "Informations d'Adresse",
+      "street": {
+        "label": "Adresse de Rue",
+        "placeholder": "Entrez votre adresse de rue"
+      },
+      "city": {
+        "label": "Ville",
+        "placeholder": "Entrez votre ville"
+      },
+      "state": {
+        "label": "État/Province",
+        "placeholder": "Entrez votre état ou province"
+      },
+      "zipCode": {
+        "label": "Code Postal",
+        "placeholder": "Entrez votre code postal"
+      },
+      "country": {
+        "label": "Pays",
+        "placeholder": "Sélectionnez votre pays"
+      }
+    },
+    "professional": {
+      "title": "Informations Professionnelles",
+      "occupation": {
+        "label": "Profession",
+        "placeholder": "Entrez votre profession"
+      },
+      "company": {
+        "label": "Entreprise",
+        "placeholder": "Entrez le nom de votre entreprise"
+      },
+      "bio": {
+        "label": "Biographie Professionnelle",
+        "placeholder": "Parlez-nous de votre parcours professionnel"
+      }
+    }
+  },
+  "actions": {
+    "save": "Enregistrer le Profil",
+    "cancel": "Annuler",
+    "edit": "Modifier le Profil",
+    "uploadPhoto": "Télécharger une Photo",
+    "removePhoto": "Supprimer la Photo"
+  },
+  "messages": {
+    "saved": "Profil mis à jour avec succès",
+    "error": "Échec de la mise à jour du profil",
+    "photoUploaded": "Photo de profil mise à jour avec succès",
+    "photoRemoved": "Photo de profil supprimée avec succès"
+  }
+}

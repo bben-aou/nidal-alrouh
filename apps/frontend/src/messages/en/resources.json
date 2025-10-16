@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "title": "Mental Health Resources",
+    "subtitle": "Discover helpful resources for your mental wellness journey"
+  },
+  "search": {
+    "placeholder": "Search resources..."
+  },
+  "categories": {
+    "title": "Resource Categories",
+    "subtitle": "Explore our comprehensive collection of mental health resources",
+    "articles": {
+      "title": "Articles",
+      "description": "In-depth articles on mental health topics"
+    },
+    "videos": {
+      "title": "Videos",
+      "description": "Educational and therapeutic video content"
+    },
+    "podcasts": {
+      "title": "Podcasts",
+      "description": "Audio content for mental wellness"
+    },
+    "guides": {
+      "title": "Guides",
+      "description": "Step-by-step guides and workbooks"
+    }
+  },
+  "featured": {
+    "title": "Featured Resources",
+    "subtitle": "Handpicked resources to support your mental wellness journey",
+    "mentalHealth": {
+      "title": "Understanding Mental Health",
+      "description": "A comprehensive guide to mental health basics"
+    },
+    "stressManagement": {
+      "title": "Stress Management Techniques",
+      "description": "Practical strategies for managing daily stress"
+    },
+    "selfCare": {
+      "title": "Self-Care Essentials",
+      "description": "Daily practices for maintaining mental wellness"
+    }
+  },
+  "newsletter": {
+    "title": "Stay Updated",
+    "description": "Subscribe to our newsletter for the latest mental health resources and insights delivered to your inbox.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe"
+  },
+  "actions": {
+    "view": "View",
+    "read": "Read",
+    "watch": "Watch",
+    "listen": "Listen",
+    "download": "Download"
+  }
+}

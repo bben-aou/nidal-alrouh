@@ -1,0 +1,40 @@
+{
+  "title": "Dashboard",
+  "welcome": "Welcome back",
+  "overview": "Overview",
+  "stats": {
+    "totalUsers": "Total Users",
+    "activeSessions": "Active Sessions",
+    "completedSessions": "Completed Sessions",
+    "satisfaction": "Satisfaction Rate",
+    "appointments": "Appointments",
+    "messages": "Messages",
+    "growth": "Growth Rate"
+  },
+  "activities": {
+    "newAppointment": "New appointment scheduled",
+    "newMessage": "New message received",
+    "newUser": "New user registered"
+  },
+  "actions": {
+    "scheduleAppointment": "Schedule Appointment",
+    "sendMessage": "Send Message",
+    "manageUsers": "Manage Users"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "newSession": "Start New Session",
+    "viewProfile": "View Profile",
+    "settings": "Settings",
+    "help": "Get Help"
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "noActivity": "No recent activity"
+  },
+  "upcomingAppointments": {
+    "title": "Upcoming Appointments",
+    "noAppointments": "No upcoming appointments",
+    "viewAll": "View All"
+  }
+}

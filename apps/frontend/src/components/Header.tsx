@@ -1,14 +1,21 @@
-import Link from "next/link";
-import { LanguageSwitcher } from "./LanguageSwitcher";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
+
+import LanguageSwitcher from './LanguageSwitcher';
 
 export const Header = () => {
+  const t = useTranslations('navigation');
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Link
+          href="/"
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
           <h1 className="font-arabic text-2xl font-bold text-primary">
             نضال الروح
           </h1>
@@ -23,32 +30,28 @@ export const Header = () => {
             href="/about"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            À propos
+            {t('about')}
           </Link>
           <Link
             href="/resources"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            Ressources
+            {t('resources')}
           </Link>
           <Link
-            href="/forum"
+            href="/community"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            Communauté
+            {t('community')}
           </Link>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <Link href="/auth">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-sm font-medium"
-            >
-              Se connecter
+          <Link href="/login">
+            <Button variant="ghost" size="sm" className="text-sm font-medium">
+              {t('login')}
             </Button>
           </Link>
           <Button size="icon" variant="ghost" className="md:hidden">

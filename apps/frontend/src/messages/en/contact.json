@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with our team"
+  },
+  "form": {
+    "name": {
+      "label": "Full Name",
+      "placeholder": "Enter your full name"
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter your email address"
+    },
+    "subject": {
+      "label": "Subject",
+      "placeholder": "What is this about?"
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Tell us how we can help you"
+    },
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "error": "Failed to send message. Please try again."
+  },
+  "info": {
+    "address": {
+      "title": "Address",
+      "value": "123 Mental Health Street, Wellness City, WC 12345"
+    },
+    "phone": {
+      "title": "Phone",
+      "value": "+1 (555) 123-4567"
+    },
+    "email": {
+      "title": "Email",
+      "value": "contact@mentalhealth.com"
+    },
+    "hours": {
+      "title": "Business Hours",
+      "weekdays": "Monday - Friday: 9:00 AM - 6:00 PM",
+      "weekend": "Saturday - Sunday: 10:00 AM - 4:00 PM"
+    }
+  },
+  "emergency": {
+    "title": "Emergency Contact",
+    "description": "If you are experiencing a mental health emergency, please contact:",
+    "hotline": "Crisis Hotline: 988",
+    "emergency": "Emergency Services: 911"
+  }
+}
