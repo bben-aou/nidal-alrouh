@@ -1,0 +1,96 @@
+{
+  "title": "الملف الشخصي",
+  "subtitle": "إدارة معلوماتك الشخصية",
+  "fields": {
+    "name": "الاسم الكامل",
+    "email": "عنوان البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "location": "الموقع",
+    "bio": "النبذة الشخصية",
+    "bioPlaceholder": "أخبرنا عن نفسك..."
+  },
+  "sections": {
+    "personal": {
+      "title": "المعلومات الشخصية",
+      "firstName": {
+        "label": "الاسم الأول",
+        "placeholder": "أدخل اسمك الأول"
+      },
+      "lastName": {
+        "label": "اسم العائلة",
+        "placeholder": "أدخل اسم عائلتك"
+      },
+      "email": {
+        "label": "عنوان البريد الإلكتروني",
+        "placeholder": "أدخل عنوان بريدك الإلكتروني"
+      },
+      "phone": {
+        "label": "رقم الهاتف",
+        "placeholder": "أدخل رقم هاتفك"
+      },
+      "dateOfBirth": {
+        "label": "تاريخ الميلاد",
+        "placeholder": "اختر تاريخ ميلادك"
+      },
+      "gender": {
+        "label": "الجنس",
+        "placeholder": "اختر جنسك",
+        "male": "ذكر",
+        "female": "أنثى",
+        "other": "آخر",
+        "preferNotToSay": "أفضل عدم الإفصاح"
+      }
+    },
+    "address": {
+      "title": "معلومات العنوان",
+      "street": {
+        "label": "عنوان الشارع",
+        "placeholder": "أدخل عنوان شارعك"
+      },
+      "city": {
+        "label": "المدينة",
+        "placeholder": "أدخل مدينتك"
+      },
+      "state": {
+        "label": "الولاية/المحافظة",
+        "placeholder": "أدخل ولايتك أو محافظتك"
+      },
+      "zipCode": {
+        "label": "الرمز البريدي",
+        "placeholder": "أدخل رمزك البريدي"
+      },
+      "country": {
+        "label": "البلد",
+        "placeholder": "اختر بلدك"
+      }
+    },
+    "professional": {
+      "title": "المعلومات المهنية",
+      "occupation": {
+        "label": "المهنة",
+        "placeholder": "أدخل مهنتك"
+      },
+      "company": {
+        "label": "الشركة",
+        "placeholder": "أدخل اسم شركتك"
+      },
+      "bio": {
+        "label": "النبذة المهنية",
+        "placeholder": "أخبرنا عن خلفيتك المهنية"
+      }
+    }
+  },
+  "actions": {
+    "save": "حفظ الملف الشخصي",
+    "cancel": "إلغاء",
+    "edit": "تعديل الملف الشخصي",
+    "uploadPhoto": "رفع صورة",
+    "removePhoto": "إزالة الصورة"
+  },
+  "messages": {
+    "saved": "تم تحديث الملف الشخصي بنجاح",
+    "error": "فشل في تحديث الملف الشخصي",
+    "photoUploaded": "تم تحديث صورة الملف الشخصي بنجاح",
+    "photoRemoved": "تم إزالة صورة الملف الشخصي بنجاح"
+  }
+}

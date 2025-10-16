@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "title": "Contactez-nous",
+    "subtitle": "Entrez en contact avec notre équipe"
+  },
+  "form": {
+    "name": {
+      "label": "Nom Complet",
+      "placeholder": "Entrez votre nom complet"
+    },
+    "email": {
+      "label": "Adresse Email",
+      "placeholder": "Entrez votre adresse email"
+    },
+    "subject": {
+      "label": "Sujet",
+      "placeholder": "De quoi s'agit-il ?"
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Dites-nous comment nous pouvons vous aider"
+    },
+    "submit": "Envoyer le Message",
+    "sending": "Envoi en cours...",
+    "success": "Message envoyé avec succès !",
+    "error": "Échec de l'envoi du message. Veuillez réessayer."
+  },
+  "info": {
+    "address": {
+      "title": "Adresse",
+      "value": "123 Rue de la Santé Mentale, Ville du Bien-être, WC 12345"
+    },
+    "phone": {
+      "title": "Téléphone",
+      "value": "+1 (555) 123-4567"
+    },
+    "email": {
+      "title": "Email",
+      "value": "contact@mentalhealth.com"
+    },
+    "hours": {
+      "title": "Heures d'Ouverture",
+      "weekdays": "Lundi - Vendredi : 9h00 - 18h00",
+      "weekend": "Samedi - Dimanche : 10h00 - 16h00"
+    }
+  },
+  "emergency": {
+    "title": "Contact d'Urgence",
+    "description": "Si vous vivez une urgence de santé mentale, veuillez contacter :",
+    "hotline": "Ligne de Crise : 988",
+    "emergency": "Services d'Urgence : 911"
+  }
+}

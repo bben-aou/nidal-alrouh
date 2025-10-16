@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "title": "À propos de Nidal Al-Rouh",
+    "subtitle": "Autonomiser le bien-être mental grâce à des soins compatissants et des solutions innovantes",
+    "getStarted": "Commencer",
+    "learnMore": "En savoir plus"
+  },
+  "mission": {
+    "title": "Notre Mission",
+    "description": "Fournir un soutien en santé mentale accessible et culturellement sensible qui fait le pont entre les pratiques de guérison traditionnelles et les approches thérapeutiques modernes.",
+    "founded": "Fondée en 2023 avec une vision de transformer les soins de santé mentale"
+  },
+  "values": {
+    "title": "Nos Valeurs",
+    "subtitle": "Les principes qui guident tout ce que nous faisons",
+    "compassion": {
+      "title": "Compassion",
+      "description": "Nous abordons chaque individu avec empathie, compréhension et un véritable souci de son bien-être."
+    },
+    "community": {
+      "title": "Communauté",
+      "description": "Nous croyons au pouvoir de la connexion et du soutien au sein de notre communauté diversifiée."
+    },
+    "accessibility": {
+      "title": "Accessibilité",
+      "description": "Le soutien en santé mentale devrait être disponible pour tous, peu importe leur origine ou leurs circonstances."
+    },
+    "excellence": {
+      "title": "Excellence",
+      "description": "Nous visons les plus hauts standards de soins, améliorant continuellement nos services."
+    }
+  },
+  "story": {
+    "title": "Notre Histoire",
+    "description": "Fondée avec la vision de rendre le soutien en santé mentale accessible aux communautés arabophones du monde entier, Nidal Al-Rouh combine la sagesse traditionnelle avec les pratiques thérapeutiques modernes."
+  },
+  "achievements": {
+    "users": "Plus de 10 000 utilisateurs soutenus",
+    "sessions": "Plus de 50 000 sessions terminées",
+    "professionals": "Plus de 500 professionnels de la santé mentale",
+    "languages": "Disponible en 3 langues"
+  },
+  "team": {
+    "title": "Rencontrez Notre Équipe",
+    "subtitle": "Notre équipe diversifiée de professionnels de la santé mentale, de technologues et de défenseurs communautaires travaillent ensemble pour fournir des soins exceptionnels.",
+    "description": "Notre équipe diversifiée de professionnels de la santé mentale, de technologues et de défenseurs communautaires travaillent ensemble pour fournir des soins exceptionnels.",
+    "joinUs": "Rejoignez Notre Équipe",
+    "joinDescription": "Nous recherchons toujours des personnes passionnées qui veulent faire une différence dans les soins de santé mentale.",
+    "getInvolved": "Participez"
+  }
+}

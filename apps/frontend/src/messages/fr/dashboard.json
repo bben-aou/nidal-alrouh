@@ -1,0 +1,40 @@
+{
+  "title": "Tableau de bord",
+  "welcome": "Bon retour",
+  "overview": "Aperçu",
+  "stats": {
+    "totalUsers": "Total des utilisateurs",
+    "activeSessions": "Sessions actives",
+    "completedSessions": "Sessions terminées",
+    "satisfaction": "Taux de satisfaction",
+    "appointments": "Rendez-vous",
+    "messages": "Messages",
+    "growth": "Taux de croissance"
+  },
+  "activities": {
+    "newAppointment": "Nouveau rendez-vous programmé",
+    "newMessage": "Nouveau message reçu",
+    "newUser": "Nouvel utilisateur enregistré"
+  },
+  "actions": {
+    "scheduleAppointment": "Programmer un rendez-vous",
+    "sendMessage": "Envoyer un message",
+    "manageUsers": "Gérer les utilisateurs"
+  },
+  "quickActions": {
+    "title": "Actions rapides",
+    "newSession": "Commencer une nouvelle session",
+    "viewProfile": "Voir le profil",
+    "settings": "Paramètres",
+    "help": "Obtenir de l'aide"
+  },
+  "recentActivity": {
+    "title": "Activité récente",
+    "noActivity": "Aucune activité récente"
+  },
+  "upcomingAppointments": {
+    "title": "Rendez-vous à venir",
+    "noAppointments": "Aucun rendez-vous à venir",
+    "viewAll": "Voir tout"
+  }
+}

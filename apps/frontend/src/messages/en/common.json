@@ -1,0 +1,67 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "resources": "Resources",
+    "community": "Community",
+    "login": "Login"
+  },
+  "general": {
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success"
+  },
+  "language": {
+    "english": "English",
+    "arabic": "العربية",
+    "french": "Français",
+    "selectLanguage": "Select Language"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to Home",
+    "goBack": "Go Back"
+  },
+  "footer": {
+    "brand": {
+      "tagline": "Mental health support platform for Morocco. Non-profit, open-source, born from lived experience."
+    },
+    "resources": {
+      "title": "Resources",
+      "about": "About",
+      "community": "Community Forum",
+      "resources": "Educational Resources",
+      "events": "Events"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use",
+      "codeOfConduct": "Code of Conduct",
+      "accessibility": "Accessibility"
+    },
+    "bottom": {
+      "copy": "© {year} Nidal Al-Rouh. Non-profit open-source project.",
+      "madeWith": "Made with",
+      "forCommunity": "for the Moroccan community"
+    }
+  },
+  "crisis": {
+    "buttonLabel": "Emergency Help",
+    "title": "Immediate Emergency Help",
+    "intro": "If you are in crisis or thinking about harming yourself, please contact immediately:",
+    "contactsTitle": "Emergency Contacts",
+    "lines": {
+      "nationalHotline": {
+        "label": "National Listening Line",
+        "number": "0801 00 47 47"
+      },
+      "medical": { "label": "Medical Emergencies", "number": "141" },
+      "police": { "label": "Police/Emergency", "number": "19" }
+    },
+    "availability": "You are not alone. These lines are available 24/7.",
+    "close": "Close"
+  }
+}

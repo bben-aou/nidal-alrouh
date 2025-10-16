@@ -1,0 +1,102 @@
+{
+  "title": "Settings",
+  "subtitle": "Manage your account preferences",
+  "notifications": {
+    "title": "Notifications",
+    "description": "Manage your notification preferences",
+    "email": "Email Notifications",
+    "emailDescription": "Receive notifications via email",
+    "push": "Push Notifications",
+    "pushDescription": "Receive push notifications on your device",
+    "sms": "SMS Notifications",
+    "smsDescription": "Receive notifications via SMS"
+  },
+  "privacy": {
+    "title": "Privacy & Security",
+    "description": "Control your privacy and security settings",
+    "profileVisible": "Profile Visibility",
+    "profileVisibleDescription": "Make your profile visible to other users",
+    "showActivity": "Show Activity Status",
+    "showActivityDescription": "Let others see when you're active",
+    "allowMessages": "Allow Direct Messages",
+    "allowMessagesDescription": "Allow other users to send you direct messages"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "description": "Customize your experience",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "language": "Language",
+    "timezone": "Timezone"
+  },
+  "sections": {
+    "profile": {
+      "title": "Profile Information",
+      "name": {
+        "label": "Full Name",
+        "placeholder": "Enter your full name"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Enter your email address"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Enter your phone number"
+      },
+      "bio": {
+        "label": "Bio",
+        "placeholder": "Tell us about yourself"
+      }
+    },
+    "preferences": {
+      "title": "Preferences",
+      "language": {
+        "label": "Language",
+        "description": "Choose your preferred language"
+      },
+      "theme": {
+        "label": "Theme",
+        "description": "Choose your preferred theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "notifications": {
+        "label": "Notifications",
+        "description": "Manage your notification preferences",
+        "email": "Email notifications",
+        "push": "Push notifications",
+        "sms": "SMS notifications"
+      }
+    },
+    "privacy": {
+      "title": "Privacy & Security",
+      "changePassword": {
+        "label": "Change Password",
+        "description": "Update your account password"
+      },
+      "twoFactor": {
+        "label": "Two-Factor Authentication",
+        "description": "Add an extra layer of security to your account"
+      },
+      "dataExport": {
+        "label": "Export Data",
+        "description": "Download a copy of your data"
+      }
+    }
+  },
+  "actions": {
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "delete": "Delete Account",
+    "export": "Export Data"
+  },
+  "messages": {
+    "saved": "Settings saved successfully",
+    "error": "Failed to save settings",
+    "deleteConfirm": "Are you sure you want to delete your account? This action cannot be undone."
+  }
+}

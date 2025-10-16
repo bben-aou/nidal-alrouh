@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "arabicTitle": "نضال الروح",
+    "latinTitle": "Nidal Al-Rouh",
+    "tagline": "Vous n'êtes pas seul(e) dans votre parcours",
+    "description": "Une plateforme de soutien en santé mentale pour le Maroc, reliant ceux qui cherchent de l'aide avec des personnes qui peuvent les aider.",
+    "trustIndicators": {
+      "nonprofit": "Sans but lucratif",
+      "confidential": "Confidentiel & Anonyme"
+    },
+    "buttons": {
+      "needSupport": "J'ai besoin de soutien",
+      "wantToHelp": "Je veux aider"
+    },
+    "encouragement": "Faire le premier pas demande du courage. Nous sommes là pour vous accompagner."
+  },
+  "features": {
+    "title": "Comment nous pouvons vous aider",
+    "subtitle": "Des outils et ressources conçus pour vous accompagner dans votre parcours",
+    "items": {
+      "communityForum": {
+        "title": "Forum communautaire",
+        "description": "Partagez votre expérience et soutenez les autres dans un espace sécurisé et modéré"
+      },
+      "privateMessaging": {
+        "title": "Messagerie privée",
+        "description": "Connectez-vous avec des pairs et des professionnels en toute confidentialité"
+      },
+      "educationalResources": {
+        "title": "Ressources éducatives",
+        "description": "Accédez à des articles, stratégies d'adaptation et ressources d'urgence"
+      },
+      "communityEvents": {
+        "title": "Événements communautaires",
+        "description": "Rejoignez des marches de groupe, réunions et activités créatives"
+      },
+      "protectedAnonymity": {
+        "title": "Anonymat protégé",
+        "description": "Participez anonymement si vous préférez - votre vie privée est respectée"
+      },
+      "personalTracking": {
+        "title": "Suivi personnel",
+        "description": "Suivez votre humeur et vos progrès dans un journal privé"
+      }
+    }
+  },
+  "about": {
+    "title": "Notre mission",
+    "description": "Nidal Al-Rouh est né d'une expérience vécue pour aider les personnes qui souffrent en silence. Nous croyons que personne ne devrait faire face seul à ses défis de santé mentale.",
+    "meaning": "\u00ab نضال الروح \u00bb signifie \u00ab la lutte de l'\u00e2me \u00bb ou \u00ab le parcours de l'\u00e2me \u00bb \u2014 reconnaissant la bataille int\u00e9rieure tout en c\u00e9l\u00e9brant la r\u00e9silience qui vit en chacun de nous.",
+    "values": {
+      "compassion": {
+        "title": "Compassion",
+        "description": "Créer un espace sécurisé où chaque parcours est honoré avec dignité et respect"
+      },
+      "confidentiality": {
+        "title": "Confidentialité",
+        "description": "Votre vie privée et votre sécurité sont notre priorité absolue"
+      },
+      "accessibility": {
+        "title": "Accessibilité",
+        "description": "Le soutien en santé mentale devrait être disponible pour tous, partout"
+      }
+    }
+  }
+}

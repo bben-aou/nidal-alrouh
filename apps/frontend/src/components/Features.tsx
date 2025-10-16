@@ -1,54 +1,65 @@
-import { MessageCircle, Users, BookOpen, Calendar, Shield, Heart } from "lucide-react";
+'use client';
 
-const features = [
-  {
-    icon: MessageCircle,
-    title: "Forum communautaire",
-    description: "Partagez votre expérience et soutenez les autres dans un espace sûr et modéré",
-    color: "text-primary",
-  },
-  {
-    icon: Users,
-    title: "Messagerie privée",
-    description: "Connectez-vous avec des pairs et des professionnels en toute confidentialité",
-    color: "text-secondary",
-  },
-  {
-    icon: BookOpen,
-    title: "Ressources éducatives",
-    description: "Accédez à des articles, stratégies d&apos;adaptation et ressources d&apos;urgence",
-    color: "text-accent-dark",
-  },
-  {
-    icon: Calendar,
-    title: "Événements communautaires",
-    description: "Rejoignez des promenades, rencontres et activités créatives en groupe",
-    color: "text-primary",
-  },
-  {
-    icon: Shield,
-    title: "Anonymat protégé",
-    description: "Participez de manière anonyme si vous préférez - votre vie privée est respectée",
-    color: "text-secondary",
-  },
-  {
-    icon: Heart,
-    title: "Suivi personnel",
-    description: "Suivez votre humeur et votre progression dans un journal privé",
-    color: "text-accent-dark",
-  },
-];
+import {
+  MessageCircle,
+  Users,
+  BookOpen,
+  Calendar,
+  Shield,
+  Heart,
+} from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export const Features = () => {
+  const t = useTranslations('home.features');
+
+  const features = [
+    {
+      icon: MessageCircle,
+      title: t('items.communityForum.title'),
+      description: t('items.communityForum.description'),
+      color: 'text-primary',
+    },
+    {
+      icon: Users,
+      title: t('items.privateMessaging.title'),
+      description: t('items.privateMessaging.description'),
+      color: 'text-secondary',
+    },
+    {
+      icon: BookOpen,
+      title: t('items.educationalResources.title'),
+      description: t('items.educationalResources.description'),
+      color: 'text-accent-dark',
+    },
+    {
+      icon: Calendar,
+      title: t('items.communityEvents.title'),
+      description: t('items.communityEvents.description'),
+      color: 'text-primary',
+    },
+    {
+      icon: Shield,
+      title: t('items.protectedAnonymity.title'),
+      description: t('items.protectedAnonymity.description'),
+      color: 'text-secondary',
+    },
+    {
+      icon: Heart,
+      title: t('items.personalTracking.title'),
+      description: t('items.personalTracking.description'),
+      color: 'text-accent-dark',
+    },
+  ];
   return (
     <section className="py-20 bg-muted/30">
       <div className="container px-6">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Comment nous pouvons vous aider
+            {t('title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Des outils et ressources pensés pour vous accompagner dans votre parcours
+            {t('subtitle')}
           </p>
         </div>
 

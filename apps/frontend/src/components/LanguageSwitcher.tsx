@@ -1,48 +1,67 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Globe } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useTransition } from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
+import { useRouter, usePathname } from '@/i18n/navigation';
 
-export type Language = "ar" | "fr";
+export default function LanguageSwitcher() {
+  const t = useTranslations('language');
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
-export const LanguageSwitcher = () => {
-  const [currentLang, setCurrentLang] = useState<Language>("fr");
+  const languages = [
+    { code: 'en', name: t('english'), dir: 'ltr' },
+    { code: 'ar', name: t('arabic'), dir: 'rtl' },
+    { code: 'fr', name: t('french'), dir: 'ltr' },
+  ];
 
-  const switchLanguage = (lang: Language) => {
-    setCurrentLang(lang);
-    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-    document.documentElement.setAttribute("lang", lang);
+  const handleLanguageChange = (newLocale: string) => {
+    const selectedLanguage = languages.find((lang) => lang.code === newLocale);
+
+    if (selectedLanguage) {
+      // Update document direction and language
+      document.documentElement.dir = selectedLanguage.dir;
+      document.documentElement.lang = newLocale;
+
+      // Navigate to the new locale
+      startTransition(() => {
+        router.replace(pathname, { locale: newLocale });
+      });
+    }
   };
+
+  const currentLanguage = languages.find((lang) => lang.code === locale);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
-          <span className="font-medium">{currentLang === "ar" ? "عربي" : "Français"}</span>
+        <Button variant="outline" size="sm" disabled={isPending}>
+          <Globe className="h-4 w-4 mr-2" />
+          {currentLanguage?.name || t('selectLanguage')}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-card border-border">
-        <DropdownMenuItem
-          onClick={() => switchLanguage("ar")}
-          className="cursor-pointer font-arabic"
-        >
-          العربية (Arabic)
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => switchLanguage("fr")}
-          className="cursor-pointer"
-        >
-          Français (French)
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end">
+        {languages.map((language) => (
+          <DropdownMenuItem
+            key={language.code}
+            onClick={() => handleLanguageChange(language.code)}
+            className={locale === language.code ? 'bg-accent' : ''}
+          >
+            {language.name}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
