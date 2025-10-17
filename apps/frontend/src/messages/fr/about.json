@@ -1,51 +1,150 @@
 {
   "hero": {
-    "title": "À propos de Nidal Al-Rouh",
-    "subtitle": "Autonomiser le bien-être mental grâce à des soins compatissants et des solutions innovantes",
+    "title": "À propos de nous",
+    "subtitle": "Une plateforme open source dédiée à fournir un soutien psychologique et une thérapie aux communautés arabes, en respectant la culture et la confidentialité locales",
     "getStarted": "Commencer",
     "learnMore": "En savoir plus"
   },
   "mission": {
-    "title": "Notre Mission",
-    "description": "Fournir un soutien en santé mentale accessible et culturellement sensible qui fait le pont entre les pratiques de guérison traditionnelles et les approches thérapeutiques modernes.",
-    "founded": "Fondée en 2023 avec une vision de transformer les soins de santé mentale"
+    "title": "Notre mission",
+    "description": "Nous nous efforçons de fournir une plateforme sûre et accessible à tous pour obtenir un soutien psychologique et une thérapie grâce à la technologie moderne, en nous concentrant sur les besoins culturels et sociaux des communautés arabes",
+    "founded": "Fondée en 2024"
+  },
+  "vision": {
+    "title": "Notre vision",
+    "quote": "Un monde où chaque personne peut accéder au soutien psychologique dont elle a besoin, d'une manière qui respecte sa culture et sa confidentialité",
+    "meaning": "Nous croyons que la santé mentale est un droit fondamental pour chaque être humain, et nous travaillons à faire de ce droit une réalité tangible grâce à la technologie et à la communauté"
   },
   "values": {
-    "title": "Nos Valeurs",
-    "subtitle": "Les principes qui guident tout ce que nous faisons",
+    "title": "Nos valeurs",
+    "subtitle": "Les principes qui guident notre travail et façonnent notre identité",
     "compassion": {
       "title": "Compassion",
-      "description": "Nous abordons chaque individu avec empathie, compréhension et un véritable souci de son bien-être."
+      "description": "Nous croyons en l'importance de la compassion et de la compréhension dans la fourniture d'un soutien psychologique, et nous plaçons les besoins des utilisateurs au premier plan"
     },
-    "community": {
-      "title": "Communauté",
-      "description": "Nous croyons au pouvoir de la connexion et du soutien au sein de notre communauté diversifiée."
+    "privacy": {
+      "title": "Confidentialité",
+      "description": "Nous protégeons la confidentialité des utilisateurs et garantissons la confidentialité des informations personnelles et médicales avec les plus hauts standards de sécurité"
     },
     "accessibility": {
       "title": "Accessibilité",
-      "description": "Le soutien en santé mentale devrait être disponible pour tous, peu importe leur origine ou leurs circonstances."
+      "description": "Nous rendons le soutien psychologique accessible à tous, indépendamment de l'emplacement, des circonstances économiques ou sociales"
     },
-    "excellence": {
-      "title": "Excellence",
-      "description": "Nous visons les plus hauts standards de soins, améliorant continuellement nos services."
+    "empowerment": {
+      "title": "Autonomisation",
+      "description": "Nous permettons aux individus de prendre en charge leur santé mentale et leur fournissons les outils et les connaissances nécessaires"
     }
   },
-  "story": {
-    "title": "Notre Histoire",
-    "description": "Fondée avec la vision de rendre le soutien en santé mentale accessible aux communautés arabophones du monde entier, Nidal Al-Rouh combine la sagesse traditionnelle avec les pratiques thérapeutiques modernes."
+  "targetUsers": {
+    "title": "Qui nous servons",
+    "subtitle": "Nous nous concentrons sur la satisfaction des besoins de divers groupes d'utilisateurs",
+    "primary": {
+      "title": "Utilisateurs principaux",
+      "items": [
+        "Individus recherchant un soutien psychologique et une thérapie",
+        "Personnes préférant les services numériques pour la confidentialité",
+        "Communautés arabes ayant besoin de services respectant leur culture",
+        "Personnes dans des zones reculées ou manquant de services de santé mentale"
+      ]
+    },
+    "secondary": {
+      "title": "Utilisateurs secondaires",
+      "items": [
+        "Psychologues souhaitant une plateforme sûre pour pratiquer",
+        "Chercheurs dans le domaine de la santé mentale",
+        "Développeurs et contributeurs aux projets open source",
+        "Organisations travaillant dans le domaine de la santé mentale"
+      ]
+    }
+  },
+  "phases": {
+    "title": "Phases de développement",
+    "subtitle": "Plan de développement du projet par phases progressives",
+    "phase1": {
+      "title": "Phase 1 : Fondamentaux",
+      "description": "Construction des fondations techniques et des fonctionnalités de base de la plateforme",
+      "timeline": "2024 - Actuelle",
+      "features": [
+        "Développement de l'interface utilisateur de base",
+        "Système de gestion des utilisateurs et d'authentification",
+        "Création de la base de données de base",
+        "Mise en œuvre des normes de sécurité et de confidentialité"
+      ]
+    },
+    "phase2": {
+      "title": "Phase 2 : Services de base",
+      "description": "Ajout des fonctionnalités de base pour le soutien psychologique et la thérapie",
+      "timeline": "2025",
+      "features": [
+        "Système de réservation de rendez-vous et de séances",
+        "Plateforme de communication sécurisée entre utilisateurs et spécialistes",
+        "Bibliothèque de ressources et de contenu éducatif",
+        "Outils d'évaluation et de suivi initiaux"
+      ]
+    },
+    "phase3": {
+      "title": "Phase 3 : Développement avancé",
+      "description": "Ajout de fonctionnalités avancées et d'intelligence artificielle",
+      "timeline": "2026 et au-delà",
+      "features": [
+        "Application de l'IA pour améliorer l'expérience",
+        "Outils d'analyse et de statistiques avancés",
+        "Intégration avec d'autres systèmes de santé",
+        "Expansion des services pour inclure plus de spécialités"
+      ]
+    }
+  },
+  "cultural": {
+    "title": "Considérations culturelles",
+    "subtitle": "Nous respectons et prenons en compte les spécificités culturelles et sociales des communautés arabes",
+    "items": [
+      "Respect des valeurs religieuses et culturelles dans la prestation de services",
+      "Fourniture de contenu en arabe et prise en compte des dialectes locaux",
+      "Compréhension des défis sociaux liés à la santé mentale dans la région",
+      "Collaboration avec des spécialistes locaux et des institutions culturelles",
+      "Développement de méthodes thérapeutiques adaptées à l'environnement culturel arabe"
+    ]
+  },
+  "openSource": {
+    "title": "Open Source",
+    "description": "Nous croyons au pouvoir de la communauté et de la collaboration pour construire des solutions durables pour la santé mentale",
+    "approach": [
+      "Transparence complète dans le développement et les opérations",
+      "Implication de la communauté dans la prise de décisions et le développement",
+      "Mise à disposition du code source pour tous pour révision et contribution",
+      "Construction d'un écosystème durable de développeurs et contributeurs",
+      "Garantie de la continuité du projet grâce à la communauté"
+    ]
+  },
+  "currentStatus": {
+    "title": "État actuel",
+    "subtitle": "Jalons réels du projet et progrès réalisés"
   },
   "achievements": {
-    "users": "Plus de 10 000 utilisateurs soutenus",
-    "sessions": "Plus de 50 000 sessions terminées",
-    "professionals": "Plus de 500 professionnels de la santé mentale",
-    "languages": "Disponible en 3 langues"
+    "users": "Projet en phase de développement",
+    "sessions": "Construction des fondations techniques",
+    "professionals": "Assemblage de l'équipe de contributeurs",
+    "languages": "Support multilingue planifié"
   },
   "team": {
-    "title": "Rencontrez Notre Équipe",
-    "subtitle": "Notre équipe diversifiée de professionnels de la santé mentale, de technologues et de défenseurs communautaires travaillent ensemble pour fournir des soins exceptionnels.",
-    "description": "Notre équipe diversifiée de professionnels de la santé mentale, de technologues et de défenseurs communautaires travaillent ensemble pour fournir des soins exceptionnels.",
-    "joinUs": "Rejoignez Notre Équipe",
-    "joinDescription": "Nous recherchons toujours des personnes passionnées qui veulent faire une différence dans les soins de santé mentale.",
-    "getInvolved": "Participez"
+    "title": "Notre équipe",
+    "subtitle": "Une communauté de bénévoles et contributeurs passionnés par l'amélioration de la santé mentale",
+    "founder": {
+      "title": "Fondateur et vision",
+      "description": "Commencé par un développeur marocain vivant avec un trouble bipolaire, cette plateforme représente une compréhension authentique des luttes de santé mentale dans notre communauté"
+    },
+    "contribute": {
+      "title": "Comment vous pouvez contribuer",
+      "items": [
+        "Développement de logiciels et d'applications",
+        "Conception d'interfaces utilisateur et d'expérience",
+        "Rédaction de contenu et traduction",
+        "Consultation psychologique et médicale",
+        "Gestion de projet et marketing"
+      ]
+    },
+    "joinUs": "Rejoignez-nous",
+    "joinDescription": "Nous recherchons des personnes passionnées pour contribuer à notre projet open source, qu'elles soient développeurs, designers, psychologues ou intéressées par la santé mentale",
+    "getInvolved": "Participez avec nous"
   }
 }

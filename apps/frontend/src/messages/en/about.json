@@ -1,51 +1,150 @@
 {
   "hero": {
     "title": "About Nidal Al-Rouh",
-    "subtitle": "Empowering mental wellness through compassionate care and innovative solutions",
-    "getStarted": "Get Started",
+    "subtitle": "A safe, accessible, and culturally sensitive digital space where no Moroccan faces mental health struggles alone",
+    "getStarted": "Join Our Community",
     "learnMore": "Learn More"
   },
   "mission": {
-    "title": "Our Mission",
-    "description": "To provide accessible, culturally-sensitive mental health support that bridges traditional healing practices with modern therapeutic approaches.",
-    "founded": "Founded in 2023 with a vision to transform mental health care"
+    "title": "Our Mission & Vision",
+    "description": "Born from lived experience with bipolar disorder, Nidal Al-Rouh is a personal and community-driven initiative to build a non-profit, open-source mental health support platform designed for Moroccan individuals facing mental health challenges.",
+    "founded": "Founded in 2025 by a Moroccan developer living with mental health challenges"
+  },
+  "vision": {
+    "title": "Our Vision",
+    "quote": "A safe, accessible, and culturally sensitive digital space where no Moroccan faces mental health struggles alone.",
+    "meaning": "\"Nidal Al-Rouh\" means \"the struggle of the soul\" or \"the journey of the soul\" — acknowledging the inner battle while celebrating the resilience that lives within each of us."
   },
   "values": {
-    "title": "Our Values",
-    "subtitle": "The principles that guide everything we do",
+    "title": "Our Core Values",
+    "subtitle": "The principles that guide our mission to support the Moroccan community",
     "compassion": {
-      "title": "Compassion",
-      "description": "We approach every individual with empathy, understanding, and genuine care for their wellbeing."
+      "title": "Community & Empathy",
+      "description": "Creating safe spaces where every Moroccan can share their journey without judgment, fostering genuine connections and mutual support."
     },
-    "community": {
-      "title": "Community",
-      "description": "We believe in the power of connection and support within our diverse community."
+    "privacy": {
+      "title": "Privacy & Trust",
+      "description": "Your anonymity and confidentiality are sacred to us. We understand the cultural sensitivity around mental health in Morocco."
     },
     "accessibility": {
-      "title": "Accessibility",
-      "description": "Mental health support should be available to everyone, regardless of background or circumstances."
+      "title": "Accessibility & Inclusion",
+      "description": "Mental health support should be available to everyone, regardless of financial means or social circumstances."
     },
-    "excellence": {
-      "title": "Excellence",
-      "description": "We strive for the highest standards in care, continuously improving our services."
+    "empowerment": {
+      "title": "Awareness & Empowerment",
+      "description": "Breaking the silence and stigma through education, peer support, and community-driven change."
     }
   },
-  "story": {
-    "title": "Our Story",
-    "description": "Founded with the vision of making mental health support accessible to Arabic-speaking communities worldwide, Nidal Al-Rouh combines traditional wisdom with modern therapeutic practices."
+  "targetUsers": {
+    "title": "Who We Serve",
+    "subtitle": "Supporting those who need it most in our community",
+    "primary": {
+      "title": "People Seeking Support",
+      "items": [
+        "Individuals living with depression, bipolar disorder, anxiety, or other challenges",
+        "People who cannot afford psychiatric care",
+        "Those feeling isolated or unable to speak openly about their struggles",
+        "Individuals looking for culturally sensitive resources and guidance"
+      ]
+    },
+    "secondary": {
+      "title": "Support Providers",
+      "items": [
+        "Volunteer psychiatrists, psychologists, and therapists",
+        "Mental health NGOs and associations in Morocco",
+        "Recovered individuals offering peer support",
+        "Community organizers facilitating activities and meetups"
+      ]
+    }
+  },
+  "phases": {
+    "title": "Our Development Journey",
+    "subtitle": "Building a comprehensive platform step by step",
+    "phase1": {
+      "title": "Phase 1: Foundation (Current)",
+      "description": "Safe Start - MVP with peer support, educational resources, and crisis directory",
+      "timeline": "0-6 months",
+      "features": [
+        "Peer support chat groups (anonymous & named)",
+        "Educational resource hub in Arabic/French/English",
+        "Crisis support directory for Morocco",
+        "User registration with privacy controls"
+      ]
+    },
+    "phase2": {
+      "title": "Phase 2: Growth & Support",
+      "description": "Expanding with professional support and tracking features",
+      "timeline": "6-12 months",
+      "features": [
+        "Mood & symptom tracking",
+        "Professional volunteer onboarding",
+        "Consultation booking system",
+        "Community activities calendar"
+      ]
+    },
+    "phase3": {
+      "title": "Phase 3: Scaling & Empowerment",
+      "description": "Advanced features and mobile app launch",
+      "timeline": "12-24 months",
+      "features": [
+        "Mobile application",
+        "Peer mentor program",
+        "Partnership integrations with NGOs",
+        "Advanced wellness journeys"
+      ]
+    }
+  },
+  "cultural": {
+    "title": "Cultural Considerations",
+    "subtitle": "Designed specifically for the Moroccan context",
+    "items": [
+      "Deep understanding of mental health stigma in Moroccan society",
+      "Bilingual support (Arabic/French/English) with potential Darija integration",
+      "Community-oriented design reflecting Moroccan values of solidarity",
+      "Collaboration with local NGOs and religious/community leaders",
+      "Focus on empowerment, not charity"
+    ]
+  },
+  "openSource": {
+    "title": "Open Source & Community",
+    "description": "This platform is more than code — it's about breaking silence, building trust, and healing together.",
+    "approach": [
+      "GitHub-first repository for complete transparency",
+      "Clear contribution guidelines respecting cultural sensitivity",
+      "Protection of anonymity and privacy in all contributions",
+      "Encouraging Moroccan developers, designers, and NGOs to collaborate",
+      "Building a community around shared mission, not just code"
+    ]
+  },
+  "currentStatus": {
+    "title": "Current Status",
+    "subtitle": "Real project milestones and progress"
   },
   "achievements": {
-    "users": "10,000+ Users Supported",
-    "sessions": "50,000+ Sessions Completed",
-    "professionals": "500+ Mental Health Professionals",
-    "languages": "Available in 3 Languages"
+    "users": "MVP in Development",
+    "sessions": "Community Building Phase",
+    "professionals": "Seeking Volunteer Partners",
+    "languages": "Arabic, French, & English Support"
   },
   "team": {
-    "title": "Meet Our Team",
-    "subtitle": "Our diverse team of mental health professionals, technologists, and community advocates work together to provide exceptional care.",
-    "description": "Our diverse team of mental health professionals, technologists, and community advocates work together to provide exceptional care.",
-    "joinUs": "Join Our Team",
-    "joinDescription": "We're always looking for passionate individuals who want to make a difference in mental health care.",
-    "getInvolved": "Get Involved"
+    "title": "Our Team & Community",
+    "subtitle": "A grassroots initiative growing into a community-driven platform",
+    "founder": {
+      "title": "Founded by Experience",
+      "description": "Started by a Moroccan developer living with bipolar disorder, this platform represents authentic understanding of mental health struggles in our community."
+    },
+    "joinUs": "Join Our Mission",
+    "joinDescription": "We're building a community of developers, mental health professionals, and advocates who believe no one should face mental health challenges alone.",
+    "getInvolved": "Get Involved",
+    "contribute": {
+      "title": "How to Contribute",
+      "items": [
+        "Volunteer as a mental health professional",
+        "Contribute to open-source development",
+        "Help with Arabic/French/English translations",
+        "Share your story to reduce stigma",
+        "Connect us with Moroccan NGOs and organizations"
+      ]
+    }
   }
 }
