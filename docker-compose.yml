@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: mvp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mvp_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mvp_password}
+      POSTGRES_DB: ${POSTGRES_DB:-mvp_db}
+      # Performance tuning
+      POSTGRES_INITDB_ARGS: '-E UTF8 --locale=en_US.UTF-8'
+      # Timezone
+      TZ: ${TZ:-UTC}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      # Map to local directory for easy access and backup
+      - ./docker/postgres/data:/var/lib/postgresql/data
+      # Optional: Custom initialization scripts
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-mvp_user} -d ${POSTGRES_DB:-mvp_db}',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - mvp-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: mvp-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@localhost.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - '${PGADMIN_PORT:-5050}:80'
+    volumes:
+      # Persist pgAdmin settings
+      - ./docker/pgadmin/data:/var/lib/pgadmin
+      # Pre-configure server connection (optional)
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mvp-network
+
+networks:
+  mvp-network:
+    driver: bridge
+    name: mvp-network
