@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { useEffect, ReactNode } from 'react';
 
 import { useAuth } from '@/contexts/auth-context';
@@ -14,7 +15,7 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({
   children,
   requiredRole,
-  redirectTo = '/login',
+  redirectTo,
 }: ProtectedRouteProps) {
   const {
     user,
@@ -22,30 +23,37 @@ export function ProtectedRoute({
     isAuthenticated,
     sessionExpired,
     clearSessionExpired,
+    isLoggingOut,
   } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
+
+  const computedRedirectTo = redirectTo ?? `/${locale}/login`;
 
   useEffect(() => {
     if (!isLoading) {
+      // If a logout is in progress, skip route guarding redirects
+      if (isLoggingOut) {
+        return;
+      }
+
       // Handle session expiration
       if (sessionExpired) {
-        // Clear the session expired flag and redirect to login with session expired message
         clearSessionExpired();
-        const loginUrl = `${redirectTo}?sessionExpired=true&redirect=${encodeURIComponent(pathname || '/')}`;
+        const loginUrl = `${computedRedirectTo}?sessionExpired=true&redirect=${encodeURIComponent(pathname || '/')}`;
         router.push(loginUrl);
         return;
       }
 
       if (!isAuthenticated) {
         // Redirect to login with original destination
-        const loginUrl = `${redirectTo}?redirect=${encodeURIComponent(pathname || '/')}`;
+        const loginUrl = `${computedRedirectTo}?redirect=${encodeURIComponent(pathname || '/')}`;
         router.push(loginUrl);
         return;
       }
 
       if (requiredRole && user?.role !== requiredRole) {
-        // Redirect to unauthorized page or dashboard
         router.push('/unauthorized');
         return;
       }
@@ -56,13 +64,13 @@ export function ProtectedRoute({
     user,
     requiredRole,
     router,
-    redirectTo,
+    computedRedirectTo,
     sessionExpired,
     clearSessionExpired,
     pathname,
+    isLoggingOut,
   ]);
 
-  // Show loading state while checking authentication
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -71,7 +79,6 @@ export function ProtectedRoute({
     );
   }
 
-  // Don't render children if not authenticated or doesn't have required role
   if (!isAuthenticated || (requiredRole && user?.role !== requiredRole)) {
     return null;
   }

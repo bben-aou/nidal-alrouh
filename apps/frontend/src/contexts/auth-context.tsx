@@ -37,6 +37,7 @@ export interface AuthContextType {
   forgotPassword: (email: string) => Promise<void>;
   sessionExpired: boolean;
   clearSessionExpired: () => void;
+  isLoggingOut: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -57,6 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
   const locale = useLocale();
 
@@ -205,6 +207,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     setIsLoading(true);
+    setIsLoggingOut(true);
     try {
       await fetch(`${API_BASE_URL}/auth/logout`, {
         method: 'POST',
@@ -215,16 +218,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setUser(null);
       setIsLoading(false);
-      router.push(`/${locale}/login`);
+      router.push('/');
+      setIsLoggingOut(false);
     }
   };
 
   const refreshAuth = async () => {
     await handleTokenRefresh();
-  };
-
-  const clearSessionExpired = () => {
-    setSessionExpired(false);
   };
 
   const forgotPassword = async (email: string) => {
@@ -248,18 +248,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const value: AuthContextType = {
-    user,
-    isLoading,
-    isAuthenticated: !!user,
-    login,
-    signup,
-    logout,
-    refreshAuth,
-    forgotPassword,
-    sessionExpired,
-    clearSessionExpired,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        isAuthenticated: !!user,
+        login,
+        signup,
+        logout,
+        refreshAuth,
+        forgotPassword,
+        sessionExpired,
+        clearSessionExpired: () => setSessionExpired(false),
+        isLoggingOut,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
