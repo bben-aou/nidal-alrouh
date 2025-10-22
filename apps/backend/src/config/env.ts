@@ -34,6 +34,14 @@ export const envSchema = z.object({
   CORS_CREDENTIALS: z.coerce.boolean().default(true),
   // Security headers via Helmet
   HELMET_ENABLED: z.coerce.boolean().default(true),
+  // JWT configuration
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_ACCESS_TTL: z.string().default('15m'),
+  JWT_REFRESH_TTL: z.string().default('7d'),
+  // Cookie configuration
+  COOKIE_DOMAIN: z.string().optional(),
+  COOKIE_SECURE: z.coerce.boolean().default(false),
 });
 
 export type Env = z.infer<typeof envSchema>;

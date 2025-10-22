@@ -47,7 +47,7 @@ apps/backend/prisma/migrations/
 
 docker/postgres/data/
 docker/pgadmin/data/
-
+docs
 scripts
 
 *.log

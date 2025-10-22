@@ -48,7 +48,7 @@ export default function LanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" disabled={isPending}>
           <Globe className="h-4 w-4 mr-2" />
-          {currentLanguage?.name || t('selectLanguage')}
+          {currentLanguage?.name ?? t('selectLanguage')}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

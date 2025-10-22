@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useAuth } from '@/contexts/auth-context';
 import { Link } from '@/i18n/navigation';
 import {
   createAuthSchemas,
@@ -20,6 +21,8 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [setError] = useState<string | null>(null);
+  const { signup } = useAuth();
 
   const { registerSchema } = createAuthSchemas(t);
 
@@ -40,13 +43,12 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
+    setError(null);
+
     try {
-      // Handle registration logic here
-      console.log('Registration attempt:', data);
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } catch (error) {
-      console.error('Registration error:', error);
+      await signup(data.name, data.email, data.password);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setIsLoading(false);
     }

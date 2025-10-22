@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { Logger } from '@nestjs/common';
@@ -32,6 +33,9 @@ async function bootstrap() {
   const fastify = app
     .getHttpAdapter()
     .getInstance() as unknown as import('fastify').FastifyInstance;
+
+  // Register cookie plugin for authentication
+  await fastify.register(cookie);
 
   // Register CORS plugin with environment-based configuration
   await fastify.register(cors, {
