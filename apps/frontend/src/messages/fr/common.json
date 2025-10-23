@@ -10,7 +10,8 @@
     "welcome": "Bienvenue",
     "loading": "Chargement...",
     "error": "Une erreur s'est produite",
-    "success": "Succès"
+    "success": "Succès",
+    "backToHome": "Retour à l'accueil"
   },
   "language": {
     "english": "English",

@@ -1,6 +1,5 @@
 'use client';
 
-import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
@@ -10,13 +9,15 @@ export function FormFooter() {
 
   return (
     <div className="text-center">
-      <Link
-        href="/login"
-        className="inline-flex items-center text-sm text-primary hover:underline"
-      >
-        <ArrowLeft className="h-4 w-4 mr-1" />
-        {t('forgotPassword.backToLogin')}
-      </Link>
+      <p className="text-sm text-muted-foreground">
+        {t('forgotPassword.rememberPassword')}{' '}
+        <Link
+          href="/login"
+          className="text-primary hover:text-primary-dark transition-colors hover:underline"
+        >
+          {t('forgotPassword.signIn')}
+        </Link>
+      </p>
     </div>
   );
 }

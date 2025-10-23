@@ -43,7 +43,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning={true}>
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
             <AuthProvider>

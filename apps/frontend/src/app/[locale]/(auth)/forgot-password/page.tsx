@@ -1,46 +1,50 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 
-import { useAuth } from '@/contexts/auth-context';
-import { type ForgotPasswordFormData } from '@/lib/validations/auth';
+import heroImage from '@/assets/login.png';
 
-import { ForgotPasswordForm } from './components/forgot-password-form';
+import { ForgotPasswordFields } from './components/forgot-password-fields';
+import { FormFooter } from './components/form-footer';
+import { FormHeader } from './components/form-header';
 import { SuccessView } from './components/success-view';
 
 export default function ForgotPasswordPage() {
-  const { forgotPassword } = useAuth();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [email, setEmail] = useState('');
 
-  const onSubmit = async (data: ForgotPasswordFormData) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await forgotPassword(data.email);
-      setIsSubmitted(true);
-    } catch (err: unknown) {
-      console.error('Forgot password error:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleResend = () => {
-    setIsSubmitted(false);
-  };
-
-  if (isSubmitted) {
-    return <SuccessView onResend={handleResend} />;
+  if (isSuccess) {
+    return <SuccessView email={email} />;
   }
 
   return (
-    <ForgotPasswordForm
-      onSubmit={onSubmit}
-      isLoading={isLoading}
-      error={error}
-    />
+    <div className="flex h-full w-full p-6">
+      <div className="flex w-full gap-6 max-w-7xl mx-auto">
+        <div className="block sm:hidden md:hidden lg:block lg:flex-1 relative rounded-2xl overflow-hidden shadow-2xl min-h-[300px]">
+          <Image
+            src={heroImage}
+            alt="Journey of healing"
+            fill
+            sizes="50vw"
+            className="object-cover rounded-2xl"
+            quality={100}
+            priority
+          />
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-[440px] space-y-6">
+            <FormHeader />
+            <ForgotPasswordFields
+              onSuccess={(submittedEmail) => {
+                setEmail(submittedEmail);
+                setIsSuccess(true);
+              }}
+            />
+            <FormFooter />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

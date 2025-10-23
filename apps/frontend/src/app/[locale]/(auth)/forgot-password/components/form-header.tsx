@@ -6,13 +6,11 @@ export function FormHeader() {
   const t = useTranslations('auth');
 
   return (
-    <div className="text-center">
-      <h1 className="text-2xl font-bold text-foreground">
+    <div className="space-y-2">
+      <h2 className="text-3xl font-semibold tracking-tight">
         {t('forgotPassword.title')}
-      </h1>
-      <p className="text-muted-foreground mt-2">
-        {t('forgotPassword.subtitle')}
-      </p>
+      </h2>
+      <p className="text-muted-foreground">{t('forgotPassword.subtitle')}</p>
     </div>
   );
 }

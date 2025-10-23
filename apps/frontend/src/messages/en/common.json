@@ -10,7 +10,8 @@
     "welcome": "Welcome",
     "loading": "Loading...",
     "error": "An error occurred",
-    "success": "Success"
+    "success": "Success",
+    "backToHome": "Back to Home"
   },
   "language": {
     "english": "English",
