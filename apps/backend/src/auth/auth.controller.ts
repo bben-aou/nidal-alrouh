@@ -42,6 +42,12 @@ export class AuthController {
       ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
+    // Clear any legacy cookies scoped to '/api/auth'
+    reply.clearCookie('access_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+
     return {
       user: result.user,
       message: 'User registered successfully',
@@ -81,6 +87,16 @@ export class AuthController {
       ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
+    // Clear any legacy cookies scoped to '/api/auth'
+    reply.clearCookie('access_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    reply.clearCookie('refresh_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+
     return {
       user: result.user,
       message: 'Login successful',
@@ -99,12 +115,29 @@ export class AuthController {
     @Res({ passthrough: true }) reply: FastifyReply
   ) {
     const refreshToken = request.cookies?.['refresh_token'];
+    const cookieDomain = this.configService.get<string>('COOKIE_DOMAIN');
 
     await this.authService.logout(request.user.id, refreshToken);
 
     // Clear cookies
-    reply.clearCookie('access_token', { path: '/' });
-    reply.clearCookie('refresh_token', { path: '/' });
+    reply.clearCookie('access_token', {
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    reply.clearCookie('refresh_token', {
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+
+    // Also clear any legacy cookies scoped to '/api/auth'
+    reply.clearCookie('access_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    reply.clearCookie('refresh_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
 
     return {
       message: 'Logout successful',
@@ -147,6 +180,16 @@ export class AuthController {
       ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
+    // Clear any legacy cookies scoped to '/api/auth'
+    reply.clearCookie('access_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    reply.clearCookie('refresh_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+
     return {
       message: 'Tokens refreshed successfully',
     };
@@ -155,6 +198,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getMe(@Req() request: FastifyRequest & { user: AuthResponse['user'] }) {
+    console.log('user');
     const user = await this.authService.getMe(request.user.id);
     return { user };
   }

@@ -54,7 +54,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -120,10 +120,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
         setUser(null);
 
-        // Attempt token refresh if session expired (but not for initial check)
-        if (!isInitialCheck) {
-          await handleTokenRefresh();
-        }
+        // Attempt token refresh on 401 even during initial check
+        await handleTokenRefresh(isInitialCheck);
       } else {
         setUser(null);
         setSessionExpired(false);

@@ -152,17 +152,36 @@ export class AuthService {
 
   async logout(userId: string, refreshToken?: string): Promise<void> {
     if (refreshToken) {
-      const refreshTokenHash = await argon2.hash(refreshToken);
-      await this.prisma.userSession.updateMany({
+      // Find active sessions for this user and verify the provided token
+      const sessions = await this.prisma.userSession.findMany({
         where: {
           userId,
-          refreshTokenHash,
           revokedAt: null,
-        },
-        data: {
-          revokedAt: new Date(),
+          expiresAt: {
+            gt: new Date(),
+          },
         },
       });
+
+      let revoked = false;
+      for (const session of sessions) {
+        if (await argon2.verify(session.refreshTokenHash, refreshToken)) {
+          await this.prisma.userSession.update({
+            where: { id: session.id },
+            data: { revokedAt: new Date() },
+          });
+          revoked = true;
+          break;
+        }
+      }
+
+      if (!revoked) {
+        // If we couldn't find a matching session, revoke all as a fallback
+        await this.prisma.userSession.updateMany({
+          where: { userId, revokedAt: null },
+          data: { revokedAt: new Date() },
+        });
+      }
     } else {
       // Revoke all sessions for the user
       await this.prisma.userSession.updateMany({
@@ -180,15 +199,13 @@ export class AuthService {
   async refreshTokens(
     refreshToken: string
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const refreshTokenHash = await argon2.hash(refreshToken);
-
-    const session = await this.prisma.userSession.findFirst({
+    // Find a valid (non-revoked, non-expired) session whose stored hash matches the provided token
+    const candidateSessions = await this.prisma.userSession.findMany({
       where: {
-        refreshTokenHash,
+        revokedAt: null,
         expiresAt: {
           gt: new Date(),
         },
-        revokedAt: null,
       },
       include: {
         user: {
@@ -201,6 +218,15 @@ export class AuthService {
         },
       },
     });
+
+    const session = await (async () => {
+      for (const s of candidateSessions) {
+        if (await argon2.verify(s.refreshTokenHash, refreshToken)) {
+          return s;
+        }
+      }
+      return null;
+    })();
 
     if (!session) {
       throw new UnauthorizedException('Invalid refresh token');
@@ -234,9 +260,7 @@ export class AuthService {
     return tokens;
   }
 
-  async getMe(
-    userId: string
-  ): Promise<{
+  async getMe(userId: string): Promise<{
     id: string;
     email: string;
     name: string | null;
