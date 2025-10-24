@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "stats": {
+      "totalEntries": "Total Entries",
+      "streakDays": "Streak Days",
+      "avgMood": "Average Mood",
+      "avgWriteTime": "Avg. Write Time"
+    },
+    "moods": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "neutral": "Neutral",
+      "sad": "Sad",
+      "anxious": "Anxious"
+    },
+    "title": "Journal",
+    "description": "Reflect, write, and track your mental wellness.",
+    "newEntry": "New Entry",
+    "createNewEntry": "Create New Entry",
+    "createEntryDescription": "Capture your thoughts, feelings, and progress.",
+    "entryTitle": "Entry Title",
+    "selectMood": "Select mood",
+    "privacy": "Privacy",
+    "private": "Private",
+    "public": "Public",
+    "writeYourThoughts": "Write your thoughts...",
+    "addTags": "Add tags",
+    "saveDraft": "Save Draft",
+    "publish": "Publish",
+    "analytics": "Analytics",
+    "fromLastWeek": "from last week",
+    "searchEntries": "Search entries...",
+    "filter": "Filter",
+    "tabs": {
+      "entries": "Entries",
+      "prompts": "Prompts",
+      "analytics": "Analytics"
+    },
+    "words": "words",
+    "read": "Read",
+    "writingPrompts": "Writing Prompts",
+    "promptsDescription": "Inspiration to help you start writing",
+    "morePrompts": "More prompts",
+    "journalAnalytics": "Journal Analytics",
+    "analyticsDescription": "Insights about your writing and mood over time",
+    "analyticsComingSoon": "Analytics coming soon",
+    "viewInsights": "View Insights"
+  }
+}

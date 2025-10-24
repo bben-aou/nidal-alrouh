@@ -42,8 +42,23 @@ export class AuthController {
       ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
+    // Set refresh token in httpOnly cookie (allow refresh after signup)
+    reply.setCookie('refresh_token', result.refreshToken, {
+      httpOnly: true,
+      secure: this.configService.get<boolean>('COOKIE_SECURE', false),
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+
     // Clear any legacy cookies scoped to '/api/auth'
     reply.clearCookie('access_token', {
+      path: '/api/auth',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    // Also clear legacy refresh token cookies
+    reply.clearCookie('refresh_token', {
       path: '/api/auth',
       ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
@@ -198,7 +213,6 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getMe(@Req() request: FastifyRequest & { user: AuthResponse['user'] }) {
-    console.log('user');
     const user = await this.authService.getMe(request.user.id);
     return { user };
   }

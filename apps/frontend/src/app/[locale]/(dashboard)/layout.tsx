@@ -1,86 +1,58 @@
 'use client';
 
-import { Home, User, Settings, LogOut } from 'lucide-react';
+import {
+  Home,
+  MessageCircle,
+  BookOpen,
+  PenSquare,
+  LifeBuoy,
+} from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
 
 import { ProtectedRoute } from '@/components/auth/protected-route';
-import { Button } from '@/components/ui/button';
+import { Header } from '@/components/dashboard/header';
 import { useAuth } from '@/contexts/auth-context';
-import { Link } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  const t = useTranslations('dashboard');
+  const currentPath = usePathname();
 
   const handleLogout = async () => {
     await logout();
   };
 
+  const navigation = [
+    { href: '/dashboard', icon: Home, label: t('nav.home') },
+    {
+      href: '/dashboard/community',
+      icon: MessageCircle,
+      label: t('nav.community'),
+    },
+    { href: '/dashboard/resources', icon: BookOpen, label: t('nav.resources') },
+    { href: '/dashboard/journal', icon: PenSquare, label: t('nav.journal') },
+    { href: '/dashboard/help', icon: LifeBuoy, label: t('nav.help') },
+  ];
+
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
-        <div className="flex">
-          {/* Sidebar */}
-          <aside className="w-64 bg-card border-r min-h-screen p-4">
-            <div className="space-y-4">
-              <div className="px-3 py-2">
-                <h2 className="mb-2 px-4 text-lg font-semibold">Dashboard</h2>
-              </div>
+        <Header
+          navigation={navigation}
+          user={user}
+          onLogout={handleLogout}
+          currentPath={currentPath}
+        />
 
-              <nav className="space-y-2">
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="w-full justify-start"
-                >
-                  <Link href="/dashboard">
-                    <Home className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Link>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="w-full justify-start"
-                >
-                  <Link href="/profile">
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="w-full justify-start"
-                >
-                  <Link href="/settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </Link>
-                </Button>
-              </nav>
-
-              <div className="pt-4 border-t">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-destructive"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </Button>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="flex-1 p-6">{children}</main>
-        </div>
+        <main className="container py-6 lg:py-8">
+          <div className="mx-auto max-w-7xl">{children}</div>
+        </main>
       </div>
     </ProtectedRoute>
   );

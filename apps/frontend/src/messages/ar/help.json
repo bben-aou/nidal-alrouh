@@ -1,0 +1,95 @@
+{
+  "dashboard": {
+    "title": "المساعدة والدعم",
+    "description": "احصل على المساعدة، وابحث عن الإجابات، وتواصل مع فريق الدعم.",
+    "newTicket": "تذكرة جديدة",
+    "createSupportTicket": "إنشاء تذكرة دعم",
+    "ticketDescription": "أخبرنا عن المشكلة التي تواجهها.",
+    "ticketSubject": "موضوع التذكرة",
+    "selectCategory": "اختر الفئة",
+    "selectPriority": "اختر الأولوية",
+    "describeIssue": "صف مشكلتك...",
+    "saveDraft": "حفظ مسودة",
+    "submitTicket": "إرسال التذكرة",
+    "searchHelp": "ابحث في المساعدة...",
+    "tabs": {
+      "faq": "الأسئلة الشائعة",
+      "tutorials": "الدروس",
+      "tickets": "التذاكر",
+      "contact": "اتصال"
+    },
+    "wasHelpful": "هل كان هذا مفيدًا؟",
+    "view": "عرض",
+    "mySupportTickets": "تذاكر الدعم الخاصة بي",
+    "activeTickets": "تذاكر نشطة",
+    "viewTicket": "عرض التذكرة",
+    "contactInformation": "معلومات الاتصال",
+    "contactDescription": "تواصل معنا عبر البريد الإلكتروني أو الهاتف أو الدردشة المباشرة.",
+    "emailResponse": "الرد عبر البريد الإلكتروني",
+    "phoneHours": "ساعات الهاتف",
+    "liveChat": "دردشة مباشرة",
+    "chatAvailable": "الدردشة متاحة",
+    "quickContact": "اتصال سريع",
+    "quickContactDescription": "أرسل لنا رسالة سريعة وسنعود إليك.",
+    "yourName": "اسمك",
+    "yourEmail": "بريدك الإلكتروني",
+    "selectTopic": "اختر الموضوع",
+    "yourMessage": "رسالتك",
+    "sendMessage": "إرسال الرسالة",
+    "support": {
+      "liveChat": "دردشة مباشرة",
+      "liveChatDescription": "تحدث مع فريق الدعم لدينا في الوقت الفعلي.",
+      "available247": "متاح 24/7",
+      "startChat": "ابدأ الدردشة",
+      "phoneSupport": "دعم عبر الهاتف",
+      "phoneSupportDescription": "تحدث مع أخصائي الدعم.",
+      "businessHours": "ساعات العمل",
+      "callNow": "اتصل الآن",
+      "emailSupport": "دعم عبر البريد الإلكتروني",
+      "emailSupportDescription": "أرسل لنا بريدًا إلكترونيًا وسنرد قريبًا.",
+      "response24h": "رد خلال 24 ساعة",
+      "sendEmail": "إرسال البريد"
+    },
+    "faq": {
+      "categories": {
+        "account": "الحساب",
+        "privacy": "الخصوصية",
+        "features": "الميزات"
+      },
+      "account": {
+        "resetPassword": {
+          "question": "كيف أعيد تعيين كلمة المرور؟",
+          "answer": "اذهب إلى الإعدادات واختر 'تغيير كلمة المرور'."
+        },
+        "updateProfile": {
+          "question": "كيف يمكنني تحديث ملفي الشخصي؟",
+          "answer": "انتقل إلى صفحة ملفك الشخصي وقم بتعديل معلوماتك."
+        },
+        "deleteAccount": {
+          "question": "كيف أحذف حسابي؟",
+          "answer": "اتصل بالدعم لطلب حذف الحساب."
+        }
+      },
+      "privacy": {
+        "dataSecurity": {
+          "question": "كيف تتم حماية بياناتي؟",
+          "answer": "نستخدم التشفير وضوابط وصول صارمة لحماية بياناتك."
+        },
+        "sharingSettings": {
+          "question": "هل يمكنني التحكم في إعدادات المشاركة؟",
+          "answer": "نعم، قم بضبط تفضيلات المشاركة في الإعدادات."
+        }
+      },
+      "features": {
+        "moodTracking": {
+          "question": "كيف يعمل تتبع المزاج؟",
+          "answer": "سجل مزاجك في إدخالات اليوميات وشاهد الرؤى بمرور الوقت."
+        },
+        "journalEntries": {
+          "question": "أين يمكنني العثور على إدخالات اليوميات؟",
+          "answer": "اذهب إلى علامة تبويب اليوميات لعرض الإدخالات وإدارتها."
+        }
+      }
+    }
+  }
+}

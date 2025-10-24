@@ -1,0 +1,95 @@
+{
+  "dashboard": {
+    "title": "Help & Support",
+    "description": "Get help, find answers, and contact our support team.",
+    "newTicket": "New Ticket",
+    "createSupportTicket": "Create Support Ticket",
+    "ticketDescription": "Tell us about the issue you're facing.",
+    "ticketSubject": "Ticket Subject",
+    "selectCategory": "Select category",
+    "selectPriority": "Select priority",
+    "describeIssue": "Describe your issue...",
+    "saveDraft": "Save Draft",
+    "submitTicket": "Submit Ticket",
+    "searchHelp": "Search help...",
+    "tabs": {
+      "faq": "FAQ",
+      "tutorials": "Tutorials",
+      "tickets": "Tickets",
+      "contact": "Contact"
+    },
+    "wasHelpful": "Was this helpful?",
+    "view": "View",
+    "mySupportTickets": "My Support Tickets",
+    "activeTickets": "active tickets",
+    "viewTicket": "View Ticket",
+    "contactInformation": "Contact Information",
+    "contactDescription": "Reach out to us via email, phone, or live chat.",
+    "emailResponse": "Email response",
+    "phoneHours": "Phone hours",
+    "liveChat": "Live Chat",
+    "chatAvailable": "Chat available",
+    "quickContact": "Quick Contact",
+    "quickContactDescription": "Send us a quick message and we'll get back to you.",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "selectTopic": "Select topic",
+    "yourMessage": "Your message",
+    "sendMessage": "Send Message",
+    "support": {
+      "liveChat": "Live Chat",
+      "liveChatDescription": "Chat with our support team in real time.",
+      "available247": "Available 24/7",
+      "startChat": "Start Chat",
+      "phoneSupport": "Phone Support",
+      "phoneSupportDescription": "Speak with a support specialist.",
+      "businessHours": "Business hours",
+      "callNow": "Call Now",
+      "emailSupport": "Email Support",
+      "emailSupportDescription": "Send us an email and we'll respond soon.",
+      "response24h": "Response within 24h",
+      "sendEmail": "Send Email"
+    },
+    "faq": {
+      "categories": {
+        "account": "Account",
+        "privacy": "Privacy",
+        "features": "Features"
+      },
+      "account": {
+        "resetPassword": {
+          "question": "How do I reset my password?",
+          "answer": "Go to settings and choose 'Change Password'."
+        },
+        "updateProfile": {
+          "question": "How can I update my profile?",
+          "answer": "Navigate to your profile page and edit your information."
+        },
+        "deleteAccount": {
+          "question": "How do I delete my account?",
+          "answer": "Contact support to request account deletion."
+        }
+      },
+      "privacy": {
+        "dataSecurity": {
+          "question": "How is my data secured?",
+          "answer": "We use encryption and strict access controls to protect your data."
+        },
+        "sharingSettings": {
+          "question": "Can I control sharing settings?",
+          "answer": "Yes, adjust sharing preferences in settings."
+        }
+      },
+      "features": {
+        "moodTracking": {
+          "question": "How does mood tracking work?",
+          "answer": "Record your mood in journal entries and view insights over time."
+        },
+        "journalEntries": {
+          "question": "Where can I find my journal entries?",
+          "answer": "Go to the Journal tab to see and manage entries."
+        }
+      }
+    }
+  }
+}

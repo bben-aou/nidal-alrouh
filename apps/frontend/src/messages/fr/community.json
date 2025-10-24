@@ -11,7 +11,11 @@
     "discussions": "Discussions",
     "events": "Événements mensuels",
     "countries": "Pays",
-    "support": "Groupes de soutien"
+    "support": "Groupes de soutien",
+    "activeMembers": "Membres actifs",
+    "todayPosts": "Publications aujourd'hui",
+    "supportGiven": "Soutien apporté",
+    "upcomingEvents": "Événements à venir"
   },
   "events": {
     "title": "Événements à venir",
@@ -61,5 +65,31 @@
     "support": "Offrez du soutien, pas des conseils médicaux",
     "inclusive": "Gardez les discussions inclusives et accueillantes",
     "readMore": "Lire plus"
+  },
+  "dashboard": {
+    "title": "Communauté",
+    "description": "Connectez-vous, partagez et trouvez du soutien auprès des autres.",
+    "createPost": "Créer une publication",
+    "tabs": {
+      "feed": "Flux",
+      "groups": "Groupes",
+      "events": "Événements"
+    },
+    "shareThoughts": "Partagez vos pensées",
+    "postPlaceholder": "Écrivez quelque chose de bienveillant ou posez une question...",
+    "post": "Publier",
+    "searchPosts": "Rechercher des publications...",
+    "filter": "Filtrer",
+    "report": "Signaler",
+    "hide": "Masquer",
+    "share": "Partager",
+    "members": "membres",
+    "joined": "Rejoint",
+    "viewGroup": "Voir le groupe",
+    "joinGroup": "Rejoindre le groupe",
+    "upcomingEvents": "Événements à venir",
+    "eventsDescription": "Événements communautaires et sessions de soutien",
+    "noEvents": "Aucun événement à venir",
+    "createEvent": "Créer un événement"
   }
 }

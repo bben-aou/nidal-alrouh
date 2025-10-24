@@ -27,7 +27,9 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  async signup(signupDto: SignupDto): Promise<AuthResponse> {
+  async signup(
+    signupDto: SignupDto
+  ): Promise<AuthResponse & { refreshToken: string }> {
     const { email } = signupDto;
     const { password } = signupDto;
     const { name } = signupDto;
@@ -64,12 +66,20 @@ export class AuthService {
       },
     });
 
-    // Generate tokens
-    const { accessToken } = this.generateTokens(user.id, user.email, user.role);
+    // Generate tokens (include refresh token for session creation)
+    const { accessToken, refreshToken } = this.generateTokens(
+      user.id,
+      user.email,
+      user.role
+    );
+
+    // Create refresh session so new users can refresh immediately
+    await this.createSession(user.id, refreshToken);
 
     return {
       user,
       accessToken,
+      refreshToken,
     };
   }
 

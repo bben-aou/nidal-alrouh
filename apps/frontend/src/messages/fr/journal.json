@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "stats": {
+      "totalEntries": "Entrées totales",
+      "streakDays": "Jours d'affilée",
+      "avgMood": "Humeur moyenne",
+      "avgWriteTime": "Temps moyen d'écriture"
+    },
+    "moods": {
+      "excellent": "Excellent",
+      "good": "Bon",
+      "neutral": "Neutre",
+      "sad": "Triste",
+      "anxious": "Anxieux"
+    },
+    "title": "Journal",
+    "description": "Réfléchissez, écrivez et suivez votre bien-être mental.",
+    "newEntry": "Nouvelle entrée",
+    "createNewEntry": "Créer une nouvelle entrée",
+    "createEntryDescription": "Capturez vos pensées, sentiments et progrès.",
+    "entryTitle": "Titre de l'entrée",
+    "selectMood": "Sélectionner l'humeur",
+    "privacy": "Confidentialité",
+    "private": "Privé",
+    "public": "Public",
+    "writeYourThoughts": "Écrivez vos pensées...",
+    "addTags": "Ajouter des tags",
+    "saveDraft": "Enregistrer le brouillon",
+    "publish": "Publier",
+    "analytics": "Analyses",
+    "fromLastWeek": "depuis la semaine dernière",
+    "searchEntries": "Rechercher des entrées...",
+    "filter": "Filtrer",
+    "tabs": {
+      "entries": "Entrées",
+      "prompts": "Invitations",
+      "analytics": "Analyses"
+    },
+    "words": "mots",
+    "read": "Lire",
+    "writingPrompts": "Invitations à l'écriture",
+    "promptsDescription": "Inspiration pour vous aider à commencer à écrire",
+    "morePrompts": "Plus d'invitations",
+    "journalAnalytics": "Analyses du journal",
+    "analyticsDescription": "Informations sur votre écriture et votre humeur au fil du temps",
+    "analyticsComingSoon": "Analyses à venir",
+    "viewInsights": "Voir les informations"
+  }
+}

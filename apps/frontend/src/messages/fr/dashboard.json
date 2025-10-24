@@ -2,6 +2,13 @@
   "title": "Tableau de bord",
   "welcome": "Bon retour",
   "overview": "Aperçu",
+  "nav": {
+    "home": "Accueil",
+    "community": "Communauté",
+    "resources": "Ressources",
+    "journal": "Journal",
+    "help": "Aide"
+  },
   "stats": {
     "totalUsers": "Total des utilisateurs",
     "activeSessions": "Sessions actives",
@@ -36,5 +43,56 @@
     "title": "Rendez-vous à venir",
     "noAppointments": "Aucun rendez-vous à venir",
     "viewAll": "Voir tout"
-  }
+  },
+  "greeting": {
+    "description": "Prenez une grande respiration. Vous n'êtes pas seul aujourd'hui."
+  },
+  "quickActionsCards": {
+    "writeJournal": {
+      "label": "Écrire dans le journal",
+      "description": "Exprimez vos pensées et sentiments"
+    },
+    "joinChat": {
+      "label": "Rejoindre le chat de soutien",
+      "description": "Connectez-vous avec d'autres qui comprennent"
+    },
+    "browseResources": {
+      "label": "Parcourir les ressources",
+      "description": "Découvrez des articles et guides utiles"
+    },
+    "getStarted": "Commencer"
+  },
+  "moodTracker": {
+    "title": "Suivi de l'humeur",
+    "comingSoon": "Bientôt disponible",
+    "description": "Suivez votre parcours émotionnel avec notre prochain tracker d'humeur"
+  },
+  "communityHighlights": {
+    "title": "Points forts de la communauté",
+    "description": "Messages récents de notre communauté bienveillante",
+    "posts": [
+      "Je fais de petits pas chaque jour. Reconnaissant pour cette communauté. 🌱",
+      "J'ai trouvé une force que je ne savais pas avoir. Continuez tous ! ✨"
+    ],
+    "reactions": ["❤️ 12", "🙌 8"]
+  },
+  "suggestedResources": {
+    "title": "Ressources suggérées",
+    "description": "Articles sélectionnés pour soutenir votre parcours",
+    "resources": [
+      {
+        "title": "Comprendre la dépression",
+        "description": "Un guide complet pour comprendre et gérer la dépression"
+      },
+      {
+        "title": "Gestion de l'anxiété",
+        "description": "Techniques pratiques pour gérer l'anxiété au quotidien"
+      },
+      {
+        "title": "Développer la résilience",
+        "description": "Apprenez à développer la force émotionnelle et la résilience"
+      }
+    ]
+  },
+  "footer": "Construit avec soin par la communauté Nidal-Alrouh"
 }

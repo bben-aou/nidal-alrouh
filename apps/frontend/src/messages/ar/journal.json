@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "stats": {
+      "totalEntries": "إجمالي الإدخالات",
+      "streakDays": "أيام متتالية",
+      "avgMood": "المزاج المتوسط",
+      "avgWriteTime": "متوسط وقت الكتابة"
+    },
+    "moods": {
+      "excellent": "ممتاز",
+      "good": "جيد",
+      "neutral": "محايد",
+      "sad": "حزين",
+      "anxious": "قلق"
+    },
+    "title": "اليوميات",
+    "description": "تأمل، اكتب، وتتبع عافيتك النفسية.",
+    "newEntry": "إدخال جديد",
+    "createNewEntry": "إنشاء إدخال جديد",
+    "createEntryDescription": "سجل أفكارك ومشاعرك وتقدمك.",
+    "entryTitle": "عنوان الإدخال",
+    "selectMood": "اختر المزاج",
+    "privacy": "الخصوصية",
+    "private": "خاص",
+    "public": "عام",
+    "writeYourThoughts": "اكتب أفكارك...",
+    "addTags": "أضف وسومًا",
+    "saveDraft": "حفظ مسودة",
+    "publish": "نشر",
+    "analytics": "التحليلات",
+    "fromLastWeek": "منذ الأسبوع الماضي",
+    "searchEntries": "ابحث في الإدخالات...",
+    "filter": "تصفية",
+    "tabs": {
+      "entries": "الإدخالات",
+      "prompts": "مقترحات",
+      "analytics": "التحليلات"
+    },
+    "words": "كلمة",
+    "read": "قراءة",
+    "writingPrompts": "مقترحات الكتابة",
+    "promptsDescription": "إلهام لمساعدتك على البدء في الكتابة",
+    "morePrompts": "مزيد من المقترحات",
+    "journalAnalytics": "تحليلات اليوميات",
+    "analyticsDescription": "رؤى حول كتابتك ومزاجك مع مرور الوقت",
+    "analyticsComingSoon": "قريبًا: التحليلات",
+    "viewInsights": "عرض الرؤى"
+  }
+}

@@ -67,7 +67,7 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
 
   // Check if user is authenticated on mount
   useEffect(() => {
-    void checkAuth(true); // Pass true to indicate this is the initial auth check
+    void checkAuth(true);
   }, []);
 
   const handleTokenRefresh = async (isInitialCheck = false) => {

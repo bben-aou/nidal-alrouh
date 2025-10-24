@@ -54,5 +54,36 @@
     "watch": "Watch",
     "listen": "Listen",
     "download": "Download"
+  },
+  "dashboard": {
+    "stats": {
+      "articlesRead": "Articles Read",
+      "videosWatched": "Videos Watched",
+      "podcastsListened": "Podcasts Listened",
+      "guidesCompleted": "Guides Completed"
+    },
+    "title": "Resources",
+    "description": "Explore curated content to support your mental wellness.",
+    "trending": "Trending",
+    "filter": "Filter",
+    "completed": "completed",
+    "searchPlaceholder": "Search resources...",
+    "tabs": {
+      "recommended": "Recommended",
+      "bookmarks": "Bookmarks",
+      "recent": "Recent",
+      "all": "All"
+    },
+    "recommendedForYou": "Recommended for you",
+    "view": "View",
+    "myBookmarks": "My Bookmarks",
+    "addedOn": "Added on",
+    "review": "Review",
+    "continue": "Continue",
+    "recentlyViewed": "Recently Viewed",
+    "allResources": "All Resources",
+    "allResourcesDescription": "Browse and discover all available content",
+    "browseAllResources": "Browse all resources",
+    "exploreAll": "Explore all"
   }
 }

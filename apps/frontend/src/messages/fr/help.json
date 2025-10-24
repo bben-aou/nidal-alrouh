@@ -1,0 +1,95 @@
+{
+  "dashboard": {
+    "title": "Aide et support",
+    "description": "Obtenez de l'aide, trouvez des réponses et contactez notre équipe de support.",
+    "newTicket": "Nouveau ticket",
+    "createSupportTicket": "Créer un ticket de support",
+    "ticketDescription": "Parlez-nous du problème que vous rencontrez.",
+    "ticketSubject": "Sujet du ticket",
+    "selectCategory": "Sélectionner une catégorie",
+    "selectPriority": "Sélectionner la priorité",
+    "describeIssue": "Décrivez votre problème...",
+    "saveDraft": "Enregistrer le brouillon",
+    "submitTicket": "Soumettre le ticket",
+    "searchHelp": "Rechercher de l'aide...",
+    "tabs": {
+      "faq": "FAQ",
+      "tutorials": "Tutoriels",
+      "tickets": "Tickets",
+      "contact": "Contact"
+    },
+    "wasHelpful": "Cela a-t-il été utile ?",
+    "view": "Voir",
+    "mySupportTickets": "Mes tickets de support",
+    "activeTickets": "tickets actifs",
+    "viewTicket": "Voir le ticket",
+    "contactInformation": "Informations de contact",
+    "contactDescription": "Contactez-nous par e-mail, téléphone ou chat en direct.",
+    "emailResponse": "Réponse par e-mail",
+    "phoneHours": "Heures de téléphone",
+    "liveChat": "Chat en direct",
+    "chatAvailable": "Chat disponible",
+    "quickContact": "Contact rapide",
+    "quickContactDescription": "Envoyez-nous un message rapide et nous vous répondrons.",
+    "yourName": "Votre nom",
+    "yourEmail": "Votre email",
+    "selectTopic": "Sélectionner un sujet",
+    "yourMessage": "Votre message",
+    "sendMessage": "Envoyer le message",
+    "support": {
+      "liveChat": "Chat en direct",
+      "liveChatDescription": "Discutez avec notre équipe de support en temps réel.",
+      "available247": "Disponible 24/7",
+      "startChat": "Démarrer le chat",
+      "phoneSupport": "Support téléphonique",
+      "phoneSupportDescription": "Parlez avec un spécialiste du support.",
+      "businessHours": "Heures de bureau",
+      "callNow": "Appeler maintenant",
+      "emailSupport": "Support par e-mail",
+      "emailSupportDescription": "Envoyez-nous un e-mail et nous répondrons bientôt.",
+      "response24h": "Réponse sous 24h",
+      "sendEmail": "Envoyer l'email"
+    },
+    "faq": {
+      "categories": {
+        "account": "Compte",
+        "privacy": "Confidentialité",
+        "features": "Fonctionnalités"
+      },
+      "account": {
+        "resetPassword": {
+          "question": "Comment réinitialiser mon mot de passe ?",
+          "answer": "Allez dans les paramètres et choisissez 'Changer le mot de passe'."
+        },
+        "updateProfile": {
+          "question": "Comment puis-je mettre à jour mon profil ?",
+          "answer": "Allez sur votre page de profil et modifiez vos informations."
+        },
+        "deleteAccount": {
+          "question": "Comment supprimer mon compte ?",
+          "answer": "Contactez le support pour demander la suppression du compte."
+        }
+      },
+      "privacy": {
+        "dataSecurity": {
+          "question": "Comment mes données sont-elles sécurisées ?",
+          "answer": "Nous utilisons le chiffrement et des contrôles d'accès stricts pour protéger vos données."
+        },
+        "sharingSettings": {
+          "question": "Puis-je contrôler les paramètres de partage ?",
+          "answer": "Oui, ajustez les préférences de partage dans les paramètres."
+        }
+      },
+      "features": {
+        "moodTracking": {
+          "question": "Comment fonctionne le suivi de l'humeur ?",
+          "answer": "Enregistrez votre humeur dans les entrées du journal et consultez les informations au fil du temps."
+        },
+        "journalEntries": {
+          "question": "Où puis-je trouver mes entrées de journal ?",
+          "answer": "Allez dans l'onglet Journal pour voir et gérer les entrées."
+        }
+      }
+    }
+  }
+}

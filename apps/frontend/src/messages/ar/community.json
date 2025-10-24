@@ -11,7 +11,11 @@
     "discussions": "المناقشات",
     "events": "الأحداث الشهرية",
     "countries": "البلدان",
-    "support": "مجموعات الدعم"
+    "support": "مجموعات الدعم",
+    "activeMembers": "الأعضاء النشطون",
+    "todayPosts": "المنشورات اليوم",
+    "supportGiven": "الدعم المقدّم",
+    "upcomingEvents": "الأحداث القادمة"
   },
   "events": {
     "title": "الأحداث القادمة",
@@ -61,5 +65,31 @@
     "support": "قدم الدعم، وليس النصائح الطبية",
     "inclusive": "اجعل المناقشات شاملة ومرحبة",
     "readMore": "اقرأ المزيد"
+  },
+  "dashboard": {
+    "title": "المجتمع",
+    "description": "تواصل وشارك وابحث عن الدعم مع الآخرين.",
+    "createPost": "إنشاء منشور",
+    "tabs": {
+      "feed": "الخلاصة",
+      "groups": "المجموعات",
+      "events": "الأحداث"
+    },
+    "shareThoughts": "شارك أفكارك",
+    "postPlaceholder": "اكتب شيئًا داعمًا أو اطرح سؤالًا...",
+    "post": "نشر",
+    "searchPosts": "ابحث في المنشورات...",
+    "filter": "تصفية",
+    "report": "إبلاغ",
+    "hide": "إخفاء",
+    "share": "مشاركة",
+    "members": "أعضاء",
+    "joined": "انضم",
+    "viewGroup": "عرض المجموعة",
+    "joinGroup": "انضم للمجموعة",
+    "upcomingEvents": "الأحداث القادمة",
+    "eventsDescription": "أحداث المجتمع وجلسات الدعم",
+    "noEvents": "لا توجد أحداث قادمة",
+    "createEvent": "إنشاء حدث"
   }
 }

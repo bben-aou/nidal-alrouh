@@ -291,7 +291,7 @@ export default function SettingsPage() {
         <div className="flex justify-end">
           <Button onClick={handleSave} className="min-w-32">
             <Save className="mr-2 h-4 w-4" />
-            {t('save')}
+            {t('actions.save')}
           </Button>
         </div>
       </div>

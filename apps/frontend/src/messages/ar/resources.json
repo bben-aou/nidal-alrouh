@@ -54,5 +54,36 @@
     "watch": "مشاهدة",
     "listen": "استماع",
     "download": "تحميل"
+  },
+  "dashboard": {
+    "stats": {
+      "articlesRead": "المقالات المقروءة",
+      "videosWatched": "الفيديوهات المشاهدة",
+      "podcastsListened": "البودكاست المستمع إليها",
+      "guidesCompleted": "الأدلة المكتملة"
+    },
+    "title": "الموارد",
+    "description": "استكشف محتوىً مختارًا لدعم عافيتك النفسية.",
+    "trending": "الرائج",
+    "filter": "تصفية",
+    "completed": "مكتمل",
+    "searchPlaceholder": "ابحث في الموارد...",
+    "tabs": {
+      "recommended": "موصى به",
+      "bookmarks": "المحفوظات",
+      "recent": "حديث",
+      "all": "الكل"
+    },
+    "recommendedForYou": "موصى به لك",
+    "view": "عرض",
+    "myBookmarks": "محفوظاتي",
+    "addedOn": "أضيف في",
+    "review": "مراجعة",
+    "continue": "متابعة",
+    "recentlyViewed": "تمت مشاهدته مؤخرًا",
+    "allResources": "جميع الموارد",
+    "allResourcesDescription": "تصفح واكتشف كل المحتوى المتاح",
+    "browseAllResources": "تصفح جميع الموارد",
+    "exploreAll": "استكشف الكل"
   }
 }

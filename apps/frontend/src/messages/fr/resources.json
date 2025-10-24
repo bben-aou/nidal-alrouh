@@ -54,5 +54,36 @@
     "watch": "Regarder",
     "listen": "Écouter",
     "download": "Télécharger"
+  },
+  "dashboard": {
+    "stats": {
+      "articlesRead": "Articles lus",
+      "videosWatched": "Vidéos regardées",
+      "podcastsListened": "Podcasts écoutés",
+      "guidesCompleted": "Guides terminés"
+    },
+    "title": "Ressources",
+    "description": "Explorez du contenu sélectionné pour soutenir votre bien-être mental.",
+    "trending": "Tendance",
+    "filter": "Filtrer",
+    "completed": "terminé",
+    "searchPlaceholder": "Rechercher des ressources...",
+    "tabs": {
+      "recommended": "Recommandé",
+      "bookmarks": "Favoris",
+      "recent": "Récents",
+      "all": "Tous"
+    },
+    "recommendedForYou": "Recommandé pour vous",
+    "view": "Voir",
+    "myBookmarks": "Mes favoris",
+    "addedOn": "Ajouté le",
+    "review": "Réviser",
+    "continue": "Continuer",
+    "recentlyViewed": "Récemment consultés",
+    "allResources": "Toutes les ressources",
+    "allResourcesDescription": "Parcourez et découvrez tout le contenu disponible",
+    "browseAllResources": "Parcourir toutes les ressources",
+    "exploreAll": "Tout explorer"
   }
 }

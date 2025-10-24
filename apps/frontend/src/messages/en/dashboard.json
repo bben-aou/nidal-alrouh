@@ -2,6 +2,13 @@
   "title": "Dashboard",
   "welcome": "Welcome back",
   "overview": "Overview",
+  "nav": {
+    "home": "Home",
+    "community": "Community",
+    "resources": "Resources",
+    "journal": "Journal",
+    "help": "Help"
+  },
   "stats": {
     "totalUsers": "Total Users",
     "activeSessions": "Active Sessions",
@@ -36,5 +43,56 @@
     "title": "Upcoming Appointments",
     "noAppointments": "No upcoming appointments",
     "viewAll": "View All"
-  }
+  },
+  "greeting": {
+    "description": "Take a deep breath. You're not alone today."
+  },
+  "quickActionsCards": {
+    "writeJournal": {
+      "label": "Write in Journal",
+      "description": "Express your thoughts and feelings"
+    },
+    "joinChat": {
+      "label": "Join Support Chat",
+      "description": "Connect with others who understand"
+    },
+    "browseResources": {
+      "label": "Browse Resources",
+      "description": "Discover helpful articles and guides"
+    },
+    "getStarted": "Get Started"
+  },
+  "moodTracker": {
+    "title": "Mood Tracking",
+    "comingSoon": "Coming Soon",
+    "description": "Track your emotional journey with our upcoming mood tracker"
+  },
+  "communityHighlights": {
+    "title": "Community Highlights",
+    "description": "Recent messages from our supportive community",
+    "posts": [
+      "Taking small steps each day. Grateful for this community. 🌱",
+      "Found strength I didn't know I had. Keep going everyone! ✨"
+    ],
+    "reactions": ["❤️ 12", "🙌 8"]
+  },
+  "suggestedResources": {
+    "title": "Suggested Resources",
+    "description": "Curated articles to support your journey",
+    "resources": [
+      {
+        "title": "Understanding Depression",
+        "description": "A comprehensive guide to understanding and managing depression"
+      },
+      {
+        "title": "Anxiety Management",
+        "description": "Practical techniques for managing anxiety in daily life"
+      },
+      {
+        "title": "Building Resilience",
+        "description": "Learn how to build emotional strength and resilience"
+      }
+    ]
+  },
+  "footer": "Built with care by the Nidal-Alrouh Community"
 }

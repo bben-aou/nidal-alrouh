@@ -11,7 +11,11 @@
     "discussions": "Discussions",
     "events": "Monthly Events",
     "countries": "Countries",
-    "support": "Support Groups"
+    "support": "Support Groups",
+    "activeMembers": "Active Members",
+    "todayPosts": "Posts Today",
+    "supportGiven": "Support Given",
+    "upcomingEvents": "Upcoming Events"
   },
   "events": {
     "title": "Upcoming Events",
@@ -61,5 +65,31 @@
     "support": "Offer support, not medical advice",
     "inclusive": "Keep discussions inclusive and welcoming",
     "readMore": "Read More"
+  },
+  "dashboard": {
+    "title": "Community",
+    "description": "Connect, share, and find support with others.",
+    "createPost": "Create Post",
+    "tabs": {
+      "feed": "Feed",
+      "groups": "Groups",
+      "events": "Events"
+    },
+    "shareThoughts": "Share your thoughts",
+    "postPlaceholder": "Write something supportive or ask a question...",
+    "post": "Post",
+    "searchPosts": "Search posts...",
+    "filter": "Filter",
+    "report": "Report",
+    "hide": "Hide",
+    "share": "Share",
+    "members": "members",
+    "joined": "Joined",
+    "viewGroup": "View Group",
+    "joinGroup": "Join Group",
+    "upcomingEvents": "Upcoming Events",
+    "eventsDescription": "Community events and support sessions",
+    "noEvents": "No upcoming events",
+    "createEvent": "Create Event"
   }
 }
