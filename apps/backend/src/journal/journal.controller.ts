@@ -12,14 +12,20 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { Reflection } from '@prisma/client';
+import { Reflection, SupportedPromptLocale } from '@prisma/client';
 import { FastifyRequest } from 'fastify';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuthResponse } from '../auth/interfaces/auth.interface';
 
-import { CreateReflectionDto } from './dto';
+import {
+  CreateReflectionDto,
+  GetPromptsDto,
+  PromptsListResponseDto,
+  PromptResponseDto,
+} from './dto';
 import { JournalService } from './journal.service';
+import { PromptsService } from './prompts.service';
 
 interface CreateReflectionResponse {
   success: boolean;
@@ -39,7 +45,10 @@ interface DeleteReflectionResponse {
 @Controller('journal')
 @UseGuards(JwtAuthGuard)
 export class JournalController {
-  constructor(private readonly journalService: JournalService) {}
+  constructor(
+    private readonly journalService: JournalService,
+    private readonly promptsService: PromptsService
+  ) {}
 
   @Post('reflections')
   @HttpCode(HttpStatus.CREATED)
@@ -110,5 +119,32 @@ export class JournalController {
         deletedAt: new Date().toISOString(),
       },
     };
+  }
+}
+
+// Prompts endpoints (public - no auth required)
+@Controller('prompts')
+export class PromptsController {
+  constructor(private readonly promptsService: PromptsService) {}
+
+  @Get()
+  async getPrompts(
+    @Query() query: GetPromptsDto
+  ): Promise<PromptsListResponseDto> {
+    return this.promptsService.getPrompts(query);
+  }
+
+  @Get('categories')
+  async getCategories(): Promise<{ categories: string[] }> {
+    const categories = await this.promptsService.getAvailableCategories();
+    return { categories };
+  }
+
+  @Get(':id')
+  async getPromptById(
+    @Param('id') id: string,
+    @Query('locale') locale?: SupportedPromptLocale
+  ): Promise<PromptResponseDto> {
+    return this.promptsService.getPromptById(id, locale);
   }
 }

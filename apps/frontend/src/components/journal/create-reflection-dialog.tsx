@@ -2,7 +2,7 @@
 
 import { Plus, Lock, Globe } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { useCreateReflection } from '@/apis/journal/queries';
@@ -26,13 +26,46 @@ import {
 import { TagInput } from '@/components/ui/tag-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useReflectionForm } from '@/hooks/use-reflection-form';
-import { getMoodOptions } from '@/lib/mock-data/journal';
-import { getMoodIcon } from '@/lib/utils/journal';
+import { getMoodOptions, getMoodIcon } from '@/lib/utils/journal';
 import { PrivacyOption } from '@/types/journal';
 
-export function CreateReflectionDialog() {
+interface CreateReflectionDialogProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  initialTitle?: string;
+  initialContent?: string;
+  initialMood?: string;
+  initialTags?: string[];
+  initialPrivacy?: PrivacyOption;
+  hideTrigger?: boolean;
+  triggerText?: string;
+  contentPlaceholder?: string;
+}
+
+export function CreateReflectionDialog({
+  open: controlledOpen,
+  onOpenChange,
+  initialTitle,
+  initialContent,
+  initialMood,
+  initialTags,
+  initialPrivacy,
+  hideTrigger,
+  triggerText,
+}: Readonly<CreateReflectionDialogProps> = {}) {
   const t = useTranslations('journal');
-  const [open, setOpen] = useState(false);
+
+  // Controlled/uncontrolled open state handling
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = typeof controlledOpen === 'boolean';
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = (value: boolean) => {
+    if (isControlled) {
+      onOpenChange?.(value);
+    } else {
+      setInternalOpen(value);
+    }
+  };
 
   const {
     formData,
@@ -49,6 +82,23 @@ export function CreateReflectionDialog() {
   } = useReflectionForm();
 
   const moodOptions = getMoodOptions(t);
+
+  // Prefill form when dialog opens with provided initial values
+  useEffect(() => {
+    if (!open) return;
+    if (initialTitle !== undefined) updateField('title', initialTitle);
+    if (initialContent !== undefined) updateField('content', initialContent);
+    if (initialMood !== undefined) updateField('mood', initialMood);
+    if (initialTags !== undefined) updateField('tags', initialTags);
+    if (initialPrivacy !== undefined) setPrivacy(initialPrivacy);
+  }, [
+    open,
+    initialTitle,
+    initialContent,
+    initialMood,
+    initialTags,
+    initialPrivacy,
+  ]);
 
   const { createReflection, isPending, invalidateReflections } =
     useCreateReflection({
@@ -90,12 +140,14 @@ export function CreateReflectionDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          {t('dashboard.newReflection')}
-        </Button>
-      </DialogTrigger>
+      {!hideTrigger && (
+        <DialogTrigger asChild>
+          <Button>
+            <Plus className="h-4 w-4" />
+            {triggerText || t('dashboard.newReflection')}
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>{t('dashboard.createNewReflection')}</DialogTitle>

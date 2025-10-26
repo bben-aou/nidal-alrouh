@@ -63,7 +63,7 @@ export function TagInput({
           />
         </div>
         {instructionText && (
-          <p className="text-xs text-muted-foreground mt-1.5">
+          <p className="text-xs text-muted-foreground mt-3 ml-2">
             {instructionText}
           </p>
         )}

@@ -2,7 +2,7 @@ import { Smile, SmilePlus, Meh, Frown, AlertCircle } from 'lucide-react';
 import React from 'react';
 
 import { ReflectionItem } from '@/apis/journal/queries/use-get-reflections';
-import { JournalReflection } from '@/lib/mock-data/journal';
+import { JournalReflection, MoodOption } from '@/lib/mock-data/journal';
 
 /**
  * Transform API reflection data to match the JournalReflection interface
@@ -101,4 +101,51 @@ export function getMoodIcon(icon: string): React.ReactElement | null {
         className: `h-4 w-4 ${iconData.color}`,
       })
     : null;
+}
+
+/**
+ * Get mood options with translations
+ * @param t - Translation function
+ * @returns Array of mood options with labels, icons, and colors
+ */
+export function getMoodOptions(t: (key: string) => string): MoodOption[] {
+  return [
+    {
+      value: 'excellent',
+      label: t('dashboard.moods.excellent'),
+      icon: 'smile',
+      color: 'text-green-600',
+    },
+    {
+      value: 'good',
+      label: t('dashboard.moods.good'),
+      icon: 'smile-plus',
+      color: 'text-blue-600',
+    },
+    {
+      value: 'neutral',
+      label: t('dashboard.moods.neutral'),
+      icon: 'meh',
+      color: 'text-yellow-600',
+    },
+    {
+      value: 'sad',
+      label: t('dashboard.moods.sad'),
+      icon: 'frown',
+      color: 'text-orange-600',
+    },
+    {
+      value: 'anxious',
+      label: t('dashboard.moods.anxious'),
+      icon: 'alert-circle',
+      color: 'text-red-600',
+    },
+  ];
+}
+
+export function deriveTitleFromPrompt(prompt: string): string {
+  const cleaned = prompt.trim().replaceAll(/[.!?]+$/g, '');
+  const words = cleaned.split(/\s+/).slice(0, 8);
+  const title = words.join(' ');
+  return title.charAt(0).toUpperCase() + title.slice(1);
 }

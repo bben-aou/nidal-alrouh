@@ -76,46 +76,84 @@ export const mockJournalReflections: JournalReflection[] = [
   },
 ];
 
-export const mockJournalPrompts: string[] = [
-  "What are three things you're grateful for today?",
-  'Describe a challenge you overcame recently.',
-  'What would you tell your younger self?',
-  'Write about a moment that made you smile today.',
-  'What are your hopes for tomorrow?',
-];
+export interface JournalPrompt {
+  text: string;
+  tags: string[];
+}
 
-export const getMoodOptions = (t: (key: string) => string): MoodOption[] => [
-  {
-    value: 'excellent',
-    label: t('dashboard.moods.excellent'),
-    icon: 'smile',
-    color: 'text-green-600',
-  },
-  {
-    value: 'good',
-    label: t('dashboard.moods.good'),
-    icon: 'smile-plus',
-    color: 'text-blue-600',
-  },
-  {
-    value: 'neutral',
-    label: t('dashboard.moods.neutral'),
-    icon: 'meh',
-    color: 'text-yellow-600',
-  },
-  {
-    value: 'sad',
-    label: t('dashboard.moods.sad'),
-    icon: 'frown',
-    color: 'text-orange-600',
-  },
-  {
-    value: 'anxious',
-    label: t('dashboard.moods.anxious'),
-    icon: 'alert-circle',
-    color: 'text-red-600',
-  },
-];
+export type SupportedPromptLocale = 'en' | 'fr' | 'ar';
+
+export const mockJournalPrompts: Record<
+  SupportedPromptLocale,
+  JournalPrompt[]
+> = {
+  en: [
+    {
+      text: "What are three things you're grateful for today?",
+      tags: ['gratitude', 'reflection', 'positivity'],
+    },
+    {
+      text: 'Describe a challenge you overcame recently.',
+      tags: ['resilience', 'growth', 'challenge'],
+    },
+    {
+      text: 'What would you tell your younger self?',
+      tags: ['reflection', 'advice', 'self'],
+    },
+    {
+      text: 'Write about a moment that made you smile today.',
+      tags: ['joy', 'daily', 'gratitude'],
+    },
+    {
+      text: 'What are your hopes for tomorrow?',
+      tags: ['planning', 'hope', 'goals'],
+    },
+  ],
+  fr: [
+    {
+      text: "Quelles sont trois choses pour lesquelles vous êtes reconnaissant aujourd'hui ?",
+      tags: ['gratitude', 'réflexion', 'positivité'],
+    },
+    {
+      text: 'Décrivez un défi que vous avez surmonté récemment.',
+      tags: ['résilience', 'croissance', 'défi'],
+    },
+    {
+      text: 'Que diriez-vous à votre vous plus jeune ?',
+      tags: ['réflexion', 'conseil', 'soi'],
+    },
+    {
+      text: 'Écrivez à propos d’un moment qui vous a fait sourire aujourd’hui.',
+      tags: ['joie', 'quotidien', 'gratitude'],
+    },
+    {
+      text: 'Quelles sont vos espérances pour demain ?',
+      tags: ['planification', 'espoir', 'objectifs'],
+    },
+  ],
+  ar: [
+    {
+      text: 'ما هي ثلاث أمور تشعر بالامتنان لها اليوم؟',
+      tags: ['امتنان', 'تأمل', 'إيجابية'],
+    },
+    {
+      text: 'صف تحديًا تغلبت عليه مؤخرًا.',
+      tags: ['مرونة', 'نمو', 'تحدي'],
+    },
+    {
+      text: 'ماذا تقول لنفسك في سن أصغر؟',
+      tags: ['تأمل', 'نصيحة', 'ذات'],
+    },
+    {
+      text: 'اكتب عن لحظة جعلتك تبتسم اليوم.',
+      tags: ['فرح', 'يومي', 'امتنان'],
+    },
+    {
+      text: 'ما هي آمالك ليوم الغد؟',
+      tags: ['تخطيط', 'أمل', 'أهداف'],
+    },
+  ],
+};
 
 export const getJournalStats = (
   t: (key: string) => string,

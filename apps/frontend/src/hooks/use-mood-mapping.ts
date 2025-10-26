@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { getMoodOptions } from '@/lib/mock-data/journal';
+import { getMoodOptions } from '@/lib/utils/journal';
 
 export function useMoodMapping() {
   const t = useTranslations('journal');

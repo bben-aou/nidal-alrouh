@@ -26,9 +26,8 @@ import {
 import { TagInput } from '@/components/ui/tag-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useReflectionForm } from '@/hooks/use-reflection-form';
-import { getMoodOptions } from '@/lib/mock-data/journal';
 import type { JournalReflection as JournalReflectionType } from '@/lib/mock-data/journal';
-import { getMoodIcon } from '@/lib/utils/journal';
+import { getMoodOptions, getMoodIcon } from '@/lib/utils/journal';
 import { PrivacyOption } from '@/types/journal';
 
 function mapBackendMoodToFrontend(backendMood: string): string {
