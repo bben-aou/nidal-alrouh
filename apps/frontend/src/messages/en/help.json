@@ -83,11 +83,11 @@
       "features": {
         "moodTracking": {
           "question": "How does mood tracking work?",
-          "answer": "Record your mood in journal entries and view insights over time."
+          "answer": "Record your mood in journal reflections and view insights over time."
         },
-        "journalEntries": {
-          "question": "Where can I find my journal entries?",
-          "answer": "Go to the Journal tab to see and manage entries."
+        "journalReflections": {
+          "question": "Where can I find my journal reflections?",
+          "answer": "Go to the Journal tab to see and manage reflections."
         }
       }
     }

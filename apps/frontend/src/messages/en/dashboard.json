@@ -2,6 +2,7 @@
   "title": "Dashboard",
   "welcome": "Welcome back",
   "overview": "Overview",
+  "cancel": "Cancel",
   "nav": {
     "home": "Home",
     "community": "Community",

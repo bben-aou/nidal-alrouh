@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@nestjs/platform-fastify';
 
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters';
 
 import type { Env } from './config/env';
 
@@ -48,6 +49,21 @@ async function bootstrap() {
   if (helmetEnabled) {
     await fastify.register(helmet);
   }
+
+  // Enable global validation pipes
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    })
+  );
+
+  // Enable global exception filters
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   app.setGlobalPrefix(prefix);
   await app.listen(port, '0.0.0.0');

@@ -83,11 +83,11 @@
       "features": {
         "moodTracking": {
           "question": "Comment fonctionne le suivi de l'humeur ?",
-          "answer": "Enregistrez votre humeur dans les entrées du journal et consultez les informations au fil du temps."
+          "answer": "Enregistrez votre humeur dans les réflexions du journal et consultez les informations au fil du temps."
         },
-        "journalEntries": {
-          "question": "Où puis-je trouver mes entrées de journal ?",
-          "answer": "Allez dans l'onglet Journal pour voir et gérer les entrées."
+        "journalReflections": {
+          "question": "Où puis-je trouver mes réflexions dans le journal ?",
+          "answer": "Allez dans l'onglet Journal pour voir et gérer les réflexions."
         }
       }
     }

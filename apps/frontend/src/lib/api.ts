@@ -51,9 +51,20 @@ class ApiClient {
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
+    // Build default headers without overriding user-provided values
+    const defaultHeaders: HeadersInit = {};
+
+    if (options.body || (options.method && options.method !== 'DELETE')) {
+      defaultHeaders['Content-Type'] = 'application/json';
+    }
+
+    if (typeof navigator !== 'undefined' && navigator.language) {
+      defaultHeaders['Accept-Language'] = navigator.language;
+    }
+
     const config: RequestInit = {
       headers: {
-        'Content-Type': 'application/json',
+        ...defaultHeaders,
         ...options.headers,
       },
       credentials: 'include', // Include cookies for authentication
@@ -73,7 +84,12 @@ class ApiClient {
             statusCode: response.status,
           };
         }
-        throw new Error(errorData.message ?? 'Request failed');
+        throw new ApiClientError(
+          errorData.message ?? 'Request failed',
+          errorData.statusCode ?? response.status,
+          errorData.error,
+          errorData
+        );
       }
 
       // Handle empty responses (like logout)
@@ -89,6 +105,35 @@ class ApiClient {
       }
       throw new Error('Network error occurred');
     }
+  }
+
+  // Convenience helpers for common HTTP methods
+  async get<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    return this.request<T>(endpoint, { ...options, method: 'GET' });
+  }
+
+  async post<T>(
+    endpoint: string,
+    body?: unknown,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const init: RequestInit = { ...options, method: 'POST' };
+    if (body !== undefined) init.body = JSON.stringify(body);
+    return this.request<T>(endpoint, init);
+  }
+
+  async put<T>(
+    endpoint: string,
+    body?: unknown,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const init: RequestInit = { ...options, method: 'PUT' };
+    if (body !== undefined) init.body = JSON.stringify(body);
+    return this.request<T>(endpoint, init);
+  }
+
+  async del<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
 
   // Authentication endpoints
@@ -131,3 +176,22 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient();
+
+export class ApiClientError extends Error {
+  statusCode: number;
+  code?: string;
+  payload?: unknown;
+
+  constructor(
+    message: string,
+    statusCode: number,
+    code?: string,
+    payload?: unknown
+  ) {
+    super(message);
+    this.name = 'ApiClientError';
+    this.statusCode = statusCode;
+    this.code = code;
+    this.payload = payload;
+  }
+}

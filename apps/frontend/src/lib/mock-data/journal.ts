@@ -1,5 +1,5 @@
-export interface JournalEntry {
-  id: number;
+export interface JournalReflection {
+  id: string | number;
   title: string;
   content: string;
   mood: string;
@@ -9,6 +9,8 @@ export interface JournalEntry {
   isPrivate: boolean;
   wordCount: number;
   readTime: string;
+  authorName: string;
+  authorId: string;
 }
 
 export interface JournalStat {
@@ -26,7 +28,7 @@ export interface MoodOption {
   color: string;
 }
 
-export const mockJournalEntries: JournalEntry[] = [
+export const mockJournalReflections: JournalReflection[] = [
   {
     id: 1,
     title: 'A Productive Day at Work',
@@ -39,6 +41,8 @@ export const mockJournalEntries: JournalEntry[] = [
     isPrivate: false,
     wordCount: 245,
     readTime: '2 min',
+    authorName: 'Demo User',
+    authorId: 'mock-1',
   },
   {
     id: 2,
@@ -52,6 +56,8 @@ export const mockJournalEntries: JournalEntry[] = [
     isPrivate: true,
     wordCount: 189,
     readTime: '1 min',
+    authorName: 'Demo User',
+    authorId: 'mock-2',
   },
   {
     id: 3,
@@ -65,6 +71,8 @@ export const mockJournalEntries: JournalEntry[] = [
     isPrivate: false,
     wordCount: 312,
     readTime: '3 min',
+    authorName: 'Demo User',
+    authorId: 'mock-3',
   },
 ];
 
@@ -80,31 +88,31 @@ export const getMoodOptions = (t: (key: string) => string): MoodOption[] => [
   {
     value: 'excellent',
     label: t('dashboard.moods.excellent'),
-    icon: '😄',
+    icon: 'smile',
     color: 'text-green-600',
   },
   {
     value: 'good',
     label: t('dashboard.moods.good'),
-    icon: '😊',
+    icon: 'smile-plus',
     color: 'text-blue-600',
   },
   {
     value: 'neutral',
     label: t('dashboard.moods.neutral'),
-    icon: '😐',
+    icon: 'meh',
     color: 'text-yellow-600',
   },
   {
     value: 'sad',
     label: t('dashboard.moods.sad'),
-    icon: '😔',
+    icon: 'frown',
     color: 'text-orange-600',
   },
   {
     value: 'anxious',
     label: t('dashboard.moods.anxious'),
-    icon: '😰',
+    icon: 'alert-circle',
     color: 'text-red-600',
   },
 ];
@@ -120,7 +128,7 @@ export const getJournalStats = (
 ): JournalStat[] => [
   {
     icon: icons.BookOpen,
-    label: t('dashboard.stats.totalEntries'),
+    label: t('dashboard.stats.totalReflections'),
     value: '47',
     change: '+3',
     color: 'text-blue-600',
