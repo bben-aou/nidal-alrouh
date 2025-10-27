@@ -4,7 +4,7 @@
       "totalReflections": "Total Reflections",
       "streakDays": "Streak Days",
       "avgMood": "Average Mood",
-      "avgWriteTime": "Average Write Time"
+      "totalWords": "Total Words"
     },
     "moods": {
       "excellent": "Excellent",
@@ -12,6 +12,13 @@
       "neutral": "Neutral",
       "sad": "Sad",
       "anxious": "Anxious"
+    },
+    "chartMoods": {
+      "verySad": "Very Sad",
+      "sad": "Sad",
+      "neutral": "Neutral",
+      "good": "Good",
+      "excellent": "Excellent"
     },
     "title": "Journal",
     "description": "Reflect, write, and track your mental well-being.",
@@ -66,6 +73,75 @@
     "save": "Save",
     "editReflection": "Edit Reflection",
     "editReflectionDescription": "Update your reflection details",
-    "reflectionUpdated": "Reflection updated successfully"
+    "reflectionUpdated": "Reflection updated successfully",
+    "charts": {
+      "reflectionFrequency": "Reflection Frequency",
+      "reflectionFrequencyDescription": "Number of reflections over time",
+      "moodTrend": "Mood Trend",
+      "moodTrendDescription": "Your mood patterns over time",
+      "wordCount": "Word Count",
+      "wordCountTrend": "Word Count Trend",
+      "wordCountDescription": "Words written in your reflections",
+      "noDataAvailable": "No data available for the selected time period",
+      "loadingChart": "Loading chart data...",
+      "errorLoadingChart": "Failed to load chart data",
+      "reflections": "Reflections",
+      "mood": "Mood",
+      "words": "Words",
+      "date": "Date",
+      "average": "Average",
+      "total": "Total",
+      "range": "Range",
+      "timeRange": {
+        "7D": "Last 7 days",
+        "30D": "Last 30 days",
+        "90D": "Last 90 days",
+        "CUSTOM": "Custom range"
+      },
+      "granularity": {
+        "day": "Daily",
+        "week": "Weekly",
+        "month": "Monthly"
+      },
+      "labels": {
+        "timeRange": "Time Range",
+        "granularity": "Granularity",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "selectTimeRange": "Select time range",
+        "selectGranularity": "Select granularity",
+        "pickDate": "Pick a date"
+      },
+      "months": {
+        "short": {
+          "jan": "Jan",
+          "feb": "Feb",
+          "mar": "Mar",
+          "apr": "Apr",
+          "may": "May",
+          "jun": "Jun",
+          "jul": "Jul",
+          "aug": "Aug",
+          "sep": "Sep",
+          "oct": "Oct",
+          "nov": "Nov",
+          "dec": "Dec"
+        },
+        "long": {
+          "january": "January",
+          "february": "February",
+          "march": "March",
+          "april": "April",
+          "may": "May",
+          "june": "June",
+          "july": "July",
+          "august": "August",
+          "september": "September",
+          "october": "October",
+          "november": "November",
+          "december": "December"
+        }
+      }
+    }
   }
 }

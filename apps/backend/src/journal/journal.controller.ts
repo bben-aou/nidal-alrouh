@@ -23,6 +23,10 @@ import {
   GetPromptsDto,
   PromptsListResponseDto,
   PromptResponseDto,
+  GetJournalStatsDto,
+  JournalStatsResponse,
+  GetJournalAnalyticsDto,
+  JournalAnalyticsResponseDto,
 } from './dto';
 import { JournalService } from './journal.service';
 import { PromptsService } from './prompts.service';
@@ -118,6 +122,38 @@ export class JournalController {
         id: deletedReflection.id,
         deletedAt: new Date().toISOString(),
       },
+    };
+  }
+
+  @Get('stats')
+  async getJournalStats(
+    @Query() query: GetJournalStatsDto,
+    @Req() request: FastifyRequest & { user: AuthResponse['user'] }
+  ): Promise<{ data: JournalStatsResponse; message: string }> {
+    const stats = await this.journalService.getUserStats(
+      request.user.id,
+      query
+    );
+
+    return {
+      data: stats,
+      message: 'Journal statistics retrieved successfully',
+    };
+  }
+
+  @Get('analytics')
+  async getJournalAnalytics(
+    @Query() query: GetJournalAnalyticsDto,
+    @Req() request: FastifyRequest & { user: AuthResponse['user'] }
+  ): Promise<{ data: JournalAnalyticsResponseDto; message: string }> {
+    const analytics = await this.journalService.getJournalAnalytics(
+      request.user.id,
+      query
+    );
+
+    return {
+      data: analytics,
+      message: 'Journal analytics retrieved successfully',
     };
   }
 }

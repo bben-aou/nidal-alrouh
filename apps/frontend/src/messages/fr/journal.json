@@ -4,7 +4,7 @@
       "totalReflections": "Total des réflexions",
       "streakDays": "Jours consécutifs",
       "avgMood": "Humeur moyenne",
-      "avgWriteTime": "Temps d'écriture moyen"
+      "totalWords": "Total des mots"
     },
     "moods": {
       "excellent": "Excellent",
@@ -12,6 +12,13 @@
       "neutral": "Neutre",
       "sad": "Triste",
       "anxious": "Anxieux"
+    },
+    "chartMoods": {
+      "verySad": "Très triste",
+      "sad": "Triste",
+      "neutral": "Neutre",
+      "good": "Bien",
+      "excellent": "Excellent"
     },
     "title": "Journal",
     "description": "Réfléchissez, écrivez et suivez votre bien-être mental.",
@@ -65,6 +72,76 @@
     "delete_reflection": "Supprimer la réflexion",
     "delete_reflection_confirmation": "Êtes-vous sûr de vouloir supprimer cette réflexion ? Cette action est irréversible.",
     "deleting": "Suppression...",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "confirm_delete": "Supprimer la réflexion",
+    "charts": {
+      "reflectionFrequency": "Fréquence des réflexions",
+      "reflectionFrequencyDescription": "Nombre de réflexions au fil du temps",
+      "moodTrend": "Tendance de l'humeur",
+      "moodTrendDescription": "Vos modèles d'humeur au fil du temps",
+      "wordCount": "Nombre de mots",
+      "wordCountTrend": "Tendance du nombre de mots",
+      "wordCountDescription": "Mots écrits dans vos réflexions",
+      "noDataAvailable": "Aucune donnée disponible pour la période sélectionnée",
+      "loadingChart": "Chargement des données du graphique...",
+      "errorLoadingChart": "Échec du chargement des données du graphique",
+      "reflections": "Réflexions",
+      "mood": "Humeur",
+      "words": "Mots",
+      "date": "Date",
+      "average": "Moyenne",
+      "total": "Total",
+      "range": "Plage",
+      "timeRange": {
+        "7D": "7 derniers jours",
+        "30D": "30 derniers jours",
+        "90D": "90 derniers jours",
+        "CUSTOM": "Plage personnalisée"
+      },
+      "granularity": {
+        "day": "Quotidien",
+        "week": "Hebdomadaire",
+        "month": "Mensuel"
+      },
+      "labels": {
+        "timeRange": "Plage temporelle",
+        "granularity": "Granularité",
+        "startDate": "Date de début",
+        "endDate": "Date de fin",
+        "selectTimeRange": "Sélectionner la plage temporelle",
+        "selectGranularity": "Sélectionner la granularité",
+        "pickDate": "Choisir une date"
+      },
+      "months": {
+        "short": {
+          "jan": "Jan",
+          "feb": "Fév",
+          "mar": "Mar",
+          "apr": "Avr",
+          "may": "Mai",
+          "jun": "Juin",
+          "jul": "Juil",
+          "aug": "Août",
+          "sep": "Sep",
+          "oct": "Oct",
+          "nov": "Nov",
+          "dec": "Déc"
+        },
+        "long": {
+          "january": "Janvier",
+          "february": "Février",
+          "march": "Mars",
+          "april": "Avril",
+          "may": "Mai",
+          "june": "Juin",
+          "july": "Juillet",
+          "august": "Août",
+          "september": "Septembre",
+          "october": "Octobre",
+          "november": "Novembre",
+          "december": "Décembre"
+        }
+      }
+    }
   }
 }

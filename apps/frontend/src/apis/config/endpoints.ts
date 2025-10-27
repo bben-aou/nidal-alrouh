@@ -8,9 +8,14 @@ export const JOURNAL_ENDPOINTS = {
   REFLECTIONS: '/journal/reflections',
   REFLECTION_BY_ID: (id: string) => `/journal/reflections/${id}`,
 
+  // Statistics endpoints
+  STATS: '/journal/stats',
+
+  // Analytics endpoints
+  ANALYTICS: '/journal/analytics',
+
   // Future journal endpoints can be added here
   // JOURNAL_ENTRIES: '/journal-entries',
-  // JOURNAL_ANALYTICS: '/journal/analytics',
   // JOURNAL_EXPORT: '/journal/export',
 } as const;
 

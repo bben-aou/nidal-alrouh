@@ -4,7 +4,7 @@
       "totalReflections": "مجموع التأملات",
       "streakDays": "أيام متتالية",
       "avgMood": "متوسط المزاج",
-      "avgWriteTime": "متوسط وقت الكتابة"
+      "totalWords": "إجمالي الكلمات"
     },
     "moods": {
       "excellent": "ممتاز",
@@ -12,6 +12,13 @@
       "neutral": "محايد",
       "sad": "حزين",
       "anxious": "قلق"
+    },
+    "chartMoods": {
+      "verySad": "حزين جداً",
+      "sad": "حزين",
+      "neutral": "محايد",
+      "good": "جيد",
+      "excellent": "ممتاز"
     },
     "title": "المذكرات",
     "description": "تأمل، اكتب، وتتبع صحتك النفسية.",
@@ -66,6 +73,75 @@
     "save": "حفظ",
     "editReflection": "تعديل التأمل",
     "editReflectionDescription": "قم بتحديث تفاصيل التأمل",
-    "reflectionUpdated": "تم تحديث التأمل بنجاح"
+    "reflectionUpdated": "تم تحديث التأمل بنجاح",
+    "charts": {
+      "reflectionFrequency": "تكرار التأملات",
+      "reflectionFrequencyDescription": "عدد التأملات عبر الوقت",
+      "moodTrend": "اتجاه المزاج",
+      "moodTrendDescription": "أنماط مزاجك عبر الوقت",
+      "wordCount": "عدد الكلمات",
+      "wordCountTrend": "اتجاه عدد الكلمات",
+      "wordCountDescription": "الكلمات المكتوبة في تأملاتك",
+      "noDataAvailable": "لا توجد بيانات متاحة للفترة الزمنية المحددة",
+      "loadingChart": "جاري تحميل بيانات الرسم البياني...",
+      "errorLoadingChart": "فشل في تحميل بيانات الرسم البياني",
+      "reflections": "التأملات",
+      "mood": "المزاج",
+      "words": "الكلمات",
+      "date": "التاريخ",
+      "average": "المتوسط",
+      "total": "المجموع",
+      "range": "النطاق",
+      "timeRange": {
+        "7D": "آخر 7 أيام",
+        "30D": "آخر 30 يوماً",
+        "90D": "آخر 90 يوماً",
+        "CUSTOM": "نطاق مخصص"
+      },
+      "granularity": {
+        "day": "يومي",
+        "week": "أسبوعي",
+        "month": "شهري"
+      },
+      "labels": {
+        "timeRange": "النطاق الزمني",
+        "granularity": "التفصيل",
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية",
+        "selectTimeRange": "اختر النطاق الزمني",
+        "selectGranularity": "اختر التفصيل",
+        "pickDate": "اختر تاريخ"
+      },
+      "months": {
+        "short": {
+          "jan": "يناير",
+          "feb": "فبراير",
+          "mar": "مارس",
+          "apr": "أبريل",
+          "may": "مايو",
+          "jun": "يونيو",
+          "jul": "يوليو",
+          "aug": "أغسطس",
+          "sep": "سبتمبر",
+          "oct": "أكتوبر",
+          "nov": "نوفمبر",
+          "dec": "ديسمبر"
+        },
+        "long": {
+          "january": "يناير",
+          "february": "فبراير",
+          "march": "مارس",
+          "april": "أبريل",
+          "may": "مايو",
+          "june": "يونيو",
+          "july": "يوليو",
+          "august": "أغسطس",
+          "september": "سبتمبر",
+          "october": "أكتوبر",
+          "november": "نوفمبر",
+          "december": "ديسمبر"
+        }
+      }
+    }
   }
 }

@@ -27,20 +27,8 @@ import { TagInput } from '@/components/ui/tag-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useReflectionForm } from '@/hooks/use-reflection-form';
 import { getMoodOptions, getMoodIcon } from '@/lib/utils/journal';
+import { CreateReflectionDialogProps } from '@/types/dialog';
 import { PrivacyOption } from '@/types/journal';
-
-interface CreateReflectionDialogProps {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  initialTitle?: string;
-  initialContent?: string;
-  initialMood?: string;
-  initialTags?: string[];
-  initialPrivacy?: PrivacyOption;
-  hideTrigger?: boolean;
-  triggerText?: string;
-  contentPlaceholder?: string;
-}
 
 export function CreateReflectionDialog({
   open: controlledOpen,

@@ -82,6 +82,7 @@ model Reflection {
   mood      ReflectionMood
   privacy   ReflectionPrivacy @default(PRIVATE)
   tags      String[]          @default([])
+  wordCount Int               @default(0)
   userId    String            @db.Uuid
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
@@ -89,6 +90,7 @@ model Reflection {
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, createdAt])
   @@map("reflections")
 }
 
