@@ -13,7 +13,7 @@ export function JournalStats() {
   const t = useTranslations('journal');
 
   const {
-    data: stats,
+    journalStats: stats,
     isLoading,
     isError,
   } = useGetJournalStats({

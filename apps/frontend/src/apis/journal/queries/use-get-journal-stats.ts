@@ -26,7 +26,9 @@ const getJournalStatsApiCall = async (
   const response = await apiClient.get<{
     data: JournalStatsResponse;
     message: string;
+    success: boolean;
   }>(endpoint);
+
   return response.data;
 };
 
@@ -34,7 +36,16 @@ export const useGetJournalStats = ({
   params = {},
   config,
 }: TUseGetJournalStatsParams = {}) => {
-  return useQuery<JournalStatsResponse, ApiClientError>({
+  const {
+    data,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+    refetch,
+    isFetching,
+    status,
+  } = useQuery<JournalStatsResponse, ApiClientError>({
     queryKey: [GET_JOURNAL_STATS_KEY, params],
     queryFn: () => getJournalStatsApiCall(params),
     staleTime: 2 * 60 * 1000, // 2 minutes (stats can change frequently)
@@ -42,4 +53,25 @@ export const useGetJournalStats = ({
     retry: false,
     ...config,
   });
+
+  const fetchJournalStats = () => {
+    return refetch();
+  };
+
+  const refetchJournalStats = () => {
+    return refetch({ cancelRefetch: false });
+  };
+
+  return {
+    journalStats: data,
+    error,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    status,
+    fetchJournalStats,
+    refetchJournalStats,
+    refetch,
+  };
 };

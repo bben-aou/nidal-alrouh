@@ -1,11 +1,13 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { Plus, Lock, Globe } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { useCreateReflection } from '@/apis/journal/queries';
+import { GET_JOURNAL_STATS_KEY } from '@/apis/journal/queries/use-get-journal-stats';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,6 +28,7 @@ import {
 import { TagInput } from '@/components/ui/tag-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useReflectionForm } from '@/hooks/use-reflection-form';
+import { applyInitialFormValues } from '@/lib/utils/form';
 import { getMoodOptions, getMoodIcon } from '@/lib/utils/journal';
 import { CreateReflectionDialogProps } from '@/types/dialog';
 import { PrivacyOption } from '@/types/journal';
@@ -68,17 +71,21 @@ export function CreateReflectionDialog({
     getSubmissionData,
     privacy,
   } = useReflectionForm();
-
+  const queryClient = useQueryClient();
   const moodOptions = getMoodOptions(t);
 
   // Prefill form when dialog opens with provided initial values
   useEffect(() => {
     if (!open) return;
-    if (initialTitle !== undefined) updateField('title', initialTitle);
-    if (initialContent !== undefined) updateField('content', initialContent);
-    if (initialMood !== undefined) updateField('mood', initialMood);
-    if (initialTags !== undefined) updateField('tags', initialTags);
-    if (initialPrivacy !== undefined) setPrivacy(initialPrivacy);
+    applyInitialFormValues({
+      initialTitle,
+      initialContent,
+      initialMood,
+      initialTags,
+      initialPrivacy,
+      updateField,
+      setPrivacy,
+    });
   }, [
     open,
     initialTitle,
@@ -98,6 +105,8 @@ export function CreateReflectionDialog({
             toast.error(data.message || 'Failed to create reflection');
           }
           invalidateReflections();
+          queryClient.invalidateQueries({ queryKey: [GET_JOURNAL_STATS_KEY] });
+
           resetForm();
           setOpen(false);
         },
