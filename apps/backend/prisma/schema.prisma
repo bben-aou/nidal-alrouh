@@ -56,6 +56,11 @@ model User {
   reflections Reflection[]
 
   @@map("users")
+  Post Post[]
+  Comment Comment[]
+  PostLike PostLike[]
+  PostReport PostReport[]
+  HiddenPost HiddenPost[]
 }
 
 model UserSession {
@@ -121,4 +126,99 @@ model PromptTranslation {
 
   @@unique([promptId, locale])
   @@map("prompt_translations")
+}
+
+// -------------------------------
+// Community Feed (Posts)
+// -------------------------------
+
+enum PostPrivacy {
+  PUBLIC
+  FRIENDS_ONLY
+  PRIVATE
+}
+
+model Post {
+  id          String        @id @default(uuid()) @db.Uuid
+  content     String
+  tags        String[]      @default([])
+  userId      String        @db.Uuid
+  isAnonymous Boolean       @default(false)
+  privacy     PostPrivacy   @default(PUBLIC)
+  locale      SupportedPromptLocale
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  likes       PostLike[]
+  reports     PostReport[]
+
+  @@index([locale, createdAt])
+  @@index([userId, createdAt])
+  @@map("posts")
+  HiddenPost HiddenPost[]
+}
+
+model Comment {
+  id          String   @id @default(uuid()) @db.Uuid
+  postId      String   @db.Uuid
+  userId      String   @db.Uuid
+  content     String
+  isAnonymous Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@map("comments")
+}
+
+model PostLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("post_likes")
+}
+
+model PostReport {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  reason    String
+  status    String   @default("OPEN") // OPEN | REVIEWED | REJECTED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId, status])
+  @@map("post_reports")
+}
+
+model HiddenPost {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("hidden_posts")
 }

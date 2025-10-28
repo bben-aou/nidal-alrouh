@@ -1,0 +1,15 @@
+import { Transform } from 'class-transformer';
+import { IsOptional, IsString, IsInt, Min, Max } from 'class-validator';
+
+export class GetCommentsQueryDto {
+  @IsOptional()
+  @Transform(({ value }) => Number.parseInt(value))
+  @IsInt({ message: 'Limit must be an integer' })
+  @Min(1, { message: 'Limit must be at least 1' })
+  @Max(100, { message: 'Limit cannot exceed 100' })
+  limit?: number = 20;
+
+  @IsOptional()
+  @IsString({ message: 'Cursor must be a string' })
+  cursor?: string;
+}

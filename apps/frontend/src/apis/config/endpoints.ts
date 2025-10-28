@@ -32,3 +32,19 @@ export const PROMPTS_ENDPOINTS = {
 
 export type JournalEndpoints = typeof JOURNAL_ENDPOINTS;
 export type PromptsEndpoints = typeof PROMPTS_ENDPOINTS;
+
+/**
+ * Community API Endpoints Configuration
+ * Centralized endpoint definitions for community-related API calls
+ */
+export const COMMUNITY_ENDPOINTS = {
+  POSTS: '/community/posts',
+  POST_BY_ID: (id: string) => `/community/posts/${id}`,
+  POST_LIKES: (id: string) => `/community/posts/${id}/likes`,
+  POST_LIKES_ME: (id: string) => `/community/posts/${id}/likes/me`,
+  POST_COMMENTS: (id: string) => `/community/posts/${id}/comments`,
+  POST_REPORTS: (id: string) => `/community/posts/${id}/reports`,
+  POST_HIDE: (id: string) => `/community/posts/${id}/hide`,
+} as const;
+
+export type CommunityEndpoints = typeof COMMUNITY_ENDPOINTS;

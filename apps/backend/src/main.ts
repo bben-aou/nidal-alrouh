@@ -9,6 +9,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters';
@@ -64,6 +65,26 @@ async function bootstrap() {
 
   // Enable global exception filters
   app.useGlobalFilters(new AllExceptionsFilter());
+
+  // Setup Swagger documentation
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Nidal Alrouh API')
+    .setDescription('API documentation for Nidal Alrouh platform')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .addTag('auth', 'Authentication endpoints')
+    .addTag('community', 'Community posts and interactions')
+    .addTag('journal', 'Personal journal entries')
+    .addTag('users', 'User management')
+    .addTag('health', 'Health check endpoints')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup(`${prefix}/docs`, app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   app.setGlobalPrefix(prefix);
   await app.listen(port, '0.0.0.0');

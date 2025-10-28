@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { AuthModule } from './auth/auth.module';
+import { CommunityModule } from './community/community.module';
 import { validateEnv } from './config/env';
 import { HealthModule } from './health/health.module';
 import { JournalModule } from './journal/journal.module';
@@ -40,6 +41,7 @@ import { UsersModule } from './users/users.module';
     HealthModule,
     UsersModule,
     JournalModule,
+    CommunityModule,
   ],
   providers: [
     {
