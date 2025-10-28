@@ -146,7 +146,20 @@ export class CommunityService {
         _count: { select: { likes: true, comments: true } },
       },
     });
-
+    // Emit real-time event
+    try {
+      const { CommunityGateway } = await import('./community.gateway');
+      const gateway = CommunityGateway.getInstance();
+      if (gateway) {
+        gateway.emitPostUpdated(postId, updated);
+      }
+    } catch (error: any) {
+      const errMsg = error?.message || 'Unknown error';
+      this.logger.error(
+        `Failed to emit post.updated for post ${postId} by ${userId}: ${errMsg}`,
+        error?.stack
+      );
+    }
     return { data: updated, message: 'Post updated' };
   }
 
@@ -162,6 +175,20 @@ export class CommunityService {
     }
 
     await this.prisma.post.delete({ where: { id: postId } });
+    // Emit real-time event
+    try {
+      const { CommunityGateway } = await import('./community.gateway');
+      const gateway = CommunityGateway.getInstance();
+      if (gateway) {
+        gateway.emitPostDeleted(postId);
+      }
+    } catch (error: any) {
+      const errMsg = error?.message || 'Unknown error';
+      this.logger.error(
+        `Failed to emit post.deleted for post ${postId} by ${userId}: ${errMsg}`,
+        error?.stack
+      );
+    }
     return { success: true, message: 'Post deleted' };
   }
 
