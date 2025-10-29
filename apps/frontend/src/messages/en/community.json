@@ -102,6 +102,12 @@
       "description": "Be the first to share something with the community! Create a post to start the conversation.",
       "createFirstPost": "Create First Post",
       "loading": "Loading posts..."
+    },
+    "messages": {
+      "hidePostError": "Failed to hide post",
+      "hidePostSuccess": "Post hidden successfully",
+      "unhidePostError": "Failed to unhide post",
+      "unhidePostSuccess": "Post unhidden successfully"
     }
   }
 }

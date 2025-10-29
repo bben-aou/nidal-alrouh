@@ -30,7 +30,7 @@ import { transformCommunityPosts } from '@/lib/utils/community';
 import { type Post } from '@/types/community';
 
 export default function DashboardCommunityPage() {
-  const t = useTranslations('community.dashboard');
+  const t = useTranslations('community');
   const hidePostMutation = useHidePost();
   const unhidePostMutation = useUnhidePost();
 
@@ -113,10 +113,10 @@ export default function DashboardCommunityPage() {
           setPosts((prev) =>
             prev.map((p) => (p.id === postId ? { ...p, hidden: false } : p))
           );
-          toast.error(error.message || 'Failed to hide post');
+          toast.error(error.message || t('messages.hidePostError'));
         },
         onSuccess: (data) => {
-          toast.error(data.message || 'Post hidden successfully');
+          toast.success(data.message || t('messages.hidePostSuccess'));
         },
       }
     );
@@ -136,10 +136,10 @@ export default function DashboardCommunityPage() {
           setPosts((prev) =>
             prev.map((p) => (p.id === postId ? { ...p, hidden: true } : p))
           );
-          toast.error(error.message || 'Failed to unhide post');
+          toast.error(error.message || t('messages.unhidePostError'));
         },
         onSuccess: (data) => {
-          toast.error(data.message || 'Post unhidden successfully');
+          toast.success(data.message || t('messages.unhidePostSuccess'));
         },
       }
     );
@@ -205,7 +205,7 @@ export default function DashboardCommunityPage() {
             {isLoading ? (
               <div className="flex items-center justify-center py-8">
                 <div className="text-muted-foreground">
-                  {t('emptyState.loading')}
+                  {t('dashboard.emptyState.loading')}
                 </div>
               </div>
             ) : visiblePosts.length > 0 ? (
@@ -226,10 +226,10 @@ export default function DashboardCommunityPage() {
                 <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                   <MessageCircle className="h-12 w-12 text-muted-foreground mb-4" />
                   <h3 className="text-lg font-semibold mb-2">
-                    {t('emptyState.title')}
+                    {t('dashboard.emptyState.title')}
                   </h3>
                   <p className="text-muted-foreground mb-4 max-w-sm">
-                    {t('emptyState.description')}
+                    {t('dashboard.emptyState.description')}
                   </p>
                   <Button
                     onClick={() => {
@@ -241,7 +241,7 @@ export default function DashboardCommunityPage() {
                     className="mt-2"
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    {t('emptyState.createFirstPost')}
+                    {t('dashboard.emptyState.createFirstPost')}
                   </Button>
                 </CardContent>
               </Card>
