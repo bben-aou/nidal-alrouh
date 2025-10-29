@@ -1,88 +1,28 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
+import leoProfanity from 'leo-profanity';
 
 @Injectable()
 export class ContentModerationService {
-  private readonly blockedWords = [
-    // English profanity and inappropriate content
-    'fuck',
-    'shit',
-    'damn',
-    'bitch',
-    'asshole',
-    'bastard',
-    'crap',
-    'piss',
-    'whore',
-    'slut',
-    'faggot',
-    'nigger',
-    'retard',
-    'cunt',
-    'cock',
-    'dick',
-    'pussy',
-    'tits',
-    'ass',
-    'nazi',
-    'hitler',
-    'terrorist',
-    'bomb',
-    'kill',
-    'suicide',
-    'rape',
-    'murder',
-    'violence',
-    'hate',
-    'racist',
-    'sexist',
+  private readonly logger = new Logger(ContentModerationService.name);
 
-    // Arabic profanity and inappropriate content (transliterated)
-    'khawal',
-    'sharmouta',
-    'kalb',
-    'himar',
-    'khara',
-    'ayr',
-    'tiz',
-    'kos',
-    'maniak',
-    'majnoun',
-    'haram',
-    'kafir',
-    'munafiq',
-    'fasiq',
-    'zalim',
+  constructor() {
+    // Initialize profanity dictionary once with supported languages
+    leoProfanity.clearList();
 
-    // Spam and promotional content
-    'viagra',
-    'casino',
-    'lottery',
-    'winner',
-    'congratulations',
-    'prize',
-    'click here',
-    'buy now',
-    'limited time',
-    'act now',
-    'free money',
-    'get rich',
-    'make money fast',
-    'work from home',
-    'lose weight fast',
+    // Load English dictionary (primary)
+    try {
+      leoProfanity.add(leoProfanity.getDictionary('en'));
+    } catch (error) {
+      this.logger.warn('Failed to load English profanity dictionary', error);
+    }
 
-    // Harmful content
-    'self harm',
-    'cut yourself',
-    'end it all',
-    'worthless',
-    'nobody cares',
-    'drugs',
-    'cocaine',
-    'heroin',
-    'marijuana',
-    'weed',
-    'alcohol abuse',
-  ];
+    // Load French dictionary (secondary)
+    try {
+      leoProfanity.add(leoProfanity.getDictionary('fr'));
+    } catch (error) {
+      this.logger.warn('Failed to load French profanity dictionary', error);
+    }
+  }
 
   private readonly maxContentLength = 5000; // Maximum content length
   private readonly maxCommentLength = 1000; // Maximum comment length
@@ -108,12 +48,11 @@ export class ContentModerationService {
       };
     }
 
-    // Check for blocked words
-    const blockedWord = this.findBlockedWords(content);
-    if (blockedWord) {
+    // Check for profanity or inappropriate content
+    if (this.containsInappropriateLanguage(content)) {
       return {
         isValid: false,
-        reason: `Content contains inappropriate language: "${blockedWord}"`,
+        reason: 'Content contains inappropriate language.',
       };
     }
 
@@ -142,12 +81,11 @@ export class ContentModerationService {
       };
     }
 
-    // Check for blocked words
-    const blockedWord = this.findBlockedWords(content);
-    if (blockedWord) {
+    // Check for profanity or inappropriate content
+    if (this.containsInappropriateLanguage(content)) {
       return {
         isValid: false,
-        reason: `Comment contains inappropriate language: "${blockedWord}"`,
+        reason: 'Comment contains inappropriate language.',
       };
     }
 
@@ -173,12 +111,11 @@ export class ContentModerationService {
       };
     }
 
-    // Check for blocked words (less strict for reports)
-    const blockedWord = this.findBlockedWords(reason);
-    if (blockedWord) {
+    // Check for profanity or inappropriate content (less strict for reports)
+    if (this.containsInappropriateLanguage(reason)) {
       return {
         isValid: false,
-        reason: `Report reason contains inappropriate language: "${blockedWord}"`,
+        reason: 'Report reason contains inappropriate language.',
       };
     }
 
@@ -186,38 +123,11 @@ export class ContentModerationService {
   }
 
   /**
-   * Find blocked words in content (case-insensitive)
+   * Check whether the content contains inappropriate language using leo-profanity
    */
-  private findBlockedWords(content: string): string | null {
-    const normalizedContent = content.toLowerCase();
-
-    for (const word of this.blockedWords) {
-      // Check for exact word matches (with word boundaries)
-      const regex = new RegExp(`\\b${word.toLowerCase()}\\b`, 'i');
-      if (regex.test(normalizedContent)) {
-        return word;
-      }
-
-      // Check for variations with special characters
-      const variations = [
-        word.replace(/[aeiou]/g, '*'), // Replace vowels with *
-        word.replace(/./g, (char, index) => (index % 2 === 0 ? char : '*')), // Every other char
-        word.split('').join('*'), // Add * between chars
-        word.replace(/s/g, '$'), // Common substitutions
-        word.replace(/a/g, '@'),
-        word.replace(/e/g, '3'),
-        word.replace(/i/g, '1'),
-        word.replace(/o/g, '0'),
-      ];
-
-      for (const variation of variations) {
-        if (normalizedContent.includes(variation.toLowerCase())) {
-          return word;
-        }
-      }
-    }
-
-    return null;
+  private containsInappropriateLanguage(content: string): boolean {
+    // leo-profanity internally normalizes and handles common obfuscations
+    return leoProfanity.check(content);
   }
 
   /**

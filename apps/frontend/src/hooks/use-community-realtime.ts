@@ -36,18 +36,25 @@ export function useCommunityRealtime({
         }
 
         // Transform realtime payload to CommunityPostItem format
+        const rawUser = raw.user;
         const item: CommunityPostItem = {
           id: raw.id,
           content: raw.content ?? '',
           createdAt: raw.createdAt ?? new Date().toISOString(),
           hidden: false,
           tags: Array.isArray(raw.tags) ? raw.tags : [],
-          user: {
-            id: String(raw.userId ?? ''),
-            name: undefined,
-            email: undefined,
-            avatar: null,
-          },
+          user: rawUser
+            ? {
+                id: String(rawUser.id ?? raw.userId ?? ''),
+                name: rawUser.name ?? undefined,
+                avatar: rawUser.avatar ?? null,
+              }
+            : {
+                id: String(raw.userId ?? ''),
+                name: undefined,
+                email: undefined,
+                avatar: null,
+              },
         };
 
         const transformedPosts = transformCommunityPosts([item]);

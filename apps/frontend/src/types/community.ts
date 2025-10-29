@@ -24,6 +24,11 @@ export interface RealtimePostCreated {
   createdAt?: string;
   tags?: string[];
   userId?: string | number;
+  user?: {
+    id?: string;
+    name?: string | null;
+    avatar?: string | null;
+  };
 }
 
 export interface RealtimePostCreatedPayload {

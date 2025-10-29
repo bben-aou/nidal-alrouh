@@ -29,7 +29,7 @@ export function CreatePostCard({
   };
 
   return (
-    <Card className={className}>
+    <Card className={className} data-create-post>
       <CardHeader>
         <CardTitle className="text-lg">
           {t('dashboard.shareThoughts')}

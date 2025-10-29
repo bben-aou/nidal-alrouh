@@ -107,7 +107,9 @@
       "hidePostError": "فشل في إخفاء المنشور",
       "hidePostSuccess": "تم إخفاء المنشور بنجاح",
       "unhidePostError": "فشل في إظهار المنشور",
-      "unhidePostSuccess": "تم إظهار المنشور بنجاح"
+      "unhidePostSuccess": "تم إظهار المنشور بنجاح",
+      "createPostError": "فشل إنشاء المنشور",
+      "createPostSuccess": "تم إنشاء المنشور بنجاح"
     }
   }
 }

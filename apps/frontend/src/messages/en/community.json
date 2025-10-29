@@ -107,7 +107,9 @@
       "hidePostError": "Failed to hide post",
       "hidePostSuccess": "Post hidden successfully",
       "unhidePostError": "Failed to unhide post",
-      "unhidePostSuccess": "Post unhidden successfully"
+      "unhidePostSuccess": "Post unhidden successfully",
+      "createPostError": "Failed to create post",
+      "createPostSuccess": "Post created successfully"
     }
   }
 }

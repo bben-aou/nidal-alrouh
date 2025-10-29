@@ -43,7 +43,13 @@ export class CommunityService {
       user: { connect: { id: userId } },
     };
 
-    const post = await this.prisma.post.create({ data });
+    const post = await this.prisma.post.create({
+      data,
+      include: {
+        user: { select: { id: true, name: true } },
+        _count: { select: { likes: true, comments: true } },
+      },
+    });
 
     // Emit real-time event
     try {
@@ -79,7 +85,7 @@ export class CommunityService {
       take,
       ...(cursorId ? { cursor: { id: cursorId }, skip: 1 } : {}),
       include: {
-        user: { select: { id: true, name: true, email: true } },
+        user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
       },
     });
@@ -93,7 +99,7 @@ export class CommunityService {
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
       include: {
-        user: { select: { id: true, name: true, email: true } },
+        user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
       },
     });
@@ -142,7 +148,7 @@ export class CommunityService {
         ...(dto.locale !== undefined ? { locale: dto.locale } : {}),
       },
       include: {
-        user: { select: { id: true, name: true, email: true } },
+        user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
       },
     });

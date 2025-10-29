@@ -16,7 +16,7 @@ export const transformCommunityPosts = (
   apiPosts: CommunityPostItem[]
 ): Post[] => {
   return (apiPosts ?? []).map((p) => {
-    const authorLabel = p.user?.name ?? p.user?.email ?? 'Member';
+    const authorLabel = p.user?.name ?? 'Member';
     const avatarFallback = (authorLabel || 'U')
       .trim()
       .slice(0, 2)

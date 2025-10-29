@@ -27,7 +27,7 @@ export class CommunityGateway
   server!: Server;
 
   private readonly logger = new Logger(CommunityGateway.name);
-  private connectedUsers = new Map<string, string>(); // socketId -> userId
+  private readonly connectedUsers = new Map<string, string>();
 
   // Static instance for service access
   private static instance: CommunityGateway;

@@ -107,7 +107,9 @@
       "hidePostError": "Échec de masquer la publication",
       "hidePostSuccess": "Publication masquée avec succès",
       "unhidePostError": "Échec d'afficher la publication",
-      "unhidePostSuccess": "Publication affichée avec succès"
+      "unhidePostSuccess": "Publication affichée avec succès",
+      "createPostError": "Échec de la création de la publication",
+      "createPostSuccess": "Publication créée avec succès"
     }
   }
 }

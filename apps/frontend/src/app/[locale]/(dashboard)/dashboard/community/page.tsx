@@ -1,7 +1,7 @@
 'use client';
 
 import { Plus, Search, Filter, Calendar, MessageCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useState, useMemo, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -9,6 +9,7 @@ import {
   useHidePost,
   useUnhidePost,
   useGetPosts,
+  useCreatePost,
 } from '@/apis/community/queries';
 import { CommunityStats } from '@/components/community/CommunityStats';
 import { CreatePostCard } from '@/components/community/CreatePostCard';
@@ -31,8 +32,10 @@ import { type Post } from '@/types/community';
 
 export default function DashboardCommunityPage() {
   const t = useTranslations('community');
+  const locale = useLocale();
   const hidePostMutation = useHidePost();
   const unhidePostMutation = useUnhidePost();
+  const createPostMutation = useCreatePost();
 
   // Fetch server posts and seed local UI state
   const { posts: serverPosts, isLoading } = useGetPosts({
@@ -75,8 +78,19 @@ export default function DashboardCommunityPage() {
   const visiblePosts = useMemo(() => posts.filter((p) => !p.hidden), [posts]);
 
   const handlePostSubmit = (content: string) => {
-    // TODO: Implement post submission logic
-    console.log('New post:', content);
+    createPostMutation.mutate(
+      { content, tags: [], locale },
+      {
+        onSuccess: (resp) => {
+          toast.success(
+            resp?.message || t('dashboard.messages.createPostSuccess')
+          );
+        },
+        onError: (error) => {
+          toast.error(error.message || t('dashboard.messages.createPostError'));
+        },
+      }
+    );
   };
 
   const handlePostLike = (postId: string) => {
@@ -113,10 +127,12 @@ export default function DashboardCommunityPage() {
           setPosts((prev) =>
             prev.map((p) => (p.id === postId ? { ...p, hidden: false } : p))
           );
-          toast.error(error.message || t('messages.hidePostError'));
+          toast.error(error.message || t('dashboard.messages.hidePostError'));
         },
         onSuccess: (data) => {
-          toast.success(data.message || t('messages.hidePostSuccess'));
+          toast.success(
+            data.message || t('dashboard.messages.hidePostSuccess')
+          );
         },
       }
     );
@@ -136,10 +152,12 @@ export default function DashboardCommunityPage() {
           setPosts((prev) =>
             prev.map((p) => (p.id === postId ? { ...p, hidden: true } : p))
           );
-          toast.error(error.message || t('messages.unhidePostError'));
+          toast.error(error.message || t('dashboard.messages.unhidePostError'));
         },
         onSuccess: (data) => {
-          toast.success(data.message || t('messages.unhidePostSuccess'));
+          toast.success(
+            data.message || t('dashboard.messages.unhidePostSuccess')
+          );
         },
       }
     );
