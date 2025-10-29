@@ -4,10 +4,8 @@ import { Users, MessageCircle, Calendar, Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  mockCommunityStats,
-  type CommunityStats,
-} from '@/lib/mock-data/community';
+import { mockCommunityStats } from '@/lib/mock-data/community';
+import { type CommunityStats } from '@/types/community';
 
 interface CommunityStatsProps {
   className?: string;

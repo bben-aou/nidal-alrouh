@@ -13,10 +13,6 @@ export const JOURNAL_ENDPOINTS = {
 
   // Analytics endpoints
   ANALYTICS: '/journal/analytics',
-
-  // Future journal endpoints can be added here
-  // JOURNAL_ENTRIES: '/journal-entries',
-  // JOURNAL_EXPORT: '/journal/export',
 } as const;
 
 /**
@@ -45,6 +41,7 @@ export const COMMUNITY_ENDPOINTS = {
   POST_COMMENTS: (id: string) => `/community/posts/${id}/comments`,
   POST_REPORTS: (id: string) => `/community/posts/${id}/reports`,
   POST_HIDE: (id: string) => `/community/posts/${id}/hide`,
+  POST_UNHIDE: (id: string) => `/community/posts/${id}/unhide`,
 } as const;
 
 export type CommunityEndpoints = typeof COMMUNITY_ENDPOINTS;

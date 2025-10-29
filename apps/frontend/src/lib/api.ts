@@ -54,7 +54,8 @@ class ApiClient {
     // Build default headers without overriding user-provided values
     const defaultHeaders: HeadersInit = {};
 
-    if (options.body || (options.method && options.method !== 'DELETE')) {
+    // Only set Content-Type when there's actually a body to send
+    if (options.body) {
       defaultHeaders['Content-Type'] = 'application/json';
     }
 

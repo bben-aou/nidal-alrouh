@@ -82,6 +82,12 @@
     "filter": "Filter",
     "report": "Report",
     "hide": "Hide",
+    "unhide": "Unhide",
+    "hidden": "Hidden",
+    "undo": "Undo",
+    "hideError": "Failed to hide post. Please try again.",
+    "unhideError": "Failed to unhide post. Please try again.",
+    "unhiddenSuccess": "Post unhidden.",
     "share": "Share",
     "members": "members",
     "joined": "Joined",
@@ -90,6 +96,12 @@
     "upcomingEvents": "Upcoming Events",
     "eventsDescription": "Community events and support sessions",
     "noEvents": "No upcoming events",
-    "createEvent": "Create Event"
+    "createEvent": "Create Event",
+    "emptyState": {
+      "title": "No posts yet",
+      "description": "Be the first to share something with the community! Create a post to start the conversation.",
+      "createFirstPost": "Create First Post",
+      "loading": "Loading posts..."
+    }
   }
 }

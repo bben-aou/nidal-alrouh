@@ -13,16 +13,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { type Post } from '@/lib/mock-data/community';
+import { type Post } from '@/types/community';
 
 interface PostCardProps {
   post: Post;
   className?: string;
-  onLike?: (postId: number) => void;
-  onComment?: (postId: number) => void;
-  onShare?: (postId: number) => void;
-  onReport?: (postId: number) => void;
-  onHide?: (postId: number) => void;
+  onLike?: (postId: string) => void;
+  onComment?: (postId: string) => void;
+  onShare?: (postId: string) => void;
+  onReport?: (postId: string) => void;
+  onHide?: (postId: string) => void;
+  onUnhide?: (postId: string) => void;
 }
 
 export function PostCard({
@@ -33,6 +34,7 @@ export function PostCard({
   onShare,
   onReport,
   onHide,
+  onUnhide,
 }: Readonly<PostCardProps>) {
   const t = useTranslations('community');
 
@@ -60,9 +62,15 @@ export function PostCard({
               <DropdownMenuItem onClick={() => onReport?.(post.id)}>
                 {t('dashboard.report')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onHide?.(post.id)}>
-                {t('dashboard.hide')}
-              </DropdownMenuItem>
+              {post.hidden ? (
+                <DropdownMenuItem onClick={() => onUnhide?.(post.id)}>
+                  {t('dashboard.unhide')}
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={() => onHide?.(post.id)}>
+                  {t('dashboard.hide')}
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

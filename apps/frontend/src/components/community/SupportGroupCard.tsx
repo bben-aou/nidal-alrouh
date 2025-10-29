@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { type SupportGroup } from '@/lib/mock-data/community';
+import { type SupportGroup } from '@/types/community';
 
 interface SupportGroupCardProps {
   group: SupportGroup;

@@ -1,8 +1,15 @@
 'use client';
 
-import { Plus, Search, Filter, Calendar } from 'lucide-react';
+import { Plus, Search, Filter, Calendar, MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState, useMemo, useEffect } from 'react';
+import { toast } from 'sonner';
 
+import {
+  useHidePost,
+  useUnhidePost,
+  useGetPosts,
+} from '@/apis/community/queries';
 import { CommunityStats } from '@/components/community/CommunityStats';
 import { CreatePostCard } from '@/components/community/CreatePostCard';
 import { PostCard } from '@/components/community/PostCard';
@@ -17,39 +24,125 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { mockRecentPosts, mockSupportGroups } from '@/lib/mock-data/community';
+import { useCommunityRealtime } from '@/hooks/use-community-realtime';
+import { mockSupportGroups } from '@/lib/mock-data/community';
+import { transformCommunityPosts } from '@/lib/utils/community';
+import { type Post } from '@/types/community';
 
 export default function DashboardCommunityPage() {
-  const t = useTranslations('community');
+  const t = useTranslations('community.dashboard');
+  const hidePostMutation = useHidePost();
+  const unhidePostMutation = useUnhidePost();
+
+  // Fetch server posts and seed local UI state
+  const { posts: serverPosts, isLoading } = useGetPosts({
+    params: { limit: 20 },
+  });
+  const [posts, setPosts] = useState<Post[]>([]);
+  useEffect(() => {
+    if (serverPosts?.length) {
+      setPosts(transformCommunityPosts(serverPosts));
+    }
+  }, [serverPosts]);
+
+  // Realtime: handle post creation, hiding, and unhiding
+  useCommunityRealtime({
+    onPostCreated: (newPost) => {
+      setPosts((prev) => {
+        // Check if post already exists to prevent duplicates
+        const existingPost = prev.find((p) => p.id === newPost.id);
+        if (existingPost) {
+          return prev; // Don't add duplicate
+        }
+        return [newPost, ...prev];
+      });
+    },
+    onPostHidden: (postId) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId ? { ...post, hidden: true } : post
+        )
+      );
+    },
+    onPostUnhidden: (postId) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId ? { ...post, hidden: false } : post
+        )
+      );
+    },
+  });
+  const visiblePosts = useMemo(() => posts.filter((p) => !p.hidden), [posts]);
 
   const handlePostSubmit = (content: string) => {
     // TODO: Implement post submission logic
     console.log('New post:', content);
   };
 
-  const handlePostLike = (postId: number) => {
+  const handlePostLike = (postId: string) => {
     // TODO: Implement like functionality
     console.log('Liked post:', postId);
   };
 
-  const handlePostComment = (postId: number) => {
+  const handlePostComment = (postId: string) => {
     // TODO: Implement comment functionality
     console.log('Comment on post:', postId);
   };
 
-  const handlePostShare = (postId: number) => {
+  const handlePostShare = (postId: string) => {
     // TODO: Implement share functionality
     console.log('Share post:', postId);
   };
 
-  const handlePostReport = (postId: number) => {
+  const handlePostReport = (postId: string) => {
     // TODO: Implement report functionality
     console.log('Report post:', postId);
   };
 
-  const handlePostHide = (postId: number) => {
-    // TODO: Implement hide functionality
-    console.log('Hide post:', postId);
+  //TODO: make sure that the hidden post are gotten filtered out from the backend
+  const handlePostHide = (postId: string) => {
+    // Optimistically hide locally
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, hidden: true } : p))
+    );
+
+    hidePostMutation.mutate(
+      { postId },
+      {
+        onError: (error) => {
+          setPosts((prev) =>
+            prev.map((p) => (p.id === postId ? { ...p, hidden: false } : p))
+          );
+          toast.error(error.message || 'Failed to hide post');
+        },
+        onSuccess: (data) => {
+          toast.error(data.message || 'Post hidden successfully');
+        },
+      }
+    );
+  };
+
+  const handlePostUnhide = (postId: string) => {
+    // Optimistically unhide locally
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, hidden: false } : p))
+    );
+
+    unhidePostMutation.mutate(
+      { postId },
+      {
+        onError: (error) => {
+          // Roll back local change if API fails
+          setPosts((prev) =>
+            prev.map((p) => (p.id === postId ? { ...p, hidden: true } : p))
+          );
+          toast.error(error.message || 'Failed to unhide post');
+        },
+        onSuccess: (data) => {
+          toast.error(data.message || 'Post unhidden successfully');
+        },
+      }
+    );
   };
 
   const handleJoinGroup = (groupName: string) => {
@@ -88,7 +181,9 @@ export default function DashboardCommunityPage() {
 
         <TabsContent value="feed" className="space-y-4">
           {/* Create Post */}
-          <CreatePostCard onPostSubmit={handlePostSubmit} />
+          <div data-create-post>
+            <CreatePostCard onPostSubmit={handlePostSubmit} />
+          </div>
 
           {/* Search and Filter */}
           <div className="flex gap-4">
@@ -107,17 +202,50 @@ export default function DashboardCommunityPage() {
 
           {/* Posts Feed */}
           <div className="space-y-4">
-            {mockRecentPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                onLike={handlePostLike}
-                onComment={handlePostComment}
-                onShare={handlePostShare}
-                onReport={handlePostReport}
-                onHide={handlePostHide}
-              />
-            ))}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="text-muted-foreground">
+                  {t('emptyState.loading')}
+                </div>
+              </div>
+            ) : visiblePosts.length > 0 ? (
+              visiblePosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  onLike={handlePostLike}
+                  onComment={handlePostComment}
+                  onShare={handlePostShare}
+                  onReport={handlePostReport}
+                  onHide={handlePostHide}
+                  onUnhide={handlePostUnhide}
+                />
+              ))
+            ) : (
+              <Card className="border-dashed">
+                <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                  <MessageCircle className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">
+                    {t('emptyState.title')}
+                  </h3>
+                  <p className="text-muted-foreground mb-4 max-w-sm">
+                    {t('emptyState.description')}
+                  </p>
+                  <Button
+                    onClick={() => {
+                      // Focus on the create post card
+                      const createPostElement =
+                        document.querySelector('[data-create-post]');
+                      createPostElement?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="mt-2"
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    {t('emptyState.createFirstPost')}
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </TabsContent>
 

@@ -9,6 +9,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/contexts/auth-context';
+import { SocketProvider } from '@/contexts/socket-context';
 import { routing } from '@/i18n/routing';
 
 import type { Metadata } from 'next';
@@ -47,11 +48,13 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
             <AuthProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                {children}
-              </TooltipProvider>
+              <SocketProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Sonner />
+                  {children}
+                </TooltipProvider>
+              </SocketProvider>
             </AuthProvider>
           </ReactQueryProvider>
         </NextIntlClientProvider>

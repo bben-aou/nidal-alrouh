@@ -1,29 +1,4 @@
-export interface CommunityStats {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  change: string;
-  color: string;
-}
-
-export interface Post {
-  id: number;
-  author: string;
-  avatar: string;
-  time: string;
-  content: string;
-  likes: number;
-  comments: number;
-  tags: string[];
-}
-
-export interface SupportGroup {
-  name: string;
-  members: number;
-  description: string;
-  nextMeeting: string;
-  isJoined: boolean;
-}
+import { CommunityStats, Post, SupportGroup } from '@/types/community';
 
 export const mockCommunityStats: Omit<CommunityStats, 'icon' | 'label'>[] = [
   {
@@ -50,7 +25,7 @@ export const mockCommunityStats: Omit<CommunityStats, 'icon' | 'label'>[] = [
 
 export const mockRecentPosts: Post[] = [
   {
-    id: 1,
+    id: '1',
     author: 'Sarah M.',
     avatar: 'SM',
     time: '2 hours ago',
@@ -59,9 +34,10 @@ export const mockRecentPosts: Post[] = [
     likes: 24,
     comments: 8,
     tags: ['therapy', 'hope'],
+    hidden: false,
   },
   {
-    id: 2,
+    id: '2',
     author: 'Ahmed K.',
     avatar: 'AK',
     time: '4 hours ago',
@@ -70,9 +46,10 @@ export const mockRecentPosts: Post[] = [
     likes: 15,
     comments: 12,
     tags: ['anxiety', 'career'],
+    hidden: false,
   },
   {
-    id: 3,
+    id: '3',
     author: 'Maria L.',
     avatar: 'ML',
     time: '6 hours ago',
@@ -81,6 +58,7 @@ export const mockRecentPosts: Post[] = [
     likes: 42,
     comments: 6,
     tags: ['meditation', 'milestone'],
+    hidden: false,
   },
 ];
 
