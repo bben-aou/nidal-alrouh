@@ -77,9 +77,18 @@ export default function DashboardCommunityPage() {
   });
   const visiblePosts = useMemo(() => posts.filter((p) => !p.hidden), [posts]);
 
-  const handlePostSubmit = (content: string) => {
+  const handlePostSubmit = (data: {
+    content: string;
+    tags: string[];
+    isAnonymous: boolean;
+  }) => {
     createPostMutation.mutate(
-      { content, tags: [], locale },
+      {
+        content: data.content,
+        tags: data.tags,
+        locale,
+        isAnonymous: data.isAnonymous,
+      },
       {
         onSuccess: (resp) => {
           toast.success(

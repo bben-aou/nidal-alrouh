@@ -9,6 +9,8 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+import { extractTokenFromSocket } from '../common/utils/token.utils';
+
 interface AuthenticatedSocket extends Socket {
   userId?: string;
 }
@@ -46,19 +48,20 @@ export class CommunityGateway
 
   async handleConnection(client: AuthenticatedSocket) {
     try {
-      // Extract token from handshake auth
-      const token =
-        client.handshake.auth?.token ||
-        client.handshake.headers?.authorization?.replace('Bearer ', '');
+      const tokenLocation = extractTokenFromSocket(client);
 
-      if (!token) {
+      if (!tokenLocation) {
         this.logger.warn(`Client ${client.id} connected without token`);
         client.disconnect();
         return;
       }
 
+      this.logger.debug(
+        `Client ${client.id} authenticated using token from ${tokenLocation.source}`
+      );
+
       // Verify JWT token
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync(tokenLocation.value);
       const userId = payload.sub as string;
       client.userId = userId;
 
@@ -71,8 +74,7 @@ export class CommunityGateway
       await client.join(`user:${userId}`);
     } catch (error: any) {
       this.logger.error(
-        `Authentication failed for client ${client.id}:`,
-        error?.message || 'Unknown error'
+        `Authentication failed for client ${client.id}: ${error?.message || 'Unknown error'}`
       );
       client.disconnect();
     }

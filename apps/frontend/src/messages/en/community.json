@@ -75,9 +75,14 @@
       "groups": "Groups",
       "events": "Events"
     },
-    "shareThoughts": "Share your thoughts",
-    "postPlaceholder": "Write something supportive or ask a question...",
+    "shareThoughts": "Share Your Thoughts",
+    "postPlaceholder": "What's on your mind?",
     "post": "Post",
+    "tags": "Tags",
+    "tagsPlaceholder": "Add tags (press Enter after each tag)",
+    "tagsInstruction": "Press Enter after each tag. Maximum 5 tags.",
+    "postAnonymously": "Post Anonymously",
+    "addMoreTags": "Add more tags...",
     "searchPosts": "Search posts...",
     "filter": "Filter",
     "report": "Report",
@@ -111,5 +116,11 @@
       "createPostError": "Failed to create post",
       "createPostSuccess": "Post created successfully"
     }
+  },
+  "validation": {
+    "contentRequired": "Content is required",
+    "contentMinLength": "Content must be at least 10 characters",
+    "contentMaxLength": "Content cannot exceed 5000 characters",
+    "tagsMaxCount": "You can add up to 10 tags"
   }
 }

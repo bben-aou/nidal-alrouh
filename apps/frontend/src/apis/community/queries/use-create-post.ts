@@ -13,6 +13,7 @@ export const CREATE_POST_KEY = 'CREATE_POST_KEY';
 export interface CreatePostRequestBody {
   content: string;
   tags?: string[];
+  isAnonymous?: boolean;
   locale: string;
 }
 

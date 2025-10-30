@@ -1,3 +1,8 @@
+import { KeyboardEvent, ChangeEvent } from 'react';
+import { UseFormRegisterReturn, FieldError } from 'react-hook-form';
+
+import { CreatePostFormData } from '@/lib/validations/community';
+
 export interface CommunityPostItem {
   id: string | number;
   content: string;
@@ -80,4 +85,55 @@ export interface SupportGroup {
   description: string;
   nextMeeting: string;
   isJoined: boolean;
+}
+
+// ============================================================================
+// Component Props Interfaces
+// ============================================================================
+
+/**
+ * Props for the AnonymousToggle component
+ */
+export interface AnonymousToggleProps {
+  isAnonymous: boolean;
+  onToggle: (checked: boolean) => void;
+}
+
+/**
+ * Props for the PostContentInput component
+ */
+export interface PostContentInputProps {
+  register: UseFormRegisterReturn;
+  error?: FieldError;
+}
+
+/**
+ * Props for the TagsSection component
+ */
+export interface TagsSectionProps {
+  tags: string[];
+  tagInput: string;
+  isTagInputFocused: boolean;
+  error?: { message?: string };
+  onRemoveTag: (index: number) => void;
+  onTagInputKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
+  onTagInputBlur: () => void;
+  onTagInputFocus: () => void;
+  onTagInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+/**
+ * Props for the SubmitButton component
+ */
+export interface SubmitButtonProps {
+  isValid: boolean;
+  hasContent: boolean;
+}
+
+/**
+ * Props for the CreatePostCard component
+ */
+export interface CreatePostCardProps {
+  className?: string;
+  onPostSubmit?: (data: CreatePostFormData) => void;
 }

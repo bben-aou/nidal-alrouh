@@ -1,58 +1,83 @@
 'use client';
 
-import { Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
+import { useCreatePostForm } from '@/hooks/useCreatePostForm';
+import { cn } from '@/lib/utils';
+import { CreatePostCardProps } from '@/types/community';
 
-interface CreatePostCardProps {
-  className?: string;
-  onPostSubmit?: (content: string) => void;
-}
+import { AnonymousToggle } from './anonymous-toggle';
+import { PostContentInput } from './post-content-input';
+import { SubmitButton } from './submit-button';
+import { TagsSection } from './tags-section';
 
 export function CreatePostCard({
   className,
   onPostSubmit,
 }: Readonly<CreatePostCardProps>) {
   const t = useTranslations('community');
-  const [newPost, setNewPost] = useState('');
 
-  const handleSubmit = () => {
-    if (newPost.trim()) {
-      onPostSubmit?.(newPost);
-      setNewPost('');
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    errors,
+    isValid,
+    watchedContent,
+    watchedTags,
+    watchedIsAnonymous,
+    tagInput,
+    isTagInputFocused,
+    removeTag,
+    handleTagInputKeyDown,
+    handleTagInputBlur,
+    handleTagInputFocus,
+    handleTagInputChange,
+    handleAnonymousToggle,
+  } = useCreatePostForm({ onPostSubmit });
 
   return (
-    <Card className={className} data-create-post>
-      <CardHeader>
-        <CardTitle className="text-lg">
-          {t('dashboard.shareThoughts')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <Textarea
-          placeholder={t('dashboard.postPlaceholder')}
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-          className="min-h-[100px]"
-        />
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Badge variant="secondary">#support</Badge>
-            <Badge variant="secondary">#mentalhealth</Badge>
-          </div>
-          <Button disabled={!newPost.trim()} onClick={handleSubmit}>
-            <Send className="mr-2 h-4 w-4" />
-            {t('dashboard.post')}
-          </Button>
+    <Card
+      className={cn('transition-all duration-200 hover:shadow-md', className)}
+    >
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold">
+            {t('dashboard.shareThoughts')}
+          </CardTitle>
+
+          <AnonymousToggle
+            isAnonymous={watchedIsAnonymous}
+            onToggle={handleAnonymousToggle}
+          />
         </div>
-      </CardContent>
+      </CardHeader>
+
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          <PostContentInput
+            register={register('content')}
+            error={errors.content}
+          />
+
+          <TagsSection
+            tags={watchedTags}
+            tagInput={tagInput}
+            isTagInputFocused={isTagInputFocused}
+            error={errors.tags}
+            onRemoveTag={removeTag}
+            onTagInputKeyDown={handleTagInputKeyDown}
+            onTagInputBlur={handleTagInputBlur}
+            onTagInputFocus={handleTagInputFocus}
+            onTagInputChange={handleTagInputChange}
+          />
+
+          <SubmitButton
+            isValid={isValid}
+            hasContent={!!watchedContent.trim()}
+          />
+        </CardContent>
+      </form>
     </Card>
   );
 }

@@ -76,8 +76,13 @@
       "events": "الأحداث"
     },
     "shareThoughts": "شارك أفكارك",
-    "postPlaceholder": "اكتب شيئًا داعمًا أو اطرح سؤالًا...",
+    "postPlaceholder": "ما الذي يدور في ذهنك؟",
     "post": "نشر",
+    "tags": "الوسوم",
+    "tagsPlaceholder": "أضف وسوم (اضغط Enter بعد كل وسم)",
+    "tagsInstruction": "اضغط Enter بعد كل وسم. الحد الأقصى 5 وسوم.",
+    "postAnonymously": "نشر بشكل مجهول",
+    "addMoreTags": "إضافة المزيد من الوسوم...",
     "searchPosts": "ابحث في المنشورات...",
     "filter": "تصفية",
     "report": "إبلاغ",
@@ -108,8 +113,14 @@
       "hidePostSuccess": "تم إخفاء المنشور بنجاح",
       "unhidePostError": "فشل في إظهار المنشور",
       "unhidePostSuccess": "تم إظهار المنشور بنجاح",
-      "createPostError": "فشل إنشاء المنشور",
+      "createPostError": "فشل في إنشاء المنشور",
       "createPostSuccess": "تم إنشاء المنشور بنجاح"
     }
+  },
+  "validation": {
+    "contentRequired": "المحتوى مطلوب",
+    "contentMinLength": "يجب أن يحتوي المحتوى على 10 أحرف على الأقل",
+    "contentMaxLength": "لا يمكن أن يتجاوز المحتوى 5000 حرف",
+    "tagsMaxCount": "يمكنك إضافة ما يصل إلى 10 وسوم"
   }
 }

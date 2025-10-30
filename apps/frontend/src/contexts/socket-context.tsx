@@ -58,10 +58,12 @@ export function SocketProvider({ children }: Readonly<SocketProviderProps>) {
     });
 
     newSocket.on('connect', () => {
+      console.log('[socket debug ] : socket connected  ✅ ');
       setIsConnected(true);
     });
 
     newSocket.on('disconnect', () => {
+      console.log('[socket debug ] : socket disconnected  ❌ ');
       setIsConnected(false);
     });
 

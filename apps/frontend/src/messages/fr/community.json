@@ -75,9 +75,14 @@
       "groups": "Groupes",
       "events": "Événements"
     },
-    "shareThoughts": "Partagez vos pensées",
-    "postPlaceholder": "Écrivez quelque chose de bienveillant ou posez une question...",
+    "shareThoughts": "Partagez Vos Pensées",
+    "postPlaceholder": "Qu'avez-vous en tête?",
     "post": "Publier",
+    "tags": "Tags",
+    "tagsPlaceholder": "Ajouter des tags (appuyez sur Entrée après chaque tag)",
+    "tagsInstruction": "Appuyez sur Entrée après chaque tag. Maximum 5 tags.",
+    "postAnonymously": "Publier Anonymement",
+    "addMoreTags": "Ajouter plus de tags...",
     "searchPosts": "Rechercher des publications...",
     "filter": "Filtrer",
     "report": "Signaler",
@@ -111,5 +116,11 @@
       "createPostError": "Échec de la création de la publication",
       "createPostSuccess": "Publication créée avec succès"
     }
+  },
+  "validation": {
+    "contentRequired": "Le contenu est requis",
+    "contentMinLength": "Le contenu doit contenir au moins 10 caractères",
+    "contentMaxLength": "Le contenu ne peut pas dépasser 5000 caractères",
+    "tagsMaxCount": "Vous pouvez ajouter jusqu'à 10 tags"
   }
 }
