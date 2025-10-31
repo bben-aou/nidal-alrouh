@@ -37,6 +37,10 @@ export default function DashboardCommunityPage() {
   const unhidePostMutation = useUnhidePost();
   const createPostMutation = useCreatePost();
 
+  const [activeTab, setActiveTab] = useState<'feed' | 'groups' | 'events'>(
+    'feed'
+  );
+
   // Fetch server posts and seed local UI state
   const { posts: serverPosts, isLoading } = useGetPosts({
     params: { limit: 20 },
@@ -183,6 +187,31 @@ export default function DashboardCommunityPage() {
     console.log('View group:', groupName);
   };
 
+  const triggerCreatePostComposer = () => {
+    setActiveTab('feed');
+
+    setTimeout(() => {
+      const createPostElement = document.querySelector('[data-create-post]');
+      if (!createPostElement) return;
+
+      createPostElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const textarea = createPostElement.querySelector(
+        'textarea'
+      ) as HTMLTextAreaElement | null;
+      textarea?.focus();
+
+      const cardElement =
+        createPostElement.firstElementChild as HTMLElement | null;
+      if (cardElement) {
+        cardElement.classList.add('ring-2', 'ring-primary');
+        setTimeout(() => {
+          cardElement.classList.remove('ring-2', 'ring-primary');
+        }, 1200);
+      }
+    }, 10);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -191,7 +220,7 @@ export default function DashboardCommunityPage() {
           <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
           <p className="text-muted-foreground">{t('dashboard.description')}</p>
         </div>
-        <Button className="w-fit">
+        <Button className="w-fit" onClick={triggerCreatePostComposer}>
           <Plus className="mr-2 h-4 w-4" />
           {t('dashboard.createPost')}
         </Button>
@@ -200,7 +229,11 @@ export default function DashboardCommunityPage() {
       {/* Stats */}
       <CommunityStats />
 
-      <Tabs defaultValue="feed" className="space-y-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as 'feed' | 'groups' | 'events')}
+        className="space-y-4"
+      >
         <TabsList>
           <TabsTrigger value="feed">{t('dashboard.tabs.feed')}</TabsTrigger>
           <TabsTrigger value="groups">{t('dashboard.tabs.groups')}</TabsTrigger>
@@ -259,15 +292,7 @@ export default function DashboardCommunityPage() {
                   <p className="text-muted-foreground mb-4 max-w-sm">
                     {t('dashboard.emptyState.description')}
                   </p>
-                  <Button
-                    onClick={() => {
-                      // Focus on the create post card
-                      const createPostElement =
-                        document.querySelector('[data-create-post]');
-                      createPostElement?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="mt-2"
-                  >
+                  <Button onClick={triggerCreatePostComposer} className="mt-2">
                     <Plus className="mr-2 h-4 w-4" />
                     {t('dashboard.emptyState.createFirstPost')}
                   </Button>
