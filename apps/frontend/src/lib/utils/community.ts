@@ -30,6 +30,7 @@ export const transformCommunityPosts = (
       comments: p.commentsCount ?? p.comments?.length ?? 0,
       tags: p.tags ?? [],
       hidden: p.hidden,
+      likedByMe: !!p.likedByMe,
     };
   });
 };

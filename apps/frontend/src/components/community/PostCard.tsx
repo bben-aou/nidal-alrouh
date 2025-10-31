@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 import { type Post } from '@/types/community';
 
 interface PostCardProps {
@@ -85,9 +86,31 @@ export function PostCard({
           ))}
         </div>
         <div className="flex items-center gap-4 pt-2 border-t">
-          <Button variant="ghost" size="sm" onClick={() => onLike?.(post.id)}>
-            <ThumbsUp className="mr-2 h-4 w-4" />
-            {post.likes}
+          <Button
+            variant={post.likedByMe ? 'default' : 'ghost'}
+            size="sm"
+            aria-pressed={post.likedByMe}
+            onClick={() => onLike?.(post.id)}
+            className="group transition-all duration-200 ease-in-out"
+          >
+            <ThumbsUp
+              className={cn(
+                'mr-2 h-4 w-4 transition-all duration-200',
+                post.likedByMe
+                  ? 'text-primary-foreground scale-110'
+                  : 'text-muted-foreground group-hover:text-primary/80'
+              )}
+            />
+            <span
+              className={cn(
+                'transition-colors duration-200',
+                post.likedByMe
+                  ? 'text-primary-foreground'
+                  : 'text-muted-foreground group-hover:text-foreground'
+              )}
+            >
+              {post.likes}
+            </span>
           </Button>
           <Button
             variant="ghost"

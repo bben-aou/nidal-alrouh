@@ -86,6 +86,7 @@ export class CommunityService {
     const sanitized = this.sanitizePost({
       ...post,
       isOwner: true, // User is always the owner of their own created post
+      likedByMe: false,
     });
 
     // Emit real-time event
@@ -127,11 +128,26 @@ export class CommunityService {
       },
     });
 
+    const likedPosts = await this.prisma.postLike.findMany({
+      where: {
+        userId: currentUserId,
+        postId: { in: posts.map((p) => p.id) },
+      },
+      select: { postId: true },
+    });
+    const likedSet = new Set(likedPosts.map((l) => l.postId));
+
     const sanitizedItems = posts.map((p) => {
       const isOwner = p.userId === currentUserId;
+      const likedByMe = likedSet.has(p.id);
+      const likesCount = p._count?.likes ?? 0;
+      const commentsCount = p._count?.comments ?? 0;
       return this.sanitizePost({
         ...p,
         isOwner,
+        likedByMe,
+        likesCount,
+        commentsCount,
       });
     });
     const nextCursor =
@@ -152,10 +168,22 @@ export class CommunityService {
       throw new NotFoundException('Post not found');
     }
 
+    const likedByMe = currentUserId
+      ? !!(await this.prisma.postLike.findFirst({
+          where: { userId: currentUserId, postId },
+          select: { id: true },
+        }))
+      : false;
+    const likesCount = post._count?.likes ?? 0;
+    const commentsCount = post._count?.comments ?? 0;
+
     return {
       data: this.sanitizePost({
         ...post,
         isOwner: currentUserId ? post.userId === currentUserId : false,
+        likedByMe,
+        likesCount,
+        commentsCount,
       }),
     };
   }

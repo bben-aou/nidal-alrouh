@@ -11,6 +11,7 @@ export interface CommunityPostItem {
   tags: string[];
   isAnonymous?: boolean;
   isOwner?: boolean;
+  likedByMe?: boolean;
   // Some APIs return counts, others return arrays; support both.
   likesCount?: number;
   commentsCount?: number;
@@ -79,6 +80,7 @@ export interface Post {
   comments: number;
   tags: string[];
   hidden: boolean;
+  likedByMe?: boolean;
 }
 
 // Support group interface

@@ -10,6 +10,8 @@ import {
   useUnhidePost,
   useGetPosts,
   useCreatePost,
+  useLikePost,
+  useUnlikePost,
 } from '@/apis/community/queries';
 import { CommunityStats } from '@/components/community/CommunityStats';
 import { CreatePostCard } from '@/components/community/CreatePostCard';
@@ -25,6 +27,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/contexts/auth-context';
 import { useCommunityRealtime } from '@/hooks/use-community-realtime';
 import { mockSupportGroups } from '@/lib/mock-data/community';
 import { transformCommunityPosts } from '@/lib/utils/community';
@@ -36,6 +39,9 @@ export default function DashboardCommunityPage() {
   const hidePostMutation = useHidePost();
   const unhidePostMutation = useUnhidePost();
   const createPostMutation = useCreatePost();
+  const likePostMutation = useLikePost();
+  const unlikePostMutation = useUnlikePost();
+  const { user } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'feed' | 'groups' | 'events'>(
     'feed'
@@ -52,6 +58,10 @@ export default function DashboardCommunityPage() {
     }
   }, [serverPosts, t]);
 
+  const visiblePostIds = useMemo(
+    () => posts.filter((p) => !p.hidden).map((p) => p.id.toString()),
+    [posts]
+  );
   // Realtime: handle post creation, hiding, and unhiding
   useCommunityRealtime({
     onPostCreated: (newPost) => {
@@ -78,6 +88,42 @@ export default function DashboardCommunityPage() {
         )
       );
     },
+    onPostLiked: ({ postId, userId, likeCount }) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: likeCount,
+                // Only update likedByMe if this is the current user's action
+                likedByMe: user?.id
+                  ? userId === user.id
+                    ? true
+                    : post.likedByMe
+                  : post.likedByMe,
+              }
+            : post
+        )
+      );
+    },
+    onPostUnliked: ({ postId, userId, likeCount }) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: likeCount,
+                likedByMe: user?.id
+                  ? userId === user.id
+                    ? false
+                    : post.likedByMe
+                  : post.likedByMe,
+              }
+            : post
+        )
+      );
+    },
+    postIds: visiblePostIds,
     t,
   });
   const visiblePosts = useMemo(() => posts.filter((p) => !p.hidden), [posts]);
@@ -108,8 +154,67 @@ export default function DashboardCommunityPage() {
   };
 
   const handlePostLike = (postId: string) => {
-    // TODO: Implement like functionality
-    console.log('Liked post:', postId);
+    const target = posts.find((p) => p.id === postId);
+    const isLiked = target?.likedByMe ?? false;
+
+    // Optimistic local update
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === postId
+          ? {
+              ...p,
+              likedByMe: !isLiked,
+              likes: Math.max(0, (p.likes ?? 0) + (isLiked ? -1 : 1)),
+            }
+          : p
+      )
+    );
+
+    if (isLiked) {
+      unlikePostMutation.mutate(
+        { postId },
+        {
+          onError: (error) => {
+            // Rollback on error
+            setPosts((prev) =>
+              prev.map((p) =>
+                p.id === postId
+                  ? {
+                      ...p,
+                      likedByMe: true,
+                      likes: (p.likes ?? 0) + 1,
+                    }
+                  : p
+              )
+            );
+            toast.error(
+              error.message || t('dashboard.messages.unlikePostError')
+            );
+          },
+        }
+      );
+    } else {
+      likePostMutation.mutate(
+        { postId },
+        {
+          onError: (error) => {
+            // Rollback on error
+            setPosts((prev) =>
+              prev.map((p) =>
+                p.id === postId
+                  ? {
+                      ...p,
+                      likedByMe: false,
+                      likes: Math.max(0, (p.likes ?? 0) - 1),
+                    }
+                  : p
+              )
+            );
+            toast.error(error.message || t('dashboard.messages.likePostError'));
+          },
+        }
+      );
+    }
   };
 
   const handlePostComment = (postId: string) => {

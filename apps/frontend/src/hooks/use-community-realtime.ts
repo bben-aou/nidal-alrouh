@@ -15,6 +15,17 @@ interface UseCommunityRealtimeProps {
   onPostCreated?: (post: Post) => void;
   onPostHidden?: (postId: string) => void;
   onPostUnhidden?: (postId: string) => void;
+  onPostLiked?: (payload: {
+    postId: string;
+    userId: string;
+    likeCount: number;
+  }) => void;
+  onPostUnliked?: (payload: {
+    postId: string;
+    userId: string;
+    likeCount: number;
+  }) => void;
+  postIds?: string[];
   t: (key: string) => string;
 }
 
@@ -22,6 +33,9 @@ export function useCommunityRealtime({
   onPostCreated,
   onPostHidden,
   onPostUnhidden,
+  onPostLiked,
+  onPostUnliked,
+  postIds,
   t,
 }: UseCommunityRealtimeProps) {
   const socket = useSocket();
@@ -105,14 +119,106 @@ export function useCommunityRealtime({
       }
     };
 
+    const handlePostLiked = (payload: {
+      postId: string;
+      userId: string;
+      likeCount: number;
+      timestamp: string;
+    }) => {
+      try {
+        if (onPostLiked && payload?.postId) {
+          onPostLiked({
+            postId: payload.postId,
+            userId: payload.userId,
+            likeCount: payload.likeCount,
+          });
+        }
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error handling post.liked:',
+          error
+        );
+      }
+    };
+
+    const handlePostUnliked = (payload: {
+      postId: string;
+      userId: string;
+      likeCount: number;
+      timestamp: string;
+    }) => {
+      try {
+        if (onPostUnliked && payload?.postId) {
+          onPostUnliked({
+            postId: payload.postId,
+            userId: payload.userId,
+            likeCount: payload.likeCount,
+          });
+        }
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error handling post.unliked:',
+          error
+        );
+      }
+    };
+
     socket.on('post.created', handlePostCreated);
     socket.on('post.hidden', handlePostHidden);
     socket.on('post.unhidden', handlePostUnhidden);
+    socket.on('post.liked', handlePostLiked);
+    socket.on('post.unliked', handlePostUnliked);
 
     return () => {
       socket.off('post.created', handlePostCreated);
       socket.off('post.hidden', handlePostHidden);
       socket.off('post.unhidden', handlePostUnhidden);
+      socket.off('post.liked', handlePostLiked);
+      socket.off('post.unliked', handlePostUnliked);
     };
-  }, [socket, onPostCreated, onPostHidden, onPostUnhidden]);
+  }, [
+    socket,
+    onPostCreated,
+    onPostHidden,
+    onPostUnhidden,
+    onPostLiked,
+    onPostUnliked,
+  ]);
+
+  // Join/leave post rooms for like/unlike realtime updates
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+    const ids = (postIds ?? []).map((id) => id.toString());
+    if (ids.length === 0) {
+      return;
+    }
+
+    ids.forEach((id) => {
+      try {
+        socket.emit('join-post', { postId: id });
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error joining post room:',
+          id,
+          error
+        );
+      }
+    });
+
+    return () => {
+      ids.forEach((id) => {
+        try {
+          socket.emit('leave-post', { postId: id });
+        } catch (error) {
+          console.error(
+            '[useCommunityRealtime] Error leaving post room:',
+            id,
+            error
+          );
+        }
+      });
+    };
+  }, [socket, postIds]);
 }
