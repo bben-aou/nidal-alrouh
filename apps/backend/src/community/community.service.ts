@@ -24,6 +24,38 @@ export class CommunityService {
     private readonly contentModeration: ContentModerationService
   ) {}
 
+  // Sanitize post before returning or emitting: redact user for anonymous posts
+  private sanitizePost<
+    P extends {
+      isAnonymous?: boolean;
+      user?: unknown | null;
+      isOwner?: boolean;
+    } & Record<string, unknown>,
+  >(post: P): P {
+    if (!post || !post.isAnonymous) return post;
+    const copy = { ...post, user: null } as P;
+    if ('userId' in copy) {
+      delete (copy as Record<string, unknown>).userId;
+    }
+    return copy;
+  }
+
+  // Sanitize comment before returning or emitting: redact user for anonymous comments
+  private sanitizeComment<
+    C extends {
+      isAnonymous?: boolean;
+      user?: unknown | null;
+      isOwner?: boolean;
+    } & Record<string, unknown>,
+  >(comment: C): C {
+    if (!comment || !comment.isAnonymous) return comment;
+    const copy = { ...comment, user: null } as C;
+    if ('userId' in copy) {
+      delete (copy as Record<string, unknown>).userId;
+    }
+    return copy;
+  }
+
   async createPost(userId: string, dto: CreatePostDto) {
     // Content moderation validation
     this.contentModeration.validatePostContent(dto.content);
@@ -51,12 +83,17 @@ export class CommunityService {
       },
     });
 
+    const sanitized = this.sanitizePost({
+      ...post,
+      isOwner: true, // User is always the owner of their own created post
+    });
+
     // Emit real-time event
     try {
       const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
-        gateway.emitPostCreated(post);
+        gateway.emitPostCreated(sanitized);
       }
     } catch (error: any) {
       const errMsg = error?.message || 'Unknown error';
@@ -66,10 +103,10 @@ export class CommunityService {
       );
     }
 
-    return post;
+    return sanitized;
   }
 
-  async getPosts(query: GetPostsQueryDto) {
+  async getPosts(query: GetPostsQueryDto, currentUserId: string) {
     const take = query.limit ?? 20;
     const cursorId = query.cursor;
 
@@ -90,12 +127,19 @@ export class CommunityService {
       },
     });
 
+    const sanitizedItems = posts.map((p) => {
+      const isOwner = p.userId === currentUserId;
+      return this.sanitizePost({
+        ...p,
+        isOwner,
+      });
+    });
     const nextCursor =
       posts.length === take ? posts[posts.length - 1]?.id : undefined;
-    return { items: posts, nextCursor };
+    return { items: sanitizedItems, nextCursor };
   }
 
-  async getPostById(postId: string) {
+  async getPostById(postId: string, currentUserId?: string) {
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
       include: {
@@ -108,7 +152,12 @@ export class CommunityService {
       throw new NotFoundException('Post not found');
     }
 
-    return { data: post };
+    return {
+      data: this.sanitizePost({
+        ...post,
+        isOwner: currentUserId ? post.userId === currentUserId : false,
+      }),
+    };
   }
 
   async updatePost(
@@ -152,12 +201,13 @@ export class CommunityService {
         _count: { select: { likes: true, comments: true } },
       },
     });
+    const sanitized = this.sanitizePost(updated);
     // Emit real-time event
     try {
       const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
-        gateway.emitPostUpdated(postId, updated);
+        gateway.emitPostUpdated(postId, sanitized);
       }
     } catch (error: any) {
       const errMsg = error?.message || 'Unknown error';
@@ -166,7 +216,7 @@ export class CommunityService {
         error?.stack
       );
     }
-    return { data: updated, message: 'Post updated' };
+    return { data: sanitized, message: 'Post updated' };
   }
 
   async deletePost(userId: string, postId: string) {
@@ -436,12 +486,17 @@ export class CommunityService {
       },
     });
 
+    const sanitized = this.sanitizeComment({
+      ...comment,
+      isOwner: true, // User is always the owner of their own created comment
+    });
+
     // Emit real-time event
     try {
       const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
-        gateway.emitCommentCreated(postId, comment);
+        gateway.emitCommentCreated(postId, sanitized);
       }
     } catch (error: any) {
       const errMsg = error?.message || 'Unknown error';
@@ -451,10 +506,14 @@ export class CommunityService {
       );
     }
 
-    return comment;
+    return sanitized;
   }
 
-  async getComments(postId: string, query: GetCommentsQueryDto) {
+  async getComments(
+    postId: string,
+    query: GetCommentsQueryDto,
+    currentUserId?: string
+  ) {
     // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
@@ -487,9 +546,15 @@ export class CommunityService {
       },
     });
 
+    const sanitizedItems = comments.map((c) =>
+      this.sanitizeComment({
+        ...c,
+        isOwner: currentUserId ? c.userId === currentUserId : false,
+      })
+    );
     const nextCursor =
       comments.length === take ? comments[comments.length - 1]?.id : undefined;
-    return { items: comments, nextCursor };
+    return { items: sanitizedItems, nextCursor };
   }
 
   async deleteComment(userId: string, postId: string, commentId: string) {

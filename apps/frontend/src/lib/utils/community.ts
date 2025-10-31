@@ -1,47 +1,35 @@
-import { formatDistanceToNow, isValid, parseISO } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 
 import { type CommunityPostItem, type Post } from '@/types/community';
 
-const toRelativeTime = (iso: string): string => {
-  try {
-    const date = parseISO(iso);
-    if (!isValid(date)) return '';
-    return formatDistanceToNow(date, { addSuffix: true });
-  } catch {
-    return '';
-  }
-};
+type TranslationFunction = (key: string) => string;
 
 export const transformCommunityPosts = (
-  apiPosts: CommunityPostItem[]
+  apiPosts: CommunityPostItem[],
+  t: TranslationFunction
 ): Post[] => {
   return (apiPosts ?? []).map((p) => {
-    const authorLabel = p.user?.name ?? 'Member';
-    const avatarFallback = (authorLabel || 'U')
-      .trim()
-      .slice(0, 2)
-      .toUpperCase();
+    const authorLabel = p.isAnonymous
+      ? p.isOwner
+        ? t('dashboard.authorLabels.anonymousYou')
+        : t('dashboard.authorLabels.anonymous')
+      : (p.user?.name ?? t('dashboard.authorLabels.member'));
 
     return {
-      id: String(p.id), // Preserve original ID as string (UUID or number)
+      id: p.id.toString(),
       author: authorLabel,
-      avatar: avatarFallback,
-      time: toRelativeTime(p.createdAt),
+      avatar: authorLabel
+        .split(' ')
+        .map((word) => word.charAt(0))
+        .join('')
+        .toUpperCase()
+        .slice(0, 2),
+      time: formatDistanceToNow(new Date(p.createdAt), { addSuffix: true }),
       content: p.content,
-      likes:
-        typeof p.likesCount === 'number'
-          ? p.likesCount
-          : Array.isArray(p.likes)
-            ? p.likes.length
-            : 0,
-      comments:
-        typeof p.commentsCount === 'number'
-          ? p.commentsCount
-          : Array.isArray(p.comments)
-            ? p.comments.length
-            : 0,
+      likes: p.likesCount ?? p.likes?.length ?? 0,
+      comments: p.commentsCount ?? p.comments?.length ?? 0,
       tags: p.tags ?? [],
-      hidden: Boolean(p.hidden),
+      hidden: p.hidden,
     };
   });
 };

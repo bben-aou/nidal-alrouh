@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import { useAuth } from '@/contexts/auth-context';
 import { useSocket } from '@/contexts/socket-context';
 import { transformCommunityPosts } from '@/lib/utils/community';
 import type {
@@ -14,14 +15,17 @@ interface UseCommunityRealtimeProps {
   onPostCreated?: (post: Post) => void;
   onPostHidden?: (postId: string) => void;
   onPostUnhidden?: (postId: string) => void;
+  t: (key: string) => string;
 }
 
 export function useCommunityRealtime({
   onPostCreated,
   onPostHidden,
   onPostUnhidden,
+  t,
 }: UseCommunityRealtimeProps) {
   const socket = useSocket();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!socket) {
@@ -43,21 +47,20 @@ export function useCommunityRealtime({
           createdAt: raw.createdAt ?? new Date().toISOString(),
           hidden: false,
           tags: Array.isArray(raw.tags) ? raw.tags : [],
-          user: rawUser
-            ? {
-                id: String(rawUser.id ?? raw.userId ?? ''),
-                name: rawUser.name ?? undefined,
-                avatar: rawUser.avatar ?? null,
-              }
-            : {
-                id: String(raw.userId ?? ''),
-                name: undefined,
-                email: undefined,
-                avatar: null,
-              },
+          isAnonymous: Boolean(raw.isAnonymous),
+          isOwner: user?.id ? String(raw.userId) === user.id : false,
+          user: raw.isAnonymous
+            ? null
+            : rawUser
+              ? {
+                  id: String(rawUser.id ?? ''),
+                  name: rawUser.name ?? undefined,
+                  avatar: rawUser.avatar ?? null,
+                }
+              : undefined,
         };
 
-        const transformedPosts = transformCommunityPosts([item]);
+        const transformedPosts = transformCommunityPosts([item], t);
         const newPost = transformedPosts[0];
 
         if (onPostCreated && newPost) {

@@ -44,9 +44,9 @@ export default function DashboardCommunityPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     if (serverPosts?.length) {
-      setPosts(transformCommunityPosts(serverPosts));
+      setPosts(transformCommunityPosts(serverPosts, t));
     }
-  }, [serverPosts]);
+  }, [serverPosts, t]);
 
   // Realtime: handle post creation, hiding, and unhiding
   useCommunityRealtime({
@@ -74,6 +74,7 @@ export default function DashboardCommunityPage() {
         )
       );
     },
+    t,
   });
   const visiblePosts = useMemo(() => posts.filter((p) => !p.hidden), [posts]);
 

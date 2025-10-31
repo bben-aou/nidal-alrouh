@@ -9,17 +9,19 @@ export interface CommunityPostItem {
   createdAt: string;
   hidden: boolean;
   tags: string[];
+  isAnonymous?: boolean;
+  isOwner?: boolean;
   // Some APIs return counts, others return arrays; support both.
   likesCount?: number;
   commentsCount?: number;
   likes?: unknown[];
   comments?: unknown[];
-  user: {
+  user?: {
     id: string;
     name?: string | null;
     email?: string;
     avatar?: string | null;
-  };
+  } | null;
 }
 
 // Realtime event payloads
@@ -28,6 +30,7 @@ export interface RealtimePostCreated {
   content?: string | null;
   createdAt?: string;
   tags?: string[];
+  isAnonymous?: boolean;
   userId?: string | number;
   user?: {
     id?: string;

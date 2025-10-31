@@ -68,8 +68,13 @@
   },
   "dashboard": {
     "title": "Communauté",
-    "description": "Connectez-vous, partagez et trouvez du soutien auprès des autres.",
+    "description": "Connectez-vous, partagez et trouvez du soutien avec les autres.",
     "createPost": "Créer une publication",
+    "authorLabels": {
+      "anonymousYou": "Anonyme (Vous)",
+      "anonymous": "Anonyme",
+      "member": "Membre"
+    },
     "tabs": {
       "feed": "Flux",
       "groups": "Groupes",

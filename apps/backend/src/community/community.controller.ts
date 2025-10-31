@@ -43,6 +43,7 @@ export class CommunityController {
   constructor(private readonly communityService: CommunityService) {}
 
   @Get('posts')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Get community posts',
     description:
@@ -73,8 +74,12 @@ export class CommunityController {
     description: 'Filter by user ID',
   })
   @ApiOkResponse({ description: 'Posts retrieved successfully' })
-  async getPosts(@Query() query: GetPostsQueryDto) {
-    return this.communityService.getPosts(query);
+  async getPosts(
+    @Query() query: GetPostsQueryDto,
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] }
+  ) {
+    const currentUserId = req.user.id;
+    return this.communityService.getPosts(query, currentUserId);
   }
 
   @Post('posts')
@@ -96,8 +101,12 @@ export class CommunityController {
   }
 
   @Get('posts/:postId')
-  async getPostById(@Param('postId') postId: string) {
-    return this.communityService.getPostById(postId);
+  async getPostById(
+    @Param('postId') postId: string,
+    @Req() req?: FastifyRequest & { user?: AuthResponse['user'] }
+  ) {
+    const currentUserId = req?.user?.id;
+    return this.communityService.getPostById(postId, currentUserId);
   }
 
   @Patch('posts/:postId')
@@ -193,9 +202,11 @@ export class CommunityController {
   @Get('posts/:postId/comments')
   async getComments(
     @Param('postId') postId: string,
-    @Query() query: GetCommentsQueryDto
+    @Query() query: GetCommentsQueryDto,
+    @Req() req?: FastifyRequest & { user?: AuthResponse['user'] }
   ) {
-    return this.communityService.getComments(postId, query);
+    const currentUserId = req?.user?.id;
+    return this.communityService.getComments(postId, query, currentUserId);
   }
 
   @Post('posts/:postId/comments')

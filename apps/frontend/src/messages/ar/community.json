@@ -68,8 +68,13 @@
   },
   "dashboard": {
     "title": "المجتمع",
-    "description": "تواصل وشارك وابحث عن الدعم مع الآخرين.",
+    "description": "تواصل وشارك واحصل على الدعم مع الآخرين.",
     "createPost": "إنشاء منشور",
+    "authorLabels": {
+      "anonymousYou": "مجهول (أنت)",
+      "anonymous": "مجهول",
+      "member": "عضو"
+    },
     "tabs": {
       "feed": "الخلاصة",
       "groups": "المجموعات",
