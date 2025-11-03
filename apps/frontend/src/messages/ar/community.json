@@ -126,6 +126,7 @@
       "writeComment": "اكتب تعليقاً...",
       "comment": "تعليق",
       "commentAnonymously": "علق بشكل مجهول",
+      "commentPublicly": "تعليق علني",
       "delete": "حذف",
       "deleteConfirm": "هل أنت متأكد من أنك تريد حذف هذا التعليق؟",
       "showComments": "إظهار التعليقات",
