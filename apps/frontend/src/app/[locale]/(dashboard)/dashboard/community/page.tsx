@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import { Plus, Search, Filter, Calendar, MessageCircle } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useState, useMemo, useEffect } from 'react';
@@ -31,7 +32,11 @@ import { useAuth } from '@/contexts/auth-context';
 import { useCommunityRealtime } from '@/hooks/use-community-realtime';
 import { mockSupportGroups } from '@/lib/mock-data/community';
 import { transformCommunityPosts } from '@/lib/utils/community';
-import { type Post } from '@/types/community';
+import {
+  type Post,
+  type GetCommentsResponse,
+  type GetPostsResponse,
+} from '@/types/community';
 
 export default function DashboardCommunityPage() {
   const t = useTranslations('community');
@@ -42,6 +47,7 @@ export default function DashboardCommunityPage() {
   const likePostMutation = useLikePost();
   const unlikePostMutation = useUnlikePost();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const [activeTab, setActiveTab] = useState<'feed' | 'groups' | 'events'>(
     'feed'
@@ -122,6 +128,120 @@ export default function DashboardCommunityPage() {
             : post
         )
       );
+    },
+    onCommentCreated: ({ postId, comment }) => {
+      // Update comments cache (prepend new comment to first page), avoiding duplicates
+      const commentsQueryKey = ['community', 'comments', postId.toString()];
+      let insertedComment = false;
+      queryClient.setQueryData<InfiniteData<GetCommentsResponse>>(
+        commentsQueryKey,
+        (oldData) => {
+          if (!oldData) {
+            insertedComment = true;
+            return {
+              pageParams: [undefined],
+              pages: [{ items: [comment], nextCursor: undefined }],
+            } as InfiniteData<GetCommentsResponse>;
+          }
+          const exists = oldData.pages.some((page) =>
+            page.items.some((c) => String(c.id) === String(comment.id))
+          );
+          if (exists) {
+            insertedComment = false;
+            return oldData;
+          }
+          insertedComment = true;
+          const newPages = [...oldData.pages];
+          if (newPages[0]) {
+            newPages[0] = {
+              ...newPages[0],
+              items: [comment, ...newPages[0].items],
+            };
+          } else {
+            newPages[0] = { items: [comment], nextCursor: undefined };
+          }
+          return { ...oldData, pages: newPages };
+        }
+      );
+
+      if (insertedComment) {
+        // Update posts cache to increment comment count
+        queryClient.setQueryData<GetPostsResponse>(
+          ['community', 'posts'],
+          (oldData) => {
+            if (!oldData?.items) return oldData;
+            return {
+              ...oldData,
+              items: oldData.items.map((p) =>
+                p.id.toString() === postId.toString()
+                  ? { ...p, commentsCount: (p.commentsCount || 0) + 1 }
+                  : p
+              ),
+            };
+          }
+        );
+
+        // Optimistically update local UI state
+        setPosts((prev) =>
+          prev.map((p) =>
+            p.id.toString() === postId.toString()
+              ? { ...p, comments: (p.comments ?? 0) + 1 }
+              : p
+          )
+        );
+      }
+    },
+    onCommentDeleted: ({ postId, commentId }) => {
+      // Update comments cache (remove deleted comment)
+      const commentsQueryKey = ['community', 'comments', postId.toString()];
+      let removedComment = false;
+      queryClient.setQueryData<InfiniteData<GetCommentsResponse>>(
+        commentsQueryKey,
+        (oldData) => {
+          if (!oldData) return oldData;
+
+          const newPages = oldData.pages.map((page) => ({
+            ...page,
+            items: page.items.filter((comment) => {
+              const shouldRemove = String(comment.id) === String(commentId);
+              if (shouldRemove) removedComment = true;
+              return !shouldRemove;
+            }),
+          }));
+
+          return { ...oldData, pages: newPages };
+        }
+      );
+
+      if (removedComment) {
+        // Update posts cache to decrement comment count
+        queryClient.setQueryData<GetPostsResponse>(
+          ['community', 'posts'],
+          (oldData) => {
+            if (!oldData?.items) return oldData;
+            return {
+              ...oldData,
+              items: oldData.items.map((p) =>
+                p.id.toString() === postId.toString()
+                  ? {
+                      ...p,
+                      commentsCount: Math.max((p.commentsCount || 0) - 1, 0),
+                    }
+                  : p
+              ),
+            };
+          }
+        );
+
+        // Optimistically update local UI state
+        setPosts((prev) =>
+          prev.map((p) =>
+            p.id.toString() === postId.toString()
+              ? { ...p, comments: Math.max((p.comments ?? 0) - 1, 0) }
+              : p
+          )
+        );
+      }
     },
     postIds: visiblePostIds,
     t,

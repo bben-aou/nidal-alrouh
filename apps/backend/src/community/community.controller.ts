@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -41,7 +42,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 @Controller('community')
 export class CommunityController {
   constructor(private readonly communityService: CommunityService) {}
-
+  private readonly logger = new Logger(CommunityController.name);
   @Get('posts')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({
@@ -200,12 +201,34 @@ export class CommunityController {
   }
 
   @Get('posts/:postId/comments')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get comments for a post',
+    description: 'Retrieve paginated comments for a specific community post',
+  })
+  @ApiParam({ name: 'postId', description: 'Post ID to get comments for' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of comments to return (max 50)',
+  })
+  @ApiQuery({
+    name: 'cursor',
+    required: false,
+    type: String,
+    description: 'Cursor for pagination',
+  })
+  @ApiOkResponse({ description: 'Comments retrieved successfully' })
+  @ApiForbiddenResponse({ description: 'Authentication required' })
+  @ApiNotFoundResponse({ description: 'Post not found' })
   async getComments(
     @Param('postId') postId: string,
     @Query() query: GetCommentsQueryDto,
-    @Req() req?: FastifyRequest & { user?: AuthResponse['user'] }
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] }
   ) {
-    const currentUserId = req?.user?.id;
+    const currentUserId = req.user.id;
     return this.communityService.getComments(postId, query, currentUserId);
   }
 

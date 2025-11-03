@@ -120,6 +120,30 @@
       "unhidePostSuccess": "Publication affichée avec succès",
       "createPostError": "Échec de la création de la publication",
       "createPostSuccess": "Publication créée avec succès"
+    },
+    "comments": {
+      "title": "Commentaires",
+      "writeComment": "Écrire un commentaire...",
+      "comment": "Commenter",
+      "commentAnonymously": "Commenter anonymement",
+      "delete": "Supprimer",
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce commentaire ?",
+      "showComments": "Afficher les commentaires",
+      "hideComments": "Masquer les commentaires",
+      "loadMore": "Charger plus de commentaires",
+      "noComments": "Aucun commentaire pour le moment",
+      "beFirst": "Soyez le premier à commenter !",
+      "loading": "Chargement des commentaires...",
+      "posting": "Publication du commentaire...",
+      "messages": {
+        "createError": "Échec de la création du commentaire",
+        "createSuccess": "Commentaire publié avec succès",
+        "deleteError": "Échec de la suppression du commentaire",
+        "deleteSuccess": "Commentaire supprimé avec succès",
+        "rateLimitError": "Trop de commentaires. Veuillez attendre avant de commenter à nouveau.",
+        "contentRequired": "Le contenu du commentaire est requis",
+        "contentTooLong": "Le commentaire est trop long"
+      }
     }
   },
   "validation": {

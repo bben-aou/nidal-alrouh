@@ -10,7 +10,6 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { extractTokenFromSocket } from '../common/utils/token.utils';
-
 interface AuthenticatedSocket extends Socket {
   userId?: string;
 }
@@ -121,14 +120,44 @@ export class CommunityGateway
   /**
    * Emit when a new comment is created
    */
-  emitCommentCreated(postId: string, comment: any) {
-    this.server.to(`post:${postId}`).emit('comment.created', {
+  emitCommentCreated(postId: string, comment: any, authorUserId: string) {
+    const timestamp = new Date().toISOString();
+
+    // Emit to the author with isOwner: true
+    this.server.to(`user:${authorUserId}`).emit('comment.created', {
       postId,
-      comment,
+      comment: { ...comment, isOwner: true },
+      timestamp,
+    });
+
+    // Emit to everyone else in the post room with isOwner: false
+    this.server
+      .to(`post:${postId}`)
+      .except(`user:${authorUserId}`)
+      .emit('comment.created', {
+        postId,
+        comment: { ...comment, isOwner: false },
+        timestamp,
+      });
+
+    this.logger.log(
+      `Emitted comment.created for post ${postId} (owner ${authorUserId})`
+    );
+  }
+
+  /**
+   * Emit when a comment is deleted
+   */
+  emitCommentDeleted(postId: string, commentId: string) {
+    this.server.to(`post:${postId}`).emit('comment.deleted', {
+      postId,
+      commentId,
       timestamp: new Date().toISOString(),
     });
 
-    this.logger.log(`Emitted comment.created for post ${postId}`);
+    this.logger.log(
+      `Emitted comment.deleted for comment ${commentId} in post ${postId}`
+    );
   }
 
   /**

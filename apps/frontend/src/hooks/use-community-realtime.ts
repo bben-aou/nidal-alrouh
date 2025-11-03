@@ -7,7 +7,9 @@ import { useSocket } from '@/contexts/socket-context';
 import { transformCommunityPosts } from '@/lib/utils/community';
 import type {
   RealtimePostCreatedPayload,
+  RealtimeCommentCreatedPayload,
   CommunityPostItem,
+  CommentItem,
   Post,
 } from '@/types/community';
 
@@ -25,6 +27,11 @@ interface UseCommunityRealtimeProps {
     userId: string;
     likeCount: number;
   }) => void;
+  onCommentCreated?: (payload: {
+    postId: string;
+    comment: CommentItem;
+  }) => void;
+  onCommentDeleted?: (payload: { postId: string; commentId: string }) => void;
   postIds?: string[];
   t: (key: string) => string;
 }
@@ -35,6 +42,8 @@ export function useCommunityRealtime({
   onPostUnhidden,
   onPostLiked,
   onPostUnliked,
+  onCommentCreated,
+  onCommentDeleted,
   postIds,
   t,
 }: UseCommunityRealtimeProps) {
@@ -163,11 +172,73 @@ export function useCommunityRealtime({
       }
     };
 
+    const handleCommentCreated = (payload: RealtimeCommentCreatedPayload) => {
+      try {
+        const rawComment = payload?.comment;
+        if (!rawComment || !onCommentCreated) {
+          return;
+        }
+        // Transform realtime payload to CommentItem format
+        const comment: CommentItem = {
+          id: rawComment.id,
+          content: rawComment.content,
+          createdAt: rawComment.createdAt,
+          isAnonymous: Boolean(rawComment.isAnonymous),
+          isOwner: rawComment.isOwner,
+          // isOwner: user?.id ? String(rawComment.user?.id) === user.id : false,
+          postId: rawComment.postId,
+          user: rawComment.isAnonymous
+            ? null
+            : rawComment.user
+              ? {
+                  id: String(rawComment.user.id),
+                  name: rawComment.user.name ?? undefined,
+                  avatar: rawComment.user.avatar ?? null,
+                }
+              : undefined,
+        };
+
+        onCommentCreated({
+          postId: String(rawComment.postId),
+          comment,
+        });
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error handling comment.created:',
+          error
+        );
+      }
+    };
+
+    const handleCommentDeleted = (payload: {
+      postId: string;
+      commentId: string;
+      timestamp: string;
+    }) => {
+      try {
+        if (!payload?.postId || !payload?.commentId || !onCommentDeleted) {
+          return;
+        }
+
+        onCommentDeleted({
+          postId: String(payload.postId),
+          commentId: String(payload.commentId),
+        });
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error handling comment.deleted:',
+          error
+        );
+      }
+    };
+
     socket.on('post.created', handlePostCreated);
     socket.on('post.hidden', handlePostHidden);
     socket.on('post.unhidden', handlePostUnhidden);
     socket.on('post.liked', handlePostLiked);
     socket.on('post.unliked', handlePostUnliked);
+    socket.on('comment.created', handleCommentCreated);
+    socket.on('comment.deleted', handleCommentDeleted);
 
     return () => {
       socket.off('post.created', handlePostCreated);
@@ -175,6 +246,8 @@ export function useCommunityRealtime({
       socket.off('post.unhidden', handlePostUnhidden);
       socket.off('post.liked', handlePostLiked);
       socket.off('post.unliked', handlePostUnliked);
+      socket.off('comment.created', handleCommentCreated);
+      socket.off('comment.deleted', handleCommentDeleted);
     };
   }, [
     socket,
@@ -183,6 +256,8 @@ export function useCommunityRealtime({
     onPostUnhidden,
     onPostLiked,
     onPostUnliked,
+    onCommentCreated,
+    onCommentDeleted,
   ]);
 
   // Join/leave post rooms for like/unlike realtime updates

@@ -39,6 +39,8 @@ export const COMMUNITY_ENDPOINTS = {
   POST_LIKES: (id: string) => `/community/posts/${id}/likes`,
   POST_LIKES_ME: (id: string) => `/community/posts/${id}/likes/me`,
   POST_COMMENTS: (id: string) => `/community/posts/${id}/comments`,
+  DELETE_COMMENT: (postId: string, commentId: string) =>
+    `/community/posts/${postId}/comments/${commentId}`,
   POST_REPORTS: (id: string) => `/community/posts/${id}/reports`,
   POST_HIDE: (id: string) => `/community/posts/${id}/hide`,
   POST_UNHIDE: (id: string) => `/community/posts/${id}/unhide`,

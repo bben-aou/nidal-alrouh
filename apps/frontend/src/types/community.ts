@@ -60,6 +60,60 @@ export interface PaginatedResponse<T> {
 
 export type GetPostsResponse = PaginatedResponse<CommunityPostItem>;
 
+// ============================================================================
+// Comment Interfaces
+// ============================================================================
+
+export interface CommentItem {
+  id: string | number;
+  content: string;
+  createdAt: string;
+  isAnonymous?: boolean;
+  isOwner?: boolean;
+  postId: string | number;
+  user?: {
+    id: string;
+    name?: string | null;
+    email?: string;
+    avatar?: string | null;
+  } | null;
+}
+
+export interface GetCommentsParams {
+  limit?: number;
+  cursor?: string;
+}
+
+export interface GetCommentsResponse {
+  items: CommentItem[];
+  nextCursor?: string;
+}
+
+export interface CreateCommentData {
+  content: string;
+  isAnonymous?: boolean;
+}
+
+// Realtime comment event payloads
+export interface RealtimeCommentCreated {
+  id: string | number;
+  content: string;
+  createdAt: string;
+  isAnonymous?: boolean;
+  postId: string | number;
+  isOwner?: boolean;
+  user?: {
+    id: string;
+    name?: string | null;
+    avatar?: string | null;
+  } | null;
+}
+
+export interface RealtimeCommentCreatedPayload {
+  comment: RealtimeCommentCreated;
+  timestamp: string;
+}
+
 // Community statistics interface
 export interface CommunityStats {
   icon: React.ComponentType<{ className?: string }>;
@@ -141,4 +195,32 @@ export interface SubmitButtonProps {
 export interface CreatePostCardProps {
   className?: string;
   onPostSubmit?: (data: CreatePostFormData) => void;
+}
+
+/**
+ * Props for the CommentItem component
+ */
+export interface CommentItemProps {
+  comment: CommentItem;
+  onDelete?: (commentId: string | number) => void;
+  t: (key: string) => string;
+}
+
+/**
+ * Props for the CommentList component
+ */
+export interface CommentListProps {
+  postId: string | number;
+  className?: string;
+  t: (key: string) => string;
+}
+
+/**
+ * Props for the CommentComposer component
+ */
+export interface CommentComposerProps {
+  postId: string | number;
+  onCommentCreated?: (comment: CommentItem) => void;
+  className?: string;
+  t: (key: string) => string;
 }

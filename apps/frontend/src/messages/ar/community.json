@@ -120,6 +120,30 @@
       "unhidePostSuccess": "تم إظهار المنشور بنجاح",
       "createPostError": "فشل في إنشاء المنشور",
       "createPostSuccess": "تم إنشاء المنشور بنجاح"
+    },
+    "comments": {
+      "title": "التعليقات",
+      "writeComment": "اكتب تعليقاً...",
+      "comment": "تعليق",
+      "commentAnonymously": "علق بشكل مجهول",
+      "delete": "حذف",
+      "deleteConfirm": "هل أنت متأكد من أنك تريد حذف هذا التعليق؟",
+      "showComments": "إظهار التعليقات",
+      "hideComments": "إخفاء التعليقات",
+      "loadMore": "تحميل المزيد من التعليقات",
+      "noComments": "لا توجد تعليقات بعد",
+      "beFirst": "كن أول من يعلق!",
+      "loading": "جاري تحميل التعليقات...",
+      "posting": "جاري نشر التعليق...",
+      "messages": {
+        "createError": "فشل في إنشاء التعليق",
+        "createSuccess": "تم نشر التعليق بنجاح",
+        "deleteError": "فشل في حذف التعليق",
+        "deleteSuccess": "تم حذف التعليق بنجاح",
+        "rateLimitError": "تعليقات كثيرة جداً. يرجى الانتظار قبل التعليق مرة أخرى.",
+        "contentRequired": "محتوى التعليق مطلوب",
+        "contentTooLong": "التعليق طويل جداً"
+      }
     }
   },
   "validation": {

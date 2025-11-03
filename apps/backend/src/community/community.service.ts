@@ -10,6 +10,7 @@ import sanitizeHtml from 'sanitize-html';
 import { ContentModerationService } from '../common/services/content-moderation.service';
 import { PrismaService } from '../prisma/prisma.service';
 
+import { CommunityGateway } from './community.gateway';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -91,7 +92,6 @@ export class CommunityService {
 
     // Emit real-time event
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostCreated(sanitized);
@@ -232,7 +232,6 @@ export class CommunityService {
     const sanitized = this.sanitizePost(updated);
     // Emit real-time event
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostUpdated(postId, sanitized);
@@ -261,7 +260,6 @@ export class CommunityService {
     await this.prisma.post.delete({ where: { id: postId } });
     // Emit real-time event
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostDeleted(postId);
@@ -296,7 +294,6 @@ export class CommunityService {
 
       // Emit real-time event
       try {
-        const { CommunityGateway } = await import('./community.gateway');
         const gateway = CommunityGateway.getInstance();
         if (gateway) {
           // Get updated like count
@@ -349,7 +346,6 @@ export class CommunityService {
         const likeCount = await this.prisma.postLike.count({
           where: { postId },
         });
-        const { CommunityGateway } = await import('./community.gateway');
         const gateway = CommunityGateway.getInstance();
         if (gateway) {
           gateway.emitPostUnliked(postId, userId, likeCount);
@@ -386,7 +382,6 @@ export class CommunityService {
 
     // Emit real-time event to the specific user
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostHidden(userId, postId);
@@ -415,7 +410,6 @@ export class CommunityService {
 
     // Emit real-time event to the specific user
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostUnhidden(userId, postId);
@@ -450,7 +444,6 @@ export class CommunityService {
 
     // Emit real-time event to the post room
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
         gateway.emitPostReported(postId, report);
@@ -514,17 +507,20 @@ export class CommunityService {
       },
     });
 
+    this.logger.debug(
+      `comment.userId === userId: ${comment.userId === userId}`
+    );
     const sanitized = this.sanitizeComment({
       ...comment,
-      isOwner: true, // User is always the owner of their own created comment
+      isOwner: comment.userId === userId,
+      // isOwner: true,
     });
 
     // Emit real-time event
     try {
-      const { CommunityGateway } = await import('./community.gateway');
       const gateway = CommunityGateway.getInstance();
       if (gateway) {
-        gateway.emitCommentCreated(postId, sanitized);
+        gateway.emitCommentCreated(postId, sanitized, userId);
       }
     } catch (error: any) {
       const errMsg = error?.message || 'Unknown error';
@@ -597,6 +593,21 @@ export class CommunityService {
     }
 
     await this.prisma.comment.delete({ where: { id: commentId } });
+
+    // Emit real-time event
+    try {
+      const gateway = CommunityGateway.getInstance();
+      if (gateway) {
+        gateway.emitCommentDeleted(postId, commentId);
+      }
+    } catch (error: any) {
+      const errMsg = error?.message || 'Unknown error';
+      this.logger.error(
+        `Failed to emit comment.deleted for comment ${commentId} in post ${postId} by ${userId}: ${errMsg}`,
+        error?.stack
+      );
+    }
+
     return { success: true, message: 'Comment deleted' };
   }
 }
