@@ -21,7 +21,6 @@ const getCommentsApiCall = async (
   }`;
 
   const response = await apiClient.get<GetCommentsResponse>(endpoint);
-  console.log('✅response', response);
   return response;
 };
 
