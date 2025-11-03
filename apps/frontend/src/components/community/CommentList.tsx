@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageSquare } from 'lucide-react';
 import React from 'react';
 
 import { useDeleteComment } from '@/apis/community/queries/use-delete-comment';
@@ -64,7 +64,8 @@ export function CommentList({ postId, className = '', t }: CommentListProps) {
   if (allComments.length === 0) {
     return (
       <div className={`py-8 ${className}`}>
-        <div className="text-center text-gray-500 dark:text-gray-400">
+        <div className="text-center text-muted-foreground">
+          <MessageSquare className="mx-auto mb-2 h-5 w-5" />
           <p className="text-sm mb-1">{t('dashboard.comments.noComments')}</p>
           <p className="text-xs">{t('dashboard.comments.beFirst')}</p>
         </div>
@@ -73,12 +74,18 @@ export function CommentList({ postId, className = '', t }: CommentListProps) {
   }
 
   return (
-    <div className={`space-y-1 ${className}`}>
+    <div className={`space-y-3 ${className}`}>
       {/* Comments Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {t('dashboard.comments.title')} ({totalComments})
-        </h3>
+      <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <MessageSquare className="h-4 w-4 text-muted-foreground" />
+          <h3 className="text-sm font-semibold text-foreground">
+            {t('dashboard.comments.title')}
+          </h3>
+          <span className="text-xs text-muted-foreground">
+            ({totalComments})
+          </span>
+        </div>
       </div>
 
       {/* Comments List */}
@@ -97,11 +104,11 @@ export function CommentList({ postId, className = '', t }: CommentListProps) {
       {hasNextPage && (
         <div className="pt-4 flex justify-center">
           <Button
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
-            className="text-sm"
+            className="text-sm w-full sm:w-auto"
           >
             {isFetchingNextPage ? (
               <>

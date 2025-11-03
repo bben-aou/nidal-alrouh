@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   CommentItemProps,
@@ -59,28 +60,32 @@ export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
   };
 
   return (
-    <div className="flex space-x-3 py-3">
+    <div className="flex items-start gap-3 py-3">
       {/* Avatar */}
       <div className="flex-shrink-0">
-        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-          <span className="text-white text-sm font-medium">
+        <Avatar className="h-9 w-9">
+          <AvatarImage
+            src={comment.user?.avatar ?? ''}
+            alt={comment.user?.name ?? 'User'}
+          />
+          <AvatarFallback className="text-xs font-medium">
             {comment.isAnonymous
               ? '?'
               : comment.user?.name?.[0]?.toUpperCase() || 'U'}
-          </span>
-        </div>
+          </AvatarFallback>
+        </Avatar>
       </div>
 
       {/* Comment Content */}
       <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {getAuthorLabel(comment)}
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              {formatDate(comment.createdAt) as React.ReactNode}
+            <span className="text-xs text-muted-foreground">
+              • {formatDate(comment.createdAt) as React.ReactNode}
             </span>
           </div>
 
@@ -91,7 +96,7 @@ export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 p-0 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
+                  className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
                   disabled={isDeleting}
                 >
                   <Trash2 className="h-4 w-4" />
