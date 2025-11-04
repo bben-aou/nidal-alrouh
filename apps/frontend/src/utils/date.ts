@@ -1,4 +1,7 @@
+import { enUS, ar, fr } from 'date-fns/locale';
 import { useTranslations } from 'next-intl';
+
+import type { Locale as DateFnsLocale } from 'date-fns';
 
 /**
  * Utility function to format dates with localized month names
@@ -206,4 +209,18 @@ export function getLocalizedDateFormatter(t: (key: string) => string) {
     formatDate,
     formatDateWithYear,
   };
+}
+
+/**
+ * Centralized date-fns locale resolver based on app locale.
+ * Supports all project locales with a safe fallback to English.
+ */
+export const DATE_FNS_LOCALES: Record<string, DateFnsLocale> = {
+  en: enUS,
+  ar,
+  fr,
+};
+
+export function resolveDateFnsLocale(locale: string): DateFnsLocale {
+  return DATE_FNS_LOCALES[locale] ?? enUS;
 }

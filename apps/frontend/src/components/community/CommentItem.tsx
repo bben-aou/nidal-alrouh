@@ -2,6 +2,7 @@
 
 import { formatDistanceToNow } from 'date-fns';
 import { Trash2 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import React, { useState } from 'react';
 
 import {
@@ -21,12 +22,11 @@ import {
   CommentItemProps,
   CommentItem as CommentItemType,
 } from '@/types/community';
+import { resolveDateFnsLocale } from '@/utils/date';
 
-/**
- * CommentItem component displays a single comment with author information and delete functionality
- */
 export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const appLocale = useLocale();
 
   const handleDelete = async () => {
     if (!onDelete || isDeleting) return;
@@ -53,15 +53,17 @@ export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
   const formatDate = (date: string | Date) => {
     try {
       const dateObj = typeof date === 'string' ? new Date(date) : date;
-      return formatDistanceToNow(dateObj, { addSuffix: true });
-    } catch (error) {
-      return error;
+      return formatDistanceToNow(dateObj, {
+        addSuffix: true,
+        locale: resolveDateFnsLocale(appLocale),
+      });
+    } catch {
+      return '';
     }
   };
 
   return (
     <div className="flex items-start gap-3 py-3">
-      {/* Avatar */}
       <div className="flex-shrink-0">
         <Avatar className="h-9 w-9">
           <AvatarImage
@@ -131,7 +133,6 @@ export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
           )}
         </div>
 
-        {/* Comment Content */}
         <div
           className="mt-1 text-sm text-gray-700 dark:text-gray-300 prose prose-sm max-w-none"
           dangerouslySetInnerHTML={{ __html: comment.content }}

@@ -4,7 +4,6 @@ import { MoreHorizontal, ThumbsUp, MessageSquare, Share2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { useGetComments } from '@/apis/community/queries/use-get-comments';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -45,16 +44,9 @@ export function PostCard({
   const t = useTranslations('community');
   const [showComments, setShowComments] = useState(false);
 
-  // Get the refetch function from useGetComments hook
-  const { refetch: refetchComments } = useGetComments(post.id);
-
-  const handleCommentToggle = async () => {
+  const handleCommentToggle = () => {
     const newShowComments = !showComments;
     setShowComments(newShowComments);
-
-    if (newShowComments) {
-      await refetchComments();
-    }
 
     onComment?.(post.id);
   };

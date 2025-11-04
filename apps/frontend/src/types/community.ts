@@ -1,3 +1,4 @@
+import { LucideIcon } from 'lucide-react';
 import { KeyboardEvent, ChangeEvent } from 'react';
 import { UseFormRegisterReturn, FieldError } from 'react-hook-form';
 
@@ -116,9 +117,9 @@ export interface RealtimeCommentCreatedPayload {
 
 // Community statistics interface
 export interface CommunityStats {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   label: string;
-  value: string;
+  value: string | number;
   change: string;
   color: string;
 }
@@ -223,4 +224,22 @@ export interface CommentComposerProps {
   onCommentCreated?: (comment: CommentItem) => void;
   className?: string;
   t: (key: string) => string;
+}
+
+export interface CommentListHeaderProps {
+  total: number;
+  t: (key: string) => string;
+  className?: string;
+}
+
+export interface CommentsEmptyStateProps {
+  t: (key: string) => string;
+  className?: string;
+}
+
+export interface LoadMoreBarProps {
+  loading: boolean;
+  onLoadMore: () => void;
+  label: string;
+  className?: string;
 }

@@ -3,7 +3,8 @@
 import { Users, MessageCircle, Calendar, Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import StartsIcons from '@/assets/icons/startsIcons';
+import { StatCard } from '@/components/journal/stat-card';
 import { mockCommunityStats } from '@/lib/mock-data/community';
 import { type CommunityStats } from '@/types/community';
 
@@ -13,6 +14,7 @@ interface CommunityStatsProps {
 
 export function CommunityStats({ className }: Readonly<CommunityStatsProps>) {
   const t = useTranslations('community');
+  const tJournal = useTranslations('journal');
 
   const icons = [Users, MessageCircle, Heart, Calendar];
   const labels = [
@@ -30,21 +32,34 @@ export function CommunityStats({ className }: Readonly<CommunityStatsProps>) {
     })
   );
 
+  const getChangeColor = (change: string) => {
+    const trimmed = change.trim();
+    if (trimmed.startsWith('+')) {
+      return 'text-emerald-600 dark:text-emerald-400';
+    }
+    if (trimmed.startsWith('-')) {
+      return 'text-rose-600 dark:text-rose-400';
+    }
+    return 'text-muted-foreground';
+  };
+
   return (
     <div
-      className={`grid gap-4 md:grid-cols-2 lg:grid-cols-4 ${className || ''}`}
+      className={`grid gap-6 md:grid-cols-2 lg:grid-cols-4 ${className || ''}`}
     >
       {communityStats.map((stat, index) => (
-        <Card key={index}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{stat.label}</CardTitle>
-            <stat.icon className={`h-4 w-4 ${stat.color}`} />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <p className="text-xs text-muted-foreground">{stat.change}</p>
-          </CardContent>
-        </Card>
+        <StatCard
+          key={index}
+          icon={stat.icon}
+          label={stat.label}
+          value={stat.value}
+          change={stat.change}
+          changeColor={getChangeColor(stat.change)}
+          bgColor="bg-primary/5"
+          iconBg="bg-primary/10"
+          pattern={<StartsIcons />}
+          fromLastWeek={tJournal('dashboard.fromLastWeek')}
+        />
       ))}
     </div>
   );
