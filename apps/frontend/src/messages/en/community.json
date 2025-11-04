@@ -107,6 +107,21 @@
     "eventsDescription": "Community events and support sessions",
     "noEvents": "No upcoming events",
     "createEvent": "Create Event",
+    "reportModal": {
+      "title": "Report Post",
+      "reason": "Select a reason",
+      "reasons": {
+        "spam": "Spam",
+        "harassment": "Harassment or bullying",
+        "misinformation": "Misinformation",
+        "inappropriate": "Inappropriate content",
+        "other": "Other"
+      },
+      "details": "Additional details (optional)",
+      "detailsPlaceholder": "Provide any relevant context to help our moderators.",
+      "submit": "Submit Report",
+      "cancel": "Cancel"
+    },
     "emptyState": {
       "title": "No posts yet",
       "description": "Be the first to share something with the community! Create a post to start the conversation.",
@@ -119,7 +134,9 @@
       "unhidePostError": "Failed to unhide post",
       "unhidePostSuccess": "Post unhidden successfully",
       "createPostError": "Failed to create post",
-      "createPostSuccess": "Post created successfully"
+      "createPostSuccess": "Post created successfully",
+      "reportPostSuccess": "Report submitted. Thank you for helping keep the community safe.",
+      "reportPostError": "Failed to submit report"
     },
     "comments": {
       "title": "Comments",
@@ -151,6 +168,8 @@
     "contentRequired": "Content is required",
     "contentMinLength": "Content must be at least 10 characters",
     "contentMaxLength": "Content cannot exceed 5000 characters",
-    "tagsMaxCount": "You can add up to 10 tags"
+    "tagsMaxCount": "You can add up to 10 tags",
+    "reportReasonRequired": "Please select a reason",
+    "reportDetailsMaxLength": "Details cannot exceed 1000 characters"
   }
 }

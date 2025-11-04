@@ -107,6 +107,21 @@
     "eventsDescription": "أحداث المجتمع وجلسات الدعم",
     "noEvents": "لا توجد أحداث قادمة",
     "createEvent": "إنشاء حدث",
+    "reportModal": {
+      "title": "إبلاغ عن منشور",
+      "reason": "اختر سببًا",
+      "reasons": {
+        "spam": "رسائل مزعجة",
+        "harassment": "تحرش أو تنمر",
+        "misinformation": "معلومات مضللة",
+        "inappropriate": "محتوى غير لائق",
+        "other": "أخرى"
+      },
+      "details": "تفاصيل إضافية (اختياري)",
+      "detailsPlaceholder": "قدّم سياقًا مفيدًا لمشرفي المجتمع.",
+      "submit": "إرسال البلاغ",
+      "cancel": "إلغاء"
+    },
     "emptyState": {
       "title": "لا توجد منشورات بعد",
       "description": "كن أول من يشارك شيئاً مع المجتمع! أنشئ منشوراً لبدء المحادثة.",
@@ -119,7 +134,9 @@
       "unhidePostError": "فشل في إظهار المنشور",
       "unhidePostSuccess": "تم إظهار المنشور بنجاح",
       "createPostError": "فشل في إنشاء المنشور",
-      "createPostSuccess": "تم إنشاء المنشور بنجاح"
+      "createPostSuccess": "تم إنشاء المنشور بنجاح",
+      "reportPostSuccess": "تم إرسال البلاغ. شكرًا لمساهمتك في الحفاظ على المجتمع.",
+      "reportPostError": "فشل إرسال البلاغ"
     },
     "comments": {
       "title": "التعليقات",
@@ -151,6 +168,8 @@
     "contentRequired": "المحتوى مطلوب",
     "contentMinLength": "يجب أن يحتوي المحتوى على 10 أحرف على الأقل",
     "contentMaxLength": "لا يمكن أن يتجاوز المحتوى 5000 حرف",
-    "tagsMaxCount": "يمكنك إضافة ما يصل إلى 10 وسوم"
+    "tagsMaxCount": "يمكنك إضافة ما يصل إلى 10 وسوم",
+    "reportReasonRequired": "يرجى اختيار سبب",
+    "reportDetailsMaxLength": "لا يجب أن تتجاوز التفاصيل 1000 حرف"
   }
 }

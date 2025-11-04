@@ -243,3 +243,24 @@ export interface LoadMoreBarProps {
   label: string;
   className?: string;
 }
+
+// ============================================================================
+// Report Types
+// ============================================================================
+
+export type ReportReason =
+  | 'spam'
+  | 'harassment'
+  | 'misinformation'
+  | 'inappropriate'
+  | 'other';
+
+export interface CreateReportData {
+  reason: ReportReason;
+}
+
+export interface ReportPostModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  postId: string | number;
+}

@@ -72,15 +72,15 @@ export function PostCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onReport?.(post.id)}>
+              <DropdownMenuItem onSelect={() => onReport?.(post.id)}>
                 {t('dashboard.report')}
               </DropdownMenuItem>
               {post.hidden ? (
-                <DropdownMenuItem onClick={() => onUnhide?.(post.id)}>
+                <DropdownMenuItem onSelect={() => onUnhide?.(post.id)}>
                   {t('dashboard.unhide')}
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem onClick={() => onHide?.(post.id)}>
+                <DropdownMenuItem onSelect={() => onHide?.(post.id)}>
                   {t('dashboard.hide')}
                 </DropdownMenuItem>
               )}

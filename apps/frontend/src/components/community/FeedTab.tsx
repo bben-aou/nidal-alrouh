@@ -2,9 +2,11 @@
 
 import { Plus, Search, Filter, MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { CreatePostCard } from '@/components/community/CreatePostCard';
 import { PostCard } from '@/components/community/PostCard';
+import { ReportPostModal } from '@/components/community/ReportPostModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -37,6 +39,14 @@ export function FeedTab({
   onCreatePostFocus,
 }: Readonly<FeedTabProps>) {
   const t = useTranslations('community');
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reportPostId, setReportPostId] = useState<string | null>(null);
+
+  const handleReportClick = (postId: string) => {
+    setReportPostId(postId);
+    setReportOpen(true);
+    onReport(postId);
+  };
 
   return (
     <div className="space-y-4">
@@ -70,7 +80,7 @@ export function FeedTab({
               onLike={onLike}
               onComment={onComment}
               onShare={onShare}
-              onReport={onReport}
+              onReport={handleReportClick}
               onHide={onHide}
               onUnhide={onUnhide}
             />
@@ -93,6 +103,14 @@ export function FeedTab({
           </Card>
         )}
       </div>
+
+      {reportPostId && (
+        <ReportPostModal
+          open={reportOpen}
+          onOpenChange={setReportOpen}
+          postId={reportPostId}
+        />
+      )}
     </div>
   );
 }

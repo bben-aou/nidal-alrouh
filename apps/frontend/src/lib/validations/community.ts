@@ -15,8 +15,23 @@ export const createCommunitySchemas = (t: (key: string) => string) => {
     isAnonymous: z.boolean(),
   });
 
+  const createReportSchema = z.object({
+    reason: z
+      .enum([
+        'spam',
+        'harassment',
+        'misinformation',
+        'inappropriate',
+        'other',
+      ] as const)
+      .refine((val) => !!val, {
+        message: t('validation.reportReasonRequired'),
+      }),
+  });
+
   return {
     createPostSchema,
+    createReportSchema,
   };
 };
 
@@ -31,5 +46,16 @@ export const createPostSchema = z.object({
   isAnonymous: z.boolean(),
 });
 
+export const createReportSchema = z.object({
+  reason: z.enum([
+    'spam',
+    'harassment',
+    'misinformation',
+    'inappropriate',
+    'other',
+  ] as const),
+});
+
 // Type exports
 export type CreatePostFormData = z.infer<typeof createPostSchema>;
+export type CreateReportFormData = z.infer<typeof createReportSchema>;
