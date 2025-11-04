@@ -96,11 +96,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostCreated(sanitized);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.created for post ${post.id}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
@@ -236,11 +237,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostUpdated(postId, sanitized);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.updated for post ${postId} by ${userId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
     return { data: sanitized, message: 'Post updated' };
@@ -264,11 +266,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostDeleted(postId);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.deleted for post ${postId} by ${userId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
     return { success: true, message: 'Post deleted' };
@@ -302,16 +305,17 @@ export class CommunityService {
           });
           gateway.emitPostLiked(postId, userId, likeCount);
         }
-      } catch (error: any) {
-        const errMsg = error?.message || 'Unknown error';
+      } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : 'Unknown error';
+        const stack = error instanceof Error ? error.stack : undefined;
         this.logger.error(
           `Failed to emit post.liked for post ${postId} by ${userId}: ${errMsg}`,
-          error?.stack
+          stack
         );
       }
 
       return { success: true, message: 'Post liked successfully' };
-    } catch (error) {
+    } catch (error: unknown) {
       // Handle duplicate like (Prisma P2002 error for unique constraint violation)
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -350,11 +354,12 @@ export class CommunityService {
         if (gateway) {
           gateway.emitPostUnliked(postId, userId, likeCount);
         }
-      } catch (error: any) {
-        const errMsg = error?.message || 'Unknown error';
+      } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : 'Unknown error';
+        const stack = error instanceof Error ? error.stack : undefined;
         this.logger.error(
           `Failed to emit post.unliked for post ${postId} by ${userId}: ${errMsg}`,
-          error?.stack
+          stack
         );
       }
     }
@@ -386,11 +391,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostHidden(userId, postId);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.hidden for user ${userId} post ${postId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
@@ -414,11 +420,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostUnhidden(userId, postId);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.unhidden for user ${userId} post ${postId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
@@ -448,11 +455,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitPostReported(postId, report);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit post.reported for post ${postId} by ${userId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
@@ -522,11 +530,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitCommentCreated(postId, sanitized, userId);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit comment.created for post ${postId} by ${userId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
@@ -600,11 +609,12 @@ export class CommunityService {
       if (gateway) {
         gateway.emitCommentDeleted(postId, commentId);
       }
-    } catch (error: any) {
-      const errMsg = error?.message || 'Unknown error';
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : 'Unknown error';
+      const stack = error instanceof Error ? error.stack : undefined;
       this.logger.error(
         `Failed to emit comment.deleted for comment ${commentId} in post ${postId} by ${userId}: ${errMsg}`,
-        error?.stack
+        stack
       );
     }
 
