@@ -39,10 +39,60 @@ export interface RefreshRequest {
 }
 
 class ApiClient {
-  private baseUrl: string;
+  private readonly baseUrl: string;
+  private isRefreshing: boolean = false;
+  private refreshPromise: Promise<void> | null = null;
 
   constructor(baseUrl: string = API_BASE_URL) {
     this.baseUrl = baseUrl;
+  }
+
+  private async refreshAccessToken(): Promise<void> {
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.isRefreshing = true;
+    this.refreshPromise = (async () => {
+      const url = `${this.baseUrl}/auth/refresh`;
+      const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      if (!response.ok) {
+        let message = 'Session expired, please sign in again';
+        let payload: unknown = undefined;
+        const contentType = response.headers.get('content-type');
+        if (contentType?.includes('application/json')) {
+          try {
+            const data = await response.json();
+            payload = data;
+            message = (data as { message?: string }).message ?? message;
+          } catch {
+            if (process.env.NODE_ENV !== 'production') {
+              console.debug(
+                'Refresh response payload is not JSON; using default message.'
+              );
+            }
+          }
+        }
+        throw new ApiClientError(
+          message,
+          response.status,
+          'UNAUTHORIZED',
+          payload
+        );
+      }
+    })().finally(() => {
+      this.isRefreshing = false;
+      this.refreshPromise = null;
+    });
+
+    return this.refreshPromise;
   }
 
   private async request<T>(
@@ -73,7 +123,23 @@ class ApiClient {
     };
 
     try {
-      const response = await fetch(url, config);
+      let response = await fetch(url, config);
+
+      if (response.status === 401 && endpoint !== '/auth/refresh') {
+        try {
+          await this.refreshAccessToken();
+          response = await fetch(url, config);
+        } catch (refreshError) {
+          if (refreshError instanceof ApiClientError) {
+            throw refreshError;
+          }
+          throw new ApiClientError(
+            'Session expired, please sign in again',
+            401,
+            'UNAUTHORIZED'
+          );
+        }
+      }
 
       if (!response.ok) {
         let errorData: ApiError;
