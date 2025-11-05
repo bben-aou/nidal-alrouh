@@ -12,6 +12,7 @@ import {
   useHidePost,
   useUnhidePost,
 } from '@/apis/community/queries';
+import { GET_COMMUNITY_STATS_KEY } from '@/apis/community/queries/use-get-community-stats';
 import { useAuth } from '@/contexts/auth-context';
 import { useCommunityRealtime } from '@/hooks/use-community-realtime';
 import { transformCommunityPosts } from '@/lib/utils/community';
@@ -72,6 +73,7 @@ export function useCommunityFeed({
       onSuccess: () => {
         // Avoid success toast duplication; rely on optimistic UI and cache refresh
         queryClient.invalidateQueries({ queryKey: ['community', 'posts'] });
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       },
       onError: (err) => {
         toast.error(err.message || t('dashboard.messages.likePostError'));
@@ -83,6 +85,7 @@ export function useCommunityFeed({
     config: {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['community', 'posts'] });
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       },
       onError: (err) => {
         toast.error(err.message || t('dashboard.messages.unlikePostError'));
@@ -142,6 +145,26 @@ export function useCommunityFeed({
         if (existingPost) return prev;
         return [newPost, ...prev];
       });
+    },
+    onPostDeleted: (postId) => {
+      // Remove post from local state
+      setPosts((prev) => prev.filter((p) => p.id !== postId));
+
+      // Remove post from posts query cache
+      queryClient.setQueryData<GetPostsResponse>(
+        ['community', 'posts'],
+        (oldData) => {
+          if (!oldData?.items) return oldData;
+          return {
+            ...oldData,
+            items: oldData.items.filter(
+              (p) => p.id.toString() !== postId.toString()
+            ),
+          };
+        }
+      );
+
+      // Stats invalidation is handled in useCommunityRealtime
     },
     onPostHidden: (postId) => {
       setPosts((prev) =>

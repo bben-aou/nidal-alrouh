@@ -14,6 +14,8 @@ import {
   GetPostsResponse,
 } from '@/types/community';
 
+import { GET_COMMUNITY_STATS_KEY } from './use-get-community-stats';
+
 export const CREATE_COMMENT_KEY = 'CREATE_COMMENT_KEY';
 
 const createCommentApiCall = async (
@@ -101,6 +103,9 @@ export const useCreateComment = (postId: string | number) => {
           }
         );
       }
+
+      // Invalidate community stats to reflect new comment and active members
+      queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
 
       toast.success(response.message || 'Comment posted successfully');
     },

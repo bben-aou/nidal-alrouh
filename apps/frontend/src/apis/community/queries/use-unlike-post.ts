@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import { COMMUNITY_ENDPOINTS } from '@/apis/config/endpoints';
 import { apiClient, ApiClientError } from '@/lib/api';
 
+import { GET_COMMUNITY_STATS_KEY } from './use-get-community-stats';
+
 interface UnlikePostParams {
   postId: string;
 }
@@ -53,6 +55,8 @@ export const useUnlikePost = ({ config }: TUseUnlikePostParams = {}) => {
         }
         // Refresh posts if necessary
         queryClient.invalidateQueries({ queryKey: ['community', 'posts'] });
+        // Refresh community stats (likes and active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       },
       onError: (err: ApiClientError) => {
         toast.error(err.message || 'Error unliking post');

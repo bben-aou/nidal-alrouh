@@ -124,6 +124,30 @@ export interface CommunityStats {
   color: string;
 }
 
+// Community stats API response
+export interface CommunityStatsResponse {
+  totalPosts: number;
+  totalPostsChange: number;
+  totalLikes: number;
+  totalLikesChange: number;
+  totalComments: number;
+  totalCommentsChange: number;
+  activeMembers: number;
+  activeMembersChange: number;
+  upcomingEvents: number;
+  upcomingEventsChange: number;
+  period: {
+    start: string;
+    end: string;
+  };
+}
+
+export interface GetCommunityStatsParams {
+  period?: import('./journal').StatsPeriod;
+  startDate?: string;
+  endDate?: string;
+}
+
 // Legacy Post interface (for mock data compatibility)
 export interface Post {
   id: string;

@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import { COMMUNITY_ENDPOINTS } from '@/apis/config/endpoints';
 import { apiClient, ApiClientError } from '@/lib/api';
 
+import { GET_COMMUNITY_STATS_KEY } from './use-get-community-stats';
+
 export const CREATE_POST_KEY = 'CREATE_POST_KEY';
 
 export interface CreatePostRequestBody {
@@ -58,6 +60,8 @@ export const useCreatePost = ({ config }: TUseCreatePostParams = {}) => {
         toast.success(data?.message || 'Post created successfully');
         // Rely on page-level toasts for localization
         queryClient.invalidateQueries({ queryKey: ['community', 'posts'] });
+        // Refresh community stats (posts today and active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       },
       onError: (error) => {
         toast.error(error?.message || 'Failed to create post');

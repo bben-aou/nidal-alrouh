@@ -20,6 +20,7 @@ export interface PostUnlikedEvent {
 export interface CommentCreatedEvent {
   postId: string;
   comment: any;
+  authorUserId: string;
 }
 
 export interface PostUpdatedEvent {
@@ -29,6 +30,26 @@ export interface PostUpdatedEvent {
 
 export interface PostDeletedEvent {
   postId: string;
+}
+
+export interface CommentDeletedEvent {
+  postId: string;
+  commentId: string;
+}
+
+export interface PostHiddenEvent {
+  userId: string;
+  postId: string;
+}
+
+export interface PostUnhiddenEvent {
+  userId: string;
+  postId: string;
+}
+
+export interface PostReportedEvent {
+  postId: string;
+  report: unknown;
 }
 
 @Injectable()
@@ -56,9 +77,23 @@ export class CommunityEventsService {
   }
 
   emitCommentCreated(postId: string, comment: any) {
+    // Keep for backward compatibility if needed, but prefer the version with authorUserId
     this.eventEmitter.emit('comment.created', {
       postId,
       comment,
+      authorUserId: comment?.userId,
+    } as CommentCreatedEvent);
+  }
+
+  emitCommentCreatedByAuthor(
+    postId: string,
+    comment: any,
+    authorUserId: string
+  ) {
+    this.eventEmitter.emit('comment.created', {
+      postId,
+      comment,
+      authorUserId,
     } as CommentCreatedEvent);
   }
 
@@ -71,5 +106,33 @@ export class CommunityEventsService {
 
   emitPostDeleted(postId: string) {
     this.eventEmitter.emit('post.deleted', { postId } as PostDeletedEvent);
+  }
+
+  emitCommentDeleted(postId: string, commentId: string) {
+    this.eventEmitter.emit('comment.deleted', {
+      postId,
+      commentId,
+    } as CommentDeletedEvent);
+  }
+
+  emitPostHidden(userId: string, postId: string) {
+    this.eventEmitter.emit('post.hidden', {
+      userId,
+      postId,
+    } as PostHiddenEvent);
+  }
+
+  emitPostUnhidden(userId: string, postId: string) {
+    this.eventEmitter.emit('post.unhidden', {
+      userId,
+      postId,
+    } as PostUnhiddenEvent);
+  }
+
+  emitPostReported(postId: string, report: unknown) {
+    this.eventEmitter.emit('post.reported', {
+      postId,
+      report,
+    } as PostReportedEvent);
   }
 }

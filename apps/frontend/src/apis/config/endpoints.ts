@@ -44,6 +44,7 @@ export const COMMUNITY_ENDPOINTS = {
   POST_REPORTS: (id: string) => `/community/posts/${id}/reports`,
   POST_HIDE: (id: string) => `/community/posts/${id}/hide`,
   POST_UNHIDE: (id: string) => `/community/posts/${id}/unhide`,
+  STATS: '/community/stats',
 } as const;
 
 export type CommunityEndpoints = typeof COMMUNITY_ENDPOINTS;

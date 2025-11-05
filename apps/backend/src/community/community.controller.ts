@@ -31,10 +31,12 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuthResponse } from '../auth/interfaces/auth.interface';
 
 import { CommunityService } from './community.service';
+import { CommunityStatsResponseDto } from './dto/community-stats-response.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreateReportDto } from './dto/create-report.dto';
 import { GetCommentsQueryDto } from './dto/get-comments.dto';
+import { GetCommunityStatsDto } from './dto/get-community-stats.dto';
 import { GetPostsQueryDto } from './dto/get-posts.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 
@@ -43,6 +45,43 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class CommunityController {
   constructor(private readonly communityService: CommunityService) {}
   private readonly logger = new Logger(CommunityController.name);
+  @Get('stats')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get community statistics',
+    description:
+      'Retrieve aggregated statistics for the community over a selected period',
+  })
+  @ApiQuery({
+    name: 'period',
+    required: false,
+    type: String,
+    description: 'Stats period: WEEK | MONTH | ALL | CUSTOM',
+  })
+  @ApiQuery({
+    name: 'startDate',
+    required: false,
+    type: String,
+    description: 'Start date (ISO) when period=CUSTOM',
+  })
+  @ApiQuery({
+    name: 'endDate',
+    required: false,
+    type: String,
+    description: 'End date (ISO) when period=CUSTOM',
+  })
+  @ApiOkResponse({ description: 'Community stats retrieved successfully' })
+  async getStats(
+    @Query() query: GetCommunityStatsDto,
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] }
+  ): Promise<{ data: CommunityStatsResponseDto; message: string }> {
+    const stats = await this.communityService.getStats(req.user.id, query);
+    return {
+      data: stats,
+      message: 'Community statistics retrieved successfully',
+    };
+  }
   @Get('posts')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({

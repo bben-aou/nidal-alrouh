@@ -4,17 +4,22 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
-import { Prisma, PostPrivacy } from '@prisma/client';
+import { Prisma, PostPrivacy, User } from '@prisma/client';
 import sanitizeHtml from 'sanitize-html';
 
 import { ContentModerationService } from '../common/services/content-moderation.service';
 import { PrismaService } from '../prisma/prisma.service';
 
-import { CommunityGateway } from './community.gateway';
+import { CommunityEventsService } from './community-events.service';
+import { CommunityStatsResponseDto } from './dto/community-stats-response.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreateReportDto } from './dto/create-report.dto';
 import { GetCommentsQueryDto } from './dto/get-comments.dto';
+import {
+  GetCommunityStatsDto,
+  StatsPeriod,
+} from './dto/get-community-stats.dto';
 import { GetPostsQueryDto } from './dto/get-posts.dto';
 
 @Injectable()
@@ -22,14 +27,15 @@ export class CommunityService {
   private readonly logger = new Logger(CommunityService.name);
   constructor(
     private readonly prisma: PrismaService,
-    private readonly contentModeration: ContentModerationService
+    private readonly contentModeration: ContentModerationService,
+    private readonly events: CommunityEventsService
   ) {}
 
   // Sanitize post before returning or emitting: redact user for anonymous posts
   private sanitizePost<
     P extends {
       isAnonymous?: boolean;
-      user?: unknown | null;
+      user?: Pick<User, 'id' | 'name'> | null;
       isOwner?: boolean;
     } & Record<string, unknown>,
   >(post: P): P {
@@ -41,11 +47,162 @@ export class CommunityService {
     return copy;
   }
 
+  private calculateDateRanges(
+    period: StatsPeriod,
+    startDate?: string,
+    endDate?: string
+  ) {
+    const now = new Date();
+    let currentStart: Date;
+    let currentEnd: Date;
+
+    if (period === StatsPeriod.CUSTOM && startDate && endDate) {
+      currentStart = new Date(startDate);
+      currentEnd = new Date(endDate);
+    } else {
+      currentEnd = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        23,
+        59,
+        59
+      );
+
+      switch (period) {
+        case StatsPeriod.MONTH: {
+          currentStart = new Date(currentEnd);
+          currentStart.setDate(currentStart.getDate() - 29);
+          break;
+        }
+        case StatsPeriod.ALL: {
+          currentStart = new Date(2020, 0, 1);
+          break;
+        }
+        case StatsPeriod.WEEK:
+        default: {
+          currentStart = new Date(currentEnd);
+          currentStart.setDate(currentStart.getDate() - 6);
+          break;
+        }
+      }
+
+      currentStart.setHours(0, 0, 0, 0);
+    }
+
+    const periodDuration = currentEnd.getTime() - currentStart.getTime();
+    const previousEnd = new Date(currentStart.getTime() - 1);
+    const previousStart = new Date(previousEnd.getTime() - periodDuration);
+
+    return {
+      currentPeriod: { start: currentStart, end: currentEnd },
+      previousPeriod: { start: previousStart, end: previousEnd },
+    };
+  }
+
+  private async getCountsForPeriod(period: { start: Date; end: Date }) {
+    const [posts, likes, comments] = await Promise.all([
+      this.prisma.post.count({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+      }),
+      this.prisma.postLike.count({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+      }),
+      this.prisma.comment.count({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+      }),
+    ]);
+    return { posts, likes, comments };
+  }
+
+  private async getActiveUserIdsForPeriod(period: { start: Date; end: Date }) {
+    const [postUsers, likeUsers, commentUsers] = await Promise.all([
+      this.prisma.post.findMany({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+        select: { userId: true },
+      }),
+      this.prisma.postLike.findMany({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+        select: { userId: true },
+      }),
+      this.prisma.comment.findMany({
+        where: { createdAt: { gte: period.start, lte: period.end } },
+        select: { userId: true },
+      }),
+    ]);
+
+    const userIds = new Set<string>();
+    for (const p of postUsers) {
+      userIds.add(p.userId);
+    }
+    for (const l of likeUsers) {
+      userIds.add(l.userId);
+    }
+    for (const c of commentUsers) {
+      userIds.add(c.userId);
+    }
+    return userIds;
+  }
+
+  async getStats(
+    userId: string,
+    query: GetCommunityStatsDto
+  ): Promise<CommunityStatsResponseDto> {
+    const { period = StatsPeriod.WEEK, startDate, endDate } = query;
+
+    const { currentPeriod, previousPeriod } = this.calculateDateRanges(
+      period,
+      startDate,
+      endDate
+    );
+
+    // Current period counts
+    const [
+      { posts: currentPosts, likes: currentLikes, comments: currentComments },
+      currentActiveUsersSet,
+    ] = await Promise.all([
+      this.getCountsForPeriod(currentPeriod),
+      this.getActiveUserIdsForPeriod(currentPeriod),
+    ]);
+
+    // Previous period counts
+    const [
+      { posts: prevPosts, likes: prevLikes, comments: prevComments },
+      prevActiveUsersSet,
+    ] = await Promise.all([
+      this.getCountsForPeriod(previousPeriod),
+      this.getActiveUserIdsForPeriod(previousPeriod),
+    ]);
+
+    const activeMembers = currentActiveUsersSet.size;
+    const prevActiveMembers = prevActiveUsersSet.size;
+
+    const upcomingEvents = 0; // Placeholder until events module exists
+    const prevUpcomingEvents = 0;
+
+    return {
+      totalPosts: currentPosts,
+      totalPostsChange: currentPosts - prevPosts,
+      totalLikes: currentLikes,
+      totalLikesChange: currentLikes - prevLikes,
+      totalComments: currentComments,
+      totalCommentsChange: currentComments - prevComments,
+      activeMembers,
+      activeMembersChange: activeMembers - prevActiveMembers,
+      upcomingEvents,
+      upcomingEventsChange: upcomingEvents - prevUpcomingEvents,
+      period: {
+        start: currentPeriod.start.toISOString(),
+        end: currentPeriod.end.toISOString(),
+      },
+    };
+  }
+
   // Sanitize comment before returning or emitting: redact user for anonymous comments
   private sanitizeComment<
     C extends {
       isAnonymous?: boolean;
-      user?: unknown | null;
+      user?: Pick<User, 'id' | 'name' | 'email'> | null;
       isOwner?: boolean;
     } & Record<string, unknown>,
   >(comment: C): C {
@@ -90,20 +247,8 @@ export class CommunityService {
       likedByMe: false,
     });
 
-    // Emit real-time event
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostCreated(sanitized);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.created for post ${post.id}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event via domain event bus
+    this.events.emitPostCreated(sanitized);
 
     return sanitized;
   }
@@ -215,15 +360,11 @@ export class CommunityService {
     const updated = await this.prisma.post.update({
       where: { id: postId },
       data: {
-        ...(sanitizedContent !== undefined
-          ? { content: sanitizedContent }
-          : {}),
-        ...(dto.tags !== undefined ? { tags: dto.tags } : {}),
-        ...(dto.isAnonymous !== undefined
-          ? { isAnonymous: dto.isAnonymous }
-          : {}),
-        ...(dto.privacy !== undefined ? { privacy: dto.privacy } : {}),
-        ...(dto.locale !== undefined ? { locale: dto.locale } : {}),
+        ...(sanitizedContent ? { content: sanitizedContent } : {}),
+        ...(dto.tags ? { tags: dto.tags } : {}),
+        ...(dto.isAnonymous ? { isAnonymous: dto.isAnonymous } : {}),
+        ...(dto.privacy ? { privacy: dto.privacy } : {}),
+        ...(dto.locale ? { locale: dto.locale } : {}),
       },
       include: {
         user: { select: { id: true, name: true } },
@@ -231,20 +372,8 @@ export class CommunityService {
       },
     });
     const sanitized = this.sanitizePost(updated);
-    // Emit real-time event
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostUpdated(postId, sanitized);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.updated for post ${postId} by ${userId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event via domain event bus
+    this.events.emitPostUpdated(postId, sanitized);
     return { data: sanitized, message: 'Post updated' };
   }
 
@@ -260,20 +389,8 @@ export class CommunityService {
     }
 
     await this.prisma.post.delete({ where: { id: postId } });
-    // Emit real-time event
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostDeleted(postId);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.deleted for post ${postId} by ${userId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event via domain event bus
+    this.events.emitPostDeleted(postId);
     return { success: true, message: 'Post deleted' };
   }
 
@@ -295,24 +412,9 @@ export class CommunityService {
         },
       });
 
-      // Emit real-time event
-      try {
-        const gateway = CommunityGateway.getInstance();
-        if (gateway) {
-          // Get updated like count
-          const likeCount = await this.prisma.postLike.count({
-            where: { postId },
-          });
-          gateway.emitPostLiked(postId, userId, likeCount);
-        }
-      } catch (error: unknown) {
-        const errMsg = error instanceof Error ? error.message : 'Unknown error';
-        const stack = error instanceof Error ? error.stack : undefined;
-        this.logger.error(
-          `Failed to emit post.liked for post ${postId} by ${userId}: ${errMsg}`,
-          stack
-        );
-      }
+      // Emit real-time event via domain event bus
+      const likeCount = await this.prisma.postLike.count({ where: { postId } });
+      this.events.emitPostLiked(postId, userId, likeCount);
 
       return { success: true, message: 'Post liked successfully' };
     } catch (error: unknown) {
@@ -344,24 +446,10 @@ export class CommunityService {
       },
     });
 
-    // Emit real-time event if an unlike actually happened
+    // Emit real-time event if an unlike actually happened via domain event bus
     if (deletedLike.count > 0) {
-      try {
-        const likeCount = await this.prisma.postLike.count({
-          where: { postId },
-        });
-        const gateway = CommunityGateway.getInstance();
-        if (gateway) {
-          gateway.emitPostUnliked(postId, userId, likeCount);
-        }
-      } catch (error: unknown) {
-        const errMsg = error instanceof Error ? error.message : 'Unknown error';
-        const stack = error instanceof Error ? error.stack : undefined;
-        this.logger.error(
-          `Failed to emit post.unliked for post ${postId} by ${userId}: ${errMsg}`,
-          stack
-        );
-      }
+      const likeCount = await this.prisma.postLike.count({ where: { postId } });
+      this.events.emitPostUnliked(postId, userId, likeCount);
     }
 
     return {
@@ -385,20 +473,8 @@ export class CommunityService {
     }
     await this.prisma.hiddenPost.create({ data: { postId, userId } });
 
-    // Emit real-time event to the specific user
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostHidden(userId, postId);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.hidden for user ${userId} post ${postId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event to the specific user via domain event bus
+    this.events.emitPostHidden(userId, postId);
 
     return { success: true, message: 'Post hidden' };
   }
@@ -414,20 +490,8 @@ export class CommunityService {
       where: { postId_userId: { postId, userId } },
     });
 
-    // Emit real-time event to the specific user
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostUnhidden(userId, postId);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.unhidden for user ${userId} post ${postId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event to the specific user via domain event bus
+    this.events.emitPostUnhidden(userId, postId);
 
     return { success: true, message: 'Post unhidden' };
   }
@@ -449,20 +513,8 @@ export class CommunityService {
       data: { userId, postId, reason: sanitizedReason },
     });
 
-    // Emit real-time event to the post room
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitPostReported(postId, report);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit post.reported for post ${postId} by ${userId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event to the post room via domain event bus
+    this.events.emitPostReported(postId, report);
 
     return { data: report, message: 'Report submitted' };
   }
@@ -510,6 +562,7 @@ export class CommunityService {
           select: {
             id: true,
             name: true,
+            email: true,
           },
         },
       },
@@ -524,20 +577,8 @@ export class CommunityService {
       // isOwner: true,
     });
 
-    // Emit real-time event
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitCommentCreated(postId, sanitized, userId);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit comment.created for post ${postId} by ${userId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event via domain event bus
+    this.events.emitCommentCreatedByAuthor(postId, sanitized, userId);
 
     return sanitized;
   }
@@ -603,20 +644,8 @@ export class CommunityService {
 
     await this.prisma.comment.delete({ where: { id: commentId } });
 
-    // Emit real-time event
-    try {
-      const gateway = CommunityGateway.getInstance();
-      if (gateway) {
-        gateway.emitCommentDeleted(postId, commentId);
-      }
-    } catch (error: unknown) {
-      const errMsg = error instanceof Error ? error.message : 'Unknown error';
-      const stack = error instanceof Error ? error.stack : undefined;
-      this.logger.error(
-        `Failed to emit comment.deleted for comment ${commentId} in post ${postId} by ${userId}: ${errMsg}`,
-        stack
-      );
-    }
+    // Emit real-time event via domain event bus
+    this.events.emitCommentDeleted(postId, commentId);
 
     return { success: true, message: 'Comment deleted' };
   }

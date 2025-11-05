@@ -1,7 +1,9 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { GET_COMMUNITY_STATS_KEY } from '@/apis/community/queries/use-get-community-stats';
 import { useAuth } from '@/contexts/auth-context';
 import { useSocket } from '@/contexts/socket-context';
 import { transformCommunityPosts } from '@/lib/utils/community';
@@ -15,6 +17,7 @@ import type {
 
 interface UseCommunityRealtimeProps {
   onPostCreated?: (post: Post) => void;
+  onPostDeleted?: (postId: string) => void;
   onPostHidden?: (postId: string) => void;
   onPostUnhidden?: (postId: string) => void;
   onPostLiked?: (payload: {
@@ -38,6 +41,7 @@ interface UseCommunityRealtimeProps {
 
 export function useCommunityRealtime({
   onPostCreated,
+  onPostDeleted,
   onPostHidden,
   onPostUnhidden,
   onPostLiked,
@@ -49,6 +53,7 @@ export function useCommunityRealtime({
 }: UseCommunityRealtimeProps) {
   const socket = useSocket();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!socket) {
@@ -89,6 +94,9 @@ export function useCommunityRealtime({
         if (onPostCreated && newPost) {
           onPostCreated(newPost);
         }
+
+        // Refresh community stats (posts and active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       } catch (error) {
         console.error('[useCommunityRealtime] Error transforming post:', error);
       }
@@ -106,6 +114,26 @@ export function useCommunityRealtime({
       } catch (error) {
         console.error(
           '[useCommunityRealtime] Error handling post.hidden:',
+          error
+        );
+      }
+    };
+
+    const handlePostDeleted = (payload: {
+      postId: string;
+      timestamp: string;
+    }) => {
+      try {
+        const postId = payload?.postId;
+        if (!postId) return;
+        if (onPostDeleted) {
+          onPostDeleted(postId);
+        }
+        // Refresh community stats (posts and possibly active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
+      } catch (error) {
+        console.error(
+          '[useCommunityRealtime] Error handling post.deleted:',
           error
         );
       }
@@ -142,6 +170,8 @@ export function useCommunityRealtime({
             likeCount: payload.likeCount,
           });
         }
+        // Ensure community stats refresh on like events
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       } catch (error) {
         console.error(
           '[useCommunityRealtime] Error handling post.liked:',
@@ -164,6 +194,8 @@ export function useCommunityRealtime({
             likeCount: payload.likeCount,
           });
         }
+        // Ensure community stats refresh on unlike events
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       } catch (error) {
         console.error(
           '[useCommunityRealtime] Error handling post.unliked:',
@@ -202,6 +234,9 @@ export function useCommunityRealtime({
           postId: String(rawComment.postId),
           comment,
         });
+
+        // Refresh community stats (comments and active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       } catch (error) {
         console.error(
           '[useCommunityRealtime] Error handling comment.created:',
@@ -224,6 +259,9 @@ export function useCommunityRealtime({
           postId: String(payload.postId),
           commentId: String(payload.commentId),
         });
+
+        // Refresh community stats (comments and active members)
+        queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
       } catch (error) {
         console.error(
           '[useCommunityRealtime] Error handling comment.deleted:',
@@ -233,6 +271,7 @@ export function useCommunityRealtime({
     };
 
     socket.on('post.created', handlePostCreated);
+    socket.on('post.deleted', handlePostDeleted);
     socket.on('post.hidden', handlePostHidden);
     socket.on('post.unhidden', handlePostUnhidden);
     socket.on('post.liked', handlePostLiked);
@@ -242,6 +281,7 @@ export function useCommunityRealtime({
 
     return () => {
       socket.off('post.created', handlePostCreated);
+      socket.off('post.deleted', handlePostDeleted);
       socket.off('post.hidden', handlePostHidden);
       socket.off('post.unhidden', handlePostUnhidden);
       socket.off('post.liked', handlePostLiked);
@@ -252,6 +292,7 @@ export function useCommunityRealtime({
   }, [
     socket,
     onPostCreated,
+    onPostDeleted,
     onPostHidden,
     onPostUnhidden,
     onPostLiked,

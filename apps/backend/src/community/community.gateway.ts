@@ -1,4 +1,5 @@
 import { Logger, OnModuleInit } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { JwtService } from '@nestjs/jwt';
 import {
   WebSocketGateway,
@@ -33,7 +34,10 @@ export class CommunityGateway
   // Static instance for service access
   private static instance: CommunityGateway;
 
-  constructor(private readonly jwtService: JwtService) {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly eventEmitter: EventEmitter2
+  ) {
     CommunityGateway.instance = this;
   }
 
@@ -43,6 +47,95 @@ export class CommunityGateway
 
   onModuleInit() {
     this.logger.log('CommunityGateway initialized');
+
+    // Subscribe to domain events and forward them to socket clients
+    this.eventEmitter.on('post.created', ({ post }: { post: any }) => {
+      this.emitPostCreated(post);
+    });
+
+    this.eventEmitter.on(
+      'post.updated',
+      ({ postId, post }: { postId: string; post: any }) => {
+        this.emitPostUpdated(postId, post);
+      }
+    );
+
+    this.eventEmitter.on('post.deleted', ({ postId }: { postId: string }) => {
+      this.emitPostDeleted(postId);
+    });
+
+    this.eventEmitter.on(
+      'post.liked',
+      ({
+        postId,
+        userId,
+        likeCount,
+      }: {
+        postId: string;
+        userId: string;
+        likeCount: number;
+      }) => {
+        this.emitPostLiked(postId, userId, likeCount);
+      }
+    );
+
+    this.eventEmitter.on(
+      'post.unliked',
+      ({
+        postId,
+        userId,
+        likeCount,
+      }: {
+        postId: string;
+        userId: string;
+        likeCount: number;
+      }) => {
+        this.emitPostUnliked(postId, userId, likeCount);
+      }
+    );
+
+    this.eventEmitter.on(
+      'comment.created',
+      ({
+        postId,
+        comment,
+        authorUserId,
+      }: {
+        postId: string;
+        comment: any;
+        authorUserId: string;
+      }) => {
+        this.emitCommentCreated(postId, comment, authorUserId);
+      }
+    );
+
+    this.eventEmitter.on(
+      'comment.deleted',
+      ({ postId, commentId }: { postId: string; commentId: string }) => {
+        this.emitCommentDeleted(postId, commentId);
+      }
+    );
+
+    this.eventEmitter.on(
+      'post.hidden',
+      ({ userId, postId }: { userId: string; postId: string }) => {
+        this.emitPostHidden(userId, postId);
+      }
+    );
+
+    this.eventEmitter.on(
+      'post.unhidden',
+      ({ userId, postId }: { userId: string; postId: string }) => {
+        this.emitPostUnhidden(userId, postId);
+      }
+    );
+
+    this.eventEmitter.on(
+      'post.reported',
+      ({ postId, report }: { postId: string; report: unknown }) => {
+        this.emitPostReported(postId, report);
+      }
+    );
   }
 
   async handleConnection(client: AuthenticatedSocket) {

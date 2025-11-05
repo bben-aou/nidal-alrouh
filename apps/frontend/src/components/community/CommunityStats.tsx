@@ -1,12 +1,12 @@
 'use client';
 
-import { Users, MessageCircle, Calendar, Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import StartsIcons from '@/assets/icons/startsIcons';
+import { useGetCommunityStats } from '@/apis/community/queries';
+import { ErrorState } from '@/components/journal/error-state';
+import { LoadingState } from '@/components/journal/loading-state';
 import { StatCard } from '@/components/journal/stat-card';
-import { mockCommunityStats } from '@/lib/mock-data/community';
-import { type CommunityStats } from '@/types/community';
+import { useCommunityStatsConfig } from '@/hooks/use-community-stats-config';
 
 interface CommunityStatsProps {
   className?: string;
@@ -15,52 +15,37 @@ interface CommunityStatsProps {
 export function CommunityStats({ className }: Readonly<CommunityStatsProps>) {
   const t = useTranslations('community');
   const tJournal = useTranslations('journal');
-
-  const icons = [Users, MessageCircle, Heart, Calendar];
-  const labels = [
-    t('stats.activeMembers'),
-    t('stats.todayPosts'),
-    t('stats.supportGiven'),
-    t('stats.upcomingEvents'),
-  ];
-
-  const communityStats: CommunityStats[] = mockCommunityStats.map(
-    (stat, index) => ({
-      ...stat,
-      icon: icons[index],
-      label: labels[index],
-    })
-  );
-
-  const getChangeColor = (change: string) => {
-    const trimmed = change.trim();
-    if (trimmed.startsWith('+')) {
-      return 'text-emerald-600 dark:text-emerald-400';
-    }
-    if (trimmed.startsWith('-')) {
-      return 'text-rose-600 dark:text-rose-400';
-    }
-    return 'text-muted-foreground';
-  };
+  const { communityStats, isLoading, isError } = useGetCommunityStats();
+  const statsConfig = useCommunityStatsConfig(communityStats);
 
   return (
     <div
       className={`grid gap-6 md:grid-cols-2 lg:grid-cols-4 ${className || ''}`}
     >
-      {communityStats.map((stat, index) => (
-        <StatCard
-          key={index}
-          icon={stat.icon}
-          label={stat.label}
-          value={stat.value}
-          change={stat.change}
-          changeColor={getChangeColor(stat.change)}
-          bgColor="bg-primary/5"
-          iconBg="bg-primary/10"
-          pattern={<StartsIcons />}
-          fromLastWeek={tJournal('dashboard.fromLastWeek')}
+      {isLoading && <LoadingState count={4} />}
+      {isError && (
+        <ErrorState
+          count={4}
+          errorMessage={t('dashboard.emptyState.loading')}
+          tryAgainMessage={tJournal('dashboard.fromLastWeek')}
         />
-      ))}
+      )}
+      {!isLoading &&
+        !isError &&
+        statsConfig.map((stat) => (
+          <StatCard
+            key={stat.id}
+            icon={stat.icon}
+            label={stat.label}
+            value={stat.value}
+            change={stat.change}
+            changeColor={stat.changeColor}
+            bgColor={stat.bgColor}
+            iconBg={stat.iconBg}
+            pattern={stat.pattern}
+            fromLastWeek={stat.fromLastWeek}
+          />
+        ))}
     </div>
   );
 }

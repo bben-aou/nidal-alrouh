@@ -9,6 +9,8 @@ import { COMMUNITY_ENDPOINTS } from '@/apis/config/endpoints';
 import { apiClient, ApiClientError } from '@/lib/api';
 import { GetCommentsResponse, GetPostsResponse } from '@/types/community';
 
+import { GET_COMMUNITY_STATS_KEY } from './use-get-community-stats';
+
 export const DELETE_COMMENT_KEY = 'DELETE_COMMENT_KEY';
 
 const deleteCommentApiCall = async (
@@ -70,6 +72,9 @@ export const useDeleteComment = (postId: string | number) => {
           };
         }
       );
+
+      // Invalidate community stats to reflect comment deletion and active members
+      queryClient.invalidateQueries({ queryKey: [GET_COMMUNITY_STATS_KEY] });
 
       toast.success(response.message || 'Comment deleted successfully');
     },

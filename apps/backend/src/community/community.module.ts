@@ -6,6 +6,7 @@ import { AuthModule } from '../auth/auth.module';
 import { ContentModerationService } from '../common/services/content-moderation.service';
 import { PrismaModule } from '../prisma/prisma.module';
 
+import { CommunityEventsService } from './community-events.service';
 import { CommunityController } from './community.controller';
 import { CommunityGateway } from './community.gateway';
 import { CommunityService } from './community.service';
@@ -27,7 +28,12 @@ import { CommunityService } from './community.service';
     }),
   ],
   controllers: [CommunityController],
-  providers: [CommunityService, ContentModerationService, CommunityGateway],
+  providers: [
+    CommunityService,
+    ContentModerationService,
+    CommunityGateway,
+    CommunityEventsService,
+  ],
   exports: [CommunityService],
 })
 export class CommunityModule {}

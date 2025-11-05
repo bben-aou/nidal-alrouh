@@ -40,7 +40,7 @@ export const useGetComments = (
       }),
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
-    staleTime: 30 * 1000, // 30 seconds
+    // staleTime: 30 * 1000, // 30 seconds
     retry: false,
   });
 };
