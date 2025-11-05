@@ -148,15 +148,19 @@ model Post {
   locale      SupportedPromptLocale
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+  quotedPostId String?      @db.Uuid
 
   // Relations
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments    Comment[]
   likes       PostLike[]
   reports     PostReport[]
+  quotedPost  Post?         @relation("QuotedPost", fields: [quotedPostId], references: [id])
+  quotes      Post[]        @relation("QuotedPost")
 
   @@index([locale, createdAt])
   @@index([userId, createdAt])
+  @@index([quotedPostId])
   @@map("posts")
   HiddenPost HiddenPost[]
 }

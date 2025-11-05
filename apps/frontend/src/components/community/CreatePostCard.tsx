@@ -1,7 +1,10 @@
 'use client';
 
+import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCreatePostForm } from '@/hooks/useCreatePostForm';
 import { cn } from '@/lib/utils';
@@ -15,6 +18,8 @@ import { TagsSection } from './tags-section';
 export function CreatePostCard({
   className,
   onPostSubmit,
+  quotedPost,
+  onRemoveQuotedPost,
 }: Readonly<CreatePostCardProps>) {
   const t = useTranslations('community');
 
@@ -23,6 +28,7 @@ export function CreatePostCard({
     handleSubmit,
     errors,
     isValid,
+    setValue,
     watchedContent,
     watchedTags,
     watchedIsAnonymous,
@@ -34,7 +40,11 @@ export function CreatePostCard({
     handleTagInputFocus,
     handleTagInputChange,
     handleAnonymousToggle,
-  } = useCreatePostForm({ onPostSubmit });
+  } = useCreatePostForm({ onPostSubmit, onAfterSubmit: onRemoveQuotedPost });
+
+  useEffect(() => {
+    setValue('quotedPostId', quotedPost?.id ?? '');
+  }, [quotedPost, setValue]);
 
   return (
     <Card
@@ -55,6 +65,28 @@ export function CreatePostCard({
 
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
+          <input type="hidden" {...register('quotedPostId')} />
+
+          {quotedPost && (
+            <div className="rounded-md border p-3 text-sm text-muted-foreground relative">
+              <p className="font-medium text-foreground mb-1">
+                {quotedPost.author}
+              </p>
+              <p className="line-clamp-2">{quotedPost.content}</p>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-2 top-2"
+                onClick={onRemoveQuotedPost}
+                title={t('dashboard.shareModal.removeQuoted')}
+                aria-label={t('dashboard.shareModal.removeQuoted')}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+
           <PostContentInput
             register={register('content')}
             error={errors.content}

@@ -37,6 +37,7 @@ interface UseCommunityFeedResult {
     content: string;
     tags: string[];
     isAnonymous: boolean;
+    quotedPostId?: string;
   }) => void;
   handlePostLike: (postId: string) => void;
   handlePostComment: (postId: string) => void;
@@ -330,12 +331,14 @@ export function useCommunityFeed({
     content: string;
     tags: string[];
     isAnonymous: boolean;
+    quotedPostId?: string;
   }) => {
     createPostMutation.mutate({
       content: data.content,
       tags: data.tags,
       locale,
       isAnonymous: data.isAnonymous,
+      ...(data.quotedPostId ? { quotedPostId: data.quotedPostId } : {}),
     });
   };
 

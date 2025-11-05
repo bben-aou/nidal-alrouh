@@ -107,6 +107,16 @@
     "eventsDescription": "Événements communautaires et sessions de soutien",
     "noEvents": "Aucun événement à venir",
     "createEvent": "Créer un événement",
+    "shareModal": {
+      "title": "Partager la publication",
+      "copyLink": "Copier le lien",
+      "nativeShare": "Partager via l'appareil",
+      "quoteShare": "Reposter avec commentaire",
+      "removeQuoted": "Supprimer la publication citée",
+      "copied": "Lien copié dans le presse-papiers",
+      "shareFailed": "Impossible de partager. Veuillez réessayer.",
+      "notShareable": "Les publications masquées ne peuvent pas être partagées"
+    },
     "emptyState": {
       "title": "Aucune publication pour le moment",
       "description": "Soyez le premier à partager quelque chose avec la communauté ! Créez une publication pour commencer la conversation.",

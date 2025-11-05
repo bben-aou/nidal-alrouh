@@ -13,6 +13,7 @@ export const createCommunitySchemas = (t: (key: string) => string) => {
       .array(z.string().min(1).max(50))
       .max(10, t('validation.tagsMaxCount')),
     isAnonymous: z.boolean(),
+    quotedPostId: z.string().optional(),
   });
 
   const createReportSchema = z.object({
@@ -44,6 +45,7 @@ export const createPostSchema = z.object({
     .max(5000, 'Content cannot exceed 5000 characters'),
   tags: z.array(z.string().min(1).max(50)).max(10, 'You can add up to 10 tags'),
   isAnonymous: z.boolean(),
+  quotedPostId: z.string().optional(),
 });
 
 export const createReportSchema = z.object({

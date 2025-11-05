@@ -15,6 +15,11 @@ export const transformCommunityPosts = (
         : t('dashboard.authorLabels.anonymous')
       : (p.user?.name ?? t('dashboard.authorLabels.member'));
 
+    // Derive quoted post author label if present
+    const quotedAuthorLabel = p.quotedPost?.isAnonymous
+      ? t('dashboard.authorLabels.anonymous')
+      : (p.quotedPost?.user?.name ?? t('dashboard.authorLabels.member'));
+
     return {
       id: p.id.toString(),
       author: authorLabel,
@@ -31,6 +36,14 @@ export const transformCommunityPosts = (
       tags: p.tags ?? [],
       hidden: p.hidden,
       likedByMe: !!p.likedByMe,
+      quotedPost: p.quotedPost
+        ? {
+            id: String(p.quotedPost.id),
+            author: quotedAuthorLabel,
+            content: p.quotedPost.content ?? '',
+            hidden: false,
+          }
+        : undefined,
     };
   });
 };

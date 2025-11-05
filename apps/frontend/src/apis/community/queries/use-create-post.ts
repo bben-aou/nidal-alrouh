@@ -17,6 +17,7 @@ export interface CreatePostRequestBody {
   tags?: string[];
   isAnonymous?: boolean;
   locale: string;
+  quotedPostId?: string;
 }
 
 export interface CreatePostResponse {

@@ -90,6 +90,14 @@ export function PostCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <p>{post.content}</p>
+        {post.quotedPost && (
+          <div className="rounded-md border p-3 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground mb-1">
+              {post.quotedPost.author ?? t('dashboard.authorLabels.anonymous')}
+            </p>
+            <p className="line-clamp-3">{post.quotedPost.content}</p>
+          </div>
+        )}
         <div className="flex gap-2">
           {post.tags.map((tag) => (
             <Badge key={tag} variant="outline">
@@ -149,7 +157,15 @@ export function PostCard({
               {post.comments}
             </span>
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => onShare?.(post.id)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onShare?.(post.id)}
+            disabled={post.hidden}
+            title={
+              post.hidden ? t('dashboard.shareModal.notShareable') : undefined
+            }
+          >
             <Share2 className="mr-2 h-4 w-4" />
             {t('dashboard.share')}
           </Button>

@@ -86,6 +86,21 @@ export function useCommunityRealtime({
                   avatar: rawUser.avatar ?? null,
                 }
               : undefined,
+          quotedPost: raw.quotedPost
+            ? {
+                id: raw.quotedPost.id ?? '',
+                content: raw.quotedPost.content ?? '',
+                isAnonymous: Boolean(raw.quotedPost.isAnonymous),
+                createdAt: raw.quotedPost.createdAt ?? new Date().toISOString(),
+                user: raw.quotedPost.user
+                  ? {
+                      id: String(raw.quotedPost.user.id ?? ''),
+                      name: raw.quotedPost.user.name ?? undefined,
+                      avatar: raw.quotedPost.user.avatar ?? null,
+                    }
+                  : null,
+              }
+            : undefined,
         };
 
         const transformedPosts = transformCommunityPosts([item], t);

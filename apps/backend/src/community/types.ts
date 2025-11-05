@@ -22,6 +22,13 @@ export interface SanitizedPost {
   likedByMe: boolean;
   likesCount: number;
   commentsCount: number;
+  quotedPost?: {
+    id: string;
+    content: string;
+    isAnonymous: boolean;
+    user?: SanitizedUser | null;
+    createdAt: Date;
+  };
 }
 
 export interface SanitizedComment {

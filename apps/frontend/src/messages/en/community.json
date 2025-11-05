@@ -107,6 +107,16 @@
     "eventsDescription": "Community events and support sessions",
     "noEvents": "No upcoming events",
     "createEvent": "Create Event",
+    "shareModal": {
+      "title": "Share Post",
+      "copyLink": "Copy Link",
+      "nativeShare": "Share via Device",
+      "quoteShare": "Repost with Comment",
+      "removeQuoted": "Remove quoted post",
+      "copied": "Link copied to clipboard",
+      "shareFailed": "Unable to share. Please try again.",
+      "notShareable": "Hidden posts cannot be shared"
+    },
     "reportModal": {
       "title": "Report Post",
       "reason": "Select a reason",

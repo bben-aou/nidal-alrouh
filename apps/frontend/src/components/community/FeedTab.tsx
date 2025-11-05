@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { CreatePostCard } from '@/components/community/CreatePostCard';
 import { PostCard } from '@/components/community/PostCard';
 import { ReportPostModal } from '@/components/community/ReportPostModal';
+import { SharePostModal } from '@/components/community/SharePostModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -41,6 +42,9 @@ export function FeedTab({
   const t = useTranslations('community');
   const [reportOpen, setReportOpen] = useState(false);
   const [reportPostId, setReportPostId] = useState<string | null>(null);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [sharePost, setSharePost] = useState<Post | null>(null);
+  const [quotedPost, setQuotedPost] = useState<Post | null>(null);
 
   const handleReportClick = (postId: string) => {
     setReportPostId(postId);
@@ -48,10 +52,34 @@ export function FeedTab({
     onReport(postId);
   };
 
+  const handleShareClick = (post: Post) => {
+    if (post.hidden) {
+      return;
+    }
+    setSharePost(post);
+    setShareOpen(true);
+    onShare(post.id);
+  };
+
+  const handleQuoteShare = () => {
+    if (sharePost) {
+      setQuotedPost(sharePost);
+      onCreatePostFocus();
+    }
+  };
+
+  const handleRemoveQuotedPost = () => {
+    setQuotedPost(null);
+  };
+
   return (
     <div className="space-y-4">
       <div data-create-post>
-        <CreatePostCard onPostSubmit={onPostSubmit} />
+        <CreatePostCard
+          onPostSubmit={onPostSubmit}
+          quotedPost={quotedPost ?? undefined}
+          onRemoveQuotedPost={handleRemoveQuotedPost}
+        />
       </div>
 
       <div className="flex gap-4">
@@ -79,7 +107,7 @@ export function FeedTab({
               post={post}
               onLike={onLike}
               onComment={onComment}
-              onShare={onShare}
+              onShare={() => handleShareClick(post)}
               onReport={handleReportClick}
               onHide={onHide}
               onUnhide={onUnhide}
@@ -109,6 +137,15 @@ export function FeedTab({
           open={reportOpen}
           onOpenChange={setReportOpen}
           postId={reportPostId}
+        />
+      )}
+
+      {sharePost && (
+        <SharePostModal
+          open={shareOpen}
+          onOpenChange={setShareOpen}
+          post={sharePost}
+          onQuoteShare={handleQuoteShare}
         />
       )}
     </div>

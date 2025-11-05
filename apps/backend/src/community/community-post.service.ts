@@ -40,6 +40,9 @@ export class CommunityPostService {
       privacy: dto.privacy ?? PostPrivacy.PUBLIC,
       locale: dto.locale,
       user: { connect: { id: userId } },
+      ...(dto.quotedPostId
+        ? { quotedPost: { connect: { id: dto.quotedPostId } } }
+        : {}),
     };
 
     const post = await this.prisma.post.create({
@@ -47,8 +50,27 @@ export class CommunityPostService {
       include: {
         user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
+        quotedPost: {
+          select: {
+            id: true,
+            content: true,
+            isAnonymous: true,
+            createdAt: true,
+            user: { select: { id: true, name: true } },
+          },
+        },
       },
     });
+
+    const quotedSanitized = post.quotedPost
+      ? this.sanitizer.sanitizePost({
+          id: post.quotedPost.id,
+          content: post.quotedPost.content,
+          isAnonymous: post.quotedPost.isAnonymous,
+          user: post.quotedPost.user,
+          createdAt: post.quotedPost.createdAt,
+        })
+      : undefined;
 
     const sanitized = this.sanitizer.sanitizePost({
       id: post.id,
@@ -65,6 +87,15 @@ export class CommunityPostService {
       likedByMe: false,
       likesCount: post._count?.likes ?? 0,
       commentsCount: post._count?.comments ?? 0,
+      quotedPost: quotedSanitized
+        ? {
+            id: quotedSanitized.id,
+            content: quotedSanitized.content,
+            isAnonymous: quotedSanitized.isAnonymous,
+            user: quotedSanitized.user ?? null,
+            createdAt: quotedSanitized.createdAt,
+          }
+        : undefined,
     });
 
     // Emit real-time event via domain event bus
@@ -91,6 +122,15 @@ export class CommunityPostService {
       include: {
         user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
+        quotedPost: {
+          select: {
+            id: true,
+            content: true,
+            isAnonymous: true,
+            createdAt: true,
+            user: { select: { id: true, name: true } },
+          },
+        },
       },
     });
 
@@ -108,6 +148,16 @@ export class CommunityPostService {
       const likedByMe = likedSet.has(p.id);
       const likesCount = p._count?.likes ?? 0;
       const commentsCount = p._count?.comments ?? 0;
+      const quotedSanitized = p.quotedPost
+        ? this.sanitizer.sanitizePost({
+            id: p.quotedPost.id,
+            content: p.quotedPost.content,
+            isAnonymous: p.quotedPost.isAnonymous,
+            user: p.quotedPost.user,
+            createdAt: p.quotedPost.createdAt,
+          })
+        : undefined;
+
       return this.sanitizer.sanitizePost({
         id: p.id,
         content: p.content,
@@ -123,6 +173,15 @@ export class CommunityPostService {
         likedByMe,
         likesCount,
         commentsCount,
+        quotedPost: quotedSanitized
+          ? {
+              id: quotedSanitized.id,
+              content: quotedSanitized.content,
+              isAnonymous: quotedSanitized.isAnonymous,
+              user: quotedSanitized.user ?? null,
+              createdAt: quotedSanitized.createdAt,
+            }
+          : undefined,
       });
     });
     const nextCursor =
@@ -136,6 +195,15 @@ export class CommunityPostService {
       include: {
         user: { select: { id: true, name: true } },
         _count: { select: { likes: true, comments: true } },
+        quotedPost: {
+          select: {
+            id: true,
+            content: true,
+            isAnonymous: true,
+            createdAt: true,
+            user: { select: { id: true, name: true } },
+          },
+        },
       },
     });
 
@@ -151,6 +219,16 @@ export class CommunityPostService {
       : false;
     const likesCount = post._count?.likes ?? 0;
     const commentsCount = post._count?.comments ?? 0;
+
+    const quotedSanitized = post.quotedPost
+      ? this.sanitizer.sanitizePost({
+          id: post.quotedPost.id,
+          content: post.quotedPost.content,
+          isAnonymous: post.quotedPost.isAnonymous,
+          user: post.quotedPost.user,
+          createdAt: post.quotedPost.createdAt,
+        })
+      : undefined;
 
     return {
       data: this.sanitizer.sanitizePost({
@@ -168,6 +246,15 @@ export class CommunityPostService {
         likedByMe,
         likesCount,
         commentsCount,
+        quotedPost: quotedSanitized
+          ? {
+              id: quotedSanitized.id,
+              content: quotedSanitized.content,
+              isAnonymous: quotedSanitized.isAnonymous,
+              user: quotedSanitized.user ?? null,
+              createdAt: quotedSanitized.createdAt,
+            }
+          : undefined,
       }),
     };
   }

@@ -28,4 +28,8 @@ export class CreatePostDto {
 
   @IsEnum(SupportedPromptLocale)
   locale!: SupportedPromptLocale;
+
+  @IsString()
+  @IsOptional()
+  quotedPostId?: string;
 }

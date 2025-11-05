@@ -10,10 +10,12 @@ import {
 
 interface UseCreatePostFormProps {
   onPostSubmit?: (data: CreatePostFormData) => void;
+  onAfterSubmit?: () => void;
 }
 
 export function useCreatePostForm({
   onPostSubmit,
+  onAfterSubmit,
 }: UseCreatePostFormProps = {}) {
   const t = useTranslations('community');
   const [tagInput, setTagInput] = useState('');
@@ -45,6 +47,7 @@ export function useCreatePostForm({
     onPostSubmit?.(data);
     reset();
     setTagInput('');
+    onAfterSubmit?.();
   };
 
   const addTag = () => {
@@ -103,6 +106,7 @@ export function useCreatePostForm({
     handleSubmit: handleSubmit(onSubmit),
     errors,
     isValid,
+    setValue,
 
     watchedContent,
     watchedTags,

@@ -13,11 +13,21 @@ export interface CommunityPostItem {
   isAnonymous?: boolean;
   isOwner?: boolean;
   likedByMe?: boolean;
-  // Some APIs return counts, others return arrays; support both.
   likesCount?: number;
   commentsCount?: number;
   likes?: unknown[];
   comments?: unknown[];
+  quotedPost?: {
+    id: string | number;
+    content: string;
+    isAnonymous?: boolean;
+    createdAt?: string;
+    user?: {
+      id?: string;
+      name?: string | null;
+      avatar?: string | null;
+    } | null;
+  };
   user?: {
     id: string;
     name?: string | null;
@@ -34,6 +44,17 @@ export interface RealtimePostCreated {
   tags?: string[];
   isAnonymous?: boolean;
   userId?: string | number;
+  quotedPost?: {
+    id?: string | number;
+    content?: string;
+    isAnonymous?: boolean;
+    createdAt?: string;
+    user?: {
+      id?: string;
+      name?: string | null;
+      avatar?: string | null;
+    } | null;
+  };
   user?: {
     id?: string;
     name?: string | null;
@@ -160,6 +181,13 @@ export interface Post {
   tags: string[];
   hidden: boolean;
   likedByMe?: boolean;
+  /** Optional quoted post preview when this post is a repost-with-comment */
+  quotedPost?: {
+    id: string;
+    author?: string | null;
+    content: string;
+    hidden?: boolean;
+  };
 }
 
 // Support group interface
@@ -220,6 +248,8 @@ export interface SubmitButtonProps {
 export interface CreatePostCardProps {
   className?: string;
   onPostSubmit?: (data: CreatePostFormData) => void;
+  quotedPost?: Post;
+  onRemoveQuotedPost?: () => void;
 }
 
 /**
