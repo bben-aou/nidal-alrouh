@@ -11,6 +11,8 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { extractTokenFromSocket } from '../common/utils/token.utils';
+
+import { CommunityEvent } from './constants/events.constants';
 interface AuthenticatedSocket extends Socket {
   userId?: string;
 }
@@ -49,23 +51,29 @@ export class CommunityGateway
     this.logger.log('CommunityGateway initialized');
 
     // Subscribe to domain events and forward them to socket clients
-    this.eventEmitter.on('post.created', ({ post }: { post: any }) => {
-      this.emitPostCreated(post);
-    });
+    this.eventEmitter.on(
+      CommunityEvent.PostCreated,
+      ({ post }: { post: any }) => {
+        this.emitPostCreated(post);
+      }
+    );
 
     this.eventEmitter.on(
-      'post.updated',
+      CommunityEvent.PostUpdated,
       ({ postId, post }: { postId: string; post: any }) => {
         this.emitPostUpdated(postId, post);
       }
     );
 
-    this.eventEmitter.on('post.deleted', ({ postId }: { postId: string }) => {
-      this.emitPostDeleted(postId);
-    });
+    this.eventEmitter.on(
+      CommunityEvent.PostDeleted,
+      ({ postId }: { postId: string }) => {
+        this.emitPostDeleted(postId);
+      }
+    );
 
     this.eventEmitter.on(
-      'post.liked',
+      CommunityEvent.PostLiked,
       ({
         postId,
         userId,
@@ -80,7 +88,7 @@ export class CommunityGateway
     );
 
     this.eventEmitter.on(
-      'post.unliked',
+      CommunityEvent.PostUnliked,
       ({
         postId,
         userId,
@@ -95,7 +103,7 @@ export class CommunityGateway
     );
 
     this.eventEmitter.on(
-      'comment.created',
+      CommunityEvent.CommentCreated,
       ({
         postId,
         comment,
@@ -110,28 +118,28 @@ export class CommunityGateway
     );
 
     this.eventEmitter.on(
-      'comment.deleted',
+      CommunityEvent.CommentDeleted,
       ({ postId, commentId }: { postId: string; commentId: string }) => {
         this.emitCommentDeleted(postId, commentId);
       }
     );
 
     this.eventEmitter.on(
-      'post.hidden',
+      CommunityEvent.PostHidden,
       ({ userId, postId }: { userId: string; postId: string }) => {
         this.emitPostHidden(userId, postId);
       }
     );
 
     this.eventEmitter.on(
-      'post.unhidden',
+      CommunityEvent.PostUnhidden,
       ({ userId, postId }: { userId: string; postId: string }) => {
         this.emitPostUnhidden(userId, postId);
       }
     );
 
     this.eventEmitter.on(
-      'post.reported',
+      CommunityEvent.PostReported,
       ({ postId, report }: { postId: string; report: unknown }) => {
         this.emitPostReported(postId, report);
       }
@@ -217,7 +225,7 @@ export class CommunityGateway
     const timestamp = new Date().toISOString();
 
     // Emit to the author with isOwner: true
-    this.server.to(`user:${authorUserId}`).emit('comment.created', {
+    this.server.to(`user:${authorUserId}`).emit(CommunityEvent.CommentCreated, {
       postId,
       comment: { ...comment, isOwner: true },
       timestamp,
@@ -227,7 +235,7 @@ export class CommunityGateway
     this.server
       .to(`post:${postId}`)
       .except(`user:${authorUserId}`)
-      .emit('comment.created', {
+      .emit(CommunityEvent.CommentCreated, {
         postId,
         comment: { ...comment, isOwner: false },
         timestamp,
@@ -242,7 +250,7 @@ export class CommunityGateway
    * Emit when a comment is deleted
    */
   emitCommentDeleted(postId: string, commentId: string) {
-    this.server.to(`post:${postId}`).emit('comment.deleted', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.CommentDeleted, {
       postId,
       commentId,
       timestamp: new Date().toISOString(),
@@ -257,7 +265,7 @@ export class CommunityGateway
    * Emit when a post is liked
    */
   emitPostLiked(postId: string, userId: string, likeCount: number) {
-    this.server.to(`post:${postId}`).emit('post.liked', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.PostLiked, {
       postId,
       userId,
       likeCount,
@@ -271,7 +279,7 @@ export class CommunityGateway
    * Emit when a post is unliked
    */
   emitPostUnliked(postId: string, userId: string, likeCount: number) {
-    this.server.to(`post:${postId}`).emit('post.unliked', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.PostUnliked, {
       postId,
       userId,
       likeCount,
@@ -287,7 +295,7 @@ export class CommunityGateway
    * Emit when a post is hidden for a specific user
    */
   emitPostHidden(userId: string, postId: string) {
-    this.server.to(`user:${userId}`).emit('post.hidden', {
+    this.server.to(`user:${userId}`).emit(CommunityEvent.PostHidden, {
       postId,
       userId,
       timestamp: new Date().toISOString(),
@@ -300,7 +308,7 @@ export class CommunityGateway
    * Emit when a post is unhidden for a specific user
    */
   emitPostUnhidden(userId: string, postId: string) {
-    this.server.to(`user:${userId}`).emit('post.unhidden', {
+    this.server.to(`user:${userId}`).emit(CommunityEvent.PostUnhidden, {
       postId,
       userId,
       timestamp: new Date().toISOString(),
@@ -315,7 +323,7 @@ export class CommunityGateway
    * Emit when a post is reported
    */
   emitPostReported(postId: string, report: unknown) {
-    this.server.to(`post:${postId}`).emit('post.reported', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.PostReported, {
       postId,
       report,
       timestamp: new Date().toISOString(),
@@ -328,7 +336,7 @@ export class CommunityGateway
    * Emit when a new post is created (to all connected users)
    */
   emitPostCreated(post: any) {
-    this.server.emit('post.created', {
+    this.server.emit(CommunityEvent.PostCreated, {
       post,
       timestamp: new Date().toISOString(),
     });
@@ -340,7 +348,7 @@ export class CommunityGateway
    * Emit when a post is updated
    */
   emitPostUpdated(postId: string, post: any) {
-    this.server.to(`post:${postId}`).emit('post.updated', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.PostUpdated, {
       postId,
       post,
       timestamp: new Date().toISOString(),
@@ -353,7 +361,7 @@ export class CommunityGateway
    * Emit when a post is deleted
    */
   emitPostDeleted(postId: string) {
-    this.server.to(`post:${postId}`).emit('post.deleted', {
+    this.server.to(`post:${postId}`).emit(CommunityEvent.PostDeleted, {
       postId,
       timestamp: new Date().toISOString(),
     });

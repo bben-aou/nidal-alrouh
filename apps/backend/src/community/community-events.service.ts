@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
+import { CommunityEvent } from './constants/events.constants';
+
 export interface PostCreatedEvent {
   post: any;
 }
@@ -57,11 +59,13 @@ export class CommunityEventsService {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
   emitPostCreated(post: any) {
-    this.eventEmitter.emit('post.created', { post } as PostCreatedEvent);
+    this.eventEmitter.emit(CommunityEvent.PostCreated, {
+      post,
+    } as PostCreatedEvent);
   }
 
   emitPostLiked(postId: string, userId: string, likeCount: number) {
-    this.eventEmitter.emit('post.liked', {
+    this.eventEmitter.emit(CommunityEvent.PostLiked, {
       postId,
       userId,
       likeCount,
@@ -69,7 +73,7 @@ export class CommunityEventsService {
   }
 
   emitPostUnliked(postId: string, userId: string, likeCount: number) {
-    this.eventEmitter.emit('post.unliked', {
+    this.eventEmitter.emit(CommunityEvent.PostUnliked, {
       postId,
       userId,
       likeCount,
@@ -78,7 +82,7 @@ export class CommunityEventsService {
 
   emitCommentCreated(postId: string, comment: any) {
     // Keep for backward compatibility if needed, but prefer the version with authorUserId
-    this.eventEmitter.emit('comment.created', {
+    this.eventEmitter.emit(CommunityEvent.CommentCreated, {
       postId,
       comment,
       authorUserId: comment?.userId,
@@ -90,7 +94,7 @@ export class CommunityEventsService {
     comment: any,
     authorUserId: string
   ) {
-    this.eventEmitter.emit('comment.created', {
+    this.eventEmitter.emit(CommunityEvent.CommentCreated, {
       postId,
       comment,
       authorUserId,
@@ -98,39 +102,41 @@ export class CommunityEventsService {
   }
 
   emitPostUpdated(postId: string, post: any) {
-    this.eventEmitter.emit('post.updated', {
+    this.eventEmitter.emit(CommunityEvent.PostUpdated, {
       postId,
       post,
     } as PostUpdatedEvent);
   }
 
   emitPostDeleted(postId: string) {
-    this.eventEmitter.emit('post.deleted', { postId } as PostDeletedEvent);
+    this.eventEmitter.emit(CommunityEvent.PostDeleted, {
+      postId,
+    } as PostDeletedEvent);
   }
 
   emitCommentDeleted(postId: string, commentId: string) {
-    this.eventEmitter.emit('comment.deleted', {
+    this.eventEmitter.emit(CommunityEvent.CommentDeleted, {
       postId,
       commentId,
     } as CommentDeletedEvent);
   }
 
   emitPostHidden(userId: string, postId: string) {
-    this.eventEmitter.emit('post.hidden', {
+    this.eventEmitter.emit(CommunityEvent.PostHidden, {
       userId,
       postId,
     } as PostHiddenEvent);
   }
 
   emitPostUnhidden(userId: string, postId: string) {
-    this.eventEmitter.emit('post.unhidden', {
+    this.eventEmitter.emit(CommunityEvent.PostUnhidden, {
       userId,
       postId,
     } as PostUnhiddenEvent);
   }
 
   emitPostReported(postId: string, report: unknown) {
-    this.eventEmitter.emit('post.reported', {
+    this.eventEmitter.emit(CommunityEvent.PostReported, {
       postId,
       report,
     } as PostReportedEvent);

@@ -6,7 +6,13 @@ import { AuthModule } from '../auth/auth.module';
 import { ContentModerationService } from '../common/services/content-moderation.service';
 import { PrismaModule } from '../prisma/prisma.module';
 
+import { CommunityCommentService } from './community-comment.service';
 import { CommunityEventsService } from './community-events.service';
+import { CommunityLikeService } from './community-like.service';
+import { CommunityModerationService } from './community-moderation.service';
+import { CommunityPostService } from './community-post.service';
+import { CommunitySanitizerService } from './community-sanitizer.service';
+import { CommunityStatsService } from './community-stats.service';
 import { CommunityController } from './community.controller';
 import { CommunityGateway } from './community.gateway';
 import { CommunityService } from './community.service';
@@ -30,6 +36,12 @@ import { CommunityService } from './community.service';
   controllers: [CommunityController],
   providers: [
     CommunityService,
+    CommunityCommentService,
+    CommunityLikeService,
+    CommunityModerationService,
+    CommunityPostService,
+    CommunitySanitizerService,
+    CommunityStatsService,
     ContentModerationService,
     CommunityGateway,
     CommunityEventsService,
