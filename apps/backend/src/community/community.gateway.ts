@@ -8,11 +8,15 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import { PostReport } from '@prisma/client';
 import { Server, Socket } from 'socket.io';
 
 import { extractTokenFromSocket } from '../common/utils/token.utils';
 
+import { SanitizedPost, SanitizedComment } from './community-events.service';
 import { CommunityEvent } from './constants/events.constants';
+import { Notification } from './types';
+
 interface AuthenticatedSocket extends Socket {
   userId?: string;
 }
@@ -53,14 +57,14 @@ export class CommunityGateway
     // Subscribe to domain events and forward them to socket clients
     this.eventEmitter.on(
       CommunityEvent.PostCreated,
-      ({ post }: { post: any }) => {
+      ({ post }: { post: SanitizedPost }) => {
         this.emitPostCreated(post);
       }
     );
 
     this.eventEmitter.on(
       CommunityEvent.PostUpdated,
-      ({ postId, post }: { postId: string; post: any }) => {
+      ({ postId, post }: { postId: string; post: SanitizedPost }) => {
         this.emitPostUpdated(postId, post);
       }
     );
@@ -110,7 +114,7 @@ export class CommunityGateway
         authorUserId,
       }: {
         postId: string;
-        comment: any;
+        comment: SanitizedComment;
         authorUserId: string;
       }) => {
         this.emitCommentCreated(postId, comment, authorUserId);
@@ -140,7 +144,7 @@ export class CommunityGateway
 
     this.eventEmitter.on(
       CommunityEvent.PostReported,
-      ({ postId, report }: { postId: string; report: unknown }) => {
+      ({ postId, report }: { postId: string; report: PostReport }) => {
         this.emitPostReported(postId, report);
       }
     );
@@ -172,9 +176,11 @@ export class CommunityGateway
 
       // Join user to their personal room for targeted notifications
       await client.join(`user:${userId}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
       this.logger.error(
-        `Authentication failed for client ${client.id}: ${error?.message || 'Unknown error'}`
+        `Authentication failed for client ${client.id}: ${errorMessage}`
       );
       client.disconnect();
     }
@@ -221,7 +227,11 @@ export class CommunityGateway
   /**
    * Emit when a new comment is created
    */
-  emitCommentCreated(postId: string, comment: any, authorUserId: string) {
+  emitCommentCreated(
+    postId: string,
+    comment: SanitizedComment,
+    authorUserId: string
+  ) {
     const timestamp = new Date().toISOString();
 
     // Emit to the author with isOwner: true
@@ -322,7 +332,7 @@ export class CommunityGateway
   /**
    * Emit when a post is reported
    */
-  emitPostReported(postId: string, report: unknown) {
+  emitPostReported(postId: string, report: PostReport) {
     this.server.to(`post:${postId}`).emit(CommunityEvent.PostReported, {
       postId,
       report,
@@ -335,7 +345,7 @@ export class CommunityGateway
   /**
    * Emit when a new post is created (to all connected users)
    */
-  emitPostCreated(post: any) {
+  emitPostCreated(post: SanitizedPost) {
     this.server.emit(CommunityEvent.PostCreated, {
       post,
       timestamp: new Date().toISOString(),
@@ -347,7 +357,7 @@ export class CommunityGateway
   /**
    * Emit when a post is updated
    */
-  emitPostUpdated(postId: string, post: any) {
+  emitPostUpdated(postId: string, post: SanitizedPost) {
     this.server.to(`post:${postId}`).emit(CommunityEvent.PostUpdated, {
       postId,
       post,
@@ -372,7 +382,7 @@ export class CommunityGateway
   /**
    * Send a notification to a specific user
    */
-  emitUserNotification(userId: string, notification: any) {
+  emitUserNotification(userId: string, notification: Notification) {
     this.server.to(`user:${userId}`).emit('notification', {
       ...notification,
       timestamp: new Date().toISOString(),

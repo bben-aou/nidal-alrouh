@@ -51,9 +51,20 @@ export class CommunityPostService {
     });
 
     const sanitized = this.sanitizer.sanitizePost({
-      ...post,
+      id: post.id,
+      content: post.content,
+      tags: post.tags,
+      isAnonymous: post.isAnonymous,
+      privacy: post.privacy,
+      locale: post.locale,
+      userId: post.userId,
+      user: post.user,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
       isOwner: true, // User is always the owner of their own created post
       likedByMe: false,
+      likesCount: post._count?.likes ?? 0,
+      commentsCount: post._count?.comments ?? 0,
     });
 
     // Emit real-time event via domain event bus
@@ -98,7 +109,16 @@ export class CommunityPostService {
       const likesCount = p._count?.likes ?? 0;
       const commentsCount = p._count?.comments ?? 0;
       return this.sanitizer.sanitizePost({
-        ...p,
+        id: p.id,
+        content: p.content,
+        tags: p.tags,
+        isAnonymous: p.isAnonymous,
+        privacy: p.privacy,
+        locale: p.locale,
+        userId: p.userId,
+        user: p.user,
+        createdAt: p.createdAt,
+        updatedAt: p.updatedAt,
         isOwner,
         likedByMe,
         likesCount,
@@ -134,7 +154,16 @@ export class CommunityPostService {
 
     return {
       data: this.sanitizer.sanitizePost({
-        ...post,
+        id: post.id,
+        content: post.content,
+        tags: post.tags,
+        isAnonymous: post.isAnonymous,
+        privacy: post.privacy,
+        locale: post.locale,
+        userId: post.userId,
+        user: post.user,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
         isOwner: currentUserId ? post.userId === currentUserId : false,
         likedByMe,
         likesCount,
@@ -179,7 +208,22 @@ export class CommunityPostService {
         _count: { select: { likes: true, comments: true } },
       },
     });
-    const sanitized = this.sanitizer.sanitizePost(updated);
+    const sanitized = this.sanitizer.sanitizePost({
+      id: updated.id,
+      content: updated.content,
+      tags: updated.tags,
+      isAnonymous: updated.isAnonymous,
+      privacy: updated.privacy,
+      locale: updated.locale,
+      userId: updated.userId,
+      user: updated.user,
+      createdAt: updated.createdAt,
+      updatedAt: updated.updatedAt,
+      isOwner: true,
+      likedByMe: false,
+      likesCount: updated._count?.likes ?? 0,
+      commentsCount: updated._count?.comments ?? 0,
+    });
     // Emit real-time event via domain event bus
     this.events.emitPostUpdated(postId, sanitized);
     return { data: sanitized, message: 'Post updated' };

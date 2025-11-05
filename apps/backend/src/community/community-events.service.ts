@@ -2,63 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { CommunityEvent } from './constants/events.constants';
-
-export interface PostCreatedEvent {
-  post: any;
-}
-
-export interface PostLikedEvent {
-  postId: string;
-  userId: string;
-  likeCount: number;
-}
-
-export interface PostUnlikedEvent {
-  postId: string;
-  userId: string;
-  likeCount: number;
-}
-
-export interface CommentCreatedEvent {
-  postId: string;
-  comment: any;
-  authorUserId: string;
-}
-
-export interface PostUpdatedEvent {
-  postId: string;
-  post: any;
-}
-
-export interface PostDeletedEvent {
-  postId: string;
-}
-
-export interface CommentDeletedEvent {
-  postId: string;
-  commentId: string;
-}
-
-export interface PostHiddenEvent {
-  userId: string;
-  postId: string;
-}
-
-export interface PostUnhiddenEvent {
-  userId: string;
-  postId: string;
-}
-
-export interface PostReportedEvent {
-  postId: string;
-  report: unknown;
-}
+import {
+  SanitizedPost,
+  SanitizedComment,
+  PostCreatedEvent,
+  PostLikedEvent,
+  PostUnlikedEvent,
+  CommentCreatedEvent,
+  PostUpdatedEvent,
+  PostDeletedEvent,
+  CommentDeletedEvent,
+  PostHiddenEvent,
+  PostUnhiddenEvent,
+  PostReportedEvent,
+} from './types';
 
 @Injectable()
 export class CommunityEventsService {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  emitPostCreated(post: any) {
+  emitPostCreated(post: SanitizedPost) {
     this.eventEmitter.emit(CommunityEvent.PostCreated, {
       post,
     } as PostCreatedEvent);
@@ -80,7 +43,7 @@ export class CommunityEventsService {
     } as PostUnlikedEvent);
   }
 
-  emitCommentCreated(postId: string, comment: any) {
+  emitCommentCreated(postId: string, comment: SanitizedComment) {
     // Keep for backward compatibility if needed, but prefer the version with authorUserId
     this.eventEmitter.emit(CommunityEvent.CommentCreated, {
       postId,
@@ -91,7 +54,7 @@ export class CommunityEventsService {
 
   emitCommentCreatedByAuthor(
     postId: string,
-    comment: any,
+    comment: SanitizedComment,
     authorUserId: string
   ) {
     this.eventEmitter.emit(CommunityEvent.CommentCreated, {
@@ -101,7 +64,7 @@ export class CommunityEventsService {
     } as CommentCreatedEvent);
   }
 
-  emitPostUpdated(postId: string, post: any) {
+  emitPostUpdated(postId: string, post: SanitizedPost) {
     this.eventEmitter.emit(CommunityEvent.PostUpdated, {
       postId,
       post,
@@ -142,3 +105,4 @@ export class CommunityEventsService {
     } as PostReportedEvent);
   }
 }
+export { SanitizedPost, SanitizedComment };
