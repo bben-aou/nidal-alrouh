@@ -35,11 +35,11 @@ export function SharePostModal({
       const origin =
         typeof window !== 'undefined' ? window.location.origin : '';
       const url = new URL(origin);
-      url.pathname = `/${locale}/dashboard/community`;
-      url.search = `?post=${encodeURIComponent(post.id)}&utm_medium=share&utm_source=community`;
+      url.pathname = `/${locale}/dashboard/community/posts/${encodeURIComponent(post.id)}`;
+      url.search = `utm_medium=share&utm_source=community`;
       return url.toString();
     } catch {
-      return `/${locale}/dashboard/community?post=${encodeURIComponent(post.id)}`;
+      return `/${locale}/dashboard/community/posts/${encodeURIComponent(post.id)}?utm_medium=share&utm_source=community`;
     }
   };
 
@@ -49,6 +49,10 @@ export function SharePostModal({
 
   const handleCopyLink = async () => {
     try {
+      if (post.hidden) {
+        toast.error(t('dashboard.shareModal.notShareable'));
+        return;
+      }
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl);
       } else {
@@ -69,6 +73,10 @@ export function SharePostModal({
 
   const handleNativeShare = async () => {
     try {
+      if (post.hidden) {
+        toast.error(t('dashboard.shareModal.notShareable'));
+        return;
+      }
       if (navigator?.share) {
         await navigator.share({
           title: t('dashboard.title'),
@@ -86,6 +94,10 @@ export function SharePostModal({
   };
 
   const handleQuoteShare = () => {
+    if (post.hidden) {
+      toast.error(t('dashboard.shareModal.notShareable'));
+      return;
+    }
     onOpenChange(false);
     onQuoteShare?.();
   };
@@ -134,7 +146,7 @@ export function SharePostModal({
           </div>
         </div>
 
-        <DialogFooter className="mt-4">
+        <DialogFooter className="mt-1">
           <Button
             type="button"
             variant="ghost"

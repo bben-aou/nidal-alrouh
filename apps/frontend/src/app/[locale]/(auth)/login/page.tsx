@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -15,13 +16,15 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
+  const searchParams = useSearchParams();
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      await login(data.email, data.password);
+      const redirectTo = searchParams.get('redirect');
+      await login(data.email, data.password, redirectTo);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : t('login.failed'));
     } finally {

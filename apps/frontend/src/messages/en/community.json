@@ -69,6 +69,8 @@
   "dashboard": {
     "title": "Community",
     "description": "Connect, share, and find support with others.",
+    "backToCommunity": "Back to Community",
+    "postNotFound": "Post not found",
     "createPost": "Create Post",
     "authorLabels": {
       "anonymousYou": "Anonymous (You)",

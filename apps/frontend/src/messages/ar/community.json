@@ -69,6 +69,8 @@
   "dashboard": {
     "title": "المجتمع",
     "description": "تواصل وشارك واحصل على الدعم مع الآخرين.",
+    "backToCommunity": "العودة إلى المجتمع",
+    "postNotFound": "لم يتم العثور على المنشور",
     "createPost": "إنشاء منشور",
     "authorLabels": {
       "anonymousYou": "مجهول (أنت)",

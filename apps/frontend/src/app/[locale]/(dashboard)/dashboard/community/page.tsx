@@ -1,8 +1,9 @@
 'use client';
 
 import { Plus } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CommunityStats } from '@/components/community/CommunityStats';
 import { EventsTab } from '@/components/community/EventsTab';
@@ -11,10 +12,13 @@ import { GroupsTab } from '@/components/community/GroupsTab';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCommunityFeed } from '@/hooks/use-community-feed';
+import { useRouter } from '@/i18n/navigation';
 
 export default function DashboardCommunityPage() {
   const t = useTranslations('community');
   const locale = useLocale();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [activeTab, setActiveTab] = useState<'feed' | 'groups' | 'events'>(
     'feed'
@@ -66,6 +70,20 @@ export default function DashboardCommunityPage() {
       }
     }, 10);
   };
+
+  useEffect(() => {
+    const postId = searchParams?.get('post');
+    if (postId) {
+      const utmMedium = searchParams.get('utm_medium');
+      const utmSource = searchParams.get('utm_source');
+      const params = new URLSearchParams();
+      if (utmMedium) params.set('utm_medium', utmMedium);
+      if (utmSource) params.set('utm_source', utmSource);
+      const qs = params.toString();
+      const target = `/dashboard/community/posts/${encodeURIComponent(postId)}${qs ? `?${qs}` : ''}`;
+      router.replace(target);
+    }
+  }, [router, searchParams]);
 
   return (
     <div className="space-y-6">

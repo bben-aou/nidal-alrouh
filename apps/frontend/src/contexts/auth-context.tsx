@@ -25,7 +25,11 @@ export interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    redirectTo?: string | null
+  ) => Promise<void>;
   signup: (
     name: string,
     email: string,
@@ -138,7 +142,11 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (
+    email: string,
+    password: string,
+    redirectTo?: string | null
+  ) => {
     setIsLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -158,8 +166,11 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
       const data = await response.json();
       setUser(data.user);
 
-      // Redirect to dashboard after successful login
-      router.push(`/${locale}/dashboard`);
+      // Redirect to intended page if provided, else to dashboard
+      const safeRedirect = redirectTo?.startsWith('/')
+        ? redirectTo
+        : `/${locale}/dashboard`;
+      router.push(safeRedirect);
     } catch (error) {
       setUser(null);
       throw error;
