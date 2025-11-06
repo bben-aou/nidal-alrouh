@@ -30,6 +30,9 @@ export default function DashboardCommunityPage() {
   const {
     visiblePosts,
     isLoading,
+    hasMore,
+    isFetchingNextPage,
+    loadMore,
     handlePostSubmit,
     handlePostLike,
     handlePostComment,
@@ -113,6 +116,9 @@ export default function DashboardCommunityPage() {
           <FeedTab
             visiblePosts={visiblePosts}
             isLoading={isLoading}
+            hasMore={hasMore}
+            isFetchingNextPage={isFetchingNextPage}
+            onLoadMore={loadMore}
             onPostSubmit={handlePostSubmit}
             onLike={handlePostLike}
             onComment={handlePostComment}

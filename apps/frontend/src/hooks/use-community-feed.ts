@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import {
-  useGetPosts,
+  useGetPostsInfinite,
   useCreatePost,
   useLikePost,
   useUnlikePost,
@@ -33,6 +33,9 @@ interface UseCommunityFeedResult {
   posts: Post[];
   visiblePosts: Post[];
   isLoading: boolean;
+  hasMore: boolean;
+  isFetchingNextPage: boolean;
+  loadMore: () => void;
   handlePostSubmit: (data: {
     content: string;
     tags: string[];
@@ -120,17 +123,23 @@ export function useCommunityFeed({
     },
   });
 
-  // Fetch server posts and seed local UI state
-  const { posts: serverPosts, isLoading } = useGetPosts({
-    params: { limit: 20 },
-  });
+  const {
+    data: postsPages,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetPostsInfinite({ limit: 20, locale });
+
+  const serverPosts = useMemo(
+    () => (postsPages?.pages ? postsPages.pages.flatMap((p) => p.items) : []),
+    [postsPages]
+  );
 
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    if (serverPosts?.length) {
-      setPosts(transformCommunityPosts(serverPosts, t));
-    }
+    setPosts(transformCommunityPosts(serverPosts, t));
   }, [serverPosts, t]);
 
   const visiblePostIds = useMemo(
@@ -146,22 +155,55 @@ export function useCommunityFeed({
         if (existingPost) return prev;
         return [newPost, ...prev];
       });
+
+      const postsQueryKey = ['community', 'posts', { locale }];
+      queryClient.setQueryData<InfiniteData<GetPostsResponse>>(
+        postsQueryKey,
+        (old) => {
+          if (!old) return old;
+          const newPages = [...old.pages];
+          const serverItem = {
+            id: newPost.id,
+            content: newPost.content,
+            createdAt: new Date().toISOString(),
+            hidden: newPost.hidden,
+            tags: newPost.tags,
+            likedByMe: newPost.likedByMe,
+            likesCount: newPost.likes,
+            commentsCount: newPost.comments,
+          } as GetPostsResponse['items'][number];
+
+          if (newPages[0]) {
+            const existsInFirst = newPages[0].items.some(
+              (p) => String(p.id) === String(newPost.id)
+            );
+            if (!existsInFirst) {
+              newPages[0] = {
+                ...newPages[0],
+                items: [serverItem, ...newPages[0].items],
+              };
+            }
+          } else {
+            newPages[0] = { items: [serverItem], nextCursor: undefined };
+          }
+          return { ...old, pages: newPages };
+        }
+      );
     },
     onPostDeleted: (postId) => {
       // Remove post from local state
       setPosts((prev) => prev.filter((p) => p.id !== postId));
 
-      // Remove post from posts query cache
-      queryClient.setQueryData<GetPostsResponse>(
-        ['community', 'posts'],
-        (oldData) => {
-          if (!oldData?.items) return oldData;
-          return {
-            ...oldData,
-            items: oldData.items.filter(
-              (p) => p.id.toString() !== postId.toString()
-            ),
-          };
+      const postsQueryKey = ['community', 'posts', { locale }];
+      queryClient.setQueryData<InfiniteData<GetPostsResponse>>(
+        postsQueryKey,
+        (old) => {
+          if (!old) return old;
+          const newPages = old.pages.map((page) => ({
+            ...page,
+            items: page.items.filter((p) => String(p.id) !== String(postId)),
+          }));
+          return { ...old, pages: newPages };
         }
       );
 
@@ -250,18 +292,20 @@ export function useCommunityFeed({
       );
 
       if (insertedComment) {
-        queryClient.setQueryData<GetPostsResponse>(
-          ['community', 'posts'],
-          (oldData) => {
-            if (!oldData?.items) return oldData;
-            return {
-              ...oldData,
-              items: oldData.items.map((p) =>
-                p.id.toString() === postId.toString()
+        const postsQueryKey = ['community', 'posts', { locale }];
+        queryClient.setQueryData<InfiniteData<GetPostsResponse>>(
+          postsQueryKey,
+          (old) => {
+            if (!old) return old;
+            const newPages = old.pages.map((page) => ({
+              ...page,
+              items: page.items.map((p) =>
+                String(p.id) === String(postId)
                   ? { ...p, commentsCount: (p.commentsCount || 0) + 1 }
                   : p
               ),
-            };
+            }));
+            return { ...old, pages: newPages };
           }
         );
 
@@ -294,21 +338,23 @@ export function useCommunityFeed({
       );
 
       if (removedComment) {
-        queryClient.setQueryData<GetPostsResponse>(
-          ['community', 'posts'],
-          (oldData) => {
-            if (!oldData?.items) return oldData;
-            return {
-              ...oldData,
-              items: oldData.items.map((p) =>
-                p.id.toString() === postId.toString()
+        const postsQueryKey = ['community', 'posts', { locale }];
+        queryClient.setQueryData<InfiniteData<GetPostsResponse>>(
+          postsQueryKey,
+          (old) => {
+            if (!old) return old;
+            const newPages = old.pages.map((page) => ({
+              ...page,
+              items: page.items.map((p) =>
+                String(p.id) === String(postId)
                   ? {
                       ...p,
                       commentsCount: Math.max((p.commentsCount || 0) - 1, 0),
                     }
                   : p
               ),
-            };
+            }));
+            return { ...old, pages: newPages };
           }
         );
 
@@ -450,6 +496,13 @@ export function useCommunityFeed({
     posts,
     visiblePosts,
     isLoading,
+    hasMore: !!hasNextPage,
+    isFetchingNextPage,
+    loadMore: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
     handlePostSubmit,
     handlePostLike,
     handlePostComment,

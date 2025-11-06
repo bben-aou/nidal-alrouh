@@ -123,7 +123,8 @@
       "title": "Aucune publication pour le moment",
       "description": "Soyez le premier à partager quelque chose avec la communauté ! Créez une publication pour commencer la conversation.",
       "createFirstPost": "Créer la première publication",
-      "loading": "Chargement des publications..."
+      "loading": "Chargement des publications...",
+      "noMorePosts": "Plus de publications"
     },
     "messages": {
       "hidePostError": "Échec de masquer la publication",

@@ -138,7 +138,8 @@
       "title": "No posts yet",
       "description": "Be the first to share something with the community! Create a post to start the conversation.",
       "createFirstPost": "Create First Post",
-      "loading": "Loading posts..."
+      "loading": "Loading posts...",
+      "noMorePosts": "No more posts"
     },
     "messages": {
       "hidePostError": "Failed to hide post",

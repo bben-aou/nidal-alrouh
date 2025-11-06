@@ -69,8 +69,9 @@ export interface RealtimePostCreatedPayload {
 
 export interface GetPostsParams {
   q?: string;
-  page?: number;
   limit?: number;
+  /** Cursor for infinite pagination */
+  cursor?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -80,7 +81,13 @@ export interface PaginatedResponse<T> {
   total?: number;
 }
 
-export type GetPostsResponse = PaginatedResponse<CommunityPostItem>;
+/**
+ * Posts list API returns items plus an optional nextCursor for infinite pagination.
+ */
+export interface GetPostsResponse {
+  items: CommunityPostItem[];
+  nextCursor?: string;
+}
 
 // ============================================================================
 // Comment Interfaces

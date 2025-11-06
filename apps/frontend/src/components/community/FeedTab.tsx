@@ -2,7 +2,7 @@
 
 import { Plus, Search, Filter, MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { CreatePostCard } from '@/components/community/CreatePostCard';
 import { PostCard } from '@/components/community/PostCard';
@@ -17,6 +17,9 @@ import type { Post } from '@/types/community';
 interface FeedTabProps {
   visiblePosts: Post[];
   isLoading: boolean;
+  hasMore: boolean;
+  isFetchingNextPage: boolean;
+  onLoadMore: () => void;
   onPostSubmit: (data: CreatePostFormData) => void;
   onLike: (postId: string) => void;
   onComment: (postId: string) => void;
@@ -30,6 +33,9 @@ interface FeedTabProps {
 export function FeedTab({
   visiblePosts,
   isLoading,
+  hasMore,
+  isFetchingNextPage,
+  onLoadMore,
   onPostSubmit,
   onLike,
   onComment,
@@ -67,6 +73,23 @@ export function FeedTab({
       onCreatePostFocus();
     }
   };
+
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasMore && !isFetchingNextPage) {
+          onLoadMore();
+        }
+      },
+      { rootMargin: '1000px 0px 1000px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, isFetchingNextPage, onLoadMore]);
 
   const handleRemoveQuotedPost = () => {
     setQuotedPost(null);
@@ -129,6 +152,17 @@ export function FeedTab({
               </Button>
             </CardContent>
           </Card>
+        )}
+        <div ref={loadMoreRef} />
+        {isFetchingNextPage && (
+          <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
+            {t('dashboard.emptyState.loading')}
+          </div>
+        )}
+        {!hasMore && visiblePosts.length > 0 && (
+          <div className="flex items-center justify-center py-6 text-xs text-muted-foreground">
+            {t('dashboard.emptyState.noMorePosts')}
+          </div>
         )}
       </div>
 

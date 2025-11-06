@@ -1,6 +1,7 @@
 export { useHidePost } from './use-hide-post';
 export { useUnhidePost } from './use-unhide-post';
 export { useGetPosts } from './use-get-posts';
+export { useGetPostsInfinite } from './use-get-posts-infinite';
 export { useCreatePost } from './use-create-post';
 export { useLikePost } from './use-like-post';
 export { useUnlikePost } from './use-unlike-post';
