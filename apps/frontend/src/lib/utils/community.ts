@@ -2,6 +2,8 @@ import { formatDistanceToNow } from 'date-fns';
 
 import { type CommunityPostItem, type Post } from '@/types/community';
 
+import type { ReadonlyURLSearchParams } from 'next/navigation';
+
 type TranslationFunction = (key: string) => string;
 
 export const transformCommunityPosts = (
@@ -64,3 +66,38 @@ export const transformCommunityPosts = (
     };
   });
 };
+
+// Community tabs supported across the dashboard page
+export type CommunityTab = 'feed' | 'groups' | 'events';
+
+/**
+ * Derive active community tab from URL query params.
+ * Defaults to 'feed' for invalid or missing values.
+ */
+export function getActiveCommunityTab(
+  searchParams: ReadonlyURLSearchParams | null
+): CommunityTab {
+  const tab = searchParams?.get('tab');
+  if (tab === 'groups' || tab === 'events') return tab;
+  return 'feed';
+}
+
+/**
+ * If a `post` query param exists, returns the redirect target to the post page,
+ * preserving common UTM parameters.
+ */
+export function getCommunityPostRedirectTarget(
+  searchParams: ReadonlyURLSearchParams | null
+): string | null {
+  const postId = searchParams?.get('post');
+  if (!postId) return null;
+
+  const utmMedium = searchParams?.get('utm_medium');
+  const utmSource = searchParams?.get('utm_source');
+
+  const params = new URLSearchParams();
+  if (utmMedium) params.set('utm_medium', utmMedium);
+  if (utmSource) params.set('utm_source', utmSource);
+  const qs = params.toString();
+  return `/dashboard/community/posts/${encodeURIComponent(postId)}${qs ? `?${qs}` : ''}`;
+}

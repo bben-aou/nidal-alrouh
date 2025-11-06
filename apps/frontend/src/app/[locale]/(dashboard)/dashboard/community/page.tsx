@@ -3,7 +3,6 @@
 import { Plus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
-import { useEffect, useState } from 'react';
 
 import { CommunityStats } from '@/components/community/CommunityStats';
 import { EventsTab } from '@/components/community/EventsTab';
@@ -12,17 +11,21 @@ import { GroupsTab } from '@/components/community/GroupsTab';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCommunityFeed } from '@/hooks/use-community-feed';
-import { useRouter } from '@/i18n/navigation';
+import { useRedirectCommunityPostParam } from '@/hooks/use-redirect-community-post-param';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { getActiveCommunityTab } from '@/lib/utils/community';
+import { buildUrlWithUpdatedQuery } from '@/lib/utils/url';
 
 export default function DashboardCommunityPage() {
   const t = useTranslations('community');
   const locale = useLocale();
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<'feed' | 'groups' | 'events'>(
-    'feed'
-  );
+  useRedirectCommunityPostParam();
+
+  const activeTab = getActiveCommunityTab(searchParams);
 
   const {
     visiblePosts,
@@ -47,7 +50,10 @@ export default function DashboardCommunityPage() {
   };
 
   const triggerCreatePostComposer = () => {
-    setActiveTab('feed');
+    const url = buildUrlWithUpdatedQuery(pathname, searchParams, {
+      tab: 'feed',
+    });
+    router.replace(url);
 
     setTimeout(() => {
       const createPostElement = document.querySelector('[data-create-post]');
@@ -71,19 +77,11 @@ export default function DashboardCommunityPage() {
     }, 10);
   };
 
-  useEffect(() => {
-    const postId = searchParams?.get('post');
-    if (postId) {
-      const utmMedium = searchParams.get('utm_medium');
-      const utmSource = searchParams.get('utm_source');
-      const params = new URLSearchParams();
-      if (utmMedium) params.set('utm_medium', utmMedium);
-      if (utmSource) params.set('utm_source', utmSource);
-      const qs = params.toString();
-      const target = `/dashboard/community/posts/${encodeURIComponent(postId)}${qs ? `?${qs}` : ''}`;
-      router.replace(target);
-    }
-  }, [router, searchParams]);
+  const handleTabChange = (tab: string) => {
+    const next = tab as 'feed' | 'groups' | 'events';
+    const url = buildUrlWithUpdatedQuery(pathname, searchParams, { tab: next });
+    router.replace(url);
+  };
 
   return (
     <div className="space-y-6">
@@ -102,7 +100,7 @@ export default function DashboardCommunityPage() {
 
       <Tabs
         value={activeTab}
-        onValueChange={(v) => setActiveTab(v as 'feed' | 'groups' | 'events')}
+        onValueChange={handleTabChange}
         className="space-y-4"
       >
         <TabsList>
