@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server';
 
 import '../globals.css';
 import { ReactQueryProvider } from '@/components/providers/react-query-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -45,19 +46,21 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className={inter.className} suppressHydrationWarning={true}>
-        <NextIntlClientProvider messages={messages}>
-          <ReactQueryProvider>
-            <AuthProvider>
-              <SocketProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <Sonner />
-                  {children}
-                </TooltipProvider>
-              </SocketProvider>
-            </AuthProvider>
-          </ReactQueryProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider>
+          <NextIntlClientProvider messages={messages}>
+            <ReactQueryProvider>
+              <AuthProvider>
+                <SocketProvider>
+                  <TooltipProvider>
+                    <Toaster />
+                    <Sonner />
+                    {children}
+                  </TooltipProvider>
+                </SocketProvider>
+              </AuthProvider>
+            </ReactQueryProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -2,7 +2,8 @@
 
 import { Bell, Shield, Palette, Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +26,7 @@ import { Switch } from '@/components/ui/switch';
 
 export default function SettingsPage() {
   const t = useTranslations('settings');
+  const { theme, setTheme } = useTheme();
   const [settings, setSettings] = useState({
     notifications: {
       email: true,
@@ -42,6 +44,14 @@ export default function SettingsPage() {
       timezone: 'UTC',
     },
   });
+
+  useEffect(() => {
+    if (!theme) return;
+    setSettings((prev) => ({
+      ...prev,
+      preferences: { ...prev.preferences, theme },
+    }));
+  }, [theme]);
 
   const handleSave = () => {
     // Handle save logic here
@@ -214,12 +224,13 @@ export default function SettingsPage() {
                 <Label>{t('preferences.theme')}</Label>
                 <Select
                   value={settings.preferences.theme}
-                  onValueChange={(value) =>
+                  onValueChange={(value) => {
+                    setTheme(value);
                     setSettings({
                       ...settings,
                       preferences: { ...settings.preferences, theme: value },
-                    })
-                  }
+                    });
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue />
