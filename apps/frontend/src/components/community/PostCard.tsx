@@ -94,8 +94,10 @@ export function PostCard({
           <div className="rounded-md border p-3 text-sm">
             <div className="flex items-center gap-2 mb-2">
               <Avatar className="h-6 w-6">
-                <AvatarImage src="" alt="" />
-                <AvatarFallback>{post.quotedPost.avatar ?? ''}</AvatarFallback>
+                <AvatarImage src="" alt="" className="object-cover" />
+                <AvatarFallback className="text-[10px] leading-none">
+                  {post.quotedPost.avatar ?? ''}
+                </AvatarFallback>
               </Avatar>
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground">
