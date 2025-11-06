@@ -20,6 +20,21 @@ export const transformCommunityPosts = (
       ? t('dashboard.authorLabels.anonymous')
       : (p.quotedPost?.user?.name ?? t('dashboard.authorLabels.member'));
 
+    const quotedAvatar = quotedAuthorLabel
+      ? quotedAuthorLabel
+          .split(' ')
+          .map((word) => word.charAt(0))
+          .join('')
+          .toUpperCase()
+          .slice(0, 2)
+      : undefined;
+
+    const quotedTime = p.quotedPost?.createdAt
+      ? formatDistanceToNow(new Date(p.quotedPost.createdAt), {
+          addSuffix: true,
+        })
+      : undefined;
+
     return {
       id: p.id.toString(),
       author: authorLabel,
@@ -42,6 +57,8 @@ export const transformCommunityPosts = (
             author: quotedAuthorLabel,
             content: p.quotedPost.content ?? '',
             hidden: false,
+            avatar: quotedAvatar,
+            time: quotedTime,
           }
         : undefined,
     };

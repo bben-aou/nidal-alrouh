@@ -91,11 +91,27 @@ export function PostCard({
       <CardContent className="space-y-4">
         <p>{post.content}</p>
         {post.quotedPost && (
-          <div className="rounded-md border p-3 text-sm text-muted-foreground">
-            <p className="font-medium text-foreground mb-1">
-              {post.quotedPost.author ?? t('dashboard.authorLabels.anonymous')}
+          <div className="rounded-md border p-3 text-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Avatar className="h-6 w-6">
+                <AvatarImage src="" alt="" />
+                <AvatarFallback>{post.quotedPost.avatar ?? ''}</AvatarFallback>
+              </Avatar>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground">
+                  {post.quotedPost.author ??
+                    t('dashboard.authorLabels.anonymous')}
+                </span>
+                {post.quotedPost.time && (
+                  <span className="text-xs text-muted-foreground">
+                    {post.quotedPost.time}
+                  </span>
+                )}
+              </div>
+            </div>
+            <p className="line-clamp-3 text-muted-foreground">
+              {post.quotedPost.content}
             </p>
-            <p className="line-clamp-3">{post.quotedPost.content}</p>
           </div>
         )}
         <div className="flex gap-2">

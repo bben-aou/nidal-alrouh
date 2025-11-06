@@ -187,6 +187,8 @@ export interface Post {
     author?: string | null;
     content: string;
     hidden?: boolean;
+    avatar?: string;
+    time?: string;
   };
 }
 

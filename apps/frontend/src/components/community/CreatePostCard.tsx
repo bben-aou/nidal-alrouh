@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCreatePostForm } from '@/hooks/useCreatePostForm';
@@ -68,11 +69,26 @@ export function CreatePostCard({
           <input type="hidden" {...register('quotedPostId')} />
 
           {quotedPost && (
-            <div className="rounded-md border p-3 text-sm text-muted-foreground relative">
-              <p className="font-medium text-foreground mb-1">
-                {quotedPost.author}
+            <div className="rounded-md border p-3 text-sm relative">
+              <div className="flex items-center gap-2 mb-2">
+                <Avatar className="h-6 w-6">
+                  <AvatarImage src="" alt="" />
+                  <AvatarFallback>{quotedPost.avatar}</AvatarFallback>
+                </Avatar>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-foreground">
+                    {quotedPost.author}
+                  </span>
+                  {quotedPost.time && (
+                    <span className="text-xs text-muted-foreground">
+                      {quotedPost.time}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <p className="line-clamp-2 text-muted-foreground">
+                {quotedPost.content}
               </p>
-              <p className="line-clamp-2">{quotedPost.content}</p>
               <Button
                 type="button"
                 variant="ghost"

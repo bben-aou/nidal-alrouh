@@ -21,14 +21,32 @@ export interface CreatePostRequestBody {
 }
 
 export interface CreatePostResponse {
-  success: boolean;
   message?: string;
-  data?: {
+  id: string | number;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt?: string;
+  isAnonymous?: boolean;
+  privacy?: string;
+  locale?: string | null;
+  userId?: string | number;
+  user?: {
+    id: string | number;
+    name?: string | null;
+  } | null;
+  likedByMe?: boolean;
+  likesCount?: number;
+  commentsCount?: number;
+  quotedPost?: {
     id: string | number;
     content: string;
-    tags: string[];
-    createdAt: string;
-    userId?: string | number;
+    isAnonymous?: boolean;
+    createdAt?: string;
+    user?: {
+      id?: string | number;
+      name?: string | null;
+    } | null;
   };
 }
 
