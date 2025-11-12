@@ -40,10 +40,19 @@ enum SupportedPromptLocale {
   ar
 }
 
+// -------------------------------
+// Chat Feature
+// -------------------------------
+enum ChatRoomType {
+  DM
+  GROUP
+}
+
 model User {
   id              String    @id @default(uuid()) @db.Uuid
   email           String    @unique
   name            String?
+  avatarUrl       String?
   passwordHash    String
   role            UserRole  @default(USER)
   status          UserStatus @default(active)
@@ -61,6 +70,9 @@ model User {
   PostLike PostLike[]
   PostReport PostReport[]
   HiddenPost HiddenPost[]
+  // Chat relations
+  Message Message[] @relation("MessageSender")
+  RoomParticipant RoomParticipant[]
 }
 
 model UserSession {
@@ -225,4 +237,54 @@ model HiddenPost {
 
   @@unique([postId, userId])
   @@map("hidden_posts")
+}
+
+// -------------------------------
+// Chat Models
+// -------------------------------
+
+model ChatRoom {
+  id        String       @id @default(uuid()) @db.Uuid
+  type      ChatRoomType
+  name      String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  // Relations
+  participants RoomParticipant[]
+  messages     Message[]
+
+  @@map("chat_rooms")
+}
+
+model RoomParticipant {
+  id         String   @id @default(uuid()) @db.Uuid
+  roomId     String   @db.Uuid
+  userId     String   @db.Uuid
+  joinedAt   DateTime @default(now())
+  lastReadAt DateTime?
+
+  // Relations
+  room ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([userId])
+  @@map("room_participants")
+}
+
+model Message {
+  id        String   @id @default(uuid()) @db.Uuid
+  roomId    String   @db.Uuid
+  senderId  String   @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  room   ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  sender User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Restrict)
+
+  @@index([roomId, createdAt])
+  @@map("messages")
 }

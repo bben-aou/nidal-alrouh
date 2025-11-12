@@ -1,0 +1,37 @@
+{
+  "sidebar": {
+    "searchPlaceholder": "Rechercher…",
+    "newChat": "Nouvelle discussion",
+    "noResults": "Aucune salle trouvée"
+  },
+  "room": {
+    "empty": {
+      "title": "Sélectionnez une discussion",
+      "description": "Choisissez une salle dans la barre latérale pour commencer."
+    },
+    "typing": "En train d’écrire…"
+  },
+  "composer": {
+    "placeholder": "Tapez un message…",
+    "send": "Envoyer",
+    "attach": "Pièce jointe",
+    "emoji": "Emoji"
+  },
+  "header": {
+    "actions": {
+      "mute": "Muet",
+      "info": "Info"
+    },
+    "participants": "{count, plural, one {# participant} other {# participants}}"
+  },
+  "list": {
+    "daySeparator": {
+      "today": "Aujourd'hui",
+      "yesterday": "Hier"
+    }
+  },
+  "layout": {
+    "roomsButton": "Salles",
+    "title": "Discussion"
+  }
+}

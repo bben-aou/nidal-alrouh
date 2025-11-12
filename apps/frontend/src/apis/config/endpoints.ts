@@ -48,3 +48,15 @@ export const COMMUNITY_ENDPOINTS = {
 } as const;
 
 export type CommunityEndpoints = typeof COMMUNITY_ENDPOINTS;
+
+/**
+ * Chat API Endpoints Configuration
+ */
+export const CHAT_ENDPOINTS = {
+  ROOMS: '/chat/rooms',
+  ROOM_MESSAGES: (roomId: string) => `/chat/rooms/${roomId}/messages`,
+  MARK_READ: (roomId: string) => `/chat/rooms/${roomId}/read`,
+  DM: '/chat/dm',
+} as const;
+
+export type ChatEndpoints = typeof CHAT_ENDPOINTS;

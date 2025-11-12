@@ -1,0 +1,37 @@
+{
+  "sidebar": {
+    "searchPlaceholder": "بحث…",
+    "newChat": "محادثة جديدة",
+    "noResults": "لا توجد غرف"
+  },
+  "room": {
+    "empty": {
+      "title": "اختر محادثة",
+      "description": "اختر غرفة من الشريط الجانبي للبدء."
+    },
+    "typing": "يكتب…"
+  },
+  "composer": {
+    "placeholder": "اكتب رسالة…",
+    "send": "إرسال",
+    "attach": "إرفاق",
+    "emoji": "إيموجي"
+  },
+  "header": {
+    "actions": {
+      "mute": "كتم",
+      "info": "معلومات"
+    },
+    "participants": "{count, plural, one {مشارك واحد} other {# مشاركين}}"
+  },
+  "list": {
+    "daySeparator": {
+      "today": "اليوم",
+      "yesterday": "أمس"
+    }
+  },
+  "layout": {
+    "roomsButton": "الغرف",
+    "title": "المحادثة"
+  }
+}

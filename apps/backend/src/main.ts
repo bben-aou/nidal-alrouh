@@ -75,6 +75,7 @@ async function bootstrap() {
     .addTag('auth', 'Authentication endpoints')
     .addTag('community', 'Community posts and interactions')
     .addTag('journal', 'Personal journal entries')
+    .addTag('chat', 'Chat messaging')
     .addTag('users', 'User management')
     .addTag('health', 'Health check endpoints')
     .build();

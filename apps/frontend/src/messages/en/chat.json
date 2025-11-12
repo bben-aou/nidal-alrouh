@@ -1,0 +1,37 @@
+{
+  "sidebar": {
+    "searchPlaceholder": "Search…",
+    "newChat": "New Chat",
+    "noResults": "No rooms found"
+  },
+  "room": {
+    "empty": {
+      "title": "Select a chat",
+      "description": "Choose a room from the sidebar to get started."
+    },
+    "typing": "Typing…"
+  },
+  "composer": {
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "attach": "Attach",
+    "emoji": "Emoji"
+  },
+  "header": {
+    "actions": {
+      "mute": "Mute",
+      "info": "Info"
+    },
+    "participants": "{count, plural, one {# participant} other {# participants}}"
+  },
+  "list": {
+    "daySeparator": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    }
+  },
+  "layout": {
+    "roomsButton": "Rooms",
+    "title": "Chat"
+  }
+}
