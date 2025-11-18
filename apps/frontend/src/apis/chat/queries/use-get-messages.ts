@@ -40,6 +40,9 @@ export const useGetMessages = ({ roomId, config }: TUseGetMessagesParams) => {
     queryKey: [GET_CHAT_MESSAGES_KEY, roomId],
     queryFn: () => getMessagesApiCall(String(roomId)),
     enabled: !!roomId,
+    refetchOnMount: 'always',
+    refetchOnReconnect: 'always',
+    refetchOnWindowFocus: false,
     staleTime: 10 * 1000, // 10s
     gcTime: 10 * 60 * 1000, // 10m
     ...config,

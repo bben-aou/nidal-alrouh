@@ -8,6 +8,7 @@ import {
   Query,
   Req,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -28,13 +29,13 @@ import { ChatService } from './chat.service';
 import { CreateDmRoomDto } from './dto/create-dm-room.dto';
 import { MarkReadDto } from './dto/mark-read.dto';
 import { SendMessageDto } from './dto/send-message.dto';
-
 @ApiTags('chat')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
+  private readonly logger = new Logger(ChatController.name);
 
   @Post('dm')
   @ApiOperation({ summary: 'Create or get a DM room' })

@@ -1,11 +1,11 @@
 'use client';
-import { ChatMessage, TChatRoom } from '@/types/chat';
 
-import ChatRoomHeader from './chat-room-header';
-import EmptyState from './empty-state';
-import MessageComposer from './message-composer';
-import MessageList from './message-list';
-import TypingIndicator from './typing-indicator';
+import ChatRoomHeader from '@/components/chat/chat-room-header';
+import EmptyState from '@/components/chat/empty-state';
+import MessageComposer from '@/components/chat/message-composer';
+import MessageList from '@/components/chat/message-list';
+import TypingIndicator from '@/components/chat/typing-indicator';
+import { ChatMessage, TChatRoom } from '@/types/chat';
 
 interface ChatRoomProps {
   room?: TChatRoom | null;

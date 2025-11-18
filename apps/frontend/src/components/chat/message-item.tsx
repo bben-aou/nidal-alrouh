@@ -1,5 +1,5 @@
 'use client';
-import { Check, CheckCheck } from 'lucide-react';
+import { Check, CheckCheck, Eye } from 'lucide-react';
 
 import { ChatMessage } from '@/types/chat';
 
@@ -38,7 +38,7 @@ export default function MessageItem({
               title={message.status ?? 'sent'}
             >
               {message.status === 'read' ? (
-                <CheckCheck className="h-3 w-3 text-emerald-300" />
+                <Eye className="h-3 w-3 text-emerald-300" />
               ) : message.status === 'delivered' ? (
                 <CheckCheck className="h-3 w-3 opacity-75" />
               ) : (

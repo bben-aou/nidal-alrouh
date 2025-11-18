@@ -115,4 +115,14 @@ export class ChatGateway
       timestamp,
     });
   }
+
+  emitRoomRead(roomId: string, userId: string, lastReadAt: string) {
+    const timestamp = new Date().toISOString();
+    this.server.to(this.roomName(roomId)).emit('chat:room:read', {
+      roomId,
+      userId,
+      lastReadAt,
+      timestamp,
+    });
+  }
 }

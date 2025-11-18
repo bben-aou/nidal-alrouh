@@ -63,6 +63,7 @@ export default function MessageList({
   });
 
   useEffect(() => {
+    if (messages.length === 0) return;
     const el = containerRef.current;
     if (el) {
       // auto-scroll to bottom when new messages arrive

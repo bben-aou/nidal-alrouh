@@ -14,3 +14,4 @@ export function getWsBaseUrl(): string {
 }
 
 export const COMMUNITY_NAMESPACE = '/community';
+export const CHAT_NAMESPACE = '/chat';

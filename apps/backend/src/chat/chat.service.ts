@@ -1,6 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ChatRoomType, Message } from '@prisma/client';
@@ -12,7 +13,7 @@ import { ChatGateway } from './chat.gateway';
 @Injectable()
 export class ChatService {
   constructor(private readonly prisma: PrismaService) {}
-
+  private readonly logger = new Logger(ChatService.name);
   async findOrCreateDmRoom(currentUserId: string, otherUserId: string) {
     if (currentUserId === otherUserId) {
       throw new ForbiddenException('Cannot create a DM with yourself');
@@ -43,7 +44,6 @@ export class ChatService {
   }
 
   async sendMessage(roomId: string, senderId: string, content: string) {
-    // Ensure sender is a participant
     const participant = await this.prisma.roomParticipant.findUnique({
       where: { roomId_userId: { roomId, userId: senderId } },
     });
@@ -51,7 +51,6 @@ export class ChatService {
       throw new ForbiddenException('Not a participant of this room');
     }
 
-    // Ensure room exists
     const room = await this.prisma.chatRoom.findUnique({
       where: { id: roomId },
     });
@@ -72,17 +71,30 @@ export class ChatService {
       },
     });
 
-    // Mark sender as read up to now
-    await this.prisma.roomParticipant.update({
+    const senderParticipant = await this.prisma.roomParticipant.findUnique({
       where: { roomId_userId: { roomId, userId: senderId } },
-      data: { lastReadAt: new Date() },
+      select: { lastReadAt: true },
     });
 
-    // Emit to socket clients
-    const enriched = mapMessageForViewer(message, undefined, senderId);
+    const otherParticipants = await this.prisma.roomParticipant.findMany({
+      where: {
+        roomId,
+        userId: { not: senderId },
+      },
+      select: { lastReadAt: true },
+    });
+    const otherParticipantsLastReadAt = otherParticipants
+      .map((p) => p.lastReadAt)
+      .filter((date): date is Date => date !== null);
+
+    const enriched = mapMessageForViewer(
+      message,
+      senderParticipant?.lastReadAt ?? undefined,
+      senderId,
+      otherParticipantsLastReadAt
+    );
     const gateway = ChatGateway.getInstance();
     if (gateway) {
-      // Broadcast as delivered by default; viewer-specific read state will be handled by list API
       gateway.emitMessageCreated(roomId, { ...enriched, status: 'delivered' });
     }
 
@@ -97,12 +109,26 @@ export class ChatService {
   ) {
     const room = await this.prisma.chatRoom.findUnique({
       where: { id: roomId },
+      include: {
+        participants: {
+          select: {
+            userId: true,
+            lastReadAt: true,
+          },
+        },
+      },
     });
     if (!room) throw new NotFoundException('Room not found');
 
-    const viewerParticipant = await this.prisma.roomParticipant.findUnique({
-      where: { roomId_userId: { roomId, userId: currentUserId } },
-    });
+    const viewerParticipant = room.participants.find(
+      (p) => p.userId === currentUserId
+    );
+    if (!viewerParticipant) throw new NotFoundException('User not in room');
+
+    const otherParticipantsLastReadAt = room.participants
+      .filter((p) => p.userId !== currentUserId)
+      .map((p) => p.lastReadAt)
+      .filter((date): date is Date => date !== null);
 
     const messages = await this.prisma.message.findMany({
       where: { roomId },
@@ -128,15 +154,26 @@ export class ChatService {
     const lastReadAt: Date | undefined =
       viewerParticipant?.lastReadAt ?? undefined;
     return messages.map((m) =>
-      mapMessageForViewer(m, lastReadAt, currentUserId)
+      mapMessageForViewer(
+        m,
+        lastReadAt,
+        currentUserId,
+        otherParticipantsLastReadAt
+      )
     );
   }
 
   async markRead(roomId: string, userId: string) {
+    const now = new Date();
     await this.prisma.roomParticipant.update({
       where: { roomId_userId: { roomId, userId } },
-      data: { lastReadAt: new Date() },
+      data: { lastReadAt: now },
     });
+
+    const gateway = ChatGateway.getInstance();
+    if (gateway) {
+      gateway.emitRoomRead(roomId, userId, now.toISOString());
+    }
 
     return { success: true };
   }
@@ -163,7 +200,6 @@ export class ChatService {
         );
         const viewerLastReadAt: Date | undefined =
           viewerParticipant?.lastReadAt ?? undefined;
-
         const lastMessage = await this.prisma.message.findFirst({
           where: { roomId: room.id },
           orderBy: { createdAt: 'desc' },
@@ -227,16 +263,34 @@ type MessageWithSender = Message & { sender: SenderInfo };
 function mapMessageForViewer(
   message: MessageWithSender,
   viewerLastReadAt: Date | undefined,
-  viewerId: string
+  viewerId: string,
+  otherParticipantsLastReadAt?: Date[]
 ) {
   const isOwn = message.senderId === viewerId;
   const readByViewer =
     !!viewerLastReadAt && message.createdAt <= viewerLastReadAt;
-  const status: 'sent' | 'delivered' | 'read' = isOwn
-    ? 'sent'
-    : readByViewer
-      ? 'read'
-      : 'delivered';
+
+  let status: 'sent' | 'delivered' | 'read';
+
+  if (isOwn) {
+    if (
+      !otherParticipantsLastReadAt ||
+      otherParticipantsLastReadAt.length === 0
+    ) {
+      status = 'sent';
+    } else {
+      const allRead = otherParticipantsLastReadAt.every(
+        (lastReadAt) => !!lastReadAt && message.createdAt <= lastReadAt
+      );
+      const anyRead = otherParticipantsLastReadAt.some(
+        (lastReadAt) => !!lastReadAt && message.createdAt <= lastReadAt
+      );
+
+      status = allRead ? 'read' : anyRead ? 'delivered' : 'sent';
+    }
+  } else {
+    status = readByViewer ? 'read' : 'delivered';
+  }
 
   return {
     id: message.id,

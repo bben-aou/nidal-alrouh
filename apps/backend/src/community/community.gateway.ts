@@ -160,10 +160,6 @@ export class CommunityGateway
         return;
       }
 
-      this.logger.debug(
-        `Client ${client.id} authenticated using token from ${tokenLocation.source}`
-      );
-
       // Verify JWT token
       const payload = await this.jwtService.verifyAsync(tokenLocation.value);
       const userId = payload.sub as string;

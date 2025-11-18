@@ -1,20 +1,30 @@
 'use client';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { io } from 'socket.io-client';
 
-import { useGetMessages } from '@/apis/chat/queries/use-get-messages';
-import { useGetRooms } from '@/apis/chat/queries/use-get-rooms';
+import {
+  useGetMessages,
+  GET_CHAT_MESSAGES_KEY,
+} from '@/apis/chat/queries/use-get-messages';
+import {
+  useGetRooms,
+  GET_CHAT_ROOMS_KEY,
+} from '@/apis/chat/queries/use-get-rooms';
 import { useMarkRead } from '@/apis/chat/queries/use-mark-read';
 import { useSendMessage } from '@/apis/chat/queries/use-send-message';
 import ChatLayout from '@/components/chat/chat-layout';
 import ChatRoom from '@/components/chat/chat-room';
 import ChatSidebar from '@/components/chat/chat-sidebar';
 import { useAuth } from '@/contexts/auth-context';
+import { getWsBaseUrl, CHAT_NAMESPACE } from '@/lib/ws';
 
 export default function ChatPage() {
   const searchParams = useSearchParams();
   const { user } = useAuth();
 
+  const queryClient = useQueryClient();
   const { data: rooms = [] } = useGetRooms();
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(
     searchParams.get('roomId')
@@ -39,6 +49,34 @@ export default function ChatPage() {
   const { data: messages = [] } = useGetMessages({ roomId: selectedRoomId });
   const { send } = useSendMessage();
   const { markRead, isPending: markReadPending } = useMarkRead();
+
+  useEffect(() => {
+    if (!selectedRoomId) return;
+    const socket = io(`${getWsBaseUrl()}${CHAT_NAMESPACE}`, {
+      withCredentials: true,
+      transports: ['websocket', 'polling'],
+    });
+    socket.emit('join-room', { roomId: selectedRoomId });
+
+    const invalidate = () => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_CHAT_MESSAGES_KEY, selectedRoomId],
+      });
+      queryClient.invalidateQueries({ queryKey: [GET_CHAT_ROOMS_KEY] });
+    };
+
+    socket.on('chat:message:created', (payload: { roomId: string }) => {
+      if (payload.roomId === selectedRoomId) invalidate();
+    });
+    socket.on('chat:room:read', (payload: { roomId: string }) => {
+      if (payload.roomId === selectedRoomId) invalidate();
+    });
+
+    return () => {
+      socket.emit('leave-room', { roomId: selectedRoomId });
+      socket.disconnect();
+    };
+  }, [selectedRoomId]);
 
   const myUserId = user?.id ?? '';
 
