@@ -18,6 +18,10 @@ import {
 } from './types';
 
 @Injectable()
+/**
+ * Domain event broker for community actions.
+ * Wraps EventEmitter2 with typed helper methods to emit events consumed by the gateway.
+ */
 export class CommunityEventsService {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
@@ -44,7 +48,6 @@ export class CommunityEventsService {
   }
 
   emitCommentCreated(postId: string, comment: SanitizedComment) {
-    // Keep for backward compatibility if needed, but prefer the version with authorUserId
     this.eventEmitter.emit(CommunityEvent.CommentCreated, {
       postId,
       comment,

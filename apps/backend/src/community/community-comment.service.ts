@@ -24,11 +24,17 @@ export class CommunityCommentService {
     private readonly sanitizer: CommunitySanitizerService
   ) {}
 
+  /**
+   * Create a comment on a post as the authenticated user.
+   * Validates and sanitizes content, returns a sanitized comment with owner flag.
+   * Also emits a realtime event for subscribers.
+   * @param userId Author user ID
+   * @param postId Target post ID
+   * @param dto Comment payload
+   */
   async createComment(userId: string, postId: string, dto: CreateCommentDto) {
-    // Content moderation validation
     this.contentModeration.validateCommentContent(dto.content);
 
-    // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
     });
@@ -37,7 +43,6 @@ export class CommunityCommentService {
       throw new NotFoundException('Post not found');
     }
 
-    // Sanitize content to prevent XSS attacks
     const sanitizedContent = sanitizeHtml(
       dto.content,
       DEFAULT_SANITIZE_OPTIONS
@@ -66,18 +71,23 @@ export class CommunityCommentService {
       isOwner: comment.userId === userId,
     });
 
-    // Emit real-time event via domain event bus
     this.events.emitCommentCreatedByAuthor(postId, sanitized, userId);
 
     return sanitized;
   }
 
+  /**
+   * Get paginated comments for a post.
+   * Marks items as owner for the current viewer to support UI rendering.
+   * @param postId Target post ID
+   * @param query Pagination options (limit, cursor)
+   * @param currentUserId Optional viewer user ID
+   */
   async getComments(
     postId: string,
     query: GetCommentsQueryDto,
     currentUserId?: string
   ) {
-    // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
     });
@@ -120,6 +130,13 @@ export class CommunityCommentService {
     return { items: sanitizedItems, nextCursor };
   }
 
+  /**
+   * Delete a comment if it belongs to the authenticated user.
+   * Emits realtime deletion event to update subscribers.
+   * @param userId Requesting user ID
+   * @param postId Parent post ID
+   * @param commentId Comment ID to delete
+   */
   async deleteComment(userId: string, postId: string, commentId: string) {
     const comment = await this.prisma.comment.findUnique({
       where: { id: commentId },
@@ -133,7 +150,6 @@ export class CommunityCommentService {
 
     await this.prisma.comment.delete({ where: { id: commentId } });
 
-    // Emit real-time event via domain event bus
     this.events.emitCommentDeleted(postId, commentId);
 
     return { success: true, message: 'Comment deleted' };

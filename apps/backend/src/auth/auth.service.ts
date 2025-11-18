@@ -35,7 +35,6 @@ export class AuthService {
     const { name } = signupDto;
     const role: UserRole = signupDto.role ?? UserRole.USER;
 
-    // Check if user already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
@@ -44,10 +43,8 @@ export class AuthService {
       throw new ConflictException('User with this email already exists');
     }
 
-    // Hash password
     const passwordHash = await argon2.hash(password);
 
-    // Create user
     const user = await this.prisma.user.create({
       data: {
         email,
@@ -66,14 +63,12 @@ export class AuthService {
       },
     });
 
-    // Generate tokens (include refresh token for session creation)
     const { accessToken, refreshToken } = this.generateTokens(
       user.id,
       user.email,
       user.role
     );
 
-    // Create refresh session so new users can refresh immediately
     await this.createSession(user.id, refreshToken);
 
     return {
@@ -102,7 +97,6 @@ export class AuthService {
     const { email } = loginDto;
     const { password } = loginDto;
 
-    // Find user
     const user = await this.prisma.user.findUnique({
       where: { email },
       select: {
@@ -120,28 +114,23 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Check password
     const isPasswordValid = await argon2.verify(user.passwordHash, password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Check user status
     if (user.status === UserStatus.suspended) {
       throw new UnauthorizedException('Account suspended');
     }
 
-    // Generate tokens
     const { accessToken, refreshToken } = this.generateTokens(
       user.id,
       user.email,
       user.role
     );
 
-    // Create session
     await this.createSession(user.id, refreshToken, userAgent, ip);
 
-    // Remove password hash from response
     const userWithHash: {
       id: string;
       email: string;
@@ -162,7 +151,6 @@ export class AuthService {
 
   async logout(userId: string, refreshToken?: string): Promise<void> {
     if (refreshToken) {
-      // Find active sessions for this user and verify the provided token
       const sessions = await this.prisma.userSession.findMany({
         where: {
           userId,
@@ -186,14 +174,12 @@ export class AuthService {
       }
 
       if (!revoked) {
-        // If we couldn't find a matching session, revoke all as a fallback
         await this.prisma.userSession.updateMany({
           where: { userId, revokedAt: null },
           data: { revokedAt: new Date() },
         });
       }
     } else {
-      // Revoke all sessions for the user
       await this.prisma.userSession.updateMany({
         where: {
           userId,
@@ -209,7 +195,6 @@ export class AuthService {
   async refreshTokens(
     refreshToken: string
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    // Find a valid (non-revoked, non-expired) session whose stored hash matches the provided token
     const candidateSessions = await this.prisma.userSession.findMany({
       where: {
         revokedAt: null,
@@ -246,20 +231,17 @@ export class AuthService {
       throw new UnauthorizedException('Account suspended');
     }
 
-    // Revoke old session
     await this.prisma.userSession.update({
       where: { id: session.id },
       data: { revokedAt: new Date() },
     });
 
-    // Generate new tokens
     const tokens = this.generateTokens(
       session.user.id,
       session.user.email,
       session.user.role
     );
 
-    // Create new session
     await this.createSession(
       session.user.id,
       tokens.refreshToken,
@@ -298,7 +280,6 @@ export class AuthService {
   }
 
   async forgotPassword(email: string): Promise<{ message: string }> {
-    // Check if user exists
     const user = await this.prisma.user.findUnique({
       where: { email },
       select: {
@@ -308,7 +289,6 @@ export class AuthService {
       },
     });
 
-    // Always return success message for security reasons (don't reveal if email exists)
     if (!user) {
       return {
         message:

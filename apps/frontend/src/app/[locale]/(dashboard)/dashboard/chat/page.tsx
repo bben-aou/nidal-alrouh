@@ -31,7 +31,6 @@ export default function ChatPage() {
   );
   const [typing, setTyping] = useState<boolean>(false);
 
-  // Keep selected room in sync with URL or default to first room
   useEffect(() => {
     const rid = searchParams.get('roomId');
     if (rid) {
@@ -87,8 +86,7 @@ export default function ChatPage() {
 
   const handleMarkRead = () => {
     if (!selectedRoomId) return;
-    if (markReadPending) return; // avoid spamming the API
-    // Only call if we still have unread for the active room
+    if (markReadPending) return;
     const current = rooms.find((r) => r.id === selectedRoomId);
     if ((current?.unreadCount ?? 0) === 0) return;
     markRead({ roomId: selectedRoomId });

@@ -6,17 +6,14 @@ export class ContentModerationService {
   private readonly logger = new Logger(ContentModerationService.name);
 
   constructor() {
-    // Initialize profanity dictionary once with supported languages
     leoProfanity.clearList();
 
-    // Load English dictionary (primary)
     try {
       leoProfanity.add(leoProfanity.getDictionary('en'));
     } catch (error) {
       this.logger.warn('Failed to load English profanity dictionary', error);
     }
 
-    // Load French dictionary (secondary)
     try {
       leoProfanity.add(leoProfanity.getDictionary('fr'));
     } catch (error) {
@@ -24,16 +21,14 @@ export class ContentModerationService {
     }
   }
 
-  private readonly maxContentLength = 5000; // Maximum content length
-  private readonly maxCommentLength = 1000; // Maximum comment length
-  private readonly minContentLength = 10; // Minimum content length
-  private readonly minCommentLength = 3; // Minimum comment length
+  private readonly maxContentLength = 5000;
+  private readonly maxCommentLength = 1000;
+  private readonly minContentLength = 10;
+  private readonly minCommentLength = 3;
 
   /**
-   * Moderate post content for inappropriate words and length
    */
   moderatePostContent(content: string): { isValid: boolean; reason?: string } {
-    // Check length constraints
     if (content.length < this.minContentLength) {
       return {
         isValid: false,
@@ -48,7 +43,6 @@ export class ContentModerationService {
       };
     }
 
-    // Check for profanity or inappropriate content
     if (this.containsInappropriateLanguage(content)) {
       return {
         isValid: false,
@@ -66,7 +60,6 @@ export class ContentModerationService {
     isValid: boolean;
     reason?: string;
   } {
-    // Check length constraints
     if (content.length < this.minCommentLength) {
       return {
         isValid: false,
@@ -81,7 +74,6 @@ export class ContentModerationService {
       };
     }
 
-    // Check for profanity or inappropriate content
     if (this.containsInappropriateLanguage(content)) {
       return {
         isValid: false,
@@ -96,7 +88,6 @@ export class ContentModerationService {
    * Moderate report reason for inappropriate words and length
    */
   moderateReportReason(reason: string): { isValid: boolean; reason?: string } {
-    // Check length constraints (reports should be concise)
     if (reason.length < 5) {
       return {
         isValid: false,
@@ -111,7 +102,6 @@ export class ContentModerationService {
       };
     }
 
-    // Check for profanity or inappropriate content (less strict for reports)
     if (this.containsInappropriateLanguage(reason)) {
       return {
         isValid: false,
@@ -126,7 +116,6 @@ export class ContentModerationService {
    * Check whether the content contains inappropriate language using leo-profanity
    */
   private containsInappropriateLanguage(content: string): boolean {
-    // leo-profanity internally normalizes and handles common obfuscations
     return leoProfanity.check(content);
   }
 

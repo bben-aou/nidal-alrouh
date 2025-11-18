@@ -27,7 +27,6 @@ export class PromptsService {
       offset = 0,
     } = query;
 
-    // Check cache first
     const cacheKey = `prompts:${locale}:${category || 'all'}`;
     const cached = this.cache.get(cacheKey);
 
@@ -43,7 +42,6 @@ export class PromptsService {
       };
     }
 
-    // Fetch from database
     const whereClause: any = {
       prompt: {
         isActive: true,
@@ -83,13 +81,11 @@ export class PromptsService {
       category: translation.prompt?.category || undefined,
     }));
 
-    // Update cache
     this.cache.set(cacheKey, {
       data: prompts,
       timestamp: Date.now(),
     });
 
-    // Apply pagination
     const startIndex = offset;
     const endIndex = offset + limit;
     const paginatedPrompts = prompts.slice(startIndex, endIndex);
@@ -124,7 +120,6 @@ export class PromptsService {
     });
 
     if (!translation) {
-      // Fallback to English if requested locale not found
       if (locale !== SupportedPromptLocale.en) {
         return this.getPromptById(id, SupportedPromptLocale.en);
       }
@@ -159,17 +154,14 @@ export class PromptsService {
       .filter((category): category is string => category !== null);
   }
 
-  // Cache invalidation method (for admin operations)
   invalidateCache(locale?: SupportedPromptLocale): void {
     if (locale) {
-      // Invalidate specific locale cache
       for (const key of this.cache.keys()) {
         if (key.includes(`:${locale}:`)) {
           this.cache.delete(key);
         }
       }
     } else {
-      // Clear all cache
       this.cache.clear();
     }
   }

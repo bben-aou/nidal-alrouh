@@ -14,7 +14,6 @@ import {
 
 export const GET_CHAT_ROOMS_KEY = 'GET_CHAT_ROOMS_KEY';
 
-// Normalize backend response to frontend types
 const normalizeParticipant = (p: ApiChatParticipant): Participant => ({
   id: String(p.id),
   name: typeof p.name === 'string' ? p.name : '',
@@ -64,8 +63,6 @@ export const useGetRooms = ({ config }: TUseGetRoomsParams = {}) => {
   return useQuery<TChatRoom[], ApiClientError>({
     queryKey: [GET_CHAT_ROOMS_KEY],
     queryFn: getRoomsApiCall,
-    // staleTime: 30 * 1000, // 30s
-    // gcTime: 10 * 60 * 1000, // 10m
     ...config,
   });
 };

@@ -37,7 +37,6 @@ export class CommunityGateway
   private readonly logger = new Logger(CommunityGateway.name);
   private readonly connectedUsers = new Map<string, string>();
 
-  // Static instance for service access
   private static instance: CommunityGateway;
 
   constructor(
@@ -54,7 +53,6 @@ export class CommunityGateway
   onModuleInit() {
     this.logger.log('CommunityGateway initialized');
 
-    // Subscribe to domain events and forward them to socket clients
     this.eventEmitter.on(
       CommunityEvent.PostCreated,
       ({ post }: { post: SanitizedPost }) => {
@@ -160,17 +158,14 @@ export class CommunityGateway
         return;
       }
 
-      // Verify JWT token
       const payload = await this.jwtService.verifyAsync(tokenLocation.value);
       const userId = payload.sub as string;
       client.userId = userId;
 
-      // Store connection
       this.connectedUsers.set(client.id, userId);
 
       this.logger.log(`User ${userId} connected with socket ${client.id}`);
 
-      // Join user to their personal room for targeted notifications
       await client.join(`user:${userId}`);
     } catch (error: unknown) {
       const errorMessage =
@@ -230,14 +225,12 @@ export class CommunityGateway
   ) {
     const timestamp = new Date().toISOString();
 
-    // Emit to the author with isOwner: true
     this.server.to(`user:${authorUserId}`).emit(CommunityEvent.CommentCreated, {
       postId,
       comment: { ...comment, isOwner: true },
       timestamp,
     });
 
-    // Emit to everyone else in the post room with isOwner: false
     this.server
       .to(`post:${postId}`)
       .except(`user:${authorUserId}`)

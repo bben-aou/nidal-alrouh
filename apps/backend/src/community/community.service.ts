@@ -15,6 +15,10 @@ import { GetCommunityStatsDto } from './dto/get-community-stats.dto';
 import { GetPostsQueryDto } from './dto/get-posts.dto';
 
 @Injectable()
+/**
+ * Facade over community sub-services (posts, comments, likes, moderation, stats).
+ * Provides a single entry point for controllers and orchestrates cross-cutting logic.
+ */
 export class CommunityService {
   private readonly logger = new Logger(CommunityService.name);
 

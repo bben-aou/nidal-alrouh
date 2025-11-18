@@ -24,8 +24,13 @@ export class CommunityPostService {
     private readonly sanitizer: CommunitySanitizerService
   ) {}
 
+  /**
+   * Create a new community post.
+   * Validates and sanitizes content, supports quoting another post, and emits a creation event.
+   * @param userId Author user ID
+   * @param dto Post payload including content, tags, privacy, locale, and optional quotedPostId
+   */
   async createPost(userId: string, dto: CreatePostDto) {
-    // Content moderation validation
     this.contentModeration.validatePostContent(dto.content);
 
     const sanitizedContent = sanitizeHtml(
@@ -83,7 +88,7 @@ export class CommunityPostService {
       user: post.user,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
-      isOwner: true, // User is always the owner of their own created post
+      isOwner: true,
       likedByMe: false,
       likesCount: post._count?.likes ?? 0,
       commentsCount: post._count?.comments ?? 0,
@@ -98,12 +103,17 @@ export class CommunityPostService {
         : undefined,
     });
 
-    // Emit real-time event via domain event bus
     this.events.emitPostCreated(sanitized);
 
     return sanitized;
   }
 
+  /**
+   * Fetch paginated public posts with optional filters.
+   * Marks ownership and likedByMe for the viewer; includes counts and quoted post.
+   * @param query Filters and pagination (limit, cursor, locale, userId)
+   * @param currentUserId Viewer user ID for ownership and like status
+   */
   async getPosts(query: GetPostsQueryDto, currentUserId: string) {
     const take = query.limit ?? 20;
     const cursorId = query.cursor;
@@ -189,6 +199,12 @@ export class CommunityPostService {
     return { items: sanitizedItems, nextCursor };
   }
 
+  /**
+   * Get a single post by ID.
+   * Includes counts, quoted post, and viewer context (ownership, likedByMe).
+   * @param postId Post ID
+   * @param currentUserId Optional viewer user ID
+   */
   async getPostById(postId: string, currentUserId?: string) {
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
@@ -259,6 +275,13 @@ export class CommunityPostService {
     };
   }
 
+  /**
+   * Update a post owned by the authenticated user.
+   * Sanitizes updated content and emits an update event.
+   * @param userId Owner user ID
+   * @param postId Post ID to update
+   * @param dto Partial payload with fields to update
+   */
   async updatePost(
     userId: string,
     postId: string,
@@ -311,11 +334,16 @@ export class CommunityPostService {
       likesCount: updated._count?.likes ?? 0,
       commentsCount: updated._count?.comments ?? 0,
     });
-    // Emit real-time event via domain event bus
     this.events.emitPostUpdated(postId, sanitized);
     return { data: sanitized, message: 'Post updated' };
   }
 
+  /**
+   * Delete a post owned by the authenticated user.
+   * Emits a deletion event for realtime consumers.
+   * @param userId Owner user ID
+   * @param postId Post ID to delete
+   */
   async deletePost(userId: string, postId: string) {
     const existing = await this.prisma.post.findUnique({
       where: { id: postId },
@@ -328,7 +356,6 @@ export class CommunityPostService {
     }
 
     await this.prisma.post.delete({ where: { id: postId } });
-    // Emit real-time event via domain event bus
     this.events.emitPostDeleted(postId);
     return { success: true, message: 'Post deleted' };
   }

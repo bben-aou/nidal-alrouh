@@ -41,6 +41,12 @@ export class ChatController {
   @ApiOperation({ summary: 'Create or get a DM room' })
   @ApiBody({ type: CreateDmRoomDto })
   @ApiCreatedResponse({ description: 'DM room created or returned' })
+  /**
+   * Create or retrieve a direct message (DM) room between the authenticated user and another user.
+   * @param dto Payload containing the `otherUserId` to chat with
+   * @param req Fastify request containing the authenticated `user`
+   * @returns The DM room with participants; creates the room if it does not exist
+   */
   async createOrGetDmRoom(
     @Body() dto: CreateDmRoomDto,
     @Req() req: FastifyRequest & { user: AuthResponse['user'] }
@@ -57,6 +63,14 @@ export class ChatController {
   @ApiParam({ name: 'roomId', description: 'Room ID' })
   @ApiBody({ type: SendMessageDto })
   @ApiCreatedResponse({ description: 'Message sent' })
+  /**
+   * Send a chat message to the specified room as the authenticated user.
+   * Triggers realtime delivery events to room participants.
+   * @param roomId Target chat room UUID
+   * @param body Message payload (content)
+   * @param req Fastify request containing the authenticated `user`
+   * @returns The created message enriched with sender info and status
+   */
   async sendMessage(
     @Param('roomId', new ParseUUIDPipe({ version: '4' })) roomId: string,
     @Body() body: Omit<SendMessageDto, 'roomId'>,
@@ -76,6 +90,12 @@ export class ChatController {
       'List rooms for current user with participants, lastMessage, unreadCount',
   })
   @ApiOkResponse({ description: 'Rooms retrieved successfully' })
+  /**
+   * Fetch all rooms that the authenticated user participates in.
+   * Includes participants, the latest message, and unread counts.
+   * @param req Fastify request containing the authenticated `user`
+   * @returns Array of rooms formatted for sidebar and chat UI
+   */
   async listRooms(@Req() req: FastifyRequest & { user: AuthResponse['user'] }) {
     const rooms = await this.chatService.listRoomsForUser(req.user.id);
     return { data: rooms, message: 'Rooms retrieved' };
@@ -87,6 +107,15 @@ export class ChatController {
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'cursor', required: false, type: String })
   @ApiOkResponse({ description: 'Messages retrieved successfully' })
+  /**
+   * List messages for a given room, scoped to the authenticated viewer.
+   * Status is computed from viewer perspective and other participants' read times.
+   * @param roomId Target chat room UUID
+   * @param req Fastify request containing the authenticated `user`
+   * @param limit Optional page size (default 50)
+   * @param cursor Optional message ID cursor for pagination
+   * @returns Messages ordered by creation time with sender info and status
+   */
   async listMessages(
     @Param('roomId', new ParseUUIDPipe({ version: '4' })) roomId: string,
     @Req() req: FastifyRequest & { user: AuthResponse['user'] },
@@ -106,6 +135,13 @@ export class ChatController {
   @ApiOperation({ summary: 'Mark room as read' })
   @ApiParam({ name: 'roomId', description: 'Room ID' })
   @ApiBody({ type: MarkReadDto })
+  /**
+   * Mark all messages in the room as read for the authenticated user.
+   * Emits a realtime event so senders can immediately see "seen" state.
+   * @param roomId Target chat room UUID
+   * @param req Fastify request containing the authenticated `user`
+   * @returns Confirmation payload
+   */
   async markRead(
     @Param('roomId', new ParseUUIDPipe({ version: '4' })) roomId: string,
     @Req() req: FastifyRequest & { user: AuthResponse['user'] }

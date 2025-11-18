@@ -12,8 +12,13 @@ export class CommunityLikeService {
     private readonly events: CommunityEventsService
   ) {}
 
+  /**
+   * Like a post. Idempotent: returns success even if already liked.
+   * Emits a like event with current like count.
+   * @param userId Liker user ID
+   * @param postId Post ID to like
+   */
   async likePost(userId: string, postId: string) {
-    // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
     });
@@ -30,13 +35,11 @@ export class CommunityLikeService {
         },
       });
 
-      // Emit real-time event via domain event bus
       const likeCount = await this.prisma.postLike.count({ where: { postId } });
       this.events.emitPostLiked(postId, userId, likeCount);
 
       return { success: true, message: 'Post liked successfully' };
     } catch (error: unknown) {
-      // Handle duplicate like (Prisma P2002 error for unique constraint violation)
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2002'
@@ -47,8 +50,13 @@ export class CommunityLikeService {
     }
   }
 
+  /**
+   * Unlike a post. No-op if not previously liked.
+   * Emits an unlike event with current like count when a like is removed.
+   * @param userId User ID
+   * @param postId Post ID to unlike
+   */
   async unlikePost(userId: string, postId: string) {
-    // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
     });
@@ -64,7 +72,6 @@ export class CommunityLikeService {
       },
     });
 
-    // Emit real-time event if an unlike actually happened via domain event bus
     if (deletedLike.count > 0) {
       const likeCount = await this.prisma.postLike.count({ where: { postId } });
       this.events.emitPostUnliked(postId, userId, likeCount);
@@ -79,6 +86,12 @@ export class CommunityLikeService {
     };
   }
 
+  /**
+   * Check whether the user has liked the given post.
+   * @param userId User ID
+   * @param postId Post ID
+   * @returns `{ hasLiked: boolean }`
+   */
   async hasLiked(userId: string, postId: string) {
     const post = await this.prisma.post.findUnique({ where: { id: postId } });
     if (!post) {

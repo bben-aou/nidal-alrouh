@@ -29,17 +29,14 @@ export class JournalService {
     try {
       const { title, content, mood, privacy } = createReflectionDto;
 
-      // Validate mood enum
       if (mood && !Object.values(ReflectionMood).includes(mood)) {
         throw new BadRequestException('Invalid mood value');
       }
 
-      // Validate privacy enum
       if (privacy && !Object.values(ReflectionPrivacy).includes(privacy)) {
         throw new BadRequestException('Invalid privacy value');
       }
 
-      // Calculate word count
       const wordCount = this.calculateWordCount(content);
 
       const reflection = await this.prisma.reflection.create({
@@ -117,7 +114,6 @@ export class JournalService {
         throw new NotFoundException('Reflection not found');
       }
 
-      // Check if user owns the reflection or if it's public
       if (
         reflection.userId !== userId &&
         reflection.privacy !== ReflectionPrivacy.PUBLIC
@@ -143,7 +139,6 @@ export class JournalService {
     updateData: Partial<CreateReflectionDto>
   ): Promise<Reflection> {
     try {
-      // First check if reflection exists and user owns it
       const existingReflection = await this.prisma.reflection.findUnique({
         where: { id },
       });
@@ -158,7 +153,6 @@ export class JournalService {
         );
       }
 
-      // Validate enums if provided
       if (
         updateData.mood &&
         !Object.values(ReflectionMood).includes(updateData.mood)
@@ -195,7 +189,6 @@ export class JournalService {
 
   async deleteReflection(id: string, userId: string): Promise<{ id: string }> {
     try {
-      // First check if reflection exists and user owns it
       const existingReflection = await this.prisma.reflection.findUnique({
         where: { id },
       });
@@ -225,10 +218,8 @@ export class JournalService {
       return 0;
     }
 
-    // Remove extra whitespace and split by whitespace
     const words = content.trim().split(/\s+/);
 
-    // Filter out empty strings
     return words.filter((word) => word.length > 0).length;
   }
 
@@ -239,14 +230,12 @@ export class JournalService {
     try {
       const { period = StatsPeriod.WEEK, startDate, endDate } = query;
 
-      // Calculate date ranges
       const { currentPeriod, previousPeriod } = this.calculateDateRanges(
         period,
         startDate,
         endDate
       );
 
-      // Get current period stats
       const [currentReflections, currentMoodData, currentWordData] =
         await Promise.all([
           this.getReflectionCount(
@@ -258,7 +247,6 @@ export class JournalService {
           this.getWordStats(userId, currentPeriod.start, currentPeriod.end),
         ]);
 
-      // Get previous period stats for comparison
       const [previousReflections, previousMoodData, previousWordData] =
         await Promise.all([
           this.getReflectionCount(
@@ -270,7 +258,6 @@ export class JournalService {
           this.getWordStats(userId, previousPeriod.start, previousPeriod.end),
         ]);
 
-      // Calculate streak days
       const streakDays = await this.calculateStreakDays(userId);
 
       return {
@@ -331,7 +318,7 @@ export class JournalService {
           currentStart.setDate(currentStart.getDate() - 29);
           break;
         case StatsPeriod.ALL:
-          currentStart = new Date(2020, 0, 1); // Far back date
+          currentStart = new Date(2020, 0, 1);
           break;
         default:
           currentStart = new Date(currentEnd);
@@ -341,7 +328,6 @@ export class JournalService {
       currentStart.setHours(0, 0, 0, 0);
     }
 
-    // Calculate previous period of same duration
     const periodDuration = currentEnd.getTime() - currentStart.getTime();
     const previousEnd = new Date(currentStart.getTime() - 1);
     const previousStart = new Date(previousEnd.getTime() - periodDuration);
@@ -432,7 +418,6 @@ export class JournalService {
   }
 
   private async calculateStreakDays(userId: string): Promise<number> {
-    // Get all reflection dates for the user, grouped by day
     const reflections = await this.prisma.reflection.findMany({
       where: { userId },
       select: {
@@ -447,17 +432,14 @@ export class JournalService {
       return 0;
     }
 
-    // Group reflections by date (YYYY-MM-DD)
     const reflectionDates = new Set(
       reflections.map((r) => r.createdAt.toISOString().split('T')[0])
     );
 
-    // Calculate streak from today backwards
     let streakDays = 0;
     const today = new Date();
 
     for (let i = 0; i < 365; i++) {
-      // Max 365 days to prevent infinite loop
       const checkDate = new Date(today);
       checkDate.setDate(today.getDate() - i);
       const dateString = checkDate.toISOString().split('T')[0];
@@ -483,18 +465,15 @@ export class JournalService {
         granularity = AnalyticsGranularity.DAY,
       } = query;
 
-      // Set default date range if not provided (last 30 days)
       const endDateObj = endDate ? new Date(endDate) : new Date();
       const startDateObj = startDate
         ? new Date(startDate)
         : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-      // Calculate previous period for comparison
       const periodLength = endDateObj.getTime() - startDateObj.getTime();
       const previousStartDate = new Date(startDateObj.getTime() - periodLength);
       const previousEndDate = new Date(startDateObj.getTime());
 
-      // Get current period data
       const [
         currentReflections,
         currentMoodData,
@@ -513,7 +492,6 @@ export class JournalService {
         this.getWordsTrendData(userId, startDateObj, endDateObj, granularity),
       ]);
 
-      // Get previous period data for comparison
       const [previousReflections, previousMoodData, previousWordData] =
         await Promise.all([
           this.getReflectionCount(userId, previousStartDate, previousEndDate),
@@ -561,7 +539,6 @@ export class JournalService {
       },
     });
 
-    // Group by date based on granularity
     const groupedData = new Map<string, number>();
 
     reflections.forEach((reflection) => {
@@ -572,7 +549,6 @@ export class JournalService {
       groupedData.set(dateKey, (groupedData.get(dateKey) || 0) + 1);
     });
 
-    // Fill in missing dates with 0 values
     const result: { date: string; value: number }[] = [];
     const currentDate = new Date(startDate);
 
@@ -617,7 +593,6 @@ export class JournalService {
       },
     });
 
-    // Group by date and calculate average mood
     const groupedData = new Map<string, { total: number; count: number }>();
 
     reflections.forEach((reflection) => {
@@ -636,7 +611,6 @@ export class JournalService {
       data.count += 1;
     });
 
-    // Fill in missing dates and calculate averages
     const result: { date: string; mood: number }[] = [];
     const currentDate = new Date(startDate);
 
@@ -675,7 +649,6 @@ export class JournalService {
       },
     });
 
-    // Group by date and sum word counts
     const groupedData = new Map<string, number>();
 
     reflections.forEach((reflection) => {
@@ -689,7 +662,6 @@ export class JournalService {
       );
     });
 
-    // Fill in missing dates with 0 values
     const result: { date: string; words: number }[] = [];
     const currentDate = new Date(startDate);
 

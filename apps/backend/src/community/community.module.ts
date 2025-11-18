@@ -48,4 +48,8 @@ import { CommunityService } from './community.service';
   ],
   exports: [CommunityService],
 })
+/**
+ * Community feature module wiring controllers, services, gateway, and event bus.
+ * Exposes CommunityService for consumption by other modules.
+ */
 export class CommunityModule {}

@@ -16,6 +16,12 @@ export class CommunityModerationService {
     private readonly events: CommunityEventsService
   ) {}
 
+  /**
+   * Hide a post for the given user.
+   * Idempotent: returns success if already hidden. Emits a hide event.
+   * @param userId User ID
+   * @param postId Post ID
+   */
   async hidePost(userId: string, postId: string) {
     const post = await this.prisma.post.findUnique({ where: { id: postId } });
     if (!post) throw new NotFoundException('Post not found');
@@ -28,12 +34,17 @@ export class CommunityModerationService {
     }
     await this.prisma.hiddenPost.create({ data: { postId, userId } });
 
-    // Emit real-time event to the specific user via domain event bus
     this.events.emitPostHidden(userId, postId);
 
     return { success: true, message: 'Post hidden' };
   }
 
+  /**
+   * Unhide a post for the given user.
+   * No-op if not hidden. Emits an unhide event.
+   * @param userId User ID
+   * @param postId Post ID
+   */
   async unhidePost(userId: string, postId: string) {
     const existing = await this.prisma.hiddenPost.findUnique({
       where: { postId_userId: { postId, userId } },
@@ -45,14 +56,19 @@ export class CommunityModerationService {
       where: { postId_userId: { postId, userId } },
     });
 
-    // Emit real-time event to the specific user via domain event bus
     this.events.emitPostUnhidden(userId, postId);
 
     return { success: true, message: 'Post unhidden' };
   }
 
+  /**
+   * Create a report for a post with sanitized reason.
+   * Validates reason and emits a report event.
+   * @param userId Reporter user ID
+   * @param postId Post ID
+   * @param dto Report payload
+   */
   async createPostReport(userId: string, postId: string, dto: CreateReportDto) {
-    // Content moderation validation for report reason
     this.contentModeration.validateReportReason(dto.reason);
 
     const post = await this.prisma.post.findUnique({ where: { id: postId } });
@@ -67,7 +83,6 @@ export class CommunityModerationService {
       data: { userId, postId, reason: sanitizedReason },
     });
 
-    // Emit real-time event to the post room via domain event bus
     this.events.emitPostReported(postId, report);
 
     return { data: report, message: 'Report submitted' };

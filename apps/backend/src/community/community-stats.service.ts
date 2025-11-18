@@ -151,7 +151,6 @@ export class CommunityStatsService {
       endDate
     );
 
-    // Current period counts
     const [
       { posts: currentPosts, likes: currentLikes, comments: currentComments },
       currentActiveUsersSet,
@@ -160,7 +159,6 @@ export class CommunityStatsService {
       this.getActiveUserIdsForPeriod(currentPeriod),
     ]);
 
-    // Previous period counts
     const [
       { posts: prevPosts, likes: prevLikes, comments: prevComments },
       prevActiveUsersSet,
@@ -172,7 +170,7 @@ export class CommunityStatsService {
     const activeMembers = currentActiveUsersSet.size;
     const prevActiveMembers = prevActiveUsersSet.size;
 
-    const upcomingEvents = 0; // Placeholder until events module exists
+    const upcomingEvents = 0;
     const prevUpcomingEvents = 0;
 
     return {

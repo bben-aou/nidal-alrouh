@@ -158,7 +158,6 @@ export class JournalController {
   }
 }
 
-// Prompts endpoints (public - no auth required)
 @Controller('prompts')
 export class PromptsController {
   constructor(private readonly promptsService: PromptsService) {}
