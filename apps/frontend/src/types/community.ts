@@ -209,6 +209,107 @@ export interface SupportGroup {
 }
 
 // ============================================================================
+// Community Event Types
+// ============================================================================
+
+export type EventType =
+  | 'workshop'
+  | 'supportSession'
+  | 'consultation'
+  | 'communityMeeting'
+  | 'webinar';
+export type EventStatus = 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+
+export interface CommunityEvent {
+  id: string;
+  title: string;
+  description: string;
+  type: EventType;
+  status: EventStatus;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  timezone: string;
+  location?: string;
+  meetingUrl?: string;
+  maxAttendees?: number;
+  currentAttendees: number;
+  isRegistered: boolean;
+  requiresApproval: boolean;
+  coverImage?: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  organizer: {
+    id: string;
+    name: string;
+    avatar?: string | null;
+    role?: string;
+  };
+  attendees?: Array<{
+    id: string;
+    name: string;
+    avatar?: string | null;
+    registeredAt: string;
+  }>;
+}
+
+export interface GetEventsParams {
+  q?: string;
+  type?: EventType;
+  status?: EventStatus;
+  startDate?: string;
+  endDate?: string;
+  limit?: number;
+  cursor?: string;
+}
+
+export interface GetEventsResponse {
+  items: CommunityEvent[];
+  nextCursor?: string;
+  total: number;
+}
+
+export interface CreateEventData {
+  title: string;
+  description: string;
+  type: EventType;
+  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  timezone: string;
+  location?: string;
+  meetingUrl?: string;
+  maxAttendees?: number;
+  requiresApproval: boolean;
+  coverImage?: string;
+  tags: string[];
+}
+
+export interface UpdateEventData extends Partial<CreateEventData> {
+  id: string;
+}
+
+export interface EventRegistrationData {
+  eventId: string;
+  userId: string;
+  notes?: string;
+}
+
+export interface EventFilters {
+  search?: string;
+  type?: EventType;
+  status?: EventStatus;
+  dateRange?: {
+    start: Date;
+    end: Date;
+  };
+}
+
+// ============================================================================
 // Component Props Interfaces
 // ============================================================================
 

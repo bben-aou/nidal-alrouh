@@ -4,7 +4,6 @@ import {
   Users,
   MessageCircle,
   Calendar,
-  MapPin,
   Heart,
   Share2,
   ArrowRight,
@@ -12,16 +11,11 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { EventsContent } from '@/components/community/EventsContent';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function CommunityPage() {
   const t = useTranslations('community');
@@ -53,36 +47,6 @@ export default function CommunityPage() {
     },
   ];
 
-  const upcomingEvents = [
-    {
-      title: t('events.mentalHealthWorkshop.title'),
-      description: t('events.mentalHealthWorkshop.description'),
-      date: '2024-02-15',
-      time: '18:00',
-      location: t('events.mentalHealthWorkshop.location'),
-      attendees: 45,
-      type: 'workshop',
-    },
-    {
-      title: t('events.supportGroup.title'),
-      description: t('events.supportGroup.description'),
-      date: '2024-02-18',
-      time: '19:30',
-      location: t('events.supportGroup.location'),
-      attendees: 28,
-      type: 'support',
-    },
-    {
-      title: t('events.wellnessSession.title'),
-      description: t('events.wellnessSession.description'),
-      date: '2024-02-22',
-      time: '17:00',
-      location: t('events.wellnessSession.location'),
-      attendees: 62,
-      type: 'wellness',
-    },
-  ];
-
   const recentDiscussions = [
     {
       title: t('discussions.copingStrategies.title'),
@@ -109,19 +73,6 @@ export default function CommunityPage() {
       category: 'Support',
     },
   ];
-
-  const getEventTypeColor = (type: string) => {
-    switch (type) {
-      case 'workshop':
-        return 'bg-blue-500/10 text-blue-600';
-      case 'support':
-        return 'bg-green-500/10 text-green-600';
-      case 'wellness':
-        return 'bg-purple-500/10 text-purple-600';
-      default:
-        return 'bg-gray-500/10 text-gray-600';
-    }
-  };
 
   return (
     <div className="space-y-12">
@@ -179,40 +130,7 @@ export default function CommunityPage() {
           </Button>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {upcomingEvents.map((event, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <Badge className={getEventTypeColor(event.type)}>
-                    {event.type}
-                  </Badge>
-                  <div className="text-right text-sm text-muted-foreground">
-                    <div>{event.date}</div>
-                    <div>{event.time}</div>
-                  </div>
-                </div>
-                <CardTitle className="text-lg">{event.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <CardDescription>{event.description}</CardDescription>
-
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    {event.location}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    {event.attendees} {t('events.attendees')}
-                  </div>
-                </div>
-
-                <Button className="w-full">{t('events.joinEvent')}</Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <EventsContent />
       </section>
 
       {/* Recent Discussions */}
