@@ -3,7 +3,9 @@ import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
+import { useCreateEvent } from '@/apis/events';
 import { AdvancedSettings } from '@/components/community/event-create/advanced-settings';
 import { DetailsFields } from '@/components/community/event-create/details-fields';
 import { LocationFields } from '@/components/community/event-create/location-fields';
@@ -24,8 +26,10 @@ import {
 import { Form } from '@/components/ui/form';
 import { defaultEventFormValues } from '@/lib/defaults/event';
 import { createEventSchema } from '@/lib/validations/event';
-import { CreateEventData } from '@/types/community';
+import { CreateEventData, EventType, EventStatus } from '@/types/community';
 import { combineDateAndTime, getTimezone } from '@/utils/event-time';
+
+import type { FieldPath } from 'react-hook-form';
 
 type FormData = import('@/lib/validations/event').EventFormData;
 
@@ -40,7 +44,21 @@ export function EventCreateDialog({
 }: EventCreateDialogProps) {
   const t = useTranslations('community.events');
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { createEvent, isPending } = useCreateEvent({
+    config: {
+      onSuccess: (response) => {
+        const eventData: CreateEventData = {
+          ...response,
+          type: response.type as EventType,
+          status: response.status as EventStatus,
+        };
+        onEventCreated?.(eventData);
+        setOpen(false);
+        form.reset();
+      },
+    },
+  });
 
   const localizedSchema = createEventSchema(t);
 
@@ -49,8 +67,7 @@ export function EventCreateDialog({
     defaultValues: defaultEventFormValues,
   });
 
-  const handleSubmit = async (values: FormData) => {
-    setIsSubmitting(true);
+  const handleSubmit = (values: FormData) => {
     try {
       const startDateTime = combineDateAndTime(
         values.startDate,
@@ -59,9 +76,25 @@ export function EventCreateDialog({
       const endDateTime = combineDateAndTime(values.endDate, values.endTime);
       const userTimezone = getTimezone();
 
-      const eventData: CreateEventData = {
-        title: values.title,
-        description: values.description,
+      const normalizedTags = values.tags
+        ? [
+            ...new Set(
+              values.tags
+                .map((tag) => tag.trim().toLowerCase())
+                .filter((tag) => tag.length > 0)
+            ),
+          ]
+        : [];
+
+      const normalizeUrl = (u?: string) => {
+        if (!u) return undefined;
+        const s = u.trim().replace(/^['"`]\s*|\s*['"`]$/g, '');
+        return s.length ? s : undefined;
+      };
+
+      const eventData = {
+        title: values.title.trim(),
+        description: values.description.trim(),
         type: values.type,
         status: values.status,
         startDate: startDateTime.toISOString(),
@@ -69,25 +102,30 @@ export function EventCreateDialog({
         startTime: values.startTime,
         endTime: values.endTime,
         timezone: userTimezone,
-        location: values.location,
-        meetingUrl: values.meetingUrl || undefined,
+        location: values.location?.trim() || undefined,
+        meetingUrl: normalizeUrl(values.meetingUrl),
         maxAttendees: values.maxAttendees,
         requiresApproval: values.requiresApproval,
-        coverImage: values.coverImage || undefined,
-        tags: values.tags,
+        coverImage: normalizeUrl(values.coverImage),
+        tags: normalizedTags,
       };
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      onEventCreated?.(eventData);
-      setOpen(false);
-      form.reset();
+      createEvent(eventData);
     } catch (error) {
       console.error('Failed to create event:', error);
-    } finally {
-      setIsSubmitting(false);
     }
+  };
+
+  const handleInvalid = () => {
+    const firstErrorKey = Object.keys(form.formState.errors)[0] as
+      | keyof FormData
+      | undefined;
+    if (firstErrorKey) {
+      form.setFocus(firstErrorKey as FieldPath<FormData>);
+    }
+    toast.error(
+      t('validation.fixErrors') || 'Please fix the highlighted errors'
+    );
   };
 
   const defaultTrigger = (
@@ -108,7 +146,7 @@ export function EventCreateDialog({
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit, handleInvalid)}
             className="space-y-6 px-1 "
           >
             <div className="flex flex-col  gap-4 max-h-[70vh] overflow-y-auto pr-2 scrollbar-soft">
@@ -128,8 +166,8 @@ export function EventCreateDialog({
               >
                 {t('cancel')}
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? t('creating') : t('createEvent')}
+              <Button type="submit" disabled={isPending}>
+                {isPending ? t('creating') : t('createEvent')}
               </Button>
             </DialogFooter>
           </form>

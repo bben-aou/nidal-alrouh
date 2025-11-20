@@ -28,12 +28,12 @@ export function EventCard({
   const t = useTranslations('community');
   const { formatDate } = getLocalizedDateFormatter(t);
 
-  const handleRegisterClick = () => {
-    if (event.isRegistered) {
-      onUnregister?.(event.id);
-    } else {
-      onRegister?.(event.id);
-    }
+  const handleRegister = () => {
+    onRegister?.(event.id);
+  };
+
+  const handleUnregister = () => {
+    onUnregister?.(event.id);
   };
 
   const handleViewDetails = () => {
@@ -47,7 +47,8 @@ export function EventCard({
       <EventCardActions
         event={event}
         t={t}
-        onRegisterClick={handleRegisterClick}
+        onRegister={handleRegister}
+        onUnregister={handleUnregister}
         onViewDetails={handleViewDetails}
       />
     </Card>

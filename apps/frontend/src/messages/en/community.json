@@ -410,6 +410,7 @@
     "contentMaxLength": "Content cannot exceed 5000 characters",
     "tagsMaxCount": "You can add up to 10 tags",
     "reportReasonRequired": "Please select a reason",
-    "reportDetailsMaxLength": "Details cannot exceed 1000 characters"
+    "reportDetailsMaxLength": "Details cannot exceed 1000 characters",
+    "locationRequired": "Location is required"
   }
 }

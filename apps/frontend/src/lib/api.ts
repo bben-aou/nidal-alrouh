@@ -1,4 +1,3 @@
-// API configuration and client
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080/api';
 
@@ -101,10 +100,8 @@ class ApiClient {
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
-    // Build default headers without overriding user-provided values
     const defaultHeaders: HeadersInit = {};
 
-    // Only set Content-Type when there's actually a body to send
     if (options.body) {
       defaultHeaders['Content-Type'] = 'application/json';
     }
@@ -118,7 +115,7 @@ class ApiClient {
         ...defaultHeaders,
         ...options.headers,
       },
-      credentials: 'include', // Include cookies for authentication
+      credentials: 'include',
       ...options,
     };
 
@@ -174,7 +171,6 @@ class ApiClient {
     }
   }
 
-  // Convenience helpers for common HTTP methods
   async get<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }

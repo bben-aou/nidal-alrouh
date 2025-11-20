@@ -16,6 +16,10 @@ import { CommunityStatsService } from './community-stats.service';
 import { CommunityController } from './community.controller';
 import { CommunityGateway } from './community.gateway';
 import { CommunityService } from './community.service';
+import { EventsRealtimeService } from './events-realtime.service';
+import { EventsController } from './events.controller';
+import { EventsGateway } from './events.gateway';
+import { EventsService } from './events.service';
 
 @Module({
   imports: [
@@ -33,7 +37,7 @@ import { CommunityService } from './community.service';
       inject: [ConfigService],
     }),
   ],
-  controllers: [CommunityController],
+  controllers: [CommunityController, EventsController],
   providers: [
     CommunityService,
     CommunityCommentService,
@@ -44,7 +48,10 @@ import { CommunityService } from './community.service';
     CommunityStatsService,
     ContentModerationService,
     CommunityGateway,
+    EventsGateway,
+    EventsRealtimeService,
     CommunityEventsService,
+    EventsService,
   ],
   exports: [CommunityService],
 })

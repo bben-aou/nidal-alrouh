@@ -25,6 +25,13 @@ export class ContentModerationService {
   private readonly maxCommentLength = 1000;
   private readonly minContentLength = 10;
   private readonly minCommentLength = 3;
+  private readonly maxEventTitleLength = 100;
+  private readonly minEventTitleLength = 5;
+  private readonly maxEventDescriptionLength = 1000;
+  private readonly minEventDescriptionLength = 20;
+  private readonly maxEventTags = 10;
+  private readonly maxTagLength = 30;
+  private readonly minTagLength = 2;
 
   /**
    */
@@ -144,6 +151,132 @@ export class ContentModerationService {
    */
   validateReportReason(reason: string): void {
     const result = this.moderateReportReason(reason);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Moderate event title for inappropriate words and length
+   */
+  moderateEventTitle(title: string): { isValid: boolean; reason?: string } {
+    if (title.length < this.minEventTitleLength) {
+      return {
+        isValid: false,
+        reason: `Event title too short. Minimum ${this.minEventTitleLength} characters required.`,
+      };
+    }
+
+    if (title.length > this.maxEventTitleLength) {
+      return {
+        isValid: false,
+        reason: `Event title too long. Maximum ${this.maxEventTitleLength} characters allowed.`,
+      };
+    }
+
+    if (this.containsInappropriateLanguage(title)) {
+      return {
+        isValid: false,
+        reason: 'Event title contains inappropriate language.',
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Moderate event description for inappropriate words and length
+   */
+  moderateEventDescription(description: string): {
+    isValid: boolean;
+    reason?: string;
+  } {
+    if (description.length < this.minEventDescriptionLength) {
+      return {
+        isValid: false,
+        reason: `Event description too short. Minimum ${this.minEventDescriptionLength} characters required.`,
+      };
+    }
+
+    if (description.length > this.maxEventDescriptionLength) {
+      return {
+        isValid: false,
+        reason: `Event description too long. Maximum ${this.maxEventDescriptionLength} characters allowed.`,
+      };
+    }
+
+    if (this.containsInappropriateLanguage(description)) {
+      return {
+        isValid: false,
+        reason: 'Event description contains inappropriate language.',
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Moderate event tags for inappropriate words, count, and individual tag length
+   */
+  moderateEventTags(tags: string[]): { isValid: boolean; reason?: string } {
+    if (tags.length > this.maxEventTags) {
+      return {
+        isValid: false,
+        reason: `Too many tags. Maximum ${this.maxEventTags} tags allowed.`,
+      };
+    }
+
+    for (const tag of tags) {
+      if (tag.length < this.minTagLength) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" too short. Minimum ${this.minTagLength} characters required.`,
+        };
+      }
+
+      if (tag.length > this.maxTagLength) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" too long. Maximum ${this.maxTagLength} characters allowed.`,
+        };
+      }
+
+      if (this.containsInappropriateLanguage(tag)) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" contains inappropriate language.`,
+        };
+      }
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Validate and throw exception if event title is inappropriate
+   */
+  validateEventTitle(title: string): void {
+    const result = this.moderateEventTitle(title);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Validate and throw exception if event description is inappropriate
+   */
+  validateEventDescription(description: string): void {
+    const result = this.moderateEventDescription(description);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Validate and throw exception if event tags are inappropriate
+   */
+  validateEventTags(tags: string[]): void {
+    const result = this.moderateEventTags(tags);
     if (!result.isValid) {
       throw new BadRequestException(result.reason);
     }

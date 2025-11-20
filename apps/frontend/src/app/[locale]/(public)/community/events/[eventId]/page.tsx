@@ -13,11 +13,13 @@ import { useRouter, notFound } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 
+import { useGetEventById } from '@/apis/events';
+import { useRegisterForEvent } from '@/apis/events/queries/use-register-for-event';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { getMockEventById } from '@/lib/mock-data/community-events';
+import { useEventsRealtime } from '@/hooks/use-events-realtime';
 import { CommunityEvent } from '@/types/community';
 
 interface EventDetailPageProps {
@@ -31,47 +33,32 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [event, setEvent] = useState<CommunityEvent | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    event: fetchedEvent,
+    isLoading,
+    error,
+  } = useGetEventById({ eventId: params.eventId });
   const [isRegistering, setIsRegistering] = useState(false);
+  const { registerForEvent } = useRegisterForEvent();
+  useEventsRealtime([params.eventId]);
 
   useEffect(() => {
-    const loadEvent = async () => {
-      try {
-        const eventData = await getMockEventById(params.eventId);
-        if (!eventData) {
-          notFound();
-        }
-        setEvent(eventData);
-      } catch {
-        toast({
-          title: t('events.messages.loadError'),
-          description: t('events.errorLoadingEventsDescription'),
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (error) {
+      toast({
+        title: t('events.messages.loadError'),
+        description: t('events.errorLoadingEventsDescription'),
+      });
+    }
+    if (fetchedEvent) {
+      setEvent(fetchedEvent);
+    }
+  }, [fetchedEvent, error, t, toast]);
 
-    loadEvent();
-  }, [params.eventId, t, toast]);
-
-  const handleRegister = async () => {
+  const handleRegister = () => {
     if (!event) return;
-
     setIsRegistering(true);
     try {
-      // Simulate registration API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      toast({
-        title: t('events.messages.registrationSuccess'),
-        description: t('events.messages.registrationSuccessDescription'),
-      });
-    } catch {
-      toast({
-        title: t('events.messages.registrationError'),
-        description: t('events.messages.registrationErrorDescription'),
-      });
+      registerForEvent({ eventId: event.id });
     } finally {
       setIsRegistering(false);
     }
@@ -89,7 +76,6 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
         console.log('Error sharing:', error);
       }
     } else {
-      // Fallback: Copy to clipboard
       navigator.clipboard.writeText(globalThis.location.href);
       toast({
         title: t('events.messages.linkCopied'),

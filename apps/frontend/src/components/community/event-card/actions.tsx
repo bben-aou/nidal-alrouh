@@ -1,5 +1,8 @@
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
+import { useAuth } from '@/contexts/auth-context';
 import { CommunityEvent } from '@/types/community';
 import {
   canRegister,
@@ -10,33 +13,53 @@ import {
 interface Props {
   event: CommunityEvent;
   t: (key: string) => string;
-  onRegisterClick: () => void;
+  onRegister?: () => void;
+  onUnregister?: () => void;
   onViewDetails: () => void;
 }
 
 export function EventCardActions({
   event,
   t,
-  onRegisterClick,
+  onRegister,
+  onUnregister,
   onViewDetails,
 }: Readonly<Props>) {
+  const { user } = useAuth();
+  const isMeRegistered = Boolean(event.isRegistered);
   const showButton = showRegistrationButton(event);
   const full = isFullyBooked(event);
   const canReg = canRegister(event);
+  const organizerIsCreator = Boolean(
+    user?.id === event.organizer.id && isMeRegistered
+  );
+  const handlePrimaryClick = () => {
+    if (isMeRegistered) {
+      if (organizerIsCreator) {
+        toast.error(t('eventOrganizerCannotUnregisterTitle'), {
+          description: t('eventOrganizerCannotUnregisterDescription'),
+        });
+        return;
+      }
+      onUnregister?.();
+    } else {
+      onRegister?.();
+    }
+  };
 
   return (
-    <CardFooter className="flex gap-2">
-      <Button variant="outline" className="flex-1" onClick={onViewDetails}>
+    <CardFooter className="flex flex-col gap-2">
+      <Button variant="outline" className="w-full" onClick={onViewDetails}>
         {t('events.details.viewDetails')}
       </Button>
       {showButton && (
         <Button
-          variant={event.isRegistered ? 'outline' : 'default'}
-          className="flex-1"
-          onClick={onRegisterClick}
-          disabled={!canReg && !event.isRegistered}
+          variant={isMeRegistered ? 'outline' : 'default'}
+          className="w-full"
+          onClick={handlePrimaryClick}
+          disabled={isMeRegistered ? false : !canReg}
         >
-          {event.isRegistered
+          {isMeRegistered
             ? t('events.registration.unregister')
             : full
               ? t('events.registration.full')

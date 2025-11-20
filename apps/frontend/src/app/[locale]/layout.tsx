@@ -10,6 +10,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/contexts/auth-context';
+import { EventsSocketProvider } from '@/contexts/events-socket-context';
 import { SocketProvider } from '@/contexts/socket-context';
 import { routing } from '@/i18n/routing';
 
@@ -55,11 +56,13 @@ export default async function LocaleLayout({
             <ReactQueryProvider>
               <AuthProvider>
                 <SocketProvider>
-                  <TooltipProvider>
-                    <Toaster />
-                    <Sonner />
-                    {children}
-                  </TooltipProvider>
+                  <EventsSocketProvider>
+                    <TooltipProvider>
+                      <Toaster />
+                      <Sonner />
+                      {children}
+                    </TooltipProvider>
+                  </EventsSocketProvider>
                 </SocketProvider>
               </AuthProvider>
             </ReactQueryProvider>

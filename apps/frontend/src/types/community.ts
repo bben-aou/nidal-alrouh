@@ -299,6 +299,20 @@ export interface EventRegistrationData {
   notes?: string;
 }
 
+export type EventRegistrationAction = 'register' | 'unregister';
+
+export interface EventRegistrationUpdatePayload {
+  userId: string;
+  action: EventRegistrationAction;
+  currentAttendees?: number;
+}
+
+export interface EventRegistrationUpdatedMessage {
+  eventId: string;
+  payload: EventRegistrationUpdatePayload;
+  timestamp: string;
+}
+
 export interface EventFilters {
   search?: string;
   type?: EventType;

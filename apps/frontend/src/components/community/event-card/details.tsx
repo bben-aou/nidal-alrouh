@@ -62,7 +62,7 @@ export function EventCardDetails({ event, t, formatDate }: Readonly<Props>) {
           <span>
             {event.currentAttendees}
             {event.maxAttendees && ` / ${event.maxAttendees}`}
-            {t('events.details.attendees')}
+            <span className="ml-2">{t('events.details.attendees')}</span>
           </span>
           {isFullyBooked(event) && (
             <Badge variant="destructive" className="ml-2">
