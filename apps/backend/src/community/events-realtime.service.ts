@@ -14,4 +14,12 @@ export class EventsRealtimeService {
   emitRegistrationUpdated(eventId: string, payload: unknown) {
     this.eventEmitter.emit(EventsRt.RegistrationUpdated, { eventId, payload });
   }
+
+  emitEventUpdated(event: unknown) {
+    this.eventEmitter.emit(EventsRt.EventUpdated, { event });
+  }
+
+  emitEventDeleted(eventId: string) {
+    this.eventEmitter.emit(EventsRt.EventDeleted, { eventId });
+  }
 }

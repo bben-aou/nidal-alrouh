@@ -11,3 +11,11 @@ export { useGetEvents } from './queries/use-get-events';
 export { GET_EVENTS_KEY } from './queries/use-get-events';
 export { useGetEventById } from './queries/use-get-event-by-id';
 export { GET_EVENT_BY_ID_KEY } from './queries/use-get-event-by-id';
+
+export { useUpdateEvent } from './queries/use-update-event';
+export type {
+  UpdateEventRequestBody,
+  UpdateEventResponse,
+} from './queries/use-update-event';
+
+export { useDeleteEvent } from './queries/use-delete-event';

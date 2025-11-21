@@ -47,7 +47,9 @@ export function isFullyBooked(event: CommunityEvent): boolean {
 
 export function canRegister(event: CommunityEvent): boolean {
   return (
-    !event.isRegistered && !isFullyBooked(event) && event.status === 'upcoming'
+    !event.isRegistered &&
+    !isFullyBooked(event) &&
+    (event.status === 'upcoming' || event.status === 'ongoing')
   );
 }
 

@@ -59,6 +59,21 @@ export class EventsGateway
         });
       }
     );
+
+    this.eventEmitter.on(EventsRt.EventUpdated, ({ event }) => {
+      const eventId = event.id;
+      this.server.to(`event:${eventId}`).emit(EventsRt.EventUpdated, {
+        event,
+        timestamp: new Date().toISOString(),
+      });
+    });
+
+    this.eventEmitter.on(EventsRt.EventDeleted, ({ eventId }) => {
+      this.server.to(`event:${eventId}`).emit(EventsRt.EventDeleted, {
+        eventId,
+        timestamp: new Date().toISOString(),
+      });
+    });
   }
 
   async handleConnection(client: AuthenticatedSocket) {

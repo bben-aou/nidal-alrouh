@@ -230,9 +230,12 @@ export class EventsService {
       throw new NotFoundException('Event not found');
     }
 
-    if (event.status !== EventStatus.upcoming) {
+    if (
+      event.status !== EventStatus.upcoming &&
+      event.status !== EventStatus.ongoing
+    ) {
       throw new BadRequestException(
-        'Registration is only allowed for upcoming events'
+        'Registration is only allowed for upcoming or ongoing events'
       );
     }
 
@@ -355,5 +358,99 @@ export class EventsService {
       currentAttendees: result.event?.currentAttendees,
     });
     return result;
+  }
+  /**
+   * Update an existing event.
+   * @param userId User ID requesting the update (must be organizer)
+   * @param eventId Event ID to update
+   * @param dto Update data
+   */
+  async updateEvent(userId: string, eventId: string, dto: CreateEventDto) {
+    const event = await this.prisma.event.findUnique({
+      where: { id: eventId },
+    });
+
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+
+    if (event.organizerId !== userId) {
+      throw new BadRequestException('Only the organizer can update the event');
+    }
+
+    if (dto.title) this.contentModeration.validateEventTitle(dto.title);
+    if (dto.description)
+      this.contentModeration.validateEventDescription(dto.description);
+    if (dto.tags && dto.tags.length > 0)
+      this.contentModeration.validateEventTags(dto.tags);
+
+    const startDate = dto.startDate ? new Date(dto.startDate) : event.startDate;
+    const endDate = dto.endDate ? new Date(dto.endDate) : event.endDate;
+
+    if (endDate < startDate) {
+      throw new BadRequestException('End date must be after start date');
+    }
+
+    const sanitizedDescription = dto.description
+      ? sanitizeHtml(dto.description, DEFAULT_SANITIZE_OPTIONS)
+      : undefined;
+
+    const sanitizedLocation = dto.location
+      ? sanitizeHtml(dto.location, DEFAULT_SANITIZE_OPTIONS)
+      : undefined;
+
+    const data: Prisma.EventUpdateInput = {
+      ...dto,
+      title: dto.title?.trim(),
+      description: sanitizedDescription,
+      location: sanitizedLocation,
+      tags: dto.tags?.map((tag) => tag.toLowerCase().trim()),
+      startDate,
+      endDate,
+    };
+
+    const updatedEvent = await this.prisma.event.update({
+      where: { id: eventId },
+      data,
+      include: {
+        organizer: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+
+    this.eventsRealtime.emitEventUpdated(updatedEvent);
+    return updatedEvent;
+  }
+
+  /**
+   * Delete an event.
+   * @param userId User ID requesting the delete (must be organizer)
+   * @param eventId Event ID to delete
+   */
+  async deleteEvent(userId: string, eventId: string) {
+    const event = await this.prisma.event.findUnique({
+      where: { id: eventId },
+    });
+
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+
+    if (event.organizerId !== userId) {
+      throw new BadRequestException('Only the organizer can delete the event');
+    }
+
+    await this.prisma.event.delete({
+      where: { id: eventId },
+    });
+
+    this.eventsRealtime.emitEventDeleted(eventId);
+    return { success: true };
   }
 }

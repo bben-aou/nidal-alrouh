@@ -11,6 +11,9 @@ type ToasterToast = {
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: ToastActionElement;
+  variant?: 'default' | 'destructive';
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

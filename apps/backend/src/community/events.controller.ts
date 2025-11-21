@@ -8,6 +8,8 @@ import {
   Req,
   UseGuards,
   Logger,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -157,5 +159,46 @@ export class EventsController {
       eventId
     );
     return { data: event, message: 'Registration cancelled successfully' };
+  }
+  @Patch(':eventId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Update an event',
+    description: 'Update an existing community event',
+  })
+  @ApiParam({ name: 'eventId', description: 'Event ID to update' })
+  @ApiBody({ type: CreateEventDto, description: 'Event update data' })
+  @ApiOkResponse({ description: 'Event updated successfully' })
+  @ApiForbiddenResponse({ description: 'Authentication required' })
+  async updateEvent(
+    @Param('eventId') eventId: string,
+    @Body() dto: CreateEventDto,
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] }
+  ) {
+    const event = await this.eventsService.updateEvent(
+      req.user.id,
+      eventId,
+      dto
+    );
+    return { data: event, message: 'Event updated successfully' };
+  }
+
+  @Delete(':eventId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Delete an event',
+    description: 'Delete an existing community event',
+  })
+  @ApiParam({ name: 'eventId', description: 'Event ID to delete' })
+  @ApiOkResponse({ description: 'Event deleted successfully' })
+  @ApiForbiddenResponse({ description: 'Authentication required' })
+  async deleteEvent(
+    @Param('eventId') eventId: string,
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] }
+  ) {
+    await this.eventsService.deleteEvent(req.user.id, eventId);
+    return { message: 'Event deleted successfully' };
   }
 }

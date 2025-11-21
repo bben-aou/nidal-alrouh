@@ -36,8 +36,8 @@ export function EventCardActions({
   const handlePrimaryClick = () => {
     if (isMeRegistered) {
       if (organizerIsCreator) {
-        toast.error(t('eventOrganizerCannotUnregisterTitle'), {
-          description: t('eventOrganizerCannotUnregisterDescription'),
+        toast.error(t('events.eventOrganizerCannotUnregisterTitle'), {
+          description: t('events.eventOrganizerCannotUnregisterDescription'),
         });
         return;
       }

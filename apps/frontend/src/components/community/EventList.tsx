@@ -21,6 +21,8 @@ interface EventListProps {
   onRegisterEvent?: (eventId: string) => void;
   onUnregisterEvent?: (eventId: string) => void;
   onViewEventDetails?: (eventId: string) => void;
+  onEditEvent?: (event: CommunityEvent) => void;
+  onDeleteEvent?: (event: CommunityEvent) => void;
   className?: string;
   emptyMessage?: string;
 }
@@ -36,6 +38,8 @@ export function EventList({
   onRegisterEvent,
   onUnregisterEvent,
   onViewEventDetails,
+  onEditEvent,
+  onDeleteEvent,
   className = '',
   emptyMessage,
 }: Readonly<EventListProps>) {
@@ -80,6 +84,8 @@ export function EventList({
             onRegister={onRegisterEvent}
             onUnregister={onUnregisterEvent}
             onViewDetails={onViewEventDetails}
+            onEdit={onEditEvent}
+            onDelete={onDeleteEvent}
           />
         ))}
       </div>

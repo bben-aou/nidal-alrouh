@@ -2,16 +2,23 @@ import { Calendar } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useMemo } from 'react';
 
-import { useGetEvents } from '@/apis/events';
+import { useGetEvents, useUpdateEvent, useDeleteEvent } from '@/apis/events';
 import { useRegisterForEvent } from '@/apis/events/queries/use-register-for-event';
 import { useUnregisterForEvent } from '@/apis/events/queries/use-unregister-for-event';
+import { DeleteEventDialog } from '@/components/community/DeleteEventDialog';
 import { EventCreateDialog } from '@/components/community/EventCreateDialog';
 import { EventFilters } from '@/components/community/EventFilters';
+import { EventFormDialog } from '@/components/community/EventFormDialog';
 import { EventList } from '@/components/community/EventList';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/contexts/auth-context';
 import { useEventsRealtime } from '@/hooks/use-events-realtime';
-import { EventType, EventStatus } from '@/types/community';
+import {
+  EventType,
+  EventStatus,
+  CommunityEvent,
+  CreateEventData,
+} from '@/types/community';
 
 interface EventsContentProps {
   className?: string;
@@ -28,6 +35,11 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
 
+  const [eventToEdit, setEventToEdit] = useState<CommunityEvent | null>(null);
+  const [eventToDelete, setEventToDelete] = useState<CommunityEvent | null>(
+    null
+  );
+
   const {
     events: serverEvents,
     error,
@@ -38,6 +50,46 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
       type: selectedType === 'all' ? undefined : selectedType,
       status: selectedStatus === 'all' ? undefined : selectedStatus,
       limit: 20,
+    },
+  });
+
+  const { updateEvent, isPending: isUpdating } = useUpdateEvent({
+    config: {
+      onSuccess: () => {
+        toast({
+          title: t('messages.updateSuccess'),
+          description: t('messages.updateSuccessDescription'),
+        });
+        setEventToEdit(null);
+        refetch();
+      },
+      onError: () => {
+        toast({
+          variant: 'destructive',
+          title: t('messages.updateError'),
+          description: t('messages.updateErrorDescription'),
+        });
+      },
+    },
+  });
+
+  const { deleteEvent, isPending: isDeleting } = useDeleteEvent({
+    config: {
+      onSuccess: () => {
+        toast({
+          title: t('messages.deleteSuccess'),
+          description: t('messages.deleteSuccessDescription'),
+        });
+        setEventToDelete(null);
+        refetch();
+      },
+      onError: () => {
+        toast({
+          variant: 'destructive',
+          title: t('messages.deleteError'),
+          description: t('messages.deleteErrorDescription'),
+        });
+      },
     },
   });
 
@@ -92,6 +144,26 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
     unregisterForEvent({ eventId });
   };
 
+  const handleEditEvent = (event: CommunityEvent) => {
+    setEventToEdit(event);
+  };
+
+  const handleDeleteEvent = (event: CommunityEvent) => {
+    setEventToDelete(event);
+  };
+
+  const handleUpdateSubmit = async (data: CreateEventData) => {
+    if (eventToEdit) {
+      await updateEvent({ eventId: eventToEdit.id, data });
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (eventToDelete) {
+      await deleteEvent({ eventId: eventToDelete.id });
+    }
+  };
+
   const handleClearFilters = () => {
     setSearchQuery('');
     setSelectedType('all');
@@ -142,7 +214,39 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
         error={error ?? null}
         onRegisterEvent={handleRegisterEvent}
         onUnregisterEvent={handleUnregisterEvent}
+        onEditEvent={handleEditEvent}
+        onDeleteEvent={handleDeleteEvent}
         emptyMessage={t('noEventsFound')}
+      />
+
+      {eventToEdit && (
+        <EventFormDialog
+          mode="edit"
+          open={Boolean(eventToEdit)}
+          onOpenChange={(open) => !open && setEventToEdit(null)}
+          initialValues={{
+            ...eventToEdit,
+            startTime: eventToEdit.startTime,
+            endTime: eventToEdit.endTime,
+            tags: eventToEdit.tags || [],
+            startDate: new Date(eventToEdit.startDate),
+            endDate: new Date(eventToEdit.endDate),
+            meetingUrl: eventToEdit.meetingUrl || '',
+            location: eventToEdit.location || '',
+            coverImage: eventToEdit.coverImage || '',
+            maxAttendees: eventToEdit.maxAttendees || 0,
+            requiresApproval: eventToEdit.requiresApproval,
+          }}
+          onSubmit={handleUpdateSubmit}
+          isPending={isUpdating}
+        />
+      )}
+
+      <DeleteEventDialog
+        open={Boolean(eventToDelete)}
+        onOpenChange={(open) => !open && setEventToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        isPending={isDeleting}
       />
     </div>
   );
