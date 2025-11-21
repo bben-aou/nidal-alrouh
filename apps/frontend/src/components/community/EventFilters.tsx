@@ -1,12 +1,19 @@
 'use client';
 
-import { Calendar, Search, X } from 'lucide-react';
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon, Search, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -14,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 import { EventType, EventStatus } from '@/types/community';
 
 interface EventFiltersProps {
@@ -127,32 +135,66 @@ export function EventFilters({
           </SelectContent>
         </Select>
 
-        {/* Date From Filter */}
-        <div className="relative">
-          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="date"
-            placeholder={t('events.filters.dateFrom')}
-            value={dateFrom}
-            onChange={(e) => onDateFromChange?.(e.target.value)}
-            className="pl-10"
-          />
-        </div>
+        {/* Date Fro Filter */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                'w-full justify-start text-left font-normal',
+                !dateFrom && 'text-muted-foreground'
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {dateFrom ? (
+                format(new Date(dateFrom), 'PPP')
+              ) : (
+                <span>{t('events.filters.dateFrom')}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={dateFrom ? new Date(dateFrom) : undefined}
+              onSelect={(date) =>
+                onDateFromChange?.(date ? format(date, 'yyyy-MM-dd') : '')
+              }
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
 
-        {/* Date To Filter */}
-        <div className="relative">
-          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="date"
-            placeholder={t('events.filters.dateTo')}
-            value={dateTo}
-            onChange={(e) => onDateToChange?.(e.target.value)}
-            className="pl-10"
-          />
-        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                'w-full justify-start text-left font-normal',
+                !dateTo && 'text-muted-foreground'
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {dateTo ? (
+                format(new Date(dateTo), 'PPP')
+              ) : (
+                <span>{t('events.filters.dateTo')}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={dateTo ? new Date(dateTo) : undefined}
+              onSelect={(date) =>
+                onDateToChange?.(date ? format(date, 'yyyy-MM-dd') : '')
+              }
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
-      {/* Clear Filters Button */}
       {showClearButton && hasActiveFilters && (
         <div className="flex justify-end">
           <Button
@@ -167,7 +209,6 @@ export function EventFilters({
         </div>
       )}
 
-      {/* Active Filters Summary */}
       {hasActiveFilters && (
         <div className="flex flex-wrap gap-2 pt-2">
           {searchQuery && (

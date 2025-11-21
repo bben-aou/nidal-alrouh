@@ -126,9 +126,25 @@ export class EventsService {
    * @param query Filter and pagination parameters
    */
   async getEvents(userId: string, query: any) {
-    const { limit = 20, cursor, type, status } = query;
+    const {
+      limit = 20,
+      cursor,
+      type,
+      status,
+      search,
+      startDate,
+      endDate,
+    } = query;
 
     const where: Prisma.EventWhereInput = {};
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { tags: { has: search.toLowerCase() } },
+      ];
+    }
 
     if (type) {
       where.type = type;
@@ -136,6 +152,14 @@ export class EventsService {
 
     if (status) {
       where.status = status;
+    }
+
+    if (startDate) {
+      where.startDate = { gte: new Date(startDate) };
+    }
+
+    if (endDate) {
+      where.endDate = { lte: new Date(endDate) };
     }
 
     const events = await this.prisma.event.findMany({

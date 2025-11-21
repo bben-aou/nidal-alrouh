@@ -29,6 +29,7 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
   const t = useTranslations('community.events');
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<EventType | 'all'>('all');
   const [selectedStatus, setSelectedStatus] = useState<EventStatus | 'all'>(
     'all'
@@ -40,6 +41,14 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
   const [eventToDelete, setEventToDelete] = useState<CommunityEvent | null>(
     null
   );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const {
     events: serverEvents,
@@ -53,6 +62,9 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
     params: {
       type: selectedType === 'all' ? undefined : selectedType,
       status: selectedStatus === 'all' ? undefined : selectedStatus,
+      q: debouncedSearchQuery || undefined,
+      startDate: dateFrom || undefined,
+      endDate: dateTo || undefined,
       limit: 20,
     },
   });
@@ -97,28 +109,21 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
     },
   });
 
-  const events = useMemo(() => {
-    if (!serverEvents) return [];
-
-    return serverEvents.filter((ev) => {
-      const q = searchQuery.trim().toLowerCase();
-      const matchesSearch = q
-        ? (ev.title || '').toLowerCase().includes(q) ||
-          (ev.description || '').toLowerCase().includes(q) ||
-          (ev.tags || []).some((tag) => tag.toLowerCase().includes(q))
-        : true;
-      const matchesDateFrom = dateFrom ? ev.startDate >= dateFrom : true;
-      const matchesDateTo = dateTo ? ev.endDate <= dateTo : true;
-      return matchesSearch && matchesDateFrom && matchesDateTo;
-    });
-  }, [serverEvents, searchQuery, dateFrom, dateTo]);
+  const events = serverEvents ?? [];
 
   const visibleEventIds = useMemo(() => events.map((e) => e.id), [events]);
   useEventsRealtime(visibleEventIds);
 
   useEffect(() => {
     refetch();
-  }, [selectedType, selectedStatus, refetch]);
+  }, [
+    selectedType,
+    selectedStatus,
+    debouncedSearchQuery,
+    dateFrom,
+    dateTo,
+    refetch,
+  ]);
 
   const handleEventCreated = () => {
     toast({

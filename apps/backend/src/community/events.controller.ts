@@ -80,6 +80,24 @@ export class EventsController {
     description: 'Cursor for pagination',
   })
   @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search term for title or description',
+  })
+  @ApiQuery({
+    name: 'startDate',
+    required: false,
+    type: String,
+    description: 'Filter by start date (ISO string)',
+  })
+  @ApiQuery({
+    name: 'endDate',
+    required: false,
+    type: String,
+    description: 'Filter by end date (ISO string)',
+  })
+  @ApiQuery({
     name: 'type',
     required: false,
     type: String,

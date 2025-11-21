@@ -28,10 +28,12 @@ const getEventsApiCall = async ({
   if (pageParam) searchParams.append('cursor', String(pageParam));
   if (params.type) searchParams.append('type', params.type);
   if (params.status) searchParams.append('status', params.status);
+  if (params.q) searchParams.append('search', params.q);
+  if (params.startDate) searchParams.append('startDate', params.startDate);
+  if (params.endDate) searchParams.append('endDate', params.endDate);
   const queryString = searchParams.toString();
   const endpoint = `${EVENTS_ENDPOINTS.EVENTS}${queryString ? `?${queryString}` : ''}`;
 
-  // The backend now returns { data: items, nextCursor, message }
   const response = await apiClient.get<{
     data: CommunityEvent[];
     nextCursor?: string;
