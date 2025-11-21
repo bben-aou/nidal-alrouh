@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 import { EventDetailsContent } from '@/components/community/EventDetailsContent';
 
 interface EventDetailsPageProps {
-  params: {
+  params: Promise<{
     locale: string;
     eventId: string;
-  };
+  }>;
 }
 
 export function generateMetadata(): Metadata {
@@ -25,8 +25,10 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default function EventDetailsPage({ params }: EventDetailsPageProps) {
-  const { eventId } = params;
+export default async function EventDetailsPage({
+  params,
+}: EventDetailsPageProps) {
+  const { eventId } = await params;
 
   if (!eventId) {
     notFound();

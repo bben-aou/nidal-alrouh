@@ -107,7 +107,8 @@
     "actions": {
       "retry": "Réessayer",
       "loading": "Chargement...",
-      "loadMore": "Voir plus"
+      "loadMore": "Voir plus",
+      "loadingMore": "Chargement..."
     },
     "empty": {
       "noEvents": "Aucun événement à venir",

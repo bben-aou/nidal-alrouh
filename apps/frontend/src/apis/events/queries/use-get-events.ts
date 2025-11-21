@@ -1,4 +1,9 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  InfiniteData,
+  QueryFunctionContext,
+} from '@tanstack/react-query';
 
 import { EVENTS_ENDPOINTS } from '@/apis/events/config/endpoints';
 import { apiClient, ApiClientError } from '@/lib/api';
@@ -10,19 +15,31 @@ import {
 
 export const GET_EVENTS_KEY = 'GET_EVENTS_KEY';
 
-const getEventsApiCall = async (
-  params: GetEventsParams = {}
-): Promise<GetEventsResponse> => {
+const getEventsApiCall = async ({
+  pageParam,
+  queryKey,
+}: QueryFunctionContext<
+  [string, GetEventsParams],
+  string | undefined
+>): Promise<GetEventsResponse> => {
+  const [, params] = queryKey;
   const searchParams = new URLSearchParams();
   if (params.limit) searchParams.append('limit', String(params.limit));
-  if (params.cursor) searchParams.append('cursor', String(params.cursor));
+  if (pageParam) searchParams.append('cursor', String(pageParam));
   if (params.type) searchParams.append('type', params.type);
   if (params.status) searchParams.append('status', params.status);
   const queryString = searchParams.toString();
   const endpoint = `${EVENTS_ENDPOINTS.EVENTS}${queryString ? `?${queryString}` : ''}`;
-  const response = await apiClient.get<{ data: CommunityEvent[] }>(endpoint);
+
+  // The backend now returns { data: items, nextCursor, message }
+  const response = await apiClient.get<{
+    data: CommunityEvent[];
+    nextCursor?: string;
+  }>(endpoint);
   const items = response.data ?? [];
-  return { items, nextCursor: undefined, total: items.length };
+  const { nextCursor } = response;
+
+  return { items, nextCursor, total: items.length };
 };
 
 export const useGetEvents = ({
@@ -30,18 +47,48 @@ export const useGetEvents = ({
   config,
 }: {
   params?: GetEventsParams;
-  config?: UseQueryOptions<GetEventsResponse, ApiClientError>;
+  config?: Omit<
+    UseInfiniteQueryOptions<
+      GetEventsResponse,
+      ApiClientError,
+      InfiniteData<GetEventsResponse>,
+      [string, GetEventsParams],
+      string | undefined
+    >,
+    'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
+  >;
 } = {}) => {
-  const queryKey = [GET_EVENTS_KEY, params];
-  const { data, error, isLoading, isFetching, refetch, isError, isSuccess } =
-    useQuery<GetEventsResponse, ApiClientError>({
-      queryKey,
-      queryFn: () => getEventsApiCall(params),
-      staleTime: 60 * 1000,
-      retry: false,
-      ...config,
-    });
-  const events = data?.items ?? [];
+  const queryKey: [string, GetEventsParams] = [GET_EVENTS_KEY, params];
+
+  const {
+    data,
+    error,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    isSuccess,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<
+    GetEventsResponse,
+    ApiClientError,
+    InfiniteData<GetEventsResponse>,
+    [string, GetEventsParams],
+    string | undefined
+  >({
+    queryKey,
+    queryFn: getEventsApiCall,
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    staleTime: 60 * 1000,
+    retry: false,
+    ...config,
+  });
+
+  const events = data?.pages.flatMap((page) => page.items) ?? [];
+
   return {
     events,
     data,
@@ -51,5 +98,8 @@ export const useGetEvents = ({
     refetch,
     isError,
     isSuccess,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   };
 };

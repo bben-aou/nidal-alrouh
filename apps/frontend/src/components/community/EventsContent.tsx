@@ -1,4 +1,4 @@
-import { Calendar } from 'lucide-react';
+import { Calendar, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useMemo } from 'react';
 
@@ -10,6 +10,7 @@ import { EventCreateDialog } from '@/components/community/EventCreateDialog';
 import { EventFilters } from '@/components/community/EventFilters';
 import { EventFormDialog } from '@/components/community/EventFormDialog';
 import { EventList } from '@/components/community/EventList';
+import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/contexts/auth-context';
 import { useEventsRealtime } from '@/hooks/use-events-realtime';
@@ -45,6 +46,9 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
     error,
     isLoading,
     refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useGetEvents({
     params: {
       type: selectedType === 'all' ? undefined : selectedType,
@@ -218,6 +222,26 @@ export function EventsContent({ className }: Readonly<EventsContentProps>) {
         onDeleteEvent={handleDeleteEvent}
         emptyMessage={t('noEventsFound')}
       />
+
+      {hasNextPage && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t('actions.loadingMore')}
+              </>
+            ) : (
+              t('actions.loadMore')
+            )}
+          </Button>
+        </div>
+      )}
 
       {eventToEdit && (
         <EventFormDialog

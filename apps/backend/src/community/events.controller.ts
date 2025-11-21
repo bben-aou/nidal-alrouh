@@ -97,8 +97,15 @@ export class EventsController {
     @Query() query: any,
     @Req() req: FastifyRequest & { user: AuthResponse['user'] }
   ) {
-    const events = await this.eventsService.getEvents(req.user.id, query);
-    return { data: events, message: 'Events retrieved successfully' };
+    const { items, nextCursor } = await this.eventsService.getEvents(
+      req.user.id,
+      query
+    );
+    return {
+      data: items,
+      nextCursor,
+      message: 'Events retrieved successfully',
+    };
   }
 
   @Get(':eventId')

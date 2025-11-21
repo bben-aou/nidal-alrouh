@@ -140,7 +140,7 @@ export class EventsService {
 
     const events = await this.prisma.event.findMany({
       where,
-      take: Math.min(limit, 50), // Max 50 events per request
+      take: Math.min(limit, 50) + 1, // Fetch one extra item to determine if there is a next page
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id: cursor } : undefined,
       orderBy: [{ startDate: 'asc' }, { createdAt: 'desc' }],
@@ -155,6 +155,12 @@ export class EventsService {
         },
       },
     });
+
+    let nextCursor: string | null = null;
+    if (events.length > Math.min(limit, 50)) {
+      const nextItem = events.pop();
+      nextCursor = nextItem?.id || null;
+    }
 
     let registeredIds = new Set<string>();
     try {
@@ -174,7 +180,13 @@ export class EventsService {
       console.error('Error fetching event registrations:', error);
     }
 
-    return events.map((e) => ({ ...e, isRegistered: registeredIds.has(e.id) }));
+    return {
+      items: events.map((e) => ({
+        ...e,
+        isRegistered: registeredIds.has(e.id),
+      })),
+      nextCursor,
+    };
   }
 
   /**
