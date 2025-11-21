@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -15,7 +17,7 @@ interface Props {
   t: (key: string) => string;
   onRegister?: () => void;
   onUnregister?: () => void;
-  onViewDetails: () => void;
+  onViewDetails?: () => void;
 }
 
 export function EventCardActions({
@@ -26,6 +28,11 @@ export function EventCardActions({
   onViewDetails,
 }: Readonly<Props>) {
   const { user } = useAuth();
+  const params = useParams();
+  const localeParam = params?.locale;
+  const locale =
+    (Array.isArray(localeParam) ? localeParam[0] : localeParam) || 'en';
+
   const isMeRegistered = Boolean(event.isRegistered);
   const showButton = showRegistrationButton(event);
   const full = isFullyBooked(event);
@@ -33,6 +40,7 @@ export function EventCardActions({
   const organizerIsCreator = Boolean(
     user?.id === event.organizer.id && isMeRegistered
   );
+
   const handlePrimaryClick = () => {
     if (isMeRegistered) {
       if (organizerIsCreator) {
@@ -47,10 +55,19 @@ export function EventCardActions({
     }
   };
 
+  const handleViewDetails = () => {
+    onViewDetails?.();
+  };
+
   return (
     <CardFooter className="flex flex-col gap-2">
-      <Button variant="outline" className="w-full" onClick={onViewDetails}>
-        {t('events.details.viewDetails')}
+      <Button variant="outline" className="w-full" asChild>
+        <Link
+          href={`/${locale}/dashboard/community/events/${event.id}`}
+          onClick={handleViewDetails}
+        >
+          {t('events.details.viewDetails')}
+        </Link>
       </Button>
       {showButton && (
         <Button

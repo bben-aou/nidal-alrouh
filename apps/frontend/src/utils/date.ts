@@ -10,10 +10,10 @@ export function useLocalizedDateFormatter() {
   const t = useTranslations('journal.dashboard.charts.months');
 
   const formatDate = (
-    dateString: string,
+    dateInput: string | Date,
     format: 'short' | 'long' = 'short'
   ) => {
-    const date = new Date(dateString);
+    const date = new Date(dateInput);
     const day = date.getDate();
     const monthIndex = date.getMonth();
 
@@ -56,10 +56,10 @@ export function useLocalizedDateFormatter() {
   };
 
   const formatDateWithYear = (
-    dateString: string,
+    dateInput: string | Date,
     format: 'short' | 'long' = 'short'
   ) => {
-    const date = new Date(dateString);
+    const date = new Date(dateInput);
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
@@ -113,10 +113,10 @@ export function useLocalizedDateFormatter() {
  */
 export function getLocalizedDateFormatter(t: (key: string) => string) {
   const formatDate = (
-    dateString: string,
+    dateInput: string | Date,
     format: 'short' | 'long' = 'short'
   ) => {
-    const date = new Date(dateString);
+    const date = new Date(dateInput);
     const day = date.getDate();
     const monthIndex = date.getMonth();
 
@@ -159,10 +159,10 @@ export function getLocalizedDateFormatter(t: (key: string) => string) {
   };
 
   const formatDateWithYear = (
-    dateString: string,
+    dateInput: string | Date,
     format: 'short' | 'long' = 'short'
   ) => {
-    const date = new Date(dateString);
+    const date = new Date(dateInput);
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
@@ -223,4 +223,21 @@ export const DATE_FNS_LOCALES: Record<string, DateFnsLocale> = {
 
 export function resolveDateFnsLocale(locale: string): DateFnsLocale {
   return DATE_FNS_LOCALES[locale] ?? enUS;
+}
+
+/**
+ * Formats a time string (HH:mm) to 12-hour format with AM/PM
+ */
+export function formatTime(time: string): string {
+  if (!time) return '';
+
+  const [hours, minutes] = time.split(':');
+  const hour = parseInt(hours, 10);
+
+  if (isNaN(hour)) return time;
+
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+
+  return `${hour12}:${minutes} ${ampm}`;
 }

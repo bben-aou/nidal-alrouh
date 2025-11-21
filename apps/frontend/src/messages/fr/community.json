@@ -176,7 +176,51 @@
       "tags": "Tags",
       "share": "Partager l'événement",
       "copyLink": "Copier le lien",
-      "report": "Signaler l'événement"
+      "report": "Signaler l'événement",
+      "backToEvents": "Retour aux événements",
+      "overview": "Aperçu",
+      "discussion": "Discussion",
+      "eventInfo": "Informations sur l'événement",
+      "date": "Date",
+      "time": "Heure",
+      "duration": "Durée",
+      "timezone": "Fuseau horaire",
+      "virtualEvent": "Événement virtuel",
+      "capacity": "Capacité",
+      "available": "Disponible",
+      "full": "Complet",
+      "organizer": "Organisateur",
+      "organizerInfo": "Informations sur l'organisateur",
+      "hostedBy": "Organisé par",
+      "actions": {
+        "share": "Partager l'événement",
+        "copyLink": "Copier le lien",
+        "linkCopied": "Lien copié dans le presse-papiers!",
+        "viewOnMap": "Voir sur la carte",
+        "joinMeeting": "Rejoindre la réunion"
+      },
+      "attendeesList": {
+        "title": "Participants ({count})",
+        "searchPlaceholder": "Rechercher des participants...",
+        "registeredOn": "Inscrit le",
+        "noAttendees": "Pas encore de participants",
+        "beFirst": "Soyez le premier à vous inscrire!"
+      },
+      "countdown": {
+        "startsIn": "Commence dans",
+        "endsIn": "Se termine dans",
+        "inProgress": "En cours",
+        "ended": "Terminé",
+        "days": "jours",
+        "hours": "heures",
+        "minutes": "minutes"
+      },
+      "errors": {
+        "notFound": "Événement introuvable",
+        "notFoundDescription": "L'événement que vous recherchez n'existe pas ou a été supprimé.",
+        "loadError": "Échec du chargement des détails de l'événement",
+        "loadErrorDescription": "Une erreur s'est produite lors du chargement de l'événement. Veuillez réessayer."
+      }
     },
     "registration": {
       "title": "Inscription à l'événement",

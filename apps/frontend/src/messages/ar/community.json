@@ -176,7 +176,51 @@
       "tags": "الوسوم",
       "share": "مشاركة الحدث",
       "copyLink": "نسخ الرابط",
-      "report": "الإبلاغ عن الحدث"
+      "report": "الإبلاغ عن الحدث",
+      "backToEvents": "العودة إلى الأحداث",
+      "overview": "نظرة عامة",
+      "discussion": "المناقشة",
+      "eventInfo": "معلومات الحدث",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "duration": "المدة",
+      "timezone": "المنطقة الزمنية",
+      "virtualEvent": "حدث افتراضي",
+      "capacity": "السعة",
+      "available": "متاح",
+      "full": "ممتلئ",
+      "organizer": "المنظم",
+      "organizerInfo": "معلومات المنظم",
+      "hostedBy": "استضافه",
+      "actions": {
+        "share": "مشاركة الحدث",
+        "copyLink": "نسخ الرابط",
+        "linkCopied": "تم نسخ الرابط إلى الحافظة!",
+        "viewOnMap": "عرض على الخريطة",
+        "joinMeeting": "الانضمام للاجتماع"
+      },
+      "attendeesList": {
+        "title": "المشاركون ({count})",
+        "searchPlaceholder": "البحث في المشاركين...",
+        "registeredOn": "تم التسجيل في",
+        "noAttendees": "لا يوجد مشاركون بعد",
+        "beFirst": "كن أول من يسجل!"
+      },
+      "countdown": {
+        "startsIn": "يبدأ خلال",
+        "endsIn": "ينتهي خلال",
+        "inProgress": "جارٍ",
+        "ended": "انتهى",
+        "days": "أيام",
+        "hours": "ساعات",
+        "minutes": "دقائق"
+      },
+      "errors": {
+        "notFound": "الحدث غير موجود",
+        "notFoundDescription": "الحدث الذي تبحث عنه غير موجود أو تمت إزالته.",
+        "loadError": "فشل تحميل تفاصيل الحدث",
+        "loadErrorDescription": "حدث خطأ أثناء تحميل الحدث. يرجى المحاولة مرة أخرى."
+      }
     },
     "registration": {
       "title": "تسجيل الحدث",

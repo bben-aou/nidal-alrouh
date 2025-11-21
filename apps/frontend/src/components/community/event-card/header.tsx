@@ -1,5 +1,4 @@
 import { MoreVertical, Edit, Trash } from 'lucide-react';
-import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -79,17 +78,13 @@ export function EventCardHeader({
             )}
           </div>
         </div>
-        {event.coverImage && (
-          <div className="relative h-20 w-20 overflow-hidden rounded-lg">
-            <Image
-              src={event.coverImage}
-              alt={event.title}
-              fill
-              sizes="80px"
-              className="object-cover"
-            />
-          </div>
-        )}
+        <div className="relative h-20 w-20 overflow-hidden rounded-lg flex-shrink-0">
+          <img
+            src={event.coverImage || '/default-event-banner.png'}
+            alt={event.title}
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
     </CardHeader>
   );

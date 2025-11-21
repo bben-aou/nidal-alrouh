@@ -194,6 +194,23 @@ export class EventsService {
             avatarUrl: true,
           },
         },
+        registrations: {
+          where: {
+            status: RegistrationStatus.CONFIRMED,
+          },
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatarUrl: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        },
       },
     });
 
@@ -216,7 +233,16 @@ export class EventsService {
       console.error('Error fetching event registration:', error);
     }
 
-    return { ...event, isRegistered };
+    const attendees = event.registrations.map((reg) => ({
+      id: reg.user.id,
+      name: reg.user.name,
+      avatar: reg.user.avatarUrl,
+      registeredAt: reg.createdAt.toISOString(),
+    }));
+
+    const { registrations, ...eventData } = event;
+
+    return { ...eventData, isRegistered, attendees };
   }
 
   /**
