@@ -6,6 +6,7 @@ import {
   BookOpen,
   PenSquare,
   LifeBuoy,
+  MessageSquare,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
@@ -35,6 +36,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: MessageCircle,
       label: t('nav.community'),
     },
+    { href: '/dashboard/chat', icon: MessageSquare, label: t('nav.chat') },
     { href: '/dashboard/resources', icon: BookOpen, label: t('nav.resources') },
     { href: '/dashboard/journal', icon: PenSquare, label: t('nav.journal') },
     { href: '/dashboard/help', icon: LifeBuoy, label: t('nav.help') },
