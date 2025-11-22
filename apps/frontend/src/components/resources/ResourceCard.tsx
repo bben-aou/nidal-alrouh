@@ -9,6 +9,7 @@ import {
   Play,
   Eye,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -32,7 +33,7 @@ interface ResourceCardProps {
 export function ResourceCard({
   resource,
   onBookmark,
-  onView,
+  // onView,
 }: Readonly<ResourceCardProps>) {
   const t = useTranslations('resources');
   const TypeIcon = getTypeIcon(resource.type);
@@ -41,9 +42,9 @@ export function ResourceCard({
     onBookmark?.(resource.id);
   };
 
-  const handleView = () => {
-    onView?.(resource.id);
-  };
+  // const handleView = () => {
+  //   onView?.(resource.id);
+  // };
 
   return (
     <Card className="group hover:shadow-md transition-shadow">
@@ -102,14 +103,16 @@ export function ResourceCard({
             <Clock className="h-3 w-3" />
             <span>{resource.readTime}</span>
           </div>
-          <Button size="sm" onClick={handleView}>
-            {resource.type === 'video' ? (
-              <Play className="mr-2 h-3 w-3" />
-            ) : (
-              <Eye className="mr-2 h-3 w-3" />
-            )}
-            {t('dashboard.view')}
-          </Button>
+          <Link href={`/dashboard/resources/${resource.id}`}>
+            <Button size="sm">
+              {resource.type === 'video' ? (
+                <Play className="mr-2 h-3 w-3" />
+              ) : (
+                <Eye className="mr-2 h-3 w-3" />
+              )}
+              {t('dashboard.view')}
+            </Button>
+          </Link>
         </div>
         <div className="flex flex-wrap gap-1">
           {resource.tags.map((tag) => (

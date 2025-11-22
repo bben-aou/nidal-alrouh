@@ -85,5 +85,36 @@
     "allResourcesDescription": "Browse and discover all available content",
     "browseAllResources": "Browse all resources",
     "exploreAll": "Explore all"
+  },
+  "creation": {
+    "title": "Publish Resource",
+    "description": "Publish helpful content with the community",
+    "types": {
+      "article": "Article",
+      "link": "Link",
+      "video": "Video"
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "content": "Content",
+      "url": "URL",
+      "videoUrl": "Video URL",
+      "tags": "Tags"
+    },
+    "placeholders": {
+      "title": "Enter a descriptive title",
+      "description": "Briefly describe this resource",
+      "content": "Write your article here...",
+      "tags": "mental-health, anxiety, self-care (comma separated)"
+    },
+    "hints": {
+      "videoSupport": "Supports YouTube, Vimeo, SoundCloud, and more."
+    },
+    "submit": "Publish"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "share": "Share"
   }
 }

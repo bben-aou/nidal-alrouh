@@ -85,5 +85,36 @@
     "allResourcesDescription": "تصفح واكتشف كل المحتوى المتاح",
     "browseAllResources": "تصفح جميع الموارد",
     "exploreAll": "استكشف الكل"
+  },
+  "creation": {
+    "title": "نشر مورد",
+    "description": "انشر محتوى مفيد مع المجتمع",
+    "types": {
+      "article": "مقال",
+      "link": "رابط",
+      "video": "فيديو"
+    },
+    "fields": {
+      "title": "العنوان",
+      "description": "الوصف",
+      "content": "المحتوى",
+      "url": "الرابط",
+      "videoUrl": "رابط الفيديو",
+      "tags": "الوسوم"
+    },
+    "placeholders": {
+      "title": "أدخل عنواناً وصفياً",
+      "description": "صف هذا المورد باختصار",
+      "content": "اكتب مقالك هنا...",
+      "tags": "صحة-نفسية، قلق، رعاية-ذاتية (مفصولة بفواصل)"
+    },
+    "hints": {
+      "videoSupport": "يدعم YouTube و Vimeo و SoundCloud والمزيد."
+    },
+    "submit": "نشر"
+  },
+  "common": {
+    "cancel": "إلغاء",
+    "share": "مشاركة"
   }
 }

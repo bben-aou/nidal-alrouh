@@ -85,5 +85,36 @@
     "allResourcesDescription": "Parcourez et découvrez tout le contenu disponible",
     "browseAllResources": "Parcourir toutes les ressources",
     "exploreAll": "Tout explorer"
+  },
+  "creation": {
+    "title": "Publier une Ressource",
+    "description": "Publiez du contenu utile avec la communauté",
+    "types": {
+      "article": "Article",
+      "link": "Lien",
+      "video": "Vidéo"
+    },
+    "fields": {
+      "title": "Titre",
+      "description": "Description",
+      "content": "Contenu",
+      "url": "URL",
+      "videoUrl": "URL de la vidéo",
+      "tags": "Tags"
+    },
+    "placeholders": {
+      "title": "Entrez un titre descriptif",
+      "description": "Décrivez brièvement cette ressource",
+      "content": "Écrivez votre article ici...",
+      "tags": "santé-mentale, anxiété, soins-personnels (séparés par des virgules)"
+    },
+    "hints": {
+      "videoSupport": "Prend en charge YouTube, Vimeo, SoundCloud, et plus."
+    },
+    "submit": "Publier"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "share": "Partager"
   }
 }

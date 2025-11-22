@@ -1,12 +1,13 @@
 'use client';
 
-import { Search, Filter, TrendingUp, Heart } from 'lucide-react';
+import { Search, Filter, TrendingUp, Heart, Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { BookmarkCard } from '@/components/resources/BookmarkCard';
 import { RecentlyViewedCard } from '@/components/resources/RecentlyViewedCard';
 import { ResourceCard } from '@/components/resources/ResourceCard';
+import { ResourceCreationDialog } from '@/components/resources/ResourceCreationDialog';
 import ResourceStats from '@/components/resources/ResourceStats';
 import { Button } from '@/components/ui/button';
 import {
@@ -53,6 +54,12 @@ export default function DashboardResourcesPage() {
           <p className="text-muted-foreground">{t('dashboard.description')}</p>
         </div>
         <div className="flex gap-2">
+          <ResourceCreationDialog>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              {t('creation.title')}
+            </Button>
+          </ResourceCreationDialog>
           <Button variant="outline">
             <TrendingUp className="mr-2 h-4 w-4" />
             {t('dashboard.trending')}

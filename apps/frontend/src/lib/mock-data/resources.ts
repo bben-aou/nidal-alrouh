@@ -13,7 +13,7 @@ export interface ResourceStats {
 
 export interface Resource {
   id: number;
-  type: 'article' | 'video' | 'podcast' | 'guide';
+  type: 'article' | 'video' | 'podcast' | 'guide' | 'link';
   title: string;
   description: string;
   author: string;
@@ -23,6 +23,8 @@ export interface Resource {
   isCompleted: boolean;
   tags: string[];
   thumbnail: string;
+  content?: string;
+  url?: string;
 }
 
 export interface Bookmark {
@@ -88,6 +90,17 @@ export const mockRecommendedResources: Resource[] = [
     isCompleted: false,
     tags: ['anxiety', 'coping', 'mental-health'],
     thumbnail: '📚',
+    content: `
+      <h2>What is Anxiety?</h2>
+      <p>Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension about what's to come. The first day of school, going to a job interview, or giving a speech may cause most people to feel fearful and nervous.</p>
+      <h2>Common Symptoms</h2>
+      <ul>
+        <li>Feeling nervous, restless or tense</li>
+        <li>Having a sense of impending danger, panic or doom</li>
+        <li>Having an increased heart rate</li>
+        <li>Breathing rapidly (hyperventilation)</li>
+      </ul>
+    `,
   },
   {
     id: 2,
@@ -102,6 +115,7 @@ export const mockRecommendedResources: Resource[] = [
     isCompleted: true,
     tags: ['meditation', 'mindfulness', 'relaxation'],
     thumbnail: '🎥',
+    url: 'https://www.youtube.com/watch?v=inpok4MKVLM',
   },
   {
     id: 3,
@@ -116,6 +130,7 @@ export const mockRecommendedResources: Resource[] = [
     isCompleted: false,
     tags: ['depression', 'recovery', 'inspiration'],
     thumbnail: '🎧',
+    url: 'https://soundcloud.com/mentalhealthmatters/episode-1',
   },
 ];
 
