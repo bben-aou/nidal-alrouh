@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@/i18n/navigation';
 
-export function QuickActionsGrid() {
+const QuickActionsGrid = () => {
   const t = useTranslations('dashboard');
 
   const memorizedQuickActions = useMemo(
@@ -147,4 +147,6 @@ export function QuickActionsGrid() {
       ))}
     </div>
   );
-}
+};
+
+export default QuickActionsGrid;

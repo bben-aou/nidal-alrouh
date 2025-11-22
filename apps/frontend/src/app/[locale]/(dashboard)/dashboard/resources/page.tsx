@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { BookmarkCard } from '@/components/resources/BookmarkCard';
 import { RecentlyViewedCard } from '@/components/resources/RecentlyViewedCard';
 import { ResourceCard } from '@/components/resources/ResourceCard';
-import { ResourceStats } from '@/components/resources/ResourceStats';
+import ResourceStats from '@/components/resources/ResourceStats';
 import { Button } from '@/components/ui/button';
 import {
   Card,
