@@ -9,8 +9,8 @@ import { type Bookmark, getTypeIcon } from '@/lib/mock-data/resources';
 
 interface BookmarkCardProps {
   bookmark: Bookmark;
-  onContinue?: (bookmarkId: number) => void;
-  onReview?: (bookmarkId: number) => void;
+  onContinue?: (bookmarkId: string) => void;
+  onReview?: (bookmarkId: string) => void;
 }
 
 export function BookmarkCard({

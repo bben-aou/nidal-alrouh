@@ -281,4 +281,175 @@ export class ContentModerationService {
       throw new BadRequestException(result.reason);
     }
   }
+
+  // ========================================
+  // Resource Moderation Methods
+  // ========================================
+
+  private readonly maxResourceTitleLength = 200;
+  private readonly minResourceTitleLength = 3;
+  private readonly maxResourceDescriptionLength = 1000;
+  private readonly minResourceDescriptionLength = 10;
+  private readonly maxResourceContentLength = 50000; // For articles
+  private readonly maxResourceTags = 10;
+
+  /**
+   * Moderate resource title for inappropriate words and length
+   */
+  moderateResourceTitle(title: string): { isValid: boolean; reason?: string } {
+    if (title.length < this.minResourceTitleLength) {
+      return {
+        isValid: false,
+        reason: `Resource title too short. Minimum ${this.minResourceTitleLength} characters required.`,
+      };
+    }
+
+    if (title.length > this.maxResourceTitleLength) {
+      return {
+        isValid: false,
+        reason: `Resource title too long. Maximum ${this.maxResourceTitleLength} characters allowed.`,
+      };
+    }
+
+    if (this.containsInappropriateLanguage(title)) {
+      return {
+        isValid: false,
+        reason: 'Resource title contains inappropriate language.',
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Moderate resource description for inappropriate words and length
+   */
+  moderateResourceDescription(description: string): {
+    isValid: boolean;
+    reason?: string;
+  } {
+    if (description.length < this.minResourceDescriptionLength) {
+      return {
+        isValid: false,
+        reason: `Resource description too short. Minimum ${this.minResourceDescriptionLength} characters required.`,
+      };
+    }
+
+    if (description.length > this.maxResourceDescriptionLength) {
+      return {
+        isValid: false,
+        reason: `Resource description too long. Maximum ${this.maxResourceDescriptionLength} characters allowed.`,
+      };
+    }
+
+    if (this.containsInappropriateLanguage(description)) {
+      return {
+        isValid: false,
+        reason: 'Resource description contains inappropriate language.',
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Moderate resource content (for articles) for inappropriate words and length
+   */
+  moderateResourceContent(content: string): {
+    isValid: boolean;
+    reason?: string;
+  } {
+    if (content.length > this.maxResourceContentLength) {
+      return {
+        isValid: false,
+        reason: `Resource content too long. Maximum ${this.maxResourceContentLength} characters allowed.`,
+      };
+    }
+
+    if (this.containsInappropriateLanguage(content)) {
+      return {
+        isValid: false,
+        reason: 'Resource content contains inappropriate language.',
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Moderate resource tags for inappropriate words, count, and individual tag length
+   */
+  moderateResourceTags(tags: string[]): { isValid: boolean; reason?: string } {
+    if (tags.length > this.maxResourceTags) {
+      return {
+        isValid: false,
+        reason: `Too many tags. Maximum ${this.maxResourceTags} tags allowed.`,
+      };
+    }
+
+    for (const tag of tags) {
+      if (tag.length < this.minTagLength) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" too short. Minimum ${this.minTagLength} characters required.`,
+        };
+      }
+
+      if (tag.length > this.maxTagLength) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" too long. Maximum ${this.maxTagLength} characters allowed.`,
+        };
+      }
+
+      if (this.containsInappropriateLanguage(tag)) {
+        return {
+          isValid: false,
+          reason: `Tag "${tag}" contains inappropriate language.`,
+        };
+      }
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Validate and throw exception if resource title is inappropriate
+   */
+  validateResourceTitle(title: string): void {
+    const result = this.moderateResourceTitle(title);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Validate and throw exception if resource description is inappropriate
+   */
+  validateResourceDescription(description: string): void {
+    const result = this.moderateResourceDescription(description);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Validate and throw exception if resource content is inappropriate
+   */
+  validateResourceContent(content: string): void {
+    const result = this.moderateResourceContent(content);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
+
+  /**
+   * Validate and throw exception if resource tags are inappropriate
+   */
+  validateResourceTags(tags: string[]): void {
+    const result = this.moderateResourceTags(tags);
+    if (!result.isValid) {
+      throw new BadRequestException(result.reason);
+    }
+  }
 }

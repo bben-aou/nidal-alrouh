@@ -249,6 +249,7 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient();
+export const api = apiClient; // Alias for convenience
 
 export class ApiClientError extends Error {
   statusCode: number;

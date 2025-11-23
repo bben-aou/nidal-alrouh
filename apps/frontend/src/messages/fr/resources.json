@@ -116,5 +116,26 @@
   "common": {
     "cancel": "Annuler",
     "share": "Partager"
+  },
+  "validation": {
+    "titleRequired": "Le titre est requis",
+    "titleMinLength": "Le titre doit contenir au moins 3 caractères",
+    "titleMaxLength": "Le titre ne peut pas dépasser 200 caractères",
+    "descriptionRequired": "La description est requise",
+    "descriptionMinLength": "La description doit contenir au moins 10 caractères",
+    "descriptionMaxLength": "La description ne peut pas dépasser 1000 caractères",
+    "contentRequired": "Le contenu est requis pour les articles",
+    "contentMaxLength": "Le contenu ne peut pas dépasser 50000 caractères",
+    "urlRequired": "L'URL est requise pour les vidéos et les liens",
+    "urlInvalid": "Veuillez entrer une URL valide",
+    "tagMinLength": "L'étiquette doit contenir au moins 2 caractères",
+    "tagMaxLength": "L'étiquette ne peut pas dépasser 30 caractères",
+    "tagsMaxCount": "Vous pouvez ajouter jusqu'à 10 étiquettes"
+  },
+  "viewer": {
+    "backToResources": "Retour aux ressources",
+    "notFound": "Ressource introuvable",
+    "externalResource": "Ressource externe",
+    "openLink": "Ouvrir le lien"
   }
 }

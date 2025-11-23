@@ -29,19 +29,19 @@ export default function DashboardResourcesPage() {
   const t = useTranslations('resources');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleBookmark = (resourceId: number) => {
+  const handleBookmark = (resourceId: string) => {
     console.log('Bookmark resource:', resourceId);
   };
 
-  const handleView = (resourceId: number) => {
+  const handleView = (resourceId: string) => {
     console.log('View resource:', resourceId);
   };
 
-  const handleContinue = (bookmarkId: number) => {
+  const handleContinue = (bookmarkId: string) => {
     console.log('Continue bookmark:', bookmarkId);
   };
 
-  const handleReview = (bookmarkId: number) => {
+  const handleReview = (bookmarkId: string) => {
     console.log('Review bookmark:', bookmarkId);
   };
 

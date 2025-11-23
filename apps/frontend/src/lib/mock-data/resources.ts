@@ -12,33 +12,34 @@ export interface ResourceStats {
 }
 
 export interface Resource {
-  id: number;
-  type: 'article' | 'video' | 'podcast' | 'guide' | 'link';
+  id: string;
+  type: 'ARTICLE' | 'VIDEO' | 'LINK';
   title: string;
   description: string;
   author: string;
-  readTime: string;
-  rating: number;
-  isBookmarked: boolean;
-  isCompleted: boolean;
+  readTime?: string;
+  rating?: number;
+  isBookmarked?: boolean;
+  isCompleted?: boolean;
   tags: string[];
-  thumbnail: string;
+  thumbnail?: string;
   content?: string;
   url?: string;
+  createdAt?: string;
 }
 
 export interface Bookmark {
-  id: number;
+  id: string;
   title: string;
-  type: 'article' | 'video' | 'podcast' | 'guide';
+  type: 'ARTICLE' | 'VIDEO' | 'LINK';
   addedDate: string;
   progress: number;
 }
 
 export interface RecentlyViewedItem {
-  id: number;
+  id: string;
   title: string;
-  type: 'article' | 'video' | 'podcast' | 'guide';
+  type: 'ARTICLE' | 'VIDEO' | 'LINK';
   viewedDate: string;
   thumbnail: string;
 }
@@ -78,8 +79,8 @@ export const mockResourceStats: Omit<ResourceStats, 'label'>[] = [
 // Mock data for recommended resources
 export const mockRecommendedResources: Resource[] = [
   {
-    id: 1,
-    type: 'article',
+    id: '1',
+    type: 'ARTICLE',
     title: 'Understanding Anxiety: A Complete Guide',
     description:
       'Learn about the different types of anxiety and effective coping strategies.',
@@ -103,8 +104,8 @@ export const mockRecommendedResources: Resource[] = [
     `,
   },
   {
-    id: 2,
-    type: 'video',
+    id: '2',
+    type: 'VIDEO',
     title: 'Mindfulness Meditation for Beginners',
     description:
       'A guided meditation session to help you start your mindfulness journey.',
@@ -118,8 +119,8 @@ export const mockRecommendedResources: Resource[] = [
     url: 'https://www.youtube.com/watch?v=inpok4MKVLM',
   },
   {
-    id: 3,
-    type: 'podcast',
+    id: '3',
+    type: 'LINK',
     title: 'Overcoming Depression: Real Stories',
     description:
       'Listen to inspiring stories of people who overcame depression.',
@@ -137,23 +138,23 @@ export const mockRecommendedResources: Resource[] = [
 // Mock data for bookmarks
 export const mockBookmarks: Bookmark[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Breathing Exercises for Panic Attacks',
-    type: 'guide',
+    type: 'ARTICLE',
     addedDate: '2 days ago',
     progress: 75,
   },
   {
-    id: 2,
+    id: '2',
     title: 'Sleep Hygiene Checklist',
-    type: 'article',
+    type: 'ARTICLE',
     addedDate: '1 week ago',
     progress: 100,
   },
   {
-    id: 3,
+    id: '3',
     title: 'Cognitive Behavioral Therapy Basics',
-    type: 'video',
+    type: 'VIDEO',
     addedDate: '2 weeks ago',
     progress: 30,
   },
@@ -162,16 +163,16 @@ export const mockBookmarks: Bookmark[] = [
 // Mock data for recently viewed items
 export const mockRecentlyViewed: RecentlyViewedItem[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Managing Work Stress',
-    type: 'article',
+    type: 'ARTICLE',
     viewedDate: 'Today',
     thumbnail: '💼',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Building Self-Esteem',
-    type: 'video',
+    type: 'VIDEO',
     viewedDate: 'Yesterday',
     thumbnail: '💪',
   },
@@ -180,13 +181,11 @@ export const mockRecentlyViewed: RecentlyViewedItem[] = [
 // Utility function to get type icon
 export const getTypeIcon = (type: string) => {
   switch (type) {
-    case 'article':
+    case 'ARTICLE':
       return BookOpen;
-    case 'video':
+    case 'VIDEO':
       return Video;
-    case 'podcast':
-      return Headphones;
-    case 'guide':
+    case 'LINK':
       return FileText;
     default:
       return BookOpen;

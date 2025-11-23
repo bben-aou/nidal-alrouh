@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/client"
 }
 
 datasource db {
@@ -88,6 +89,7 @@ model User {
   Message         Message[]         @relation("MessageSender")
   RoomParticipant RoomParticipant[]
   eventRegistrations EventRegistration[]
+  resources       Resource[]        @relation("UserResources")
 
   @@map("users")
 }
@@ -363,4 +365,34 @@ model EventRegistration {
   @@unique([eventId, userId])
   @@index([userId])
   @@map("event_registrations")
+}
+
+// -------------------------------
+// Resources Feature
+// -------------------------------
+
+enum ResourceType {
+  ARTICLE
+  VIDEO
+  LINK
+}
+
+model Resource {
+  id          String       @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  type        ResourceType
+  content     String? // For articles
+  url         String? // For videos and links
+  tags        String[]     @default([])
+  authorId    String       @db.Uuid
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  author User @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([type, createdAt])
+  @@index([authorId])
+  @@map("resources")
 }

@@ -12,7 +12,7 @@ import {
 
 interface RecentlyViewedCardProps {
   item: RecentlyViewedItem;
-  onView?: (itemId: number) => void;
+  onView?: (itemId: string) => void;
 }
 
 export function RecentlyViewedCard({

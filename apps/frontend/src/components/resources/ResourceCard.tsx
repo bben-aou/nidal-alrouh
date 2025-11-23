@@ -26,8 +26,8 @@ import { type Resource, getTypeIcon } from '@/lib/mock-data/resources';
 
 interface ResourceCardProps {
   resource: Resource;
-  onBookmark?: (resourceId: number) => void;
-  onView?: (resourceId: number) => void;
+  onBookmark?: (resourceId: string) => void;
+  onView?: (resourceId: string) => void;
 }
 
 export function ResourceCard({
@@ -105,7 +105,7 @@ export function ResourceCard({
           </div>
           <Link href={`/dashboard/resources/${resource.id}`}>
             <Button size="sm">
-              {resource.type === 'video' ? (
+              {resource.type === 'VIDEO' ? (
                 <Play className="mr-2 h-3 w-3" />
               ) : (
                 <Eye className="mr-2 h-3 w-3" />

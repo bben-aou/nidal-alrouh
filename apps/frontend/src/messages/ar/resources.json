@@ -116,5 +116,26 @@
   "common": {
     "cancel": "إلغاء",
     "share": "مشاركة"
+  },
+  "validation": {
+    "titleRequired": "العنوان مطلوب",
+    "titleMinLength": "يجب أن يحتوي العنوان على 3 أحرف على الأقل",
+    "titleMaxLength": "لا يمكن أن يتجاوز العنوان 200 حرف",
+    "descriptionRequired": "الوصف مطلوب",
+    "descriptionMinLength": "يجب أن يحتوي الوصف على 10 أحرف على الأقل",
+    "descriptionMaxLength": "لا يمكن أن يتجاوز الوصف 1000 حرف",
+    "contentRequired": "المحتوى مطلوب للمقالات",
+    "contentMaxLength": "لا يمكن أن يتجاوز المحتوى 50000 حرف",
+    "urlRequired": "الرابط مطلوب للفيديوهات والروابط",
+    "urlInvalid": "يرجى إدخال رابط صحيح",
+    "tagMinLength": "يجب أن تحتوي الوسمة على حرفين على الأقل",
+    "tagMaxLength": "لا يمكن أن تتجاوز الوسمة 30 حرفًا",
+    "tagsMaxCount": "يمكنك إضافة ما يصل إلى 10 وسوم"
+  },
+  "viewer": {
+    "backToResources": "العودة إلى الموارد",
+    "notFound": "المورد غير موجود",
+    "externalResource": "مورد خارجي",
+    "openLink": "فتح الرابط"
   }
 }

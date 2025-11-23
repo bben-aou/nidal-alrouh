@@ -116,5 +116,26 @@
   "common": {
     "cancel": "Cancel",
     "share": "Share"
+  },
+  "validation": {
+    "titleRequired": "Title is required",
+    "titleMinLength": "Title must be at least 3 characters",
+    "titleMaxLength": "Title cannot exceed 200 characters",
+    "descriptionRequired": "Description is required",
+    "descriptionMinLength": "Description must be at least 10 characters",
+    "descriptionMaxLength": "Description cannot exceed 1000 characters",
+    "contentRequired": "Content is required for articles",
+    "contentMaxLength": "Content cannot exceed 50000 characters",
+    "urlRequired": "URL is required for videos and links",
+    "urlInvalid": "Please enter a valid URL",
+    "tagMinLength": "Tag must be at least 2 characters",
+    "tagMaxLength": "Tag cannot exceed 30 characters",
+    "tagsMaxCount": "You can add up to 10 tags"
+  },
+  "viewer": {
+    "backToResources": "Back to Resources",
+    "notFound": "Resource not found",
+    "externalResource": "External Resource",
+    "openLink": "Open Link"
   }
 }
