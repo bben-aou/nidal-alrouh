@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { api, ApiClientError } from '@/lib/api';
-import { Resource } from '@/lib/mock-data/resources';
+import type { Resource } from '@/types/resource';
 
 // Types
 export type ResourceType = 'ARTICLE' | 'VIDEO' | 'LINK';
