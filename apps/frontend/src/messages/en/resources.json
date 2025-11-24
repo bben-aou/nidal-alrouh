@@ -57,6 +57,13 @@
   },
   "dashboard": {
     "stats": {
+      "articles": "Articles",
+      "videos": "Videos",
+      "links": "Links",
+      "summary": "Overall Summary",
+      "totalViews": "Total Views",
+      "bookmarks": "Bookmarks",
+      "completed": "Completed",
       "articlesRead": "Articles Read",
       "videosWatched": "Videos Watched",
       "podcastsListened": "Podcasts Listened",
@@ -76,6 +83,8 @@
     },
     "recommendedForYou": "Recommended for you",
     "view": "View",
+    "watch": "Watch",
+    "visit": "Visit",
     "myBookmarks": "My Bookmarks",
     "addedOn": "Added on",
     "review": "Review",
@@ -84,7 +93,41 @@
     "allResources": "All Resources",
     "allResourcesDescription": "Browse and discover all available content",
     "browseAllResources": "Browse all resources",
-    "exploreAll": "Explore all"
+    "exploreAll": "Explore all",
+    "emptyStates": {
+      "noRecommendations": "No recommendations available yet. Start exploring resources!",
+      "noBookmarks": "No bookmarks yet. Bookmark resources to access them quickly!",
+      "noRecentViews": "Your recently viewed resources will appear here"
+    }
+  },
+  "detail": {
+    "backToResources": "Back to Resources",
+    "share": "Share",
+    "save": "Save",
+    "saved": "Saved",
+    "markComplete": "Mark Complete",
+    "completed": "Completed",
+    "minRead": "min read",
+    "externalResource": {
+      "title": "External Resource",
+      "description": "This resource is hosted on an external website. Click the button below to view it.",
+      "visitWebsite": "Visit Website"
+    },
+    "aboutResource": "About this resource",
+    "similarResources": "Similar Resources",
+    "toast": {
+      "bookmarkAdded": "Bookmark added",
+      "bookmarkRemoved": "Bookmark removed",
+      "bookmarkAddedDesc": "Resource saved to your bookmarks",
+      "bookmarkRemovedDesc": "Resource removed from bookmarks",
+      "resourceCompleted": "Resource Completed",
+      "resourceCompletedDesc": "Great job! This resource has been marked as completed.",
+      "linkCopied": "Link copied",
+      "linkCopiedDesc": "Resource link copied to clipboard",
+      "error": "Error",
+      "bookmarkError": "Failed to update bookmark",
+      "completeError": "Failed to mark as complete"
+    }
   },
   "creation": {
     "title": "Publish Resource",

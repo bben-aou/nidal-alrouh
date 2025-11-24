@@ -8,12 +8,23 @@ import { PrismaService } from '../prisma/prisma.service';
 
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
+import { ResourceInteractionsService } from './resource-interactions.service';
+
+interface FindAllOptions {
+  type?: ResourceType;
+  tags?: string[];
+  search?: string;
+  page?: number;
+  limit?: number;
+  userId?: string;
+}
 
 @Injectable()
 export class ResourcesService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly contentModeration: ContentModerationService
+    private readonly contentModeration: ContentModerationService,
+    private readonly interactions?: ResourceInteractionsService
   ) {}
 
   async create(userId: string, createResourceDto: CreateResourceDto) {
@@ -27,7 +38,6 @@ export class ResourcesService {
       this.contentModeration.validateResourceTags(createResourceDto.tags);
     }
 
-    // Sanitize HTML content for articles
     let sanitizedContent: string | undefined;
     if (createResourceDto.content) {
       this.contentModeration.validateResourceContent(createResourceDto.content);
@@ -37,7 +47,6 @@ export class ResourcesService {
       );
     }
 
-    // Sanitize title and description (remove any HTML)
     const sanitizedTitle = sanitizeHtml(createResourceDto.title, {
       allowedTags: [],
       allowedAttributes: {},
@@ -69,25 +78,96 @@ export class ResourcesService {
     });
   }
 
-  async findAll(type?: ResourceType) {
-    return this.prisma.resource.findMany({
-      where: type ? { type } : undefined,
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            avatarUrl: true,
+  /**
+   * Find all resources with optional filtering and pagination
+   */
+  async findAll(options: FindAllOptions = {}) {
+    const { type, tags, search, page = 1, limit = 20, userId } = options;
+
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+
+    if (type) {
+      where.type = type;
+    }
+
+    if (tags && tags.length > 0) {
+      where.tags = {
+        hasSome: tags,
+      };
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { tags: { hasSome: [search] } },
+      ];
+    }
+
+    const [resources, total] = await Promise.all([
+      this.prisma.resource.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatarUrl: true,
+            },
           },
         },
+      }),
+      this.prisma.resource.count({ where }),
+    ]);
+
+    if (userId && this.interactions) {
+      const enrichedResources = await Promise.all(
+        resources.map(async (resource) => ({
+          ...resource,
+          isBookmarked: await this.interactions!.isBookmarked(
+            userId,
+            resource.id
+          ),
+          isCompleted: await this.interactions!.isCompleted(
+            userId,
+            resource.id
+          ),
+        }))
+      );
+
+      return {
+        data: enrichedResources,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
+    }
+
+    return {
+      data: resources,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 
-  async findOne(id: string) {
+  /**
+   * Find a single resource by ID, optionally with user-specific data
+   */
+  async findOne(id: string, userId?: string) {
     const resource = await this.prisma.resource.findUnique({
       where: { id },
       include: {
@@ -105,6 +185,28 @@ export class ResourcesService {
       throw new NotFoundException(`Resource with ID ${id} not found`);
     }
 
+    if (userId && this.interactions) {
+      const [isBookmarked, isCompleted, bookmark] = await Promise.all([
+        this.interactions.isBookmarked(userId, id),
+        this.interactions.isCompleted(userId, id),
+        this.prisma.resourceBookmark.findUnique({
+          where: {
+            userId_resourceId: {
+              userId,
+              resourceId: id,
+            },
+          },
+        }),
+      ]);
+
+      return {
+        ...resource,
+        isBookmarked,
+        isCompleted,
+        bookmarkProgress: bookmark?.progress,
+      };
+    }
+
     return resource;
   }
 
@@ -113,15 +215,6 @@ export class ResourcesService {
     userId: string,
     updateResourceDto: UpdateResourceDto
   ) {
-    // Check if resource exists and belongs to user (or admin)
-    const resource = await this.findOne(id);
-
-    if (resource.authorId !== userId) {
-      // In a real app, we'd check for admin role too or throw ForbiddenException
-      // For simplicity here, we'll just proceed or throw if strict
-    }
-
-    // Validate updated fields if provided
     if (updateResourceDto.title) {
       this.contentModeration.validateResourceTitle(updateResourceDto.title);
     }
@@ -136,7 +229,6 @@ export class ResourcesService {
       this.contentModeration.validateResourceTags(updateResourceDto.tags);
     }
 
-    // Sanitize content if provided
     let sanitizedContent: string | undefined;
     if (updateResourceDto.content) {
       this.contentModeration.validateResourceContent(updateResourceDto.content);
@@ -146,7 +238,6 @@ export class ResourcesService {
       );
     }
 
-    // Sanitize title and description if provided
     const sanitizedTitle = updateResourceDto.title
       ? sanitizeHtml(updateResourceDto.title, {
           allowedTags: [],
@@ -176,13 +267,7 @@ export class ResourcesService {
     });
   }
 
-  async remove(id: string, userId: string) {
-    const resource = await this.findOne(id);
-
-    if (resource.authorId !== userId) {
-      // Same ownership check note
-    }
-
+  async remove(id: string) {
     return this.prisma.resource.delete({
       where: { id },
     });

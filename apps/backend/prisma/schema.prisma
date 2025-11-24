@@ -89,7 +89,12 @@ model User {
   Message         Message[]         @relation("MessageSender")
   RoomParticipant RoomParticipant[]
   eventRegistrations EventRegistration[]
+  // Resource relations
   resources       Resource[]        @relation("UserResources")
+  resourceViews   ResourceView[]    @relation("UserResourceViews")
+  resourceBookmarks ResourceBookmark[] @relation("UserResourceBookmarks")
+  resourceCompletions ResourceCompletion[] @relation("UserResourceCompletions")
+  resourcePreferences UserResourcePreference[] @relation("UserResourcePreferences")
 
   @@map("users")
 }
@@ -391,8 +396,78 @@ model Resource {
 
   // Relations
   author User @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
+  views       ResourceView[]
+  bookmarks   ResourceBookmark[]
+  completions ResourceCompletion[]
 
   @@index([type, createdAt])
   @@index([authorId])
   @@map("resources")
+}
+
+// -------------------------------
+// Resource Interaction Tracking
+// -------------------------------
+
+model ResourceView {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  resourceId String   @db.Uuid
+  viewedAt   DateTime @default(now())
+
+  // Relations
+  user     User     @relation("UserResourceViews", fields: [userId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([userId, viewedAt])
+  @@index([resourceId, viewedAt])
+  @@map("resource_views")
+}
+
+model ResourceBookmark {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  resourceId String   @db.Uuid
+  progress   Int      @default(0) // 0-100 percentage
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  user     User     @relation("UserResourceBookmarks", fields: [userId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId, updatedAt])
+  @@map("resource_bookmarks")
+}
+
+model ResourceCompletion {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  resourceId  String   @db.Uuid
+  completedAt DateTime @default(now())
+
+  // Relations
+  user     User     @relation("UserResourceCompletions", fields: [userId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId, completedAt])
+  @@map("resource_completions")
+}
+
+model UserResourcePreference {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tag       String
+  score     Float    @default(0) // Interest score for this tag
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation("UserResourcePreferences", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tag])
+  @@index([userId, score])
+  @@map("user_resource_preferences")
 }

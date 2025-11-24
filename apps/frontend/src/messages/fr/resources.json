@@ -57,6 +57,13 @@
   },
   "dashboard": {
     "stats": {
+      "articles": "Articles",
+      "videos": "Vidéos",
+      "links": "Liens",
+      "summary": "Résumé général",
+      "totalViews": "Vues totales",
+      "bookmarks": "Favoris",
+      "completed": "Terminé",
       "articlesRead": "Articles lus",
       "videosWatched": "Vidéos regardées",
       "podcastsListened": "Podcasts écoutés",
@@ -76,6 +83,8 @@
     },
     "recommendedForYou": "Recommandé pour vous",
     "view": "Voir",
+    "watch": "Regarder",
+    "visit": "Visiter",
     "myBookmarks": "Mes favoris",
     "addedOn": "Ajouté le",
     "review": "Réviser",
@@ -84,7 +93,41 @@
     "allResources": "Toutes les ressources",
     "allResourcesDescription": "Parcourez et découvrez tout le contenu disponible",
     "browseAllResources": "Parcourir toutes les ressources",
-    "exploreAll": "Tout explorer"
+    "exploreAll": "Tout explorer",
+    "emptyStates": {
+      "noRecommendations": "Aucune recommandation disponible pour le moment. Commencez à explorer les ressources!",
+      "noBookmarks": "Aucun favori pour le moment. Ajoutez des ressources en favoris pour y accéder rapidement!",
+      "noRecentViews": "Vos ressources récemment consultées apparaîtront ici"
+    }
+  },
+  "detail": {
+    "backToResources": "Retour aux ressources",
+    "share": "Partager",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "markComplete": "Marquer comme terminé",
+    "completed": "Terminé",
+    "minRead": "min de lecture",
+    "externalResource": {
+      "title": "Ressource externe",
+      "description": "Cette ressource est hébergée sur un site web externe. Cliquez sur le bouton ci-dessous pour la consulter.",
+      "visitWebsite": "Visiter le site web"
+    },
+    "aboutResource": "À propos de cette ressource",
+    "similarResources": "Ressources similaires",
+    "toast": {
+      "bookmarkAdded": "Favori ajouté",
+      "bookmarkRemoved": "Favori supprimé",
+      "bookmarkAddedDesc": "Ressource enregistrée dans vos favoris",
+      "bookmarkRemovedDesc": "Ressource supprimée des favoris",
+      "resourceCompleted": "Ressource terminée",
+      "resourceCompletedDesc": "Excellent travail! Cette ressource a été marquée comme terminée.",
+      "linkCopied": "Lien copié",
+      "linkCopiedDesc": "Lien de la ressource copié dans le presse-papiers",
+      "error": "Erreur",
+      "bookmarkError": "Échec de la mise à jour du favori",
+      "completeError": "Échec du marquage comme terminé"
+    }
   },
   "creation": {
     "title": "Publier une Ressource",

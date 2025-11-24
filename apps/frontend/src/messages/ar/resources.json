@@ -57,6 +57,13 @@
   },
   "dashboard": {
     "stats": {
+      "articles": "المقالات",
+      "videos": "الفيديوهات",
+      "links": "الروابط",
+      "summary": "ملخص عام",
+      "totalViews": "إجمالي المشاهدات",
+      "bookmarks": "المحفوظات",
+      "completed": "مكتمل",
       "articlesRead": "المقالات المقروءة",
       "videosWatched": "الفيديوهات المشاهدة",
       "podcastsListened": "البودكاست المستمع إليها",
@@ -76,6 +83,8 @@
     },
     "recommendedForYou": "موصى به لك",
     "view": "عرض",
+    "watch": "مشاهدة",
+    "visit": "زيارة",
     "myBookmarks": "محفوظاتي",
     "addedOn": "أضيف في",
     "review": "مراجعة",
@@ -84,7 +93,41 @@
     "allResources": "جميع الموارد",
     "allResourcesDescription": "تصفح واكتشف كل المحتوى المتاح",
     "browseAllResources": "تصفح جميع الموارد",
-    "exploreAll": "استكشف الكل"
+    "exploreAll": "استكشف الكل",
+    "emptyStates": {
+      "noRecommendations": "لا توجد توصيات متاحة حاليًا. ابدأ في استكشاف الموارد!",
+      "noBookmarks": "لا توجد محفوظات بعد. احفظ الموارد للوصول إليها بسرعة!",
+      "noRecentViews": "ستظهر الموارد التي شاهدتها مؤخرًا هنا"
+    }
+  },
+  "detail": {
+    "backToResources": "العودة إلى الموارد",
+    "share": "مشاركة",
+    "save": "حفظ",
+    "saved": "محفوظ",
+    "markComplete": "تحديد كمكتمل",
+    "completed": "مكتمل",
+    "minRead": "دقيقة قراءة",
+    "externalResource": {
+      "title": "مورد خارجي",
+      "description": "هذا المورد موجود على موقع خارجي. انقر على الزر أدناه لعرضه.",
+      "visitWebsite": "زيارة الموقع"
+    },
+    "aboutResource": "حول هذا المورد",
+    "similarResources": "موارد مشابهة",
+    "toast": {
+      "bookmarkAdded": "تمت إضافة الإشارة المرجعية",
+      "bookmarkRemoved": "تمت إزالة الإشارة المرجعية",
+      "bookmarkAddedDesc": "تم حفظ المورد في إشاراتك المرجعية",
+      "bookmarkRemovedDesc": "تمت إزالة المورد من الإشارات المرجعية",
+      "resourceCompleted": "المورد مكتمل",
+      "resourceCompletedDesc": "عمل رائع! تم تحديد هذا المورد كمكتمل.",
+      "linkCopied": "تم نسخ الرابط",
+      "linkCopiedDesc": "تم نسخ رابط المورد إلى الحافظة",
+      "error": "خطأ",
+      "bookmarkError": "فشل تحديث الإشارة المرجعية",
+      "completeError": "فشل التحديد كمكتمل"
+    }
   },
   "creation": {
     "title": "نشر مورد",
