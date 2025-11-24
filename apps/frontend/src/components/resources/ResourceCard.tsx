@@ -1,7 +1,7 @@
 'use client';
 
-import { BookmarkCheck, Bookmark, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Bookmark, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 import { ResourceActions } from '@/components/resources/ResourceActions';
 import { ResourceMetadata } from '@/components/resources/ResourceMetadata';
@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import {
   getResourceThumbnail,
   TYPE_LABELS,
@@ -36,6 +37,10 @@ export function ResourceCard({
     resource.isBookmarked || false
   );
 
+  useEffect(() => {
+    setIsBookmarked(resource.isBookmarked || false);
+  }, [resource.isBookmarked]);
+
   const handleBookmark = () => {
     setIsBookmarked(!isBookmarked);
     onBookmark?.(resource.id);
@@ -54,14 +59,15 @@ export function ResourceCard({
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 w-8 p-0 transition-transform hover:scale-110"
+              className={cn(
+                'h-8 w-8 p-0 transition-transform hover:scale-110',
+                isBookmarked && 'bg-accent text-accent-foreground'
+              )}
               onClick={handleBookmark}
             >
-              {isBookmarked ? (
-                <BookmarkCheck className="h-4 w-4 text-primary animate-in zoom-in" />
-              ) : (
-                <Bookmark className="h-4 w-4" />
-              )}
+              <Bookmark
+                className={cn('h-4 w-4', isBookmarked && 'fill-current')}
+              />
             </Button>
             {resource.isCompleted && (
               <CheckCircle className="h-4 w-4 text-green-600 animate-in zoom-in" />

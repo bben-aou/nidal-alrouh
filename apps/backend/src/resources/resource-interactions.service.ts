@@ -1,21 +1,34 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { PrismaService } from '../prisma/prisma.service';
 
+import { ResourceEvent } from './constants/events.constants';
+
 @Injectable()
 export class ResourceInteractionsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2
+  ) {}
 
   /**
    * Record a resource view
    */
   async recordView(userId: string, resourceId: string) {
-    return this.prisma.resourceView.create({
+    const view = await this.prisma.resourceView.create({
       data: {
         userId,
         resourceId,
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceViewed, {
+      userId,
+      resourceId,
+    });
+
+    return view;
   }
 
   /**
@@ -52,7 +65,7 @@ export class ResourceInteractionsService {
    * Add a bookmark
    */
   async addBookmark(userId: string, resourceId: string) {
-    return this.prisma.resourceBookmark.upsert({
+    const bookmark = await this.prisma.resourceBookmark.upsert({
       where: {
         userId_resourceId: {
           userId,
@@ -81,20 +94,37 @@ export class ResourceInteractionsService {
         },
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceBookmarked, {
+      userId,
+      resourceId,
+    });
+    this.eventEmitter.emit(ResourceEvent.UserStatsUpdated, { userId });
+
+    return bookmark;
   }
 
   /**
    * Remove a bookmark
    */
   async removeBookmark(userId: string, resourceId: string) {
-    return this.prisma.resourceBookmark.delete({
+    // Use deleteMany to avoid error if bookmark doesn't exist
+    const result = await this.prisma.resourceBookmark.deleteMany({
       where: {
-        userId_resourceId: {
-          userId,
-          resourceId,
-        },
+        userId,
+        resourceId,
       },
     });
+
+    if (result.count > 0) {
+      this.eventEmitter.emit(ResourceEvent.ResourceUnbookmarked, {
+        userId,
+        resourceId,
+      });
+      this.eventEmitter.emit(ResourceEvent.UserStatsUpdated, { userId });
+    }
+
+    return result;
   }
 
   /**
@@ -105,7 +135,7 @@ export class ResourceInteractionsService {
     resourceId: string,
     progress: number
   ) {
-    return this.prisma.resourceBookmark.update({
+    const bookmark = await this.prisma.resourceBookmark.update({
       where: {
         userId_resourceId: {
           userId,
@@ -116,6 +146,14 @@ export class ResourceInteractionsService {
         progress: Math.min(100, Math.max(0, progress)),
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.BookmarkProgressUpdated, {
+      userId,
+      resourceId,
+      progress: bookmark.progress,
+    });
+
+    return bookmark;
   }
 
   /**
@@ -155,7 +193,7 @@ export class ResourceInteractionsService {
       },
     });
 
-    return this.prisma.resourceCompletion.upsert({
+    const completion = await this.prisma.resourceCompletion.upsert({
       where: {
         userId_resourceId: {
           userId,
@@ -170,6 +208,14 @@ export class ResourceInteractionsService {
         resourceId,
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceCompleted, {
+      userId,
+      resourceId,
+    });
+    this.eventEmitter.emit(ResourceEvent.UserStatsUpdated, { userId });
+
+    return completion;
   }
 
   /**
@@ -207,7 +253,6 @@ export class ResourceInteractionsService {
   async updateUserPreferences(userId: string, tags: string[]) {
     if (tags?.length === 0) return;
 
-    // Update or create preference for each tag
     const updates = tags.map((tag) =>
       this.prisma.userResourcePreference.upsert({
         where: {

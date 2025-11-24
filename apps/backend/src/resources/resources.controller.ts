@@ -61,22 +61,42 @@ export class ResourcesController {
     });
   }
 
-  @Get('recommended')
-  getRecommended(
-    @Req() request: FastifyRequest & { user: AuthResponse['user'] },
-    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number
-  ) {
-    return this.recommendationsService.getRecommendations(
-      request.user.id,
-      limit
+  private async enrichResources(userId: string, resources: any[]) {
+    return Promise.all(
+      resources.map(async (resource) => ({
+        ...resource,
+        isBookmarked: await this.interactionsService.isBookmarked(
+          userId,
+          resource.id
+        ),
+        isCompleted: await this.interactionsService.isCompleted(
+          userId,
+          resource.id
+        ),
+      }))
     );
   }
 
-  @Get('trending')
-  getTrending(
+  @Get('recommended')
+  async getRecommended(
+    @Req() request: FastifyRequest & { user: AuthResponse['user'] },
     @Query('limit', new ParseIntPipe({ optional: true })) limit?: number
   ) {
-    return this.recommendationsService.getTrendingResources(limit);
+    const resources = await this.recommendationsService.getRecommendations(
+      request.user.id,
+      limit
+    );
+    return this.enrichResources(request.user.id, resources);
+  }
+
+  @Get('trending')
+  async getTrending(
+    @Req() request: FastifyRequest & { user: AuthResponse['user'] },
+    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number
+  ) {
+    const resources =
+      await this.recommendationsService.getTrendingResources(limit);
+    return this.enrichResources(request.user.id, resources);
   }
 
   @Get('bookmarks')
@@ -87,11 +107,15 @@ export class ResourcesController {
   }
 
   @Get('recent-views')
-  getRecentViews(
+  async getRecentViews(
     @Req() request: FastifyRequest & { user: AuthResponse['user'] },
     @Query('limit', new ParseIntPipe({ optional: true })) limit?: number
   ) {
-    return this.interactionsService.getRecentViews(request.user.id, limit);
+    const resources = await this.interactionsService.getRecentViews(
+      request.user.id,
+      limit
+    );
+    return this.enrichResources(request.user.id, resources);
   }
 
   @Get('stats')
@@ -110,11 +134,16 @@ export class ResourcesController {
   }
 
   @Get(':id/similar')
-  getSimilar(
+  async getSimilar(
     @Param('id') id: string,
+    @Req() request: FastifyRequest & { user: AuthResponse['user'] },
     @Query('limit', new ParseIntPipe({ optional: true })) limit?: number
   ) {
-    return this.recommendationsService.getSimilarResources(id, limit);
+    const resources = await this.recommendationsService.getSimilarResources(
+      id,
+      limit
+    );
+    return this.enrichResources(request.user.id, resources);
   }
 
   @Post(':id/view')

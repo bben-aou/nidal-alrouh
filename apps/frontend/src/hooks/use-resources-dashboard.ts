@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 
+import { useAuth } from '@/contexts/auth-context';
+import { useResourcesRealtime } from '@/hooks/use-resources-realtime';
 import { useToast } from '@/hooks/use-toast';
 import { ResourceApiService } from '@/services/resource-api.service';
 import type { Resource, Bookmark, RecentlyViewedItem } from '@/types/resource';
@@ -18,6 +20,7 @@ function getErrorMessage(error: unknown): string | null {
 
 export function useResourcesDashboard() {
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [recommendedResources, setRecommendedResources] = useState<Resource[]>(
@@ -37,6 +40,49 @@ export function useResourcesDashboard() {
   useEffect(() => {
     fetchRecommendedResources();
   }, []);
+
+  useResourcesRealtime({
+    onResourceCreated: (resource) => {
+      setRecommendedResources((prev) => [resource, ...prev].slice(0, 12));
+    },
+    onResourceDeleted: (resourceId) => {
+      setRecommendedResources((prev) =>
+        prev.filter((r) => r.id !== resourceId)
+      );
+      setAllResources((prev) => prev.filter((r) => r.id !== resourceId));
+      setTrendingResources((prev) => prev.filter((r) => r.id !== resourceId));
+    },
+    onResourceBookmarked: (userId, resourceId) => {
+      if (user?.id === userId) {
+        const updateResource = (r: Resource) =>
+          r.id === resourceId ? { ...r, isBookmarked: true } : r;
+
+        setRecommendedResources((prev) => prev.map(updateResource));
+        setAllResources((prev) => prev.map(updateResource));
+        setTrendingResources((prev) => prev.map(updateResource));
+      }
+    },
+    onResourceUnbookmarked: (userId, resourceId) => {
+      if (user?.id === userId) {
+        const updateResource = (r: Resource) =>
+          r.id === resourceId ? { ...r, isBookmarked: false } : r;
+
+        setRecommendedResources((prev) => prev.map(updateResource));
+        setAllResources((prev) => prev.map(updateResource));
+        setTrendingResources((prev) => prev.map(updateResource));
+      }
+    },
+    onResourceCompleted: (userId, resourceId) => {
+      if (user?.id === userId) {
+        const updateResource = (r: Resource) =>
+          r.id === resourceId ? { ...r, isCompleted: true } : r;
+
+        setRecommendedResources((prev) => prev.map(updateResource));
+        setAllResources((prev) => prev.map(updateResource));
+        setTrendingResources((prev) => prev.map(updateResource));
+      }
+    },
+  });
 
   const fetchRecommendedResources = async () => {
     try {
@@ -117,19 +163,36 @@ export function useResourcesDashboard() {
 
       if (!resource) return;
 
-      await ResourceApiService.toggleBookmark(
-        resourceId,
-        resource.isBookmarked || false
-      );
-      fetchRecommendedResources();
+      const wasBookmarked = resource.isBookmarked || false;
+      const willBeBookmarked = !wasBookmarked;
+
+      const updateResource = (r: Resource) =>
+        r.id === resourceId ? { ...r, isBookmarked: willBeBookmarked } : r;
+
+      setRecommendedResources((prev) => prev.map(updateResource));
+      setAllResources((prev) => prev.map(updateResource));
+      setTrendingResources((prev) => prev.map(updateResource));
+
+      await ResourceApiService.toggleBookmark(resourceId, wasBookmarked);
 
       toast({
-        title: resource.isBookmarked ? 'Bookmark removed' : 'Bookmark added',
-        description: resource.isBookmarked
+        title: wasBookmarked ? 'Bookmark removed' : 'Bookmark added',
+        description: wasBookmarked
           ? 'Resource removed from bookmarks'
           : 'Resource added to bookmarks',
       });
+
+      if (bookmarks.length > 0) {
+        fetchBookmarks();
+      }
     } catch (error) {
+      const revertResource = (r: Resource) =>
+        r.id === resourceId ? { ...r, isBookmarked: !r.isBookmarked } : r;
+
+      setRecommendedResources((prev) => prev.map(revertResource));
+      setAllResources((prev) => prev.map(revertResource));
+      setTrendingResources((prev) => prev.map(revertResource));
+
       const errorMessage = getErrorMessage(error);
       toast({
         title: 'Error',

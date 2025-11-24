@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ResourceType } from '@prisma/client';
 import sanitizeHtml from 'sanitize-html';
 
@@ -6,6 +7,7 @@ import { ContentModerationService } from '../common/services/content-moderation.
 import { DEFAULT_SANITIZE_OPTIONS } from '../common/utils/sanitize-html.config';
 import { PrismaService } from '../prisma/prisma.service';
 
+import { ResourceEvent } from './constants/events.constants';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
 import { ResourceInteractionsService } from './resource-interactions.service';
@@ -24,11 +26,11 @@ export class ResourcesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly contentModeration: ContentModerationService,
+    private readonly eventEmitter: EventEmitter2,
     private readonly interactions?: ResourceInteractionsService
   ) {}
 
   async create(userId: string, createResourceDto: CreateResourceDto) {
-    // Validate all inputs
     this.contentModeration.validateResourceTitle(createResourceDto.title);
     this.contentModeration.validateResourceDescription(
       createResourceDto.description
@@ -56,7 +58,7 @@ export class ResourcesService {
       allowedAttributes: {},
     });
 
-    return this.prisma.resource.create({
+    const resource = await this.prisma.resource.create({
       data: {
         title: sanitizedTitle,
         description: sanitizedDescription,
@@ -76,6 +78,10 @@ export class ResourcesService {
         },
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceCreated, { resource });
+
+    return resource;
   }
 
   /**
@@ -252,7 +258,7 @@ export class ResourcesService {
         })
       : undefined;
 
-    return this.prisma.resource.update({
+    const updatedResource = await this.prisma.resource.update({
       where: { id },
       data: {
         ...(sanitizedTitle && { title: sanitizedTitle }),
@@ -265,11 +271,24 @@ export class ResourcesService {
         ...(updateResourceDto.tags && { tags: updateResourceDto.tags }),
       },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceUpdated, {
+      resourceId: id,
+      resource: updatedResource,
+    });
+
+    return updatedResource;
   }
 
   async remove(id: string) {
-    return this.prisma.resource.delete({
+    const resource = await this.prisma.resource.delete({
       where: { id },
     });
+
+    this.eventEmitter.emit(ResourceEvent.ResourceDeleted, {
+      resourceId: id,
+    });
+
+    return resource;
   }
 }
