@@ -1,9 +1,11 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { ResourceCard } from '@/components/resources/ResourceCard';
 import { ResourceSkeleton } from '@/components/resources/ResourceSkeleton';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Resource } from '@/types/resource';
 
@@ -12,6 +14,9 @@ interface RecommendedTabProps {
   loading: boolean;
   onBookmark: (id: string) => void;
   onView: (id: string) => void;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  loadingMore?: boolean;
 }
 
 export function RecommendedTab({
@@ -19,6 +24,9 @@ export function RecommendedTab({
   loading,
   onBookmark,
   onView,
+  onLoadMore,
+  hasMore = false,
+  loadingMore = false,
 }: Readonly<RecommendedTabProps>) {
   const t = useTranslations('resources');
 
@@ -42,16 +50,38 @@ export function RecommendedTab({
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {resources.map((resource) => (
-            <ResourceCard
-              key={resource.id}
-              resource={resource}
-              onBookmark={onBookmark}
-              onView={onView}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {resources.map((resource) => (
+              <ResourceCard
+                key={resource.id}
+                resource={resource}
+                onBookmark={onBookmark}
+                onView={onView}
+              />
+            ))}
+          </div>
+
+          {hasMore && onLoadMore && (
+            <div className="flex justify-center pt-4">
+              <Button
+                onClick={onLoadMore}
+                disabled={loadingMore}
+                variant="outline"
+                size="lg"
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  'Load More'
+                )}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -37,13 +37,42 @@ export function useResourcesDashboard() {
   const [loadingAll, setLoadingAll] = useState(false);
   const [loadingTrending, setLoadingTrending] = useState(false);
 
+  // Pagination state
+  const [recommendedPage, setRecommendedPage] = useState(1);
+  const [allPage, setAllPage] = useState(1);
+  const [bookmarksPage, setBookmarksPage] = useState(1);
+  const [recentPage, setRecentPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
+
+  const [hasMoreRecommended, setHasMoreRecommended] = useState(true);
+  const [hasMoreAll, setHasMoreAll] = useState(true);
+  const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
+  const [hasMoreRecent, setHasMoreRecent] = useState(true);
+
+  const [loadingMoreRecommended, setLoadingMoreRecommended] = useState(false);
+  const [loadingMoreAll, setLoadingMoreAll] = useState(false);
+  const [loadingMoreBookmarks, setLoadingMoreBookmarks] = useState(false);
+  const [loadingMoreRecent, setLoadingMoreRecent] = useState(false);
+
   useEffect(() => {
     fetchRecommendedResources();
   }, []);
 
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAllPage(1);
+      fetchAllResources(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
   useResourcesRealtime({
     onResourceCreated: (resource) => {
-      setRecommendedResources((prev) => [resource, ...prev].slice(0, 12));
+      setRecommendedResources((prev) =>
+        [resource, ...prev].slice(0, ITEMS_PER_PAGE)
+      );
     },
     onResourceDeleted: (resourceId) => {
       setRecommendedResources((prev) =>
@@ -84,11 +113,23 @@ export function useResourcesDashboard() {
     },
   });
 
-  const fetchRecommendedResources = async () => {
+  const fetchRecommendedResources = async (reset = true) => {
     try {
       setLoadingRecommended(true);
-      const data = await ResourceApiService.getRecommendedResources(12);
-      setRecommendedResources(data);
+      const page = reset ? 1 : recommendedPage;
+      const data = await ResourceApiService.getRecommendedResources(
+        ITEMS_PER_PAGE,
+        page
+      );
+
+      if (reset) {
+        setRecommendedResources(data);
+        setRecommendedPage(1);
+      } else {
+        setRecommendedResources((prev) => [...prev, ...data]);
+      }
+
+      setHasMoreRecommended(data.length === ITEMS_PER_PAGE);
     } catch (error) {
       console.error('Failed to fetch recommendations:', error);
       const errorMessage = getErrorMessage(error);
@@ -102,11 +143,41 @@ export function useResourcesDashboard() {
     }
   };
 
-  const fetchBookmarks = async () => {
+  const loadMoreRecommended = async () => {
+    if (!hasMoreRecommended || loadingMoreRecommended) return;
+
+    try {
+      setLoadingMoreRecommended(true);
+      const nextPage = recommendedPage + 1;
+      const data = await ResourceApiService.getRecommendedResources(
+        ITEMS_PER_PAGE,
+        nextPage
+      );
+
+      setRecommendedResources((prev) => [...prev, ...data]);
+      setRecommendedPage(nextPage);
+      setHasMoreRecommended(data.length === ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Failed to load more recommendations:', error);
+    } finally {
+      setLoadingMoreRecommended(false);
+    }
+  };
+
+  const fetchBookmarks = async (reset = true) => {
     try {
       setLoadingBookmarks(true);
-      const data = await ResourceApiService.getBookmarks();
-      setBookmarks(data);
+      const page = reset ? 1 : bookmarksPage;
+      const data = await ResourceApiService.getBookmarks(ITEMS_PER_PAGE, page);
+
+      if (reset) {
+        setBookmarks(data);
+        setBookmarksPage(1);
+      } else {
+        setBookmarks((prev) => [...prev, ...data]);
+      }
+
+      setHasMoreBookmarks(data.length === ITEMS_PER_PAGE);
     } catch (error) {
       console.error('Failed to fetch bookmarks:', error);
     } finally {
@@ -114,11 +185,44 @@ export function useResourcesDashboard() {
     }
   };
 
-  const fetchRecentViews = async () => {
+  const loadMoreBookmarks = async () => {
+    if (!hasMoreBookmarks || loadingMoreBookmarks) return;
+
+    try {
+      setLoadingMoreBookmarks(true);
+      const nextPage = bookmarksPage + 1;
+      const data = await ResourceApiService.getBookmarks(
+        ITEMS_PER_PAGE,
+        nextPage
+      );
+
+      setBookmarks((prev) => [...prev, ...data]);
+      setBookmarksPage(nextPage);
+      setHasMoreBookmarks(data.length === ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Failed to load more bookmarks:', error);
+    } finally {
+      setLoadingMoreBookmarks(false);
+    }
+  };
+
+  const fetchRecentViews = async (reset = true) => {
     try {
       setLoadingRecent(true);
-      const data = await ResourceApiService.getRecentViews(20);
-      setRecentViews(data);
+      const page = reset ? 1 : recentPage;
+      const data = await ResourceApiService.getRecentViews(
+        ITEMS_PER_PAGE,
+        page
+      );
+
+      if (reset) {
+        setRecentViews(data);
+        setRecentPage(1);
+      } else {
+        setRecentViews((prev) => [...prev, ...data]);
+      }
+
+      setHasMoreRecent(data.length === ITEMS_PER_PAGE);
     } catch (error) {
       console.error('Failed to fetch recent views:', error);
     } finally {
@@ -126,18 +230,71 @@ export function useResourcesDashboard() {
     }
   };
 
-  const fetchAllResources = async () => {
+  const loadMoreRecent = async () => {
+    if (!hasMoreRecent || loadingMoreRecent) return;
+
+    try {
+      setLoadingMoreRecent(true);
+      const nextPage = recentPage + 1;
+      const data = await ResourceApiService.getRecentViews(
+        ITEMS_PER_PAGE,
+        nextPage
+      );
+
+      setRecentViews((prev) => [...prev, ...data]);
+      setRecentPage(nextPage);
+      setHasMoreRecent(data.length === ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Failed to load more recent views:', error);
+    } finally {
+      setLoadingMoreRecent(false);
+    }
+  };
+
+  const fetchAllResources = async (reset = true) => {
     try {
       setLoadingAll(true);
+      const page = reset ? 1 : allPage;
       const response = await ResourceApiService.getAllResources({
         search: searchTerm || undefined,
-        limit: 20,
+        limit: ITEMS_PER_PAGE,
+        page,
       });
-      setAllResources(response.data);
+
+      if (reset) {
+        setAllResources(response.data);
+        setAllPage(1);
+      } else {
+        setAllResources((prev) => [...prev, ...response.data]);
+      }
+
+      setHasMoreAll(response.data.length === ITEMS_PER_PAGE);
     } catch (error) {
       console.error('Failed to fetch all resources:', error);
     } finally {
       setLoadingAll(false);
+    }
+  };
+
+  const loadMoreAll = async () => {
+    if (!hasMoreAll || loadingMoreAll) return;
+
+    try {
+      setLoadingMoreAll(true);
+      const nextPage = allPage + 1;
+      const response = await ResourceApiService.getAllResources({
+        search: searchTerm || undefined,
+        limit: ITEMS_PER_PAGE,
+        page: nextPage,
+      });
+
+      setAllResources((prev) => [...prev, ...response.data]);
+      setAllPage(nextPage);
+      setHasMoreAll(response.data.length === ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Failed to load more resources:', error);
+    } finally {
+      setLoadingMoreAll(false);
     }
   };
 
@@ -183,7 +340,7 @@ export function useResourcesDashboard() {
       });
 
       if (bookmarks.length > 0) {
-        fetchBookmarks();
+        fetchBookmarks(true);
       }
     } catch (error) {
       const revertResource = (r: Resource) =>
@@ -233,11 +390,23 @@ export function useResourcesDashboard() {
     loadingRecent,
     loadingAll,
     loadingTrending,
+    loadingMoreRecommended,
+    loadingMoreAll,
+    loadingMoreBookmarks,
+    loadingMoreRecent,
+    hasMoreRecommended,
+    hasMoreAll,
+    hasMoreBookmarks,
+    hasMoreRecent,
     fetchRecommendedResources,
     fetchBookmarks,
     fetchRecentViews,
     fetchAllResources,
     fetchTrendingResources,
+    loadMoreRecommended,
+    loadMoreAll,
+    loadMoreBookmarks,
+    loadMoreRecent,
     handleBookmark,
     handleView,
     handleTabChange,

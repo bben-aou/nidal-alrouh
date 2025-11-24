@@ -66,9 +66,14 @@ export class ResourceApiService {
    * Get personalized recommendations for the current user
    */
   static async getRecommendedResources(
-    limit: number = 10
+    limit: number = 12,
+    page?: number
   ): Promise<Resource[]> {
-    return this.request<Resource[]>(`/resources/recommended?limit=${limit}`);
+    const params = new URLSearchParams({ limit: limit.toString() });
+    if (page) params.append('page', page.toString());
+    return this.request<Resource[]>(
+      `/resources/recommended?${params.toString()}`
+    );
   }
 
   /**
@@ -81,18 +86,28 @@ export class ResourceApiService {
   /**
    * Get user's bookmarks
    */
-  static async getBookmarks(): Promise<Bookmark[]> {
-    return this.request<Bookmark[]>('/resources/bookmarks');
+  static async getBookmarks(
+    limit: number = 12,
+    page?: number
+  ): Promise<Bookmark[]> {
+    const params = new URLSearchParams({ limit: limit.toString() });
+    if (page) params.append('page', page.toString());
+    return this.request<Bookmark[]>(
+      `/resources/bookmarks?${params.toString()}`
+    );
   }
 
   /**
    * Get recently viewed resources
    */
   static async getRecentViews(
-    limit: number = 20
+    limit: number = 12,
+    page?: number
   ): Promise<RecentlyViewedItem[]> {
+    const params = new URLSearchParams({ limit: limit.toString() });
+    if (page) params.append('page', page.toString());
     return this.request<RecentlyViewedItem[]>(
-      `/resources/recent-views?limit=${limit}`
+      `/resources/recent-views?${params.toString()}`
     );
   }
 

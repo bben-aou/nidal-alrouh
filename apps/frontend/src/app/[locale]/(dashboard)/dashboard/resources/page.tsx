@@ -30,8 +30,20 @@ export default function DashboardResourcesPage() {
     loadingRecent,
     loadingAll,
     loadingTrending,
+    loadingMoreRecommended,
+    loadingMoreAll,
+    loadingMoreBookmarks,
+    loadingMoreRecent,
+    hasMoreRecommended,
+    hasMoreAll,
+    hasMoreBookmarks,
+    hasMoreRecent,
     fetchAllResources,
     fetchTrendingResources,
+    loadMoreRecommended,
+    loadMoreAll,
+    loadMoreBookmarks,
+    loadMoreRecent,
     handleBookmark,
     handleView,
     handleTabChange,
@@ -74,11 +86,6 @@ export default function DashboardResourcesPage() {
           placeholder={t('dashboard.searchPlaceholder')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              fetchAllResources();
-            }
-          }}
           className="pl-10"
         />
       </div>
@@ -105,6 +112,9 @@ export default function DashboardResourcesPage() {
             loading={loadingRecommended}
             onBookmark={handleBookmark}
             onView={handleView}
+            onLoadMore={loadMoreRecommended}
+            hasMore={hasMoreRecommended}
+            loadingMore={loadingMoreRecommended}
           />
         </TabsContent>
 
@@ -113,6 +123,9 @@ export default function DashboardResourcesPage() {
             bookmarks={bookmarks}
             loading={loadingBookmarks}
             onContinue={handleView}
+            onLoadMore={loadMoreBookmarks}
+            hasMore={hasMoreBookmarks}
+            loadingMore={loadingMoreBookmarks}
           />
         </TabsContent>
 
@@ -121,6 +134,9 @@ export default function DashboardResourcesPage() {
             items={recentViews}
             loading={loadingRecent}
             onView={handleView}
+            onLoadMore={loadMoreRecent}
+            hasMore={hasMoreRecent}
+            loadingMore={loadingMoreRecent}
           />
         </TabsContent>
 
@@ -131,6 +147,9 @@ export default function DashboardResourcesPage() {
             onBookmark={handleBookmark}
             onView={handleView}
             onFilter={fetchAllResources}
+            onLoadMore={loadMoreAll}
+            hasMore={hasMoreAll}
+            loadingMore={loadingMoreAll}
           />
         </TabsContent>
       </Tabs>

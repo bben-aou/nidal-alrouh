@@ -21,6 +21,9 @@ interface AllResourcesTabProps {
   onBookmark: (id: string) => void;
   onView: (id: string) => void;
   onFilter: () => void;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  loadingMore?: boolean;
 }
 
 export function AllResourcesTab({
@@ -29,6 +32,9 @@ export function AllResourcesTab({
   onBookmark,
   onView,
   onFilter,
+  onLoadMore,
+  hasMore = false,
+  loadingMore = false,
 }: Readonly<AllResourcesTabProps>) {
   const t = useTranslations('resources');
 
@@ -77,16 +83,38 @@ export function AllResourcesTab({
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {resources.map((resource) => (
-            <ResourceCard
-              key={resource.id}
-              resource={resource}
-              onBookmark={onBookmark}
-              onView={onView}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {resources.map((resource) => (
+              <ResourceCard
+                key={resource.id}
+                resource={resource}
+                onBookmark={onBookmark}
+                onView={onView}
+              />
+            ))}
+          </div>
+
+          {hasMore && onLoadMore && (
+            <div className="flex justify-center pt-4">
+              <Button
+                onClick={onLoadMore}
+                disabled={loadingMore}
+                variant="outline"
+                size="lg"
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  'Load More'
+                )}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
