@@ -99,7 +99,10 @@
       "noRecommendations": "No recommendations available yet. Start exploring resources!",
       "noBookmarks": "No bookmarks yet. Bookmark resources to access them quickly!",
       "noRecentViews": "Your recently viewed resources will appear here"
-    }
+    },
+    "bookmark": "Bookmark",
+    "removeBookmark": "Remove Bookmark",
+    "viewed": "Viewed"
   },
   "detail": {
     "backToResources": "Back to Resources",

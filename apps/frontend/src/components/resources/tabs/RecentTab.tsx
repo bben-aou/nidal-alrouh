@@ -26,7 +26,7 @@ export function RecentTab({
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
             <Card key={i} className="animate-pulse">
-              <CardContent className="h-16" />
+              <CardContent className="h-28" />
             </Card>
           ))}
         </div>

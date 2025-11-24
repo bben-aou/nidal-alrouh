@@ -15,18 +15,21 @@ export function ResourceTags({
   const remainingCount = tags.length - maxVisible;
 
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="flex flex-wrap gap-1.5">
       {visibleTags.map((tag) => (
         <Badge
           key={tag}
           variant="secondary"
-          className="text-xs hover:bg-secondary/80 cursor-pointer transition-colors"
+          className="text-[10px] px-1.5 py-0 h-5 font-normal bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
         >
           #{tag}
         </Badge>
       ))}
       {remainingCount > 0 && (
-        <Badge variant="secondary" className="text-xs">
+        <Badge
+          variant="outline"
+          className="text-[10px] px-1.5 py-0 h-5 font-normal text-muted-foreground"
+        >
           +{remainingCount}
         </Badge>
       )}

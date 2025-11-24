@@ -99,7 +99,10 @@
       "noRecommendations": "Aucune recommandation disponible pour le moment. Commencez à explorer les ressources!",
       "noBookmarks": "Aucun favori pour le moment. Ajoutez des ressources en favoris pour y accéder rapidement!",
       "noRecentViews": "Vos ressources récemment consultées apparaîtront ici"
-    }
+    },
+    "bookmark": "Enregistrer",
+    "removeBookmark": "Retirer des favoris",
+    "viewed": "Vu"
   },
   "detail": {
     "backToResources": "Retour aux ressources",

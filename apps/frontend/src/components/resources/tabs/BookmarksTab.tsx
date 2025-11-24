@@ -26,7 +26,7 @@ export function BookmarksTab({
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
             <Card key={i} className="animate-pulse">
-              <CardContent className="h-20" />
+              <CardContent className="h-28" />
             </Card>
           ))}
         </div>

@@ -2,10 +2,13 @@ import type { Resource } from '@/types/resource';
 
 export function getYouTubeThumbnail(url: string): string | null {
   const videoIdMatch = url.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/
+    new RegExp(
+      '(?:youtube\\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\\.be/)([^"&?/\\s]{11})'
+    )
   );
+
   if (videoIdMatch?.[1]) {
-    return `https://img.youtube.com/vi/${videoIdMatch[1]}/mqdefault.jpg`;
+    return `https://img.youtube.com/vi/${videoIdMatch[1]}/hqdefault.jpg`;
   }
   return null;
 }
@@ -33,7 +36,15 @@ export function calculateReadTime(resource: Resource): string {
 export function formatTimeAgo(dateString: string): string {
   const now = new Date();
   const created = new Date(dateString);
-  const diffMs = now.getTime() - created.getTime();
+
+  const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const createdDate = new Date(
+    created.getFullYear(),
+    created.getMonth(),
+    created.getDate()
+  );
+
+  const diffMs = nowDate.getTime() - createdDate.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) return 'Today';

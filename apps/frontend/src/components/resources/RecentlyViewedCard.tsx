@@ -1,12 +1,23 @@
 'use client';
 
-import { Clock, Eye, BookOpen, Video, FileText } from 'lucide-react';
+import {
+  Clock,
+  Play,
+  BookOpen,
+  ExternalLink,
+  ChevronRight,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import {
+  getResourceThumbnail,
+  formatTimeAgo,
+} from '@/lib/utils/resource-helpers';
 import type { RecentlyViewedItem } from '@/types/resource';
 
 interface RecentlyViewedCardProps {
@@ -14,10 +25,10 @@ interface RecentlyViewedCardProps {
   onView?: (itemId: string) => void;
 }
 
-const TYPE_ICONS = {
-  ARTICLE: BookOpen,
-  VIDEO: Video,
-  LINK: FileText,
+const TYPE_CONFIG = {
+  ARTICLE: { icon: BookOpen, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  VIDEO: { icon: Play, color: 'text-red-500', bg: 'bg-red-500/10' },
+  LINK: { icon: ExternalLink, color: 'text-green-500', bg: 'bg-green-500/10' },
 };
 
 export function RecentlyViewedCard({
@@ -25,48 +36,78 @@ export function RecentlyViewedCard({
   onView,
 }: Readonly<RecentlyViewedCardProps>) {
   const t = useTranslations('resources');
-  const Icon = TYPE_ICONS[item.type];
-
-  // Format date
-  const getTimeAgo = (date: string) => {
-    const now = new Date();
-    const viewed = new Date(date);
-    const diffMs = now.getTime() - viewed.getTime();
-    const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffMinutes < 60) return `${diffMinutes} min ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    return `${diffDays} days ago`;
-  };
+  const config = TYPE_CONFIG[item.type];
+  const Icon = config.icon;
+  const thumbnail = getResourceThumbnail(item);
 
   return (
-    <Card className="transition-shadow hover:shadow-md">
-      <CardContent className="flex items-center justify-between p-4">
-        <div className="flex items-center gap-3 flex-1">
-          <Icon className="h-5 w-5 text-muted-foreground" />
-          <div className="flex-1">
-            <h3 className="font-medium line-clamp-1">{item.title}</h3>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-3 w-3" />
-              <span>{getTimeAgo(item.viewedAt)}</span>
-              <span>•</span>
-              <Badge variant="outline" className="text-xs">
-                {item.type}
-              </Badge>
+    <Link href={`/dashboard/resources/${item.id}`} className="block group">
+      <Card className="relative overflow-hidden border-none bg-card/50 hover:bg-card transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 group-hover:ring-1 group-hover:ring-primary/20">
+        <div className="flex gap-4 p-3 sm:p-4">
+          <div className="relative h-24 w-32 sm:h-28 sm:w-40 flex-none overflow-hidden rounded-lg bg-muted">
+            <img
+              src={thumbnail}
+              alt={item.title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+
+            <div className="absolute left-2 top-2">
+              <div
+                className={cn(
+                  'rounded-full p-1.5 backdrop-blur-md bg-black/30 text-white shadow-sm',
+                  config.color
+                )}
+              >
+                <Icon className="h-3.5 w-3.5" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-1 flex-col justify-between py-1">
+            <div className="space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <Badge
+                  variant="secondary"
+                  className="text-[10px] h-5 px-1.5 font-normal bg-secondary/50"
+                >
+                  {item.type}
+                </Badge>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  <span>
+                    {t('dashboard.viewed')} {formatTimeAgo(item.viewedAt)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between mt-2">
+              <div className="text-xs font-medium text-muted-foreground">
+                <span>{t('dashboard.continue')}</span>
+              </div>
+
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-8 w-8 p-0 rounded-full opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onView?.(item.id);
+                }}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
-        <Link href={`/dashboard/resources/${item.id}`}>
-          <Button size="sm" variant="outline" onClick={() => onView?.(item.id)}>
-            <Eye className="mr-2 h-3 w-3" />
-            {t('dashboard.view')}
-          </Button>
-        </Link>
-      </CardContent>
-    </Card>
+      </Card>
+    </Link>
   );
 }
