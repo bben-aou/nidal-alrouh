@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 import { useAuth } from '@/contexts/auth-context';
 import { useResourcesRealtime } from '@/hooks/use-resources-realtime';
@@ -54,12 +54,18 @@ export function useResourcesDashboard() {
   const [loadingMoreBookmarks, setLoadingMoreBookmarks] = useState(false);
   const [loadingMoreRecent, setLoadingMoreRecent] = useState(false);
 
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
     fetchRecommendedResources();
   }, []);
 
-  // Debounced search effect
   useEffect(() => {
+    if (isInitialMount.current && !searchTerm) {
+      isInitialMount.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       setAllPage(1);
       fetchAllResources(true);
@@ -377,13 +383,73 @@ export function useResourcesDashboard() {
     }
   };
 
+  const filterResources = (resources: Resource[]) => {
+    if (!searchTerm.trim()) return resources;
+
+    const lowerSearch = searchTerm.toLowerCase();
+    return resources.filter((resource) => {
+      return (
+        resource.title?.toLowerCase().includes(lowerSearch) ||
+        resource.description?.toLowerCase().includes(lowerSearch) ||
+        resource.tags?.some((tag) => tag.toLowerCase().includes(lowerSearch)) ||
+        resource.content?.toLowerCase().includes(lowerSearch)
+      );
+    });
+  };
+
+  const filterBookmarks = (items: Bookmark[]) => {
+    if (!searchTerm.trim()) return items;
+
+    const lowerSearch = searchTerm.toLowerCase();
+    return items.filter((bookmark) => {
+      const { resource } = bookmark;
+      return (
+        resource.title?.toLowerCase().includes(lowerSearch) ||
+        resource.description?.toLowerCase().includes(lowerSearch) ||
+        resource.tags?.some((tag) => tag.toLowerCase().includes(lowerSearch)) ||
+        resource.content?.toLowerCase().includes(lowerSearch)
+      );
+    });
+  };
+
+  const filterRecentViews = (items: RecentlyViewedItem[]) => {
+    if (!searchTerm.trim()) return items;
+
+    const lowerSearch = searchTerm.toLowerCase();
+    return items.filter((item) => {
+      return (
+        item.title?.toLowerCase().includes(lowerSearch) ||
+        item.description?.toLowerCase().includes(lowerSearch) ||
+        item.tags?.some((tag: string) =>
+          tag.toLowerCase().includes(lowerSearch)
+        ) ||
+        item.content?.toLowerCase().includes(lowerSearch)
+      );
+    });
+  };
+
+  const filteredRecommended = useMemo(
+    () => filterResources(recommendedResources),
+    [recommendedResources, searchTerm]
+  );
+
+  const filteredBookmarks = useMemo(
+    () => filterBookmarks(bookmarks),
+    [bookmarks, searchTerm]
+  );
+
+  const filteredRecentViews = useMemo(
+    () => filterRecentViews(recentViews),
+    [recentViews, searchTerm]
+  );
+
   return {
     searchTerm,
     setSearchTerm,
-    recommendedResources,
+    recommendedResources: filteredRecommended,
     allResources,
-    bookmarks,
-    recentViews,
+    bookmarks: filteredBookmarks,
+    recentViews: filteredRecentViews,
     trendingResources,
     loadingRecommended,
     loadingBookmarks,

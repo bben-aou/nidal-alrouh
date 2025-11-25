@@ -2,6 +2,7 @@
 
 import { Search, TrendingUp, Plus, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { ResourceCard } from '@/components/resources/ResourceCard';
 import { ResourceCreationDialog } from '@/components/resources/ResourceCreationDialog';
@@ -17,6 +18,8 @@ import { useResourcesDashboard } from '@/hooks/use-resources-dashboard';
 
 export default function DashboardResourcesPage() {
   const t = useTranslations('resources');
+  const [activeTab, setActiveTab] = useState('recommended');
+
   const {
     searchTerm,
     setSearchTerm,
@@ -91,9 +94,12 @@ export default function DashboardResourcesPage() {
       </div>
 
       <Tabs
-        defaultValue="recommended"
+        value={activeTab}
         className="space-y-4"
-        onValueChange={handleTabChange}
+        onValueChange={(tab) => {
+          setActiveTab(tab);
+          handleTabChange(tab);
+        }}
       >
         <TabsList>
           <TabsTrigger value="recommended">
