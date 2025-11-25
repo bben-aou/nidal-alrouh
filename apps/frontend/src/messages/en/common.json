@@ -4,7 +4,8 @@
     "about": "About",
     "resources": "Resources",
     "community": "Community",
-    "login": "Login"
+    "login": "Login",
+    "emergency": "Emergency Help"
   },
   "general": {
     "welcome": "Welcome",
@@ -59,8 +60,14 @@
         "label": "National Listening Line",
         "number": "0801 00 47 47"
       },
-      "medical": { "label": "Medical Emergencies", "number": "141" },
-      "police": { "label": "Police/Emergency", "number": "19" }
+      "medical": {
+        "label": "Medical Emergencies",
+        "number": "141"
+      },
+      "police": {
+        "label": "Police/Emergency",
+        "number": "19"
+      }
     },
     "availability": "You are not alone. These lines are available 24/7.",
     "close": "Close"

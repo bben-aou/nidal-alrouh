@@ -1,0 +1,78 @@
+{
+  "title": "Soutien Immédiat en Cas de Crise",
+  "subtitle": "Si vous êtes en crise ou avez besoin d'aide immédiate, vous n'êtes pas seul. Ces ressources sont disponibles 24h/24 et 7j/7.",
+  "alert": {
+    "title": "En Danger Immédiat?",
+    "description": "Si vous ou quelqu'un que vous connaissez êtes en danger immédiat, veuillez appeler les services d'urgence (19) ou vous rendre aux urgences les plus proches immédiatement."
+  },
+  "emergencyTitle": "Contacts d'Urgence",
+  "contacts": {
+    "nationalHotline": {
+      "name": "Ligne d'Écoute Nationale",
+      "number": "0801 00 47 47",
+      "description": "Soutien gratuit et confidentiel pour les crises de santé mentale",
+      "availability": "Disponible 24h/24 et 7j/7"
+    },
+    "medical": {
+      "name": "Urgence Médicale",
+      "number": "141",
+      "description": "Assistance médicale immédiate",
+      "availability": "Disponible 24h/24 et 7j/7"
+    },
+    "police": {
+      "name": "Police / Urgence",
+      "number": "19",
+      "description": "Police d'urgence et assistance urgente",
+      "availability": "Disponible 24h/24 et 7j/7"
+    },
+    "poisonControl": {
+      "name": "Centre Anti-Poison",
+      "number": "080 100 0180",
+      "description": "Pour les urgences d'empoisonnement et d'intoxication",
+      "availability": "Disponible 24h/24 et 7j/7"
+    }
+  },
+  "ngos": {
+    "title": "Organisations de Santé Mentale",
+    "description": "Services de soutien professionnel en santé mentale au Maroc",
+    "organizations": {
+      "depression": {
+        "name": "Association Marocaine de Lutte contre la Dépression",
+        "description": "Groupes de soutien et ressources pour les personnes vivant avec la dépression et leurs familles",
+        "contact": "Contactez via votre centre de santé local"
+      },
+      "hospitals": {
+        "name": "Hôpitaux Psychiatriques",
+        "description": "Principaux établissements de soins psychiatriques au Maroc",
+        "casablanca": "Hôpital Ibn Rochd - Unité Psychiatrique",
+        "rabat": "Hôpital Psychiatrique Ar-Razi"
+      }
+    }
+  },
+  "resources": {
+    "title": "Que Faire en Cas de Crise",
+    "description": "Étapes à suivre lorsque vous ou quelqu'un que vous connaissez êtes en crise de santé mentale",
+    "steps": {
+      "recognize": {
+        "title": "Reconnaître les Signes",
+        "description": "Détresse émotionnelle intense, pensées d'auto-agression, déconnexion de la réalité, ou sentiment d'incapacité à faire face."
+      },
+      "reach": {
+        "title": "Demander de l'Aide Immédiatement",
+        "description": "Appelez une ligne de crise, contactez un ami de confiance ou un membre de la famille, ou rendez-vous aux urgences."
+      },
+      "safe": {
+        "title": "Rester en Sécurité",
+        "description": "Retirez l'accès aux moyens d'auto-agression. Restez avec quelqu'un si possible. Concentrez-vous sur la sécurité immédiate."
+      },
+      "support": {
+        "title": "Obtenir un Soutien Professionnel",
+        "description": "Faites un suivi avec un professionnel de la santé mentale. La crise est temporaire - l'aide est disponible."
+      }
+    }
+  },
+  "footer": {
+    "title": "Vous N'êtes Pas Seul",
+    "message": "Des milliers de Marocains font face à des défis de santé mentale. Demander de l'aide est un signe de force, pas de faiblesse. Ces ressources existent parce que vous comptez."
+  }
+}

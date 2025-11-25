@@ -4,7 +4,8 @@
     "about": "عن المنصة",
     "resources": "الموارد",
     "community": "المجتمع",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "emergency": "مساعدة طارئة"
   },
   "general": {
     "welcome": "مرحباً",
@@ -59,8 +60,14 @@
         "label": "خط الاستماع الوطني",
         "number": "\u202D080 100 47 00\u202C"
       },
-      "medical": { "label": "طوارئ طبية", "number": "141" },
-      "police": { "label": "الشرطة/الطوارئ", "number": "19" }
+      "medical": {
+        "label": "طوارئ طبية",
+        "number": "141"
+      },
+      "police": {
+        "label": "الشرطة/الطوارئ",
+        "number": "19"
+      }
     },
     "availability": "لست وحدك. هذه الخطوط متاحة 24/7.",
     "close": "إغلاق"

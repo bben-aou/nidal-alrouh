@@ -4,7 +4,8 @@
     "about": "À propos",
     "resources": "Ressources",
     "community": "Communauté",
-    "login": "Se connecter"
+    "login": "Se connecter",
+    "emergency": "Aide d'Urgence"
   },
   "general": {
     "welcome": "Bienvenue",
@@ -59,8 +60,14 @@
         "label": "Ligne d'écoute nationale",
         "number": "0801 00 47 47"
       },
-      "medical": { "label": "Urgences médicales", "number": "141" },
-      "police": { "label": "Police/Urgences", "number": "19" }
+      "medical": {
+        "label": "Urgences médicales",
+        "number": "141"
+      },
+      "police": {
+        "label": "Police/Urgences",
+        "number": "19"
+      }
     },
     "availability": "Vous n'êtes pas seul(e). Ces lignes sont disponibles 24h/24 et 7j/7.",
     "close": "Fermer"

@@ -1,0 +1,78 @@
+{
+  "title": "Immediate Crisis Support",
+  "subtitle": "If you're in crisis or need immediate help, you're not alone. These resources are available 24/7.",
+  "alert": {
+    "title": "In Immediate Danger?",
+    "description": "If you or someone you know is in immediate danger, please call emergency services (19) or go to the nearest emergency room right away."
+  },
+  "emergencyTitle": "Emergency Contacts",
+  "contacts": {
+    "nationalHotline": {
+      "name": "National Listening Line",
+      "number": "0801 00 47 47",
+      "description": "Free, confidential support for mental health crisis",
+      "availability": "Available 24/7"
+    },
+    "medical": {
+      "name": "Medical Emergency",
+      "number": "141",
+      "description": "Immediate medical assistance",
+      "availability": "Available 24/7"
+    },
+    "police": {
+      "name": "Police / Emergency",
+      "number": "19",
+      "description": "Emergency police and urgent assistance",
+      "availability": "Available 24/7"
+    },
+    "poisonControl": {
+      "name": "Poison Control Center",
+      "number": "080 100 0180",
+      "description": "For poisoning emergencies and intoxication",
+      "availability": "Available 24/7"
+    }
+  },
+  "ngos": {
+    "title": "Mental Health Organizations",
+    "description": "Professional mental health support services in Morocco",
+    "organizations": {
+      "depression": {
+        "name": "Moroccan Association Against Depression",
+        "description": "Support groups and resources for people living with depression and their families",
+        "contact": "Contact via your local health center"
+      },
+      "hospitals": {
+        "name": "Psychiatric Hospitals",
+        "description": "Major psychiatric care facilities in Morocco",
+        "casablanca": "Ibn Rochd Hospital - Psychiatric Unit",
+        "rabat": "Ar-Razi Psychiatric Hospital"
+      }
+    }
+  },
+  "resources": {
+    "title": "What to Do in a Crisis",
+    "description": "Steps to take when you or someone you know is in a mental health crisis",
+    "steps": {
+      "recognize": {
+        "title": "Recognize the Signs",
+        "description": "Intense emotional distress, thoughts of self-harm, disconnection from reality, or feeling unable to cope."
+      },
+      "reach": {
+        "title": "Reach Out Immediately",
+        "description": "Call a crisis hotline, contact a trusted friend or family member, or go to an emergency room."
+      },
+      "safe": {
+        "title": "Stay Safe",
+        "description": "Remove access to means of self-harm. Stay with someone if possible. Focus on immediate safety."
+      },
+      "support": {
+        "title": "Get Professional Support",
+        "description": "Follow up with a mental health professional. Crisis is temporary - help is available."
+      }
+    }
+  },
+  "footer": {
+    "title": "You Are Not Alone",
+    "message": "Thousands of Moroccans face mental health challenges. Reaching out for help is a sign of strength, not weakness. These resources exist because you matter."
+  }
+}

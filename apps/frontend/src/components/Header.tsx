@@ -44,6 +44,13 @@ export const Header = () => {
           >
             {t('community')}
           </Link>
+          <div className="h-4 w-px bg-border" />
+          <Link
+            href="/help"
+            className="text-sm font-medium text-amber-600 dark:text-amber-500 hover:text-amber-700 dark:hover:text-amber-400 transition-colors"
+          >
+            {t('emergency')}
+          </Link>
         </nav>
 
         {/* Actions */}
