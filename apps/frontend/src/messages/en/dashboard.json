@@ -76,9 +76,11 @@
       "Taking small steps each day. Grateful for this community. 🌱",
       "Found strength I didn't know I had. Keep going everyone! ✨"
     ],
-    "reactions": ["❤️ 12", "🙌 8"]
+    "reactions": ["❤️ 12", "🙌 8"],
+    "noPosts": "No community posts yet"
   },
   "suggestedResources": {
+    "noResources": "No trending resources available",
     "title": "Suggested Resources",
     "description": "Curated articles to support your journey",
     "resources": [
