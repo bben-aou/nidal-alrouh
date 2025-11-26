@@ -24,7 +24,7 @@ interface MobileMenuProps {
   navigation: NavigationItem[];
 }
 
-export function MobileMenu({ navigation }: MobileMenuProps) {
+export function MobileMenu({ navigation }: Readonly<MobileMenuProps>) {
   const t = useTranslations('dashboard');
   const [open, setOpen] = useState(false);
 

@@ -98,5 +98,8 @@
       }
     ]
   },
-  "footer": "Built with care by the Nidal-Alrouh Community"
+  "footer": "Built with care by the Nidal-Alrouh Community",
+  "mobileMenu": {
+    "title": "Menu"
+  }
 }

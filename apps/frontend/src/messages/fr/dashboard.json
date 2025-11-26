@@ -96,5 +96,8 @@
       }
     ]
   },
-  "footer": "Construit avec soin par la communauté Nidal-Alrouh"
+  "footer": "Construit avec soin par la communauté Nidal-Alrouh",
+  "mobileMenu": {
+    "title": "Menu"
+  }
 }
