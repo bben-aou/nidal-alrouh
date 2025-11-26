@@ -86,18 +86,18 @@ export const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/code-of-conduct"
+                    href="/guidelines"
                     className="hover:text-primary transition-colors"
                   >
-                    {t('legal.codeOfConduct')}
+                    {t('legal.guidelines', { default: 'Community Guidelines' })}
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/accessibility"
+                    href="/help"
                     className="hover:text-primary transition-colors"
                   >
-                    {t('legal.accessibility')}
+                    {t('legal.crisisSupport', { default: 'Crisis Support' })}
                   </Link>
                 </li>
               </ul>

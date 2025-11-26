@@ -42,12 +42,19 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
       "codeOfConduct": "Code of Conduct",
-      "accessibility": "Accessibility"
+      "accessibility": "Accessibility",
+      "guidelines": "Community Guidelines",
+      "crisisSupport": "Crisis Support"
     },
+    "emergency": {
+      "title": "Emergency"
+    },
+    "disclaimer": "Nidal Alrouh is a peer support community, not a professional healthcare service. In case of emergency, please contact emergency services immediately.",
     "bottom": {
       "copy": "© {year} Nidal Al-Rouh. Non-profit open-source project.",
       "madeWith": "Made with",
-      "forCommunity": "for the Moroccan community"
+      "forCommunity": "for the Moroccan community",
+      "beta": "Beta Version"
     }
   },
   "crisis": {

@@ -1,0 +1,211 @@
+{
+  "communityGuidelines": {
+    "title": "Directives communautaires",
+    "subtitle": "Créer un espace sûr et solidaire pour tous",
+    "introduction": "Nidal Alrouh est fondé sur des principes de respect mutuel, de compassion et de solidarité. Ces directives garantissent que notre communauté reste un espace sûr pour le soutien par les pairs et la connexion.",
+    "sections": {
+      "coreValues": {
+        "title": "Nos valeurs fondamentales",
+        "values": [
+          "Compassion : Nous nous traitons les uns les autres avec gentillesse et compréhension",
+          "Respect : Nous honorons les perspectives et expériences diverses",
+          "Soutien : Nous offrons des encouragements sans jugement",
+          "Confidentialité : Nous protégeons la confidentialité et l'anonymat de chacun",
+          "Solidarité : Nous sommes solidaires dans nos expériences partagées"
+        ]
+      },
+      "peerSupport": {
+        "title": "Soutien par les pairs, pas de conseils professionnels",
+        "critical": "IMPORTANT : Ceci est une communauté de soutien par les pairs, pas un service de soins de santé professionnel.",
+        "rules": [
+          "✅ Partagez vos expériences personnelles et ce qui vous a aidé",
+          "✅ Offrez un soutien émotionnel et des encouragements",
+          "✅ Suggérez des ressources professionnelles le cas échéant",
+          "❌ Ne fournissez PAS de diagnostics médicaux",
+          "❌ Ne prescrivez PAS de traitements ou de médicaments",
+          "❌ Ne remplacez PAS la thérapie professionnelle ou les soins médicaux"
+        ],
+        "emergency": "Si vous ou quelqu'un d'autre êtes en danger immédiat, contactez les services d'urgence : 141, 19 ou 0801 00 47 47"
+      },
+      "respectfulCommunication": {
+        "title": "Communication respectueuse",
+        "guidelines": [
+          "Soyez gentil : Utilisez un langage de soutien, évitez les critiques sévères",
+          "Écoutez activement : Lisez attentivement les publications avant de répondre",
+          "Restez dans le sujet : Gardez les discussions pertinentes et utiles",
+          "Pas de jugement : Le parcours de chacun est différent",
+          "Sensibilité culturelle : Respectez les contextes culturels divers du Maroc",
+          "Langue : Utilisez un langage approprié (arabe, français ou anglais)"
+        ]
+      },
+      "privacy": {
+        "title": "Confidentialité et secret",
+        "rules": [
+          "Ne partagez PAS les informations personnelles d'autrui",
+          "Ne faites PAS de captures d'écran et ne partagez pas de contenu en dehors de la plateforme",
+          "Respectez les publications anonymes - n'essayez pas d'identifier les utilisateurs",
+          "Gardez les conversations privées privées",
+          "Ne partagez PAS de détails identifiables sur d'autres sans consentement"
+        ],
+        "yourPrivacy": "Utilisez notre fonctionnalité de publication anonyme si vous souhaitez partager sans révéler votre identité."
+      },
+      "prohibited": {
+        "title": "Contenu interdit",
+        "intro": "Pour maintenir une communauté sûre, le contenu suivant est strictement interdit :",
+        "categories": {
+          "harmful": {
+            "title": "Contenu nuisible",
+            "items": [
+              "Instructions ou encouragements à l'automutilation ou au suicide",
+              "Descriptions graphiques d'automutilation ou de violence",
+              "Contenu qui pourrait déclencher ou nuire à autrui",
+              "Contenu pro-ana, pro-mia ou autre promouvant les troubles de l'alimentation"
+            ]
+          },
+          "medical": {
+            "title": "Contenu médical inapproprié",
+            "items": [
+              "Diagnostics médicaux ou recommandations de traitement",
+              "Conseils sur les médicaments ou suggestions de dosage",
+              "Suggérer aux autres d'arrêter de prendre des médicaments prescrits",
+              "Promouvoir des « remèdes » non prouvés ou dangereux"
+            ]
+          },
+          "harassment": {
+            "title": "Harcèlement et haine",
+            "items": [
+              "Intimidation, harcèlement ou attaques personnelles",
+              "Discours de haine basé sur la race, la religion, le genre, etc.",
+              "Discrimination ou préjugés",
+              "Menaces de violence",
+              "Doxxing (partage d'informations privées)"
+            ]
+          },
+          "inappropriate": {
+            "title": "Contenu sexuel et explicite",
+            "items": [
+              "Contenu ou imagerie sexuellement explicite",
+              "Harcèlement sexuel ou avances non désirées",
+              "Contenu impliquant des mineurs"
+            ]
+          },
+          "spam": {
+            "title": "Spam et exploitation",
+            "items": [
+              "Publicité commerciale ou spam",
+              "Systèmes pyramidaux ou escroqueries",
+              "Sollicitation d'argent ou de dons",
+              "Promotion de produits ou services"
+            ]
+          },
+          "misleading": {
+            "title": "Informations trompeuses",
+            "items": [
+              "Désinformation délibérée ou « fake news »",
+              "Usurpation d'identité d'autrui",
+              "Fausses déclarations sur les qualifications ou l'expertise"
+            ]
+          }
+        }
+      },
+      "contentWarnings": {
+        "title": "Avertissements de contenu",
+        "description": "Lorsque vous partagez du contenu potentiellement déclencheur, veuillez utiliser des avertissements de contenu :",
+        "examples": [
+          "[AC : Automutilation] - pour les discussions sur l'automutilation",
+          "[AC : Pensées suicidaires] - pour les discussions sur le suicide",
+          "[AC : Traumatisme] - pour le contenu lié aux traumatismes",
+          "[AC : Troubles de l'alimentation] - pour les discussions connexes",
+          "[AC : Consommation de substances] - pour les discussions sur l'alcool/les drogues"
+        ],
+        "purpose": "Cela permet aux autres de choisir s'ils souhaitent s'engager avec un contenu potentiellement déclencheur."
+      },
+      "reporting": {
+        "title": "Signalement des violations",
+        "howTo": "Si vous voyez du contenu qui viole ces directives :",
+        "steps": [
+          "Cliquez sur le bouton « Signaler » sur la publication ou le commentaire",
+          "Sélectionnez la raison du signalement",
+          "Fournissez des détails supplémentaires si nécessaire",
+          "Notre équipe de modération examinera dans les 24 heures"
+        ],
+        "emergency": "Pour des problèmes de sécurité immédiats, contactez également les services d'urgence."
+      },
+      "consequences": {
+        "title": "Conséquences des violations",
+        "policy": "Nous prenons les violations au sérieux pour protéger notre communauté :",
+        "levels": [
+          "Première infraction : Avertissement et suppression du contenu",
+          "Infractions répétées : Suspension temporaire (7-30 jours)",
+          "Violations graves : Résiliation permanente du compte",
+          "Contenu illégal : Signalé aux autorités comme l'exige la loi"
+        ],
+        "appeal": "Vous pouvez faire appel des décisions de modération en contactant support@nidal-alrouh.ma"
+      },
+      "selfCare": {
+        "title": "Rappels de soins personnels",
+        "tips": [
+          "Faites des pauses de la plateforme si nécessaire",
+          "Utilisez des avertissements de contenu pour vous protéger",
+          "Engagez-vous à votre propre rythme - aucune pression pour participer",
+          "Cherchez une aide professionnelle lorsque le soutien de la communauté ne suffit pas",
+          "Rappelez-vous : le soutien par les pairs complète, mais ne remplace pas, les soins professionnels"
+        ]
+      },
+      "resources": {
+        "title": "Ressources professionnelles",
+        "intro": "Lorsque vous avez besoin de plus que du soutien par les pairs :",
+        "contacts": [
+          "Ligne d'écoute nationale : 0801 00 47 47 (24/7, gratuit)",
+          "Urgence médicale : 141",
+          "Urgence police : 19",
+          "Page de soutien de crise : Visitez notre section dédiée au soutien de crise pour des ressources complètes"
+        ]
+      }
+    },
+    "footer": "Ces directives peuvent être mises à jour. Nous vous informerons des changements importants. Merci d'aider à créer une communauté sûre et solidaire."
+  },
+  "codeOfConduct": {
+    "title": "Code de conduite",
+    "subtitle": "Notre engagement pour une communauté respectueuse",
+    "pledge": "En tant que membres de la communauté Nidal Alrouh, nous nous engageons à faire de la participation une expérience sans harcèlement pour tous, quel que soit l'âge, la taille corporelle, le handicap, l'origine ethnique, l'identité de genre, le niveau d'expérience, la nationalité, l'apparence personnelle, la race, la religion ou l'orientation sexuelle.",
+    "standards": {
+      "title": "Nos normes",
+      "positive": {
+        "title": "Exemples de comportement positif",
+        "items": [
+          "Utiliser un langage accueillant et inclusif",
+          "Être respectueux des points de vue et expériences différents",
+          "Accepter gracieusement les critiques constructives",
+          "Se concentrer sur ce qui est le mieux pour la communauté",
+          "Faire preuve d'empathie et de compassion envers les autres",
+          "Offrir un soutien sans jugement",
+          "Respecter la vie privée et la confidentialité"
+        ]
+      },
+      "unacceptable": {
+        "title": "Comportement inacceptable",
+        "items": [
+          "Harcèlement, intimidation ou discrimination",
+          "Trolling, insultes ou commentaires désobligeants",
+          "Attaques personnelles ou politiques",
+          "Harcèlement public ou privé",
+          "Publication d'informations privées d'autrui",
+          "Fournir des conseils médicaux non autorisés",
+          "Tout comportement qui pourrait raisonnablement être considéré comme inapproprié"
+        ]
+      }
+    },
+    "responsibilities": {
+      "title": "Responsabilités des modérateurs",
+      "description": "Les modérateurs de la communauté sont responsables de clarifier les normes et de prendre les mesures appropriées en réponse à un comportement inacceptable.",
+      "rights": "Les modérateurs ont le droit de supprimer, modifier ou rejeter le contenu qui viole ce Code de conduite, et de bannir temporairement ou définitivement tout membre pour des comportements jugés inappropriés, menaçants, offensants ou nuisibles."
+    },
+    "scope": "Ce Code de conduite s'applique à tous les espaces communautaires, y compris les publications, les commentaires, les messages privés et les événements communautaires.",
+    "enforcement": {
+      "title": "Application",
+      "process": "Les cas de comportement inacceptable peuvent être signalés aux modérateurs. Toutes les plaintes seront examinées et étudiées rapidement et équitablement. Les modérateurs sont tenus de maintenir la confidentialité concernant le signalement d'un incident."
+    },
+    "attribution": "Ce Code de conduite est adapté des meilleures pratiques dans les communautés de santé mentale en ligne et adapté au contexte marocain."
+  }
+}

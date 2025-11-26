@@ -42,12 +42,19 @@
       "privacy": "Politique de confidentialité",
       "terms": "Conditions d'utilisation",
       "codeOfConduct": "Code de conduite",
-      "accessibility": "Accessibilité"
+      "accessibility": "Accessibilité",
+      "guidelines": "Directives communautaires",
+      "crisisSupport": "Soutien de crise"
     },
+    "emergency": {
+      "title": "Urgence"
+    },
+    "disclaimer": "Nidal Alrouh est une communauté de soutien par les pairs, pas un service de soins de santé professionnel. En cas d'urgence, veuillez contacter immédiatement les services d'urgence.",
     "bottom": {
       "copy": "© {year} Nidal Al-Rouh. Projet open-source à but non lucratif.",
       "madeWith": "Fait avec",
-      "forCommunity": "pour la communauté marocaine"
+      "forCommunity": "pour la communauté marocaine",
+      "beta": "Version Bêta"
     }
   },
   "crisis": {

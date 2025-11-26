@@ -1,0 +1,211 @@
+{
+  "communityGuidelines": {
+    "title": "Community Guidelines",
+    "subtitle": "Creating a Safe, Supportive Space for Everyone",
+    "introduction": "Nidal Alrouh is built on principles of mutual respect, compassion, and solidarity. These guidelines ensure our community remains a safe space for peer support and connection.",
+    "sections": {
+      "coreValues": {
+        "title": "Our Core Values",
+        "values": [
+          "Compassion: We treat each other with kindness and understanding",
+          "Respect: We honor diverse perspectives and experiences",
+          "Support: We offer encouragement without judgment",
+          "Privacy: We protect each other's confidentiality and anonymity",
+          "Solidarity: We stand together in our shared experiences"
+        ]
+      },
+      "peerSupport": {
+        "title": "Peer Support, Not Professional Advice",
+        "critical": "IMPORTANT: This is a peer support community, not a professional healthcare service.",
+        "rules": [
+          "✅ Share your personal experiences and what helped you",
+          "✅ Offer emotional support and encouragement",
+          "✅ Suggest professional resources when appropriate",
+          "❌ Do NOT provide medical diagnoses",
+          "❌ Do NOT prescribe treatments or medications",
+          "❌ Do NOT replace professional therapy or medical care"
+        ],
+        "emergency": "If you or someone else is in immediate danger, contact emergency services: 141, 19, or 0801 00 47 47"
+      },
+      "respectfulCommunication": {
+        "title": "Respectful Communication",
+        "guidelines": [
+          "Be Kind: Use supportive language, avoid harsh criticism",
+          "Listen Actively: Read posts carefully before responding",
+          "Stay on Topic: Keep discussions relevant and helpful",
+          "No Judgment: Everyone's journey is different",
+          "Cultural Sensitivity: Respect Morocco's diverse cultural contexts",
+          "Language: Use appropriate language (Arabic, French, or English)"
+        ]
+      },
+      "privacy": {
+        "title": "Privacy & Confidentiality",
+        "rules": [
+          "Do NOT share others' personal information",
+          "Do NOT screenshot or share content outside the platform",
+          "Respect anonymous posts - do not try to identify users",
+          "Keep private conversations private",
+          "Do NOT share identifiable details about others without consent"
+        ],
+        "yourPrivacy": "Use our anonymous posting feature if you want to share without revealing your identity."
+      },
+      "prohibited": {
+        "title": "Prohibited Content",
+        "intro": "To maintain a safe community, the following content is strictly prohibited:",
+        "categories": {
+          "harmful": {
+            "title": "Harmful Content",
+            "items": [
+              "Instructions or encouragement for self-harm or suicide",
+              "Graphic descriptions of self-harm or violence",
+              "Content that could trigger or harm others",
+              "Pro-ana, pro-mia, or other content promoting eating disorders"
+            ]
+          },
+          "medical": {
+            "title": "Inappropriate Medical Content",
+            "items": [
+              "Medical diagnoses or treatment recommendations",
+              "Medication advice or dosage suggestions",
+              "Suggesting others stop taking prescribed medication",
+              "Promoting unproven or dangerous 'cures'"
+            ]
+          },
+          "harassment": {
+            "title": "Harassment & Hate",
+            "items": [
+              "Bullying, harassment, or personal attacks",
+              "Hate speech based on race, religion, gender, etc.",
+              "Discrimination or prejudice",
+              "Threats of violence",
+              "Doxxing (sharing private information)"
+            ]
+          },
+          "inappropriate": {
+            "title": "Sexual & Explicit Content",
+            "items": [
+              "Sexually explicit content or imagery",
+              "Sexual harassment or unwanted advances",
+              "Content involving minors"
+            ]
+          },
+          "spam": {
+            "title": "Spam & Exploitation",
+            "items": [
+              "Commercial advertising or spam",
+              "Pyramid schemes or scams",
+              "Soliciting money or donations",
+              "Promoting products or services"
+            ]
+          },
+          "misleading": {
+            "title": "Misleading Information",
+            "items": [
+              "Deliberate misinformation or 'fake news'",
+              "Impersonation of others",
+              "False claims about credentials or expertise"
+            ]
+          }
+        }
+      },
+      "contentWarnings": {
+        "title": "Content Warnings",
+        "description": "When sharing potentially triggering content, please use content warnings:",
+        "examples": [
+          "[CW: Self-harm] - for discussions of self-harm",
+          "[CW: Suicidal thoughts] - for discussions of suicide",
+          "[CW: Trauma] - for trauma-related content",
+          "[CW: Eating disorders] - for related discussions",
+          "[CW: Substance use] - for alcohol/drug discussions"
+        ],
+        "purpose": "This allows others to choose whether to engage with potentially triggering content."
+      },
+      "reporting": {
+        "title": "Reporting Violations",
+        "howTo": "If you see content that violates these guidelines:",
+        "steps": [
+          "Click the 'Report' button on the post or comment",
+          "Select the reason for reporting",
+          "Provide additional details if needed",
+          "Our moderation team will review within 24 hours"
+        ],
+        "emergency": "For immediate safety concerns, also contact emergency services."
+      },
+      "consequences": {
+        "title": "Consequences of Violations",
+        "policy": "We take violations seriously to protect our community:",
+        "levels": [
+          "First Offense: Warning and content removal",
+          "Repeated Offenses: Temporary suspension (7-30 days)",
+          "Serious Violations: Permanent account termination",
+          "Illegal Content: Reported to authorities as required by law"
+        ],
+        "appeal": "You may appeal moderation decisions by contacting support@nidal-alrouh.ma"
+      },
+      "selfCare": {
+        "title": "Self-Care Reminders",
+        "tips": [
+          "Take breaks from the platform when needed",
+          "Use content warnings to protect yourself",
+          "Engage at your own pace - no pressure to participate",
+          "Seek professional help when community support isn't enough",
+          "Remember: peer support complements, but doesn't replace, professional care"
+        ]
+      },
+      "resources": {
+        "title": "Professional Resources",
+        "intro": "When you need more than peer support:",
+        "contacts": [
+          "National Listening Line: 0801 00 47 47 (24/7, free)",
+          "Medical Emergency: 141",
+          "Police Emergency: 19",
+          "Crisis Support Page: Visit our dedicated crisis support section for comprehensive resources"
+        ]
+      }
+    },
+    "footer": "These guidelines may be updated. We'll notify you of significant changes. Thank you for helping create a safe, supportive community."
+  },
+  "codeOfConduct": {
+    "title": "Code of Conduct",
+    "subtitle": "Our Commitment to a Respectful Community",
+    "pledge": "As members of the Nidal Alrouh community, we pledge to make participation a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity, level of experience, nationality, personal appearance, race, religion, or sexual orientation.",
+    "standards": {
+      "title": "Our Standards",
+      "positive": {
+        "title": "Examples of Positive Behavior",
+        "items": [
+          "Using welcoming and inclusive language",
+          "Being respectful of differing viewpoints and experiences",
+          "Gracefully accepting constructive criticism",
+          "Focusing on what is best for the community",
+          "Showing empathy and compassion towards others",
+          "Offering support without judgment",
+          "Respecting privacy and confidentiality"
+        ]
+      },
+      "unacceptable": {
+        "title": "Unacceptable Behavior",
+        "items": [
+          "Harassment, intimidation, or discrimination",
+          "Trolling, insulting, or derogatory comments",
+          "Personal or political attacks",
+          "Public or private harassment",
+          "Publishing others' private information",
+          "Providing unlicensed medical advice",
+          "Any conduct which could reasonably be considered inappropriate"
+        ]
+      }
+    },
+    "responsibilities": {
+      "title": "Moderator Responsibilities",
+      "description": "Community moderators are responsible for clarifying standards and taking appropriate action in response to unacceptable behavior.",
+      "rights": "Moderators have the right to remove, edit, or reject content that violates this Code of Conduct, and to ban temporarily or permanently any member for behaviors deemed inappropriate, threatening, offensive, or harmful."
+    },
+    "scope": "This Code of Conduct applies to all community spaces, including posts, comments, private messages, and community events.",
+    "enforcement": {
+      "title": "Enforcement",
+      "process": "Instances of unacceptable behavior may be reported to moderators. All complaints will be reviewed and investigated promptly and fairly. Moderators are obligated to maintain confidentiality regarding the reporter of an incident."
+    },
+    "attribution": "This Code of Conduct is adapted from best practices in online mental health communities and tailored for the Moroccan context."
+  }
+}

@@ -29,6 +29,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
       crisisSupport: (await import(`../messages/${locale}/crisisSupport.json`))
         .default,
       chat: (await import(`../messages/${locale}/chat.json`)).default,
+      legal: (await import(`../messages/${locale}/legal.json`)).default,
+      guidelines: (await import(`../messages/${locale}/guidelines.json`))
+        .default,
     },
   };
 });

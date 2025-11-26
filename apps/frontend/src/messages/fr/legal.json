@@ -1,0 +1,316 @@
+{
+  "privacyPolicy": {
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "effectiveDate": "Date d'effet : {date}",
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": "Nidal Alrouh (« nous », « notre » ou « nos ») est une plateforme de soutien par les pairs axée sur la communauté, conçue pour créer un espace sûr permettant aux individus au Maroc de partager leurs expériences, de trouver de la solidarité et de se soutenir mutuellement. Nous nous engageons à protéger votre vie privée et à traiter vos données personnelles avec le plus grand soin et la plus grande transparence."
+      },
+      "platformNature": {
+        "title": "Nature de notre plateforme",
+        "important": "IMPORTANT : Nidal Alrouh est une plateforme de soutien communautaire par les pairs, PAS un service de soins de santé professionnel.",
+        "points": [
+          "Nous offrons un espace pour que les membres de la communauté se soutiennent mutuellement",
+          "Nous n'offrons PAS de services médicaux, psychologiques ou thérapeutiques professionnels",
+          "Nous ne fournissons PAS de diagnostic, de traitement ou de conseil professionnel",
+          "Le contenu partagé est uniquement à des fins de soutien par les pairs et d'information",
+          "En cas d'urgence, veuillez contacter les services professionnels : 141 (Médical), 19 (Police) ou 0801 00 47 47 (Ligne de crise)"
+        ]
+      },
+      "dataController": {
+        "title": "Responsable du traitement des données",
+        "content": "Nidal Alrouh agit en tant que responsable du traitement des données personnelles collectées via notre plateforme. Nous sommes en train de finaliser notre enregistrement auprès de la Commission Nationale de Contrôle de la Protection des Données à Caractère Personnel (CNDP) conformément à la loi marocaine n° 09-08.",
+        "registration": "Enregistrement CNDP : En attente",
+        "note": "Cette plateforme est actuellement en phase bêta/pré-lancement. L'enregistrement complet auprès de la CNDP sera finalisé avant le lancement public."
+      },
+      "dataCollection": {
+        "title": "Informations que nous collectons",
+        "categories": {
+          "account": {
+            "title": "Informations de compte",
+            "items": [
+              "Adresse e-mail (requise uniquement pour la récupération du compte)",
+              "Nom d'utilisateur (peut être anonyme)",
+              "Mot de passe (chiffré)",
+              "Informations de profil (facultatif)",
+              "Avatar/photo (facultatif)"
+            ]
+          },
+          "content": {
+            "title": "Contenu généré par l'utilisateur",
+            "items": [
+              "Publications communautaires (peuvent être publiées anonymement)",
+              "Commentaires et interactions",
+              "Ressources partagées",
+              "Participation aux événements",
+              "Entrées de journal (privées par défaut, chiffrées)",
+              "Données de suivi de l'humeur (privées, chiffrées)"
+            ]
+          },
+          "technical": {
+            "title": "Informations techniques",
+            "items": [
+              "Adresse IP (pour la sécurité uniquement)",
+              "Type et version du navigateur",
+              "Informations sur l'appareil",
+              "Heures et dates d'accès",
+              "Pages consultées et interactions"
+            ]
+          },
+          "anonymous": {
+            "title": "Publication anonyme",
+            "highlight": "Nous proposons des options de publication anonyme :",
+            "features": [
+              "Vous pouvez créer des publications sans révéler votre identité",
+              "Les publications anonymes ne sont pas liées à votre profil",
+              "Nous maintenons l'anonymat même dans nos bases de données",
+              "Aucun tiers ne peut identifier les contributeurs anonymes"
+            ]
+          }
+        }
+      },
+      "dataUse": {
+        "title": "Comment nous utilisons vos informations",
+        "purposes": [
+          "Pour fournir et maintenir notre plateforme communautaire",
+          "Pour permettre le soutien et l'interaction entre pairs",
+          "Pour personnaliser votre expérience",
+          "Pour envoyer des annonces de service importantes",
+          "Pour améliorer la sécurité de la plateforme et prévenir les abus",
+          "Pour analyser l'utilisation de la plateforme et améliorer nos services",
+          "Pour se conformer aux obligations légales"
+        ],
+        "noSelling": "Nous ne vendrons, ne louerons ni n'échangerons JAMAIS vos informations personnelles à des tiers."
+      },
+      "dataSecurity": {
+        "title": "Sécurité des données et chiffrement",
+        "commitment": "Nous prenons la sécurité de vos données au sérieux et mettons en œuvre des mesures de protection conformes aux normes de l'industrie :",
+        "measures": [
+          "Chiffrement de bout en bout pour les messages privés",
+          "Stockage chiffré pour les entrées de journal et les données d'humeur",
+          "Connexions HTTPS sécurisées pour toutes les transmissions de données",
+          "Hachage des mots de passe utilisant des algorithmes standard",
+          "Audits de sécurité et mises à jour réguliers",
+          "Contrôles d'accès et mécanismes d'authentification",
+          "Infrastructure de base de données sécurisée"
+        ],
+        "note": "Bien que nous mettions en œuvre des mesures de sécurité robustes, aucune méthode de transmission sur Internet n'est sécurisée à 100 %. Nous ne pouvons garantir une sécurité absolue mais nous nous engageons à protéger vos données au mieux de nos capacités."
+      },
+      "dataRetention": {
+        "title": "Conservation des données",
+        "policy": "Nous ne conservons vos données personnelles que le temps nécessaire aux fins décrites dans cette politique :",
+        "periods": [
+          "Données de compte : Jusqu'à ce que vous supprimiez votre compte",
+          "Contenu : Jusqu'à ce que vous le supprimiez ou demandiez sa suppression",
+          "Journaux techniques : Maximum 90 jours",
+          "Données de sauvegarde : Maximum 30 jours après la demande de suppression"
+        ]
+      },
+      "yourRights": {
+        "title": "Vos droits",
+        "intro": "En vertu de la loi marocaine n° 09-08, vous disposez des droits suivants :",
+        "rights": [
+          "Droit d'accès : Demander une copie de vos données personnelles",
+          "Droit de rectification : Corriger des données inexactes ou incomplètes",
+          "Droit à l'effacement : Demander la suppression de vos données (« droit à l'oubli »)",
+          "Droit d'opposition : S'opposer au traitement de vos données",
+          "Droit à la portabilité des données : Recevoir vos données dans un format structuré",
+          "Droit de retrait du consentement : Retirer votre consentement à tout moment",
+          "Droit de déposer une plainte : Déposer une plainte auprès de la CNDP"
+        ],
+        "exercise": "Pour exercer ces droits, contactez-nous à : privacy@nidal-alrouh.ma"
+      },
+      "dataSharing": {
+        "title": "Partage de données et tiers",
+        "policy": "Nous ne partageons PAS vos données personnelles avec des tiers sauf :",
+        "exceptions": [
+          "Avec votre consentement explicite",
+          "Pour se conformer aux obligations légales ou aux ordonnances du tribunal",
+          "Pour protéger les droits, la propriété ou la sécurité de nos utilisateurs",
+          "Avec des prestataires de services liés par la confidentialité (ex : hébergement, sécurité)"
+        ],
+        "international": "Nous ne transférons actuellement pas de données hors du Maroc. Si cela change, nous obtiendrons l'autorisation de la CNDP et mettrons à jour cette politique."
+      },
+      "cookies": {
+        "title": "Cookies et suivi",
+        "description": "Nous utilisons des cookies essentiels pour le fonctionnement de la plateforme :",
+        "types": [
+          "Cookies d'authentification (pour vous garder connecté)",
+          "Cookies de sécurité (pour prévenir la fraude)",
+          "Cookies de préférences (pour mémoriser vos paramètres)"
+        ],
+        "analytics": "Nous n'utilisons PAS de cookies d'analyse ou publicitaires tiers sans votre consentement."
+      },
+      "children": {
+        "title": "Confidentialité des enfants",
+        "policy": "Notre plateforme est destinée aux utilisateurs âgés de 18 ans et plus. Nous ne collectons pas sciemment de données auprès de personnes de moins de 18 ans. Si nous découvrons que de telles données ont été collectées, nous les supprimerons immédiatement."
+      },
+      "changes": {
+        "title": "Modifications de cette politique",
+        "policy": "Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Nous vous informerons de tout changement important par :",
+        "methods": [
+          "Publication de la nouvelle politique sur cette page",
+          "Mise à jour de la date de « Dernière mise à jour »",
+          "Envoi d'une notification par e-mail (pour les changements importants)",
+          "Demande de ré-acceptation des conditions"
+        ],
+        "review": "Nous vous encourageons à consulter cette politique périodiquement."
+      },
+      "contact": {
+        "title": "Contactez-nous",
+        "intro": "Si vous avez des questions concernant cette politique de confidentialité ou souhaitez exercer vos droits, veuillez nous contacter :",
+        "email": "E-mail : privacy@nidal-alrouh.ma",
+        "address": "Adresse : [À fournir]",
+        "cndp": "Pour les plaintes concernant la protection des données, vous pouvez également contacter la CNDP : www.cndp.ma"
+      },
+      "beta": {
+        "title": "Avis de plateforme bêta",
+        "notice": "Cette plateforme est actuellement en phase bêta/pré-lancement. Nous travaillons activement à la conformité totale avec toutes les réglementations marocaines sur la protection des données, y compris la finalisation de notre enregistrement auprès de la CNDP. Votre participation durant cette phase nous aide à construire une communauté plus sûre et plus solidaire."
+      }
+    }
+  },
+  "termsOfService": {
+    "title": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "acceptance": "En accédant ou en utilisant Nidal Alrouh, vous acceptez d'être lié par ces Conditions d'utilisation et notre Politique de confidentialité. Si vous n'êtes pas d'accord, veuillez ne pas utiliser notre plateforme.",
+    "sections": {
+      "platform": {
+        "title": "1. Nature et objectif de la plateforme",
+        "disclaimer": "AVERTISSEMENT IMPORTANT",
+        "points": [
+          "Soutien par les pairs uniquement : Nidal Alrouh est une plateforme de soutien communautaire conçue pour que les individus partagent leurs expériences, offrent un soutien mutuel et construisent la solidarité.",
+          "PAS de soins de santé professionnels : Nous ne fournissons PAS de services médicaux, psychologiques, psychiatriques ou thérapeutiques professionnels.",
+          "PAS un substitut : Notre plateforme n'est PAS un substitut aux conseils médicaux professionnels, au diagnostic ou au traitement.",
+          "Pas de relation professionnelle : Aucune relation médecin-patient, thérapeute-client ou professionnel-client n'est créée par l'utilisation de cette plateforme.",
+          "Services d'urgence : En cas d'urgence médicale ou psychiatrique, contactez immédiatement les services d'urgence (141, 19) ou la Ligne nationale de crise (0801 00 47 47)."
+        ]
+      },
+      "eligibility": {
+        "title": "2. Éligibilité",
+        "requirements": [
+          "Vous devez avoir au moins 18 ans pour utiliser cette plateforme",
+          "Vous devez fournir des informations exactes lors de l'inscription",
+          "Il ne doit pas vous être interdit d'utiliser le service en vertu de la loi marocaine",
+          "Vous êtes responsable du maintien de la sécurité de votre compte"
+        ]
+      },
+      "accounts": {
+        "title": "3. Comptes utilisateurs",
+        "rules": [
+          "Inscription : Vous pouvez créer un compte par personne",
+          "Nom d'utilisateur : Vous pouvez choisir un nom d'utilisateur anonyme pour protéger votre identité",
+          "Sécurité : Vous êtes responsable du maintien de la confidentialité de votre mot de passe",
+          "Exactitude : Vous devez fournir une adresse e-mail valide pour la récupération du compte",
+          "Interdit : Ne partagez pas vos identifiants de compte avec d'autres",
+          "Résiliation : Nous nous réservons le droit de résilier les comptes qui violent ces conditions"
+        ]
+      },
+      "userContent": {
+        "title": "4. Contenu généré par l'utilisateur",
+        "ownership": "Vous conservez la propriété du contenu que vous créez. En publiant, vous nous accordez une licence non exclusive pour afficher et distribuer votre contenu sur la plateforme.",
+        "responsibilities": [
+          "Vous êtes responsable de tout le contenu que vous publiez",
+          "Exactitude : Ne publiez pas d'informations fausses ou trompeuses",
+          "Pas de conseils médicaux : Ne fournissez pas de diagnostic médical, de traitement ou d'ordonnances",
+          "Respectueux : Le contenu doit être conforme à nos Directives communautaires",
+          "Légal : Le contenu doit être conforme à la loi marocaine"
+        ],
+        "prohibited": {
+          "title": "Contenu interdit",
+          "items": [
+            "Diagnostics médicaux ou recommandations de traitement",
+            "Encouragement ou instruction à l'automutilation ou au suicide",
+            "Discours de haine, discrimination ou harcèlement",
+            "Contenu sexuel explicite",
+            "Contenu violent ou graphique",
+            "Activités ou contenu illégaux",
+            "Spam ou sollicitation commerciale",
+            "Usurpation d'identité ou fausses identités",
+            "Informations privées d'autrui",
+            "Matériel protégé par le droit d'auteur sans autorisation"
+          ]
+        }
+      },
+      "anonymity": {
+        "title": "5. Publication anonyme",
+        "feature": "Nous proposons la publication anonyme pour protéger votre vie privée :",
+        "terms": [
+          "Les publications anonymes ne sont pas publiquement liées à votre profil",
+          "Nous maintenons une séparation technique entre le contenu anonyme et identifié",
+          "La publication anonyme ne vous dispense pas de nos Directives communautaires",
+          "Nous pouvons supprimer le contenu anonyme qui viole nos conditions",
+          "En cas d'obligation légale ou de graves problèmes de sécurité, nous pouvons être tenus de divulguer des informations aux autorités"
+        ]
+      },
+      "privacy": {
+        "title": "6. Confidentialité et protection des données",
+        "commitment": "Nous nous engageons à protéger votre vie privée :",
+        "points": [
+          "Nous chiffrons les données sensibles, y compris les journaux et les messages privés",
+          "Nous mettons en œuvre des mesures de sécurité standard de l'industrie",
+          "Nous poursuivons l'enregistrement auprès de la CNDP conformément à la loi n° 09-08",
+          "Voir notre Politique de confidentialité pour des informations détaillées"
+        ]
+      },
+      "moderation": {
+        "title": "7. Modération du contenu",
+        "policy": "Pour maintenir une communauté sûre et solidaire, nous modérons le contenu :",
+        "actions": [
+          "Nous utilisons des filtres automatisés pour détecter le contenu interdit",
+          "Les utilisateurs peuvent signaler le contenu qui viole les directives",
+          "Les modérateurs examinent le contenu signalé",
+          "Nous pouvons supprimer le contenu qui viole ces conditions",
+          "Nous pouvons suspendre ou résilier les comptes pour des violations répétées",
+          "Les décisions peuvent faire l'objet d'un appel via nos canaux de contact"
+        ]
+      },
+      "liability": {
+        "title": "8. Limitation de responsabilité",
+        "disclaimers": [
+          "Pas de conseils professionnels : Le contenu sur cette plateforme est uniquement destiné au soutien par les pairs et ne constitue pas un conseil professionnel",
+          "Responsabilité de l'utilisateur : Les utilisateurs sont seuls responsables de leurs décisions et actions",
+          "Pas de garanties : Nous ne donnons aucune garantie quant à l'exactitude, la fiabilité ou l'efficacité du contenu généré par l'utilisateur",
+          "Disponibilité de la plateforme : Nous ne garantissons pas un service ininterrompu ou sans erreur",
+          "Contenu tiers : Nous ne sommes pas responsables du contenu publié par les utilisateurs",
+          "Pas de responsabilité : Dans toute la mesure permise par la loi, nous ne sommes pas responsables des dommages résultant de l'utilisation de cette plateforme"
+        ]
+      },
+      "intellectualProperty": {
+        "title": "9. Propriété intellectuelle",
+        "platform": "La plateforme Nidal Alrouh, y compris la conception, les fonctionnalités et la marque, est notre propriété intellectuelle.",
+        "userContent": "Vous conservez la propriété de votre contenu mais nous accordez une licence pour l'utiliser sur la plateforme.",
+        "restrictions": "Vous ne pouvez pas copier, modifier, distribuer ou créer des œuvres dérivées de notre plateforme sans autorisation."
+      },
+      "termination": {
+        "title": "10. Résiliation",
+        "rights": [
+          "Votre droit : Vous pouvez supprimer votre compte à tout moment",
+          "Notre droit : Nous pouvons suspendre ou résilier les comptes qui violent ces conditions",
+          "Effet : Lors de la résiliation, votre droit d'utiliser la plateforme cesse",
+          "Données : Voir notre Politique de confidentialité pour des informations sur la conservation des données après la résiliation"
+        ]
+      },
+      "governingLaw": {
+        "title": "11. Loi applicable et litiges",
+        "law": "Ces conditions sont régies par les lois du Royaume du Maroc.",
+        "jurisdiction": "Tout litige sera soumis à la compétence exclusive des tribunaux marocains.",
+        "resolution": "Nous encourageons les utilisateurs à nous contacter d'abord pour résoudre les litiges à l'amiable."
+      },
+      "changes": {
+        "title": "12. Modifications des conditions",
+        "policy": "Nous pouvons mettre à jour ces Conditions d'utilisation. Les changements importants seront communiqués par e-mail ou notification sur la plateforme. L'utilisation continue après les changements constitue une acceptation."
+      },
+      "contact": {
+        "title": "13. Coordonnées",
+        "email": "Pour les questions concernant ces conditions : legal@nidal-alrouh.ma",
+        "support": "Pour le support de la plateforme : support@nidal-alrouh.ma"
+      },
+      "beta": {
+        "title": "14. Reconnaissance de la plateforme bêta",
+        "notice": "Vous reconnaissez que cette plateforme est actuellement en phase bêta/pré-lancement. Les fonctionnalités peuvent changer et des interruptions temporaires peuvent survenir alors que nous travaillons vers la conformité totale avec les réglementations marocaines et finalisons notre enregistrement auprès de la CNDP."
+      }
+    }
+  }
+}

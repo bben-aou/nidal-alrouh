@@ -1,0 +1,316 @@
+{
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: {date}",
+    "effectiveDate": "Effective Date: {date}",
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": "Nidal Alrouh (\"we\", \"us\", or \"our\") is a community-driven peer support platform designed to create a safe space for individuals in Morocco to share experiences, find solidarity, and support one another. We are committed to protecting your privacy and handling your personal data with the utmost care and transparency."
+      },
+      "platformNature": {
+        "title": "Nature of Our Platform",
+        "important": "IMPORTANT: Nidal Alrouh is a community peer-support platform, NOT a professional healthcare service.",
+        "points": [
+          "We provide a space for community members to support each other",
+          "We do NOT offer professional medical, psychological, or therapeutic services",
+          "We do NOT provide diagnosis, treatment, or professional counseling",
+          "Content shared is for peer support and informational purposes only",
+          "In case of emergency, please contact professional services: 141 (Medical), 19 (Police), or 0801 00 47 47 (Crisis Hotline)"
+        ]
+      },
+      "dataController": {
+        "title": "Data Controller",
+        "content": "Nidal Alrouh operates as the data controller for personal information collected through our platform. We are in the process of completing registration with the Commission Nationale de Contrôle de la Protection des Données à Caractère Personnel (CNDP) in accordance with Moroccan LawNo. 09-08.",
+        "registration": "CNDP Registration: Pending",
+        "note": "This platform is currently in beta/pre-launch phase. Full CNDP registration will be completed before public launch."
+      },
+      "dataCollection": {
+        "title": "Information We Collect",
+        "categories": {
+          "account": {
+            "title": "Account Information",
+            "items": [
+              "Email address (required for account recovery only)",
+              "Username (can be anonymous)",
+              "Password (encrypted)",
+              "Profile information (optional)",
+              "Avatar/photo (optional)"
+            ]
+          },
+          "content": {
+            "title": "User-Generated Content",
+            "items": [
+              "Community posts (can be published anonymously)",
+              "Comments and interactions",
+              "Resources shared",
+              "Event participation",
+              "Journal entries (private by default, encrypted)",
+              "Mood tracking data (private, encrypted)"
+            ]
+          },
+          "technical": {
+            "title": "Technical Information",
+            "items": [
+              "IP address (for security only)",
+              "Browser type and version",
+              "Device information",
+              "Access times and dates",
+              "Pages viewed and interactions"
+            ]
+          },
+          "anonymous": {
+            "title": "Anonymous Publishing",
+            "highlight": "We offer anonymous publishing options:",
+            "features": [
+              "You can create posts without revealing your identity",
+              "Anonymous posts are not linked to your profile",
+              "We maintain anonymity even in our databases",
+              "No third parties can identify anonymous contributors"
+            ]
+          }
+        }
+      },
+      "dataUse": {
+        "title": "How We Use Your Information",
+        "purposes": [
+          "To provide and maintain our community platform",
+          "To enable peer-to-peer support and interaction",
+          "To personalize your experience",
+          "To send important service announcements",
+          "To improve platform security and prevent abuse",
+          "To analyze platform usage and improve our services",
+          "To comply with legal obligations"
+        ],
+        "noSelling": "We will NEVER sell, rent, or trade your personal information to third parties."
+      },
+      "dataSecurity": {
+        "title": "Data Security & Encryption",
+        "commitment": "We take your data security seriously and implement industry-standard protection measures:",
+        "measures": [
+          "End-to-end encryption for private messages",
+          "Encrypted storage for journal entries and mood data",
+          "Secure HTTPS connections for all data transmission",
+          "Password hashing using industry-standard algorithms",
+          "Regular security audits and updates",
+          "Access controls and authentication mechanisms",
+          "Secure database infrastructure"
+        ],
+        "note": "While we implement robust security measures, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security but are committed to protecting your data to the best of our ability."
+      },
+      "dataRetention": {
+        "title": "Data Retention",
+        "policy": "We retain your personal data only as long as necessary for the purposes outlined in this policy:",
+        "periods": [
+          "Account data: Until you delete your account",
+          "Content: Until you delete it or request removal",
+          "Technical logs: Maximum 90 days",
+          "Backup data: Maximum 30 days after deletion request"
+        ]
+      },
+      "yourRights": {
+        "title": "Your Rights",
+        "intro": "Under Moroccan Law No. 09-08, you have the following rights:",
+        "rights": [
+          " Right to Access: Request a copy of your personal data",
+          " Right to Rectification: Correct inaccurate or incomplete data",
+          " Right to Deletion: Request deletion of your data ('right to be forgotten')",
+          " Right to Object: Object to processing of your data",
+          " Right to Data Portability: Receive your data in a structured format",
+          " Right to Withdraw Consent: Withdraw your consent at any time",
+          " Right to Lodge a Complaint: File a complaint with CNDP"
+        ],
+        "exercise": "To exercise these rights, contact us at: privacy@nidal-alrouh.ma"
+      },
+      "dataSharing": {
+        "title": "Data Sharing & Third Parties",
+        "policy": "We do NOT share your personal data with third parties except:",
+        "exceptions": [
+          "With your explicit consent",
+          "To comply with legal obligations or court orders",
+          "To protect rights, property, or safety of our users",
+          "With service providers bound by confidentiality (e.g., hosting, security)"
+        ],
+        "international": "We do not currently transfer data outside Morocco. If this changes, we will obtain CNDP authorization and update this policy."
+      },
+      "cookies": {
+        "title": "Cookies & Tracking",
+        "description": "We use essential cookies for platform functionality:",
+        "types": [
+          "Authentication cookies (to keep you logged in)",
+          "Security cookies (to prevent fraud)",
+          "Preference cookies (to remember your settings)"
+        ],
+        "analytics": "We do NOT use third-party analytics or advertising cookies without your consent."
+      },
+      "children": {
+        "title": "Children's Privacy",
+        "policy": "Our platform is intended for users aged 18 and above. We do not knowingly collect data from individuals under 18. If we discover such data has been collected, we will delete it immediately."
+      },
+      "changes": {
+        "title": "Changes to This Policy",
+        "policy": "We may update this Privacy Policy from time to time. We will notify you of any significant changes by:",
+        "methods": [
+          "Posting the new policy on this page",
+          "Updating the 'Last Updated' date",
+          "Sending an email notification (for material changes)",
+          "Requiring re-acceptance of terms"
+        ],
+        "review": "We encourage you to review this policy periodically."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "intro": "If you have questions about this Privacy Policy or wish to exercise your rights, please contact us:",
+        "email": "Email: privacy@nidal-alrouh.ma",
+        "address": "Address: [To be provided]",
+        "cndp": "For complaints regarding data protection, you may also contact CNDP: www.cndp.ma"
+      },
+      "beta": {
+        "title": "Beta Platform Notice",
+        "notice": "This platform is currently in beta/pre-launch phase. We are actively working towards full compliance with all Moroccan data protection regulations, including completing our CNDP registration. Your participation during this phase helps us build a safer, more supportive community."
+      }
+    }
+  },
+  "termsOfService": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last Updated: {date}",
+    "acceptance": "By accessing or using Nidal Alrouh, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree, please do not use our platform.",
+    "sections": {
+      "platform": {
+        "title": "1. Platform Nature & Purpose",
+        "disclaimer": "IMPORTANT DISCLAIMER",
+        "points": [
+          "Peer Support Only: Nidal Alrouh is a community peer-support platform designed for individuals to share experiences, offer mutual support, and build solidarity.",
+          "NOT Professional Healthcare: We do NOT provide professional medical, psychological, psychiatric, or therapeutic services.",
+          "NOT a Substitute: Our platform is NOT a substitute for professional medical advice, diagnosis, or treatment.",
+          "No Professional Relationship: No doctor-patient, therapist-client, or professional-client relationship is created through use of this platform.",
+          "Emergency Services: In case of medical or psychiatric emergency, immediately contact emergency services (141, 19) or the National Crisis Hotline (0801 00 47 47)."
+        ]
+      },
+      "eligibility": {
+        "title": "2. Eligibility",
+        "requirements": [
+          "You must be at least 18 years old to use this platform",
+          "You must provide accurate information during registration",
+          "You must not be prohibited from using the service under Moroccan law",
+          "You are responsible for maintaining the security of your account"
+        ]
+      },
+      "accounts": {
+        "title": "3. User Accounts",
+        "rules": [
+          "Registration: You may create one account per person",
+          "Username: You may choose an anonymous username to protect your identity",
+          "Security: You are responsible for maintaining your password confidentiality",
+          "Accuracy: You must provide a valid email address for account recovery",
+          "Prohibited: Do not share your account credentials with others",
+          "Termination: We reserve the right to terminate accounts that violate these terms"
+        ]
+      },
+      "userContent": {
+        "title": "4. User-Generated Content",
+        "ownership": "You retain ownership of content you create. By posting, you grant us a non-exclusive license to display and distribute your content on the platform.",
+        "responsibilities": [
+          "You are responsible for all content you post",
+          "Accuracy: Do not post false or misleading information",
+          "No Medical Advice: Do not provide medical diagnosis, treatment, or prescriptions",
+          "Respectful: Content must comply with our Community Guidelines",
+          "Legal: Content must comply with Moroccan law"
+        ],
+        "prohibited": {
+          "title": "Prohibited Content",
+          "items": [
+            "Medical diagnoses or treatment recommendations",
+            "Encouragement or instruction for self-harm or suicide",
+            "Hate speech, discrimination, or harassment",
+            "Explicit sexual content",
+            "Violent or graphic content",
+            "Illegal activities or content",
+            "Spam or commercial solicitation",
+            "Impersonation or false identities",
+            "Private information of others",
+            "Copyrighted material without permission"
+          ]
+        }
+      },
+      "anonymity": {
+        "title": "5. Anonymous Publishing",
+        "feature": "We offer anonymous publishing to protect your privacy:",
+        "terms": [
+          "Anonymous posts are not publicly linked to your profile",
+          "We maintain technical separation between anonymous and identified content",
+          "Anonymous publishing does not exempt you from our Community Guidelines",
+          "We may remove anonymous content that violates our terms",
+          "In cases of legal obligation or serious  safety concerns, we may be required to disclose information to authorities"
+        ]
+      },
+      "privacy": {
+        "title": "6. Privacy & Data Protection",
+        "commitment": "We are committed to protecting your privacy:",
+        "points": [
+          "We encrypt sensitive data including journals and private messages",
+          "We implement industry-standard security measures",
+          "We are pursuing CNDP registration in accordance with Law No. 09-08",
+          "See our Privacy Policy for detailed information"
+        ]
+      },
+      "moderation": {
+        "title": "7. Content Moderation",
+        "policy": "To maintain a safe and supportive community, we moderate content:",
+        "actions": [
+          "We use automated filters to detect prohibited content",
+          "Users can report content that violates guidelines",
+          "Moderators review flagged content",
+          "We may remove content that violates these terms",
+          "We may suspend or terminate accounts for repeated violations",
+          "Decisions may be appealed through our contact channels"
+        ]
+      },
+      "liability": {
+        "title": "8. Limitation of Liability",
+        "disclaimers": [
+          "No Professional Advice: Content on this platform is for peer support only and does not constitute professional advice",
+          "User Responsibility: Users are solely responsible for their decisions and actions",
+          "No Guarantees: We make no guarantees about the accuracy, reliability, or effectiveness of user-generated content",
+          "Platform Availability: We do not guarantee uninterrupted or error-free service",
+          "Third-Party Content: We are not responsible for content posted by users",
+          "No Liability: To the fullest extent permitted by law, we are not liable for any damages arising from use of this platform"
+        ]
+      },
+      "intellectualProperty": {
+        "title": "9. Intellectual Property",
+        "platform": "The Nidal Alrouh platform, including design, features, and branding, is our intellectual property.",
+        "userContent": "You retain ownership of your content but grant us a license to use it on the platform.",
+        "restrictions": "You may not copy, modify, distribute, or create derivative works of our platform without permission."
+      },
+      "termination": {
+        "title": "10. Termination",
+        "rights": [
+          "Your Right: You may delete your account at any time",
+          "Our Right: We may suspend or terminate accounts that violate these terms",
+          "Effect: Upon termination, your right to use the platform ceases",
+          "Data: See our Privacy Policy for information about data retention after termination"
+        ]
+      },
+      "governingLaw": {
+        "title": "11. Governing Law & Disputes",
+        "law": "These Terms are governed by the laws of the Kingdom of Morocco.",
+        "jurisdiction": "Any disputes shall be subject to the exclusive jurisdiction of Moroccan courts.",
+        "resolution": "We encourage users to contact us first to resolve disputes amicably."
+      },
+      "changes": {
+        "title": "12. Changes to Terms",
+        "policy": "We may update these Terms of Service. Significant changes will be communicated via email or platform notification. Continued use after changes constitutes acceptance."
+      },
+      "contact": {
+        "title": "13. Contact Information",
+        "email": "For questions about these Terms: legal@nidal-alrouh.ma",
+        "support": "For platform support: support@nidal-alrouh.ma"
+      },
+      "beta": {
+        "title": "14. Beta Platform Acknowledgment",
+        "notice": "You acknowledge that this platform is currently in beta/pre-launch phase. Features may change, and temporary disruptions may occur as we work towards full compliance with Moroccan regulations and complete our CNDP registration."
+      }
+    }
+  }
+}
