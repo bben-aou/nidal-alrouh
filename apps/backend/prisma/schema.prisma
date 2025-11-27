@@ -76,23 +76,23 @@ model User {
   updatedAt       DateTime   @updatedAt
 
   // Relations
-  sessions        UserSession[]
-  reflections     Reflection[]
-  events          Event[]           @relation("UserEvents")
-  Post            Post[]
-  Comment         Comment[]
-  PostLike        PostLike[]
-  PostReport      PostReport[]
-  HiddenPost      HiddenPost[]
+  sessions            UserSession[]
+  reflections         Reflection[]
+  events              Event[]                  @relation("UserEvents")
+  Post                Post[]
+  Comment             Comment[]
+  PostLike            PostLike[]
+  PostReport          PostReport[]
+  HiddenPost          HiddenPost[]
   // Chat relations
-  Message         Message[]         @relation("MessageSender")
-  RoomParticipant RoomParticipant[]
-  eventRegistrations EventRegistration[]
+  Message             Message[]                @relation("MessageSender")
+  RoomParticipant     RoomParticipant[]
+  eventRegistrations  EventRegistration[]
   // Resource relations
-  resources       Resource[]        @relation("UserResources")
-  resourceViews   ResourceView[]    @relation("UserResourceViews")
-  resourceBookmarks ResourceBookmark[] @relation("UserResourceBookmarks")
-  resourceCompletions ResourceCompletion[] @relation("UserResourceCompletions")
+  resources           Resource[]               @relation("UserResources")
+  resourceViews       ResourceView[]           @relation("UserResourceViews")
+  resourceBookmarks   ResourceBookmark[]       @relation("UserResourceBookmarks")
+  resourceCompletions ResourceCompletion[]     @relation("UserResourceCompletions")
   resourcePreferences UserResourcePreference[] @relation("UserResourcePreferences")
 
   @@map("users")
@@ -339,7 +339,7 @@ model Event {
   updatedAt        DateTime    @updatedAt
 
   // Relations
-  organizer User @relation("UserEvents", fields: [organizerId], references: [id], onDelete: Restrict)
+  organizer     User                @relation("UserEvents", fields: [organizerId], references: [id], onDelete: Restrict)
   registrations EventRegistration[]
 
   @@index([status, startDate])
@@ -394,7 +394,7 @@ model Resource {
   updatedAt   DateTime     @updatedAt
 
   // Relations
-  author User @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
+  author      User                 @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
   views       ResourceView[]
   bookmarks   ResourceBookmark[]
   completions ResourceCompletion[]
