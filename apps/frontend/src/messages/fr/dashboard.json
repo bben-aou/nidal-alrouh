@@ -76,9 +76,11 @@
       "Je fais de petits pas chaque jour. Reconnaissant pour cette communauté. 🌱",
       "J'ai trouvé une force que je ne savais pas avoir. Continuez tous ! ✨"
     ],
-    "reactions": ["❤️ 12", "🙌 8"]
+    "reactions": ["❤️ 12", "🙌 8"],
+    "noPosts": "Aucune publication de la communauté pour le moment"
   },
   "suggestedResources": {
+    "noResources": "Aucune ressource tendance disponible",
     "title": "Ressources suggérées",
     "description": "Articles sélectionnés pour soutenir votre parcours",
     "resources": [
