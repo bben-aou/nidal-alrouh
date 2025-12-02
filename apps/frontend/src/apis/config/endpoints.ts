@@ -60,3 +60,17 @@ export const CHAT_ENDPOINTS = {
 } as const;
 
 export type ChatEndpoints = typeof CHAT_ENDPOINTS;
+
+/**
+ * Helpers API Endpoints Configuration
+ * Centralized endpoint definitions for helpers-related API calls
+ */
+export const HELPERS_ENDPOINTS = {
+  SEARCH: '/helpers/search',
+  HELPER_BY_ID: (id: string) => `/helpers/${id}`,
+  ME: '/helpers/me',
+  CREATE: '/helpers',
+  REVIEWS: (id: string) => `/helpers/${id}/feedback`,
+} as const;
+
+export type HelpersEndpoints = typeof HELPERS_ENDPOINTS;

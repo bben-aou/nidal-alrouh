@@ -9,9 +9,11 @@ import { ChatModule } from './chat/chat.module';
 import { CommunityModule } from './community/community.module';
 import { validateEnv } from './config/env';
 import { HealthModule } from './health/health.module';
+import { HelpersModule } from './helpers/helpers.module';
 import { JournalModule } from './journal/journal.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ResourcesModule } from './resources/resources.module';
+import { SessionsModule } from './sessions/sessions.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -49,6 +51,8 @@ import { UsersModule } from './users/users.module';
     CommunityModule,
     ChatModule,
     ResourcesModule,
+    HelpersModule,
+    SessionsModule,
   ],
   providers: [
     {

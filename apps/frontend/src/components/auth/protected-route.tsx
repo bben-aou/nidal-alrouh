@@ -4,19 +4,19 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useEffect, ReactNode } from 'react';
 
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth, User } from '@/contexts/auth-context';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  requiredRole?: 'USER' | 'SEEKER' | 'HELPER' | 'ADMIN';
+  allowedRoles?: User['role'][];
   redirectTo?: string;
 }
 
 export function ProtectedRoute({
   children,
-  requiredRole,
+  allowedRoles,
   redirectTo,
-}: ProtectedRouteProps) {
+}: Readonly<ProtectedRouteProps>) {
   const {
     user,
     isLoading,
@@ -53,7 +53,7 @@ export function ProtectedRoute({
         return;
       }
 
-      if (requiredRole && user?.role !== requiredRole) {
+      if (allowedRoles && user && !allowedRoles.includes(user.role)) {
         router.push('/unauthorized');
         return;
       }
@@ -62,7 +62,7 @@ export function ProtectedRoute({
     isLoading,
     isAuthenticated,
     user,
-    requiredRole,
+    allowedRoles,
     router,
     computedRedirectTo,
     sessionExpired,
@@ -79,7 +79,10 @@ export function ProtectedRoute({
     );
   }
 
-  if (!isAuthenticated || (requiredRole && user?.role !== requiredRole)) {
+  if (
+    !isAuthenticated ||
+    (allowedRoles && user && !allowedRoles.includes(user.role))
+  ) {
     return null;
   }
 

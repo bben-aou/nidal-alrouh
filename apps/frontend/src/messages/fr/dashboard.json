@@ -9,7 +9,10 @@
     "resources": "Ressources",
     "journal": "Journal",
     "chat": "Discussion",
-    "help": "Aide"
+    "help": "Aide",
+    "findHelper": "Trouver un assistant",
+    "becomeHelper": "Devenir assistant",
+    "helperDashboard": "Tableau de bord assistant"
   },
   "stats": {
     "totalUsers": "Total des utilisateurs",

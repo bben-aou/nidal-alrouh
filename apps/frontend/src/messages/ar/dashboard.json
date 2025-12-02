@@ -9,7 +9,10 @@
     "resources": "المصادر",
     "journal": "المذكرات",
     "chat": "الدردشة",
-    "help": "المساعدة"
+    "help": "المساعدة",
+    "findHelper": "ابحث عن مساعد",
+    "becomeHelper": "كن مساعداً",
+    "helperDashboard": "لوحة تحكم المساعد"
   },
   "stats": {
     "totalUsers": "إجمالي المستخدمين",

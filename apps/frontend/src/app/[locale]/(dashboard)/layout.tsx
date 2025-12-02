@@ -7,6 +7,9 @@ import {
   PenSquare,
   LifeBuoy,
   MessageSquare,
+  Heart,
+  UserPlus,
+  Briefcase,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
@@ -36,6 +39,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: MessageCircle,
       label: t('nav.community'),
     },
+    { href: '/helpers/search', icon: Heart, label: t('nav.findHelper') },
+    ...(user?.role === 'HELPER'
+      ? [
+          {
+            href: '/helpers/dashboard',
+            icon: Briefcase,
+            label: t('nav.helperDashboard'),
+          },
+        ]
+      : [
+          {
+            href: '/helpers/register',
+            icon: UserPlus,
+            label: t('nav.becomeHelper'),
+          },
+        ]),
     { href: '/dashboard/chat', icon: MessageSquare, label: t('nav.chat') },
     { href: '/dashboard/resources', icon: BookOpen, label: t('nav.resources') },
     { href: '/dashboard/journal', icon: PenSquare, label: t('nav.journal') },

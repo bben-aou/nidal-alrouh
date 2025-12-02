@@ -63,6 +63,24 @@ enum ChatRoomType {
   GROUP
 }
 
+// -------------------------------
+// Helper/Session Feature
+// -------------------------------
+enum HelperStatus {
+  PENDING_VERIFICATION
+  VERIFIED
+  AUTO_VERIFIED
+  SUSPENDED
+  REJECTED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
 model User {
   id              String     @id @default(uuid()) @db.Uuid
   email           String     @unique
@@ -94,6 +112,11 @@ model User {
   resourceBookmarks   ResourceBookmark[]       @relation("UserResourceBookmarks")
   resourceCompletions ResourceCompletion[]     @relation("UserResourceCompletions")
   resourcePreferences UserResourcePreference[] @relation("UserResourcePreferences")
+  // Helper/Session relations
+  helperProfile       HelperProfile?           @relation("UserHelperProfile")
+  seekerSessions      SupportSession[]         @relation("SeekerSessions")
+  helperSessions      SupportSession[]         @relation("HelperSessions")
+  sessionFeedback     SessionFeedback[]        @relation("SessionFeedback")
 
   @@map("users")
 }
@@ -469,4 +492,103 @@ model UserResourcePreference {
   @@unique([userId, tag])
   @@index([userId, score])
   @@map("user_resource_preferences")
+}
+
+// -------------------------------
+// Helper/Volunteer System
+// -------------------------------
+
+model HelperProfile {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+
+  // MVP fields (required)
+  status             HelperStatus @default(AUTO_VERIFIED)
+  bio                String
+  specializations    String[]     @default([])
+  languages          String[]     @default([])
+  maxSessionsPerWeek Int?         @default(4)
+
+  // Cal.com integration (MVP)
+  calUsername    String? // e.g., "dr-amina" → cal.com/dr-amina
+  calEventTypeId String? // Their 30min session event type
+  bookingUrl     String? // Full URL: https://cal.com/dr-amina/30min
+
+  // Future fields (optional now, required later)
+  licenseNumber     String?
+  yearsOfExperience Int?
+  verificationDocs  String[]  @default([])
+  verifiedAt        DateTime?
+  verifiedBy        String?   @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user     User             @relation("UserHelperProfile", fields: [userId], references: [id], onDelete: Cascade)
+  sessions SupportSession[]
+
+  @@index([status])
+  @@index([calUsername])
+  @@map("helper_profiles")
+}
+
+model SupportSession {
+  id              String @id @default(uuid()) @db.Uuid
+  seekerId        String @db.Uuid
+  helperId        String @db.Uuid
+  helperProfileId String @db.Uuid
+
+  status      SessionStatus @default(SCHEDULED)
+  scheduledAt DateTime
+  duration    Int           @default(50) // minutes
+
+  // Cal.com integration
+  calBookingId  String? // Cal.com booking ID
+  calBookingUid String? @unique // Cal.com unique reference
+  meetingUrl    String? // Google Meet link (from Cal.com)
+
+  // Session info
+  topic      String?
+  seekerNote String? // Seeker's initial note
+  helperNote String? @db.Text // Helper's private notes (encrypted)
+
+  // Completion
+  completedAt  DateTime?
+  cancelledAt  DateTime?
+  cancelledBy  String?   @db.Uuid
+  cancelReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  seeker        User             @relation("SeekerSessions", fields: [seekerId], references: [id], onDelete: Restrict)
+  helper        User             @relation("HelperSessions", fields: [helperId], references: [id], onDelete: Restrict)
+  helperProfile HelperProfile    @relation(fields: [helperProfileId], references: [id], onDelete: Restrict)
+  feedback      SessionFeedback?
+
+  @@index([seekerId, scheduledAt])
+  @@index([helperId, scheduledAt])
+  @@index([status, scheduledAt])
+  @@index([calBookingId])
+  @@map("support_sessions")
+}
+
+model SessionFeedback {
+  id          String   @id @default(uuid()) @db.Uuid
+  sessionId   String   @unique @db.Uuid
+  seekerId    String   @db.Uuid
+  rating      Int // 1-5 stars
+  comment     String?  @db.Text
+  isAnonymous Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  session SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  seeker  User           @relation("SessionFeedback", fields: [seekerId], references: [id], onDelete: Cascade)
+
+  @@index([seekerId])
+  @@index([rating])
+  @@map("session_feedback")
 }

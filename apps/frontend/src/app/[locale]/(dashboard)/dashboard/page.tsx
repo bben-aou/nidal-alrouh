@@ -7,6 +7,7 @@ import { MoodTrackerPreview } from '@/components/dashboard/MoodTrackerPreview';
 import QuickActionsGrid from '@/components/dashboard/QuickActionsGrid';
 import { SuggestedResources } from '@/components/dashboard/SuggestedResources';
 import { WelcomeCard } from '@/components/dashboard/WelcomeCard';
+import { SessionsList } from '@/components/helpers/sessions-list';
 
 export default function DashboardPage() {
   const t = useTranslations('dashboard');
@@ -18,6 +19,9 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <QuickActionsGrid />
+
+      {/* My Sessions */}
+      <SessionsList />
 
       {/* Mood Tracker Preview */}
       <MoodTrackerPreview />

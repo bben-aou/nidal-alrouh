@@ -1,0 +1,207 @@
+{
+  "registration": {
+    "title": "Become a Volunteer Helper",
+    "description": "Join our community of compassionate listeners and make a difference in someone's life.",
+    "step": "Step",
+    "of": "of",
+    "steps": {
+      "1": {
+        "label": "Guidelines"
+      },
+      "2": {
+        "label": "Profile"
+      },
+      "3": {
+        "label": "Availability"
+      }
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next Step",
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "legal": {
+      "title": "Volunteer Guidelines & Disclaimer",
+      "subtitle": "Please read carefully before proceeding.",
+      "agreement": "I have read and agree to the volunteer guidelines and terms of service.",
+      "guidelines": {
+        "title": "Community Guidelines for Helpers",
+        "intro": "As a volunteer, you play a crucial role in maintaining a safe and supportive environment.",
+        "point1": "Offer support and active listening, not professional therapy.",
+        "point2": "Respect user confidentiality and privacy at all times.",
+        "point3": "Never provide medical advice, diagnosis, or medication recommendations.",
+        "point4": "Refer seekers to professional crisis resources if they are in danger.",
+        "point5": "Maintain appropriate boundaries; do not share personal contact info outside the platform.",
+        "point6": "Act with empathy, respect, and non-judgment towards all users."
+      },
+      "important": {
+        "title": "Important Notice",
+        "message": "You are volunteering as a peer supporter. You are NOT acting as a licensed mental health professional on this platform."
+      },
+      "platform": {
+        "title": "What Nidal-Alrouh Provides:",
+        "point1": "A connection to people seeking support.",
+        "point2": "Tools to schedule and manage sessions.",
+        "point3": "A community of like-minded volunteers."
+      },
+      "notPlatform": {
+        "title": "What We Are NOT:",
+        "point1": "We are NOT a healthcare provider.",
+        "point2": "We are NOT liable for interactions between users.",
+        "point3": "We do NOT employ volunteers."
+      }
+    },
+    "profile": {
+      "bio": {
+        "label": "About You",
+        "placeholder": "Share a bit about yourself, why you want to help, and your experience with mental health support...",
+        "minimum": "characters minimum",
+        "minError": "Please write at least 50 characters."
+      },
+      "specializations": {
+        "label": "Areas of Support",
+        "description": "Select topics you feel comfortable discussing.",
+        "error": "Please select at least one specialization."
+      },
+      "languages": {
+        "label": "Languages",
+        "error": "Please select at least one language."
+      },
+      "maxSessions": {
+        "label": "Max Sessions Per Week",
+        "description": "How many 30-minute sessions can you handle per week?"
+      }
+    },
+    "cal": {
+      "title": "Cal.com Integration",
+      "subtitle": "Connect your calendar for seamless scheduling.",
+      "explanation": "We use Cal.com to handle bookings and Google Meet links. This keeps your personal calendar private while allowing seekers to book times you're available.",
+      "steps": {
+        "1": "Create a free account at",
+        "2": "Set up your availability and connect your Google Calendar.",
+        "3": "Enter your Cal.com username below."
+      },
+      "username": {
+        "label": "Cal.com Username",
+        "hint": "Enter only your username (e.g., 'sarah-jones'), not the full URL."
+      },
+      "preview": {
+        "title": "Booking Link Preview",
+        "note": "This is where seekers will go to book sessions with you."
+      }
+    },
+    "success": {
+      "title": "Application Submitted!",
+      "subtitle": "Welcome to the team",
+      "message": "Your profile has been created successfully. You are now a registered volunteer helper.",
+      "redirecting": "Redirecting to your dashboard in {seconds} seconds...",
+      "button": "Go to Dashboard"
+    }
+  },
+  "discovery": {
+    "title": "Find a Volunteer Helper",
+    "subtitle": "Connect with compassionate listeners who are here to support you.",
+    "filters": {
+      "specialization": "Specialization",
+      "language": "Language",
+      "allSpecializations": "All Specializations",
+      "allLanguages": "All Languages",
+      "search": "Search by name...",
+      "clear": "Clear Filters",
+      "noHelpersFound": "No helpers found matching your criteria.",
+      "clearAllFilters": "Clear all filters",
+      "specializations": {
+        "Anxiety": "Anxiety",
+        "Depression": "Depression",
+        "Stress Management": "Stress Management",
+        "Grief & Loss": "Grief & Loss",
+        "Relationship Issues": "Relationship Issues",
+        "Self-Esteem": "Self-Esteem",
+        "Life Transitions": "Life Transitions",
+        "Trauma": "Trauma",
+        "General Support": "General Support"
+      },
+      "languages": {
+        "English": "English",
+        "Arabic": "Arabic",
+        "French": "French",
+        "Spanish": "Spanish"
+      }
+    },
+    "card": {
+      "sessions": "sessions",
+      "rating": "{rating} ({count} reviews)",
+      "viewProfile": "View Profile",
+      "review": "review",
+      "reviews": "reviews",
+      "session": "session",
+      "specializations": "Specializations",
+      "languages": "Languages"
+    },
+    "profile": {
+      "about": "About",
+      "specializations": "Can help with",
+      "languages": "Languages",
+      "stats": {
+        "rating": "Average Rating",
+        "sessions": "Sessions Completed",
+        "joined": "Joined"
+      },
+      "bookSession": "Book a Session",
+      "backToSearch": "Back to Search",
+      "reviews": "Recent Reviews",
+      "noReviews": "No reviews yet.",
+      "loadingReviews": "Loading reviews...",
+      "notFound": "Helper not found",
+      "reviewCount": "{count} reviews"
+    }
+  },
+  "sessions": {
+    "title": "My Sessions",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "past": "Past History"
+    },
+    "card": {
+      "with": "With",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "actions": {
+        "join": "Join Meeting",
+        "complete": "Mark as Complete",
+        "feedback": "Leave Feedback",
+        "viewDetails": "View Details"
+      },
+      "statusLabel": {
+        "SCHEDULED": "Scheduled",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      }
+    },
+    "empty": {
+      "upcoming": "No upcoming sessions scheduled.",
+      "past": "No past sessions found."
+    },
+    "feedback": {
+      "title": "Session Feedback",
+      "description": "How was your session? Your feedback helps us improve.",
+      "rating": "Rating",
+      "comment": "Comments (Optional)",
+      "commentPlaceholder": "Share your experience...",
+      "cancel": "Cancel",
+      "submit": "Submit Feedback",
+      "submitting": "Submitting..."
+    }
+  },
+  "dashboard": {
+    "title": "Helper Dashboard",
+    "viewProfile": "View Profile",
+    "stats": {
+      "totalSessions": "Total Sessions",
+      "averageRating": "Average Rating",
+      "totalReviews": "Total Reviews"
+    }
+  }
+}

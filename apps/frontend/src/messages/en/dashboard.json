@@ -9,7 +9,10 @@
     "resources": "Resources",
     "journal": "Journal",
     "chat": "Chat",
-    "help": "Help"
+    "help": "Help",
+    "findHelper": "Find a Helper",
+    "becomeHelper": "Become a Helper",
+    "helperDashboard": "Helper Dashboard"
   },
   "stats": {
     "totalUsers": "Total Users",

@@ -32,6 +32,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       legal: (await import(`../messages/${locale}/legal.json`)).default,
       guidelines: (await import(`../messages/${locale}/guidelines.json`))
         .default,
+      helpers: (await import(`../messages/${locale}/helpers.json`)).default,
     },
   };
 });
