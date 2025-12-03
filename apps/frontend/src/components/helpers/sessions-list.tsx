@@ -1,8 +1,9 @@
 'use client';
 
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { SessionCard } from '@/components/helpers/session-card';
 import { SessionFeedbackDialog } from '@/components/helpers/session-feedback-dialog';
@@ -14,34 +15,57 @@ import { Session } from '@/types/helpers';
 export function SessionsList() {
   const t = useTranslations('helpers.sessions');
   const { user } = useAuth();
-  const [sessions, setSessions] = useState<Session[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [feedbackSessionId, setFeedbackSessionId] = useState<string | null>(
     null
   );
 
-  const fetchSessions = async () => {
-    try {
-      const data = await apiClient.get<Session[]>('/sessions');
-      setSessions(data);
-    } catch (error) {
-      console.error('Failed to fetch sessions:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Fetch sessions with React Query
+  const { data: sessions = [], isLoading } = useQuery({
+    queryKey: ['sessions'],
+    queryFn: async () => {
+      return await apiClient.get<Session[]>('/sessions');
+    },
+  });
 
-  useEffect(() => {
-    fetchSessions();
-  }, []);
-
-  const handleCompleteSession = async (id: string) => {
-    try {
-      await apiClient.patch(`/sessions/${id}/complete`);
-      fetchSessions(); // Refresh list
-    } catch (error) {
+  // Complete session mutation
+  const completeSessionMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return await apiClient.patch(`/sessions/${id}/complete`);
+    },
+    onSuccess: () => {
+      // Invalidate and refetch sessions
+      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+    },
+    onError: (error) => {
       console.error('Failed to complete session:', error);
-    }
+    },
+  });
+
+  // Submit feedback mutation
+  const submitFeedbackMutation = useMutation({
+    mutationFn: async ({
+      sessionId,
+      rating,
+      comment,
+    }: {
+      sessionId: string;
+      rating: number;
+      comment: string;
+    }) => {
+      return await apiClient.post(`/sessions/${sessionId}/feedback`, {
+        rating,
+        comment,
+      });
+    },
+    onError: (error) => {
+      console.error('Failed to submit feedback:', error);
+      throw error;
+    },
+  });
+
+  const handleCompleteSession = (id: string) => {
+    completeSessionMutation.mutate(id);
   };
 
   const handleFeedback = (id: string) => {
@@ -53,15 +77,11 @@ export function SessionsList() {
     rating: number,
     comment: string
   ) => {
-    try {
-      await apiClient.post(`/sessions/${sessionId}/feedback`, {
-        rating,
-        comment,
-      });
-    } catch (error) {
-      console.error('Failed to submit feedback:', error);
-      throw error;
-    }
+    await submitFeedbackMutation.mutateAsync({
+      sessionId,
+      rating,
+      comment,
+    });
   };
 
   if (isLoading) {

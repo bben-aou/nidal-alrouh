@@ -107,6 +107,14 @@ export interface HelperReview {
   };
 }
 
+export interface HelperReviewsResponse {
+  data: HelperReview[];
+  message?: string;
+  meta?: {
+    timestamp: string;
+  };
+}
+
 export interface Session {
   id: string;
   scheduledAt: string;

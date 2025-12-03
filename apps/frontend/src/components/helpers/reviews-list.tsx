@@ -15,7 +15,7 @@ export function ReviewsList({ helperId }: Readonly<ReviewsListProps>) {
   const t = useTranslations('helpers.discovery.profile');
   const format = useFormatter();
 
-  const { data: reviews = [], isLoading } = useGetHelperReviews(helperId);
+  const { reviews, isLoading } = useGetHelperReviews(helperId);
 
   if (isLoading) {
     return (
