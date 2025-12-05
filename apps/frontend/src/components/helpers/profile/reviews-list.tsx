@@ -48,7 +48,10 @@ const ReviewsList = ({ helperId }: Readonly<ReviewsListProps>) => {
             <CardContent className="p-6">
               <div className="flex gap-4">
                 <Avatar className="h-12 w-12 border-2 border-border flex-shrink-0">
-                  <AvatarImage src={avatarSrc} alt={name} />
+                  <AvatarImage
+                    src={avatarSrc ?? '/default-profile.jpg'}
+                    alt={name}
+                  />
                   <AvatarFallback className="bg-muted text-foreground font-medium">
                     {name?.charAt(0) ?? '?'}
                   </AvatarFallback>

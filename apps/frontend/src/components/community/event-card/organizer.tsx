@@ -12,7 +12,10 @@ export function EventCardOrganizer({ organizer }: Props) {
     <div className="flex items-center gap-3 pt-2">
       <Avatar className="h-8 w-8">
         {organizer.avatar && (
-          <AvatarImage src={organizer.avatar} alt={organizer.name} />
+          <AvatarImage
+            src={organizer.avatar ?? '/default-profile.jpg'}
+            alt={organizer.name}
+          />
         )}
         <AvatarFallback>
           <User className="h-4 w-4" />

@@ -24,7 +24,10 @@ export function HelperProfileSidebar({
       <Card>
         <CardHeader className="text-center pb-2">
           <Avatar className="h-32 w-32 mx-auto mb-4">
-            <AvatarImage src={helper.user.image} alt={helper.user.name} />
+            <AvatarImage
+              src={helper.user.image ?? '/default-profile.jpg'}
+              alt={helper.user.name}
+            />
             <AvatarFallback className="text-4xl">
               {helper.user.name.charAt(0)}
             </AvatarFallback>

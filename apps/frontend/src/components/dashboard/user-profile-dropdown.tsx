@@ -38,7 +38,7 @@ export function UserProfileDropdown({
           className="relative h-9 w-9 rounded-full overflow-hidden hover:bg-primary/5 transition-colors"
         >
           <Avatar className="h-9 w-9">
-            <AvatarImage src={user?.avatar} />
+            <AvatarImage src={user?.avatar ?? '/default-profile.jpg'} />
             <AvatarFallback className="bg-primary/5 text-primary">
               {user?.name?.[0] ?? 'U'}
             </AvatarFallback>

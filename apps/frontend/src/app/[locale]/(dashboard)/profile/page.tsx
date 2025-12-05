@@ -82,10 +82,7 @@ export default function ProfilePage() {
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
               <Avatar className="h-24 w-24">
-                <AvatarImage
-                  src="/placeholder-avatar.jpg"
-                  alt={formData.name}
-                />
+                <AvatarImage src="/default-profile.jpg" alt={formData.name} />
                 <AvatarFallback className="text-lg">
                   {formData.name
                     .split(' ')

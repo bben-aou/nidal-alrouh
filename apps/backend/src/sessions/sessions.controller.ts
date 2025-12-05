@@ -8,8 +8,6 @@ import {
   Query,
   UseGuards,
   Req,
-  HttpCode,
-  HttpStatus,
 } from '@nestjs/common';
 import { SessionStatus } from '@prisma/client';
 import { FastifyRequest } from 'fastify';
@@ -20,7 +18,6 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { AuthResponse } from '../auth/interfaces/auth.interface';
 
 import { AvailableSlotsDto } from './dto/available-slots.dto';
-import { CalWebhookPayload } from './dto/cal-webhook.dto';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { CreateSessionFeedbackDto } from './dto/create-feedback.dto';
 import { SessionsService } from './sessions.service';
@@ -29,13 +26,6 @@ import { SessionsService } from './sessions.service';
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
-
-  @Post('webhooks/cal')
-  @HttpCode(HttpStatus.OK)
-  @Roles()
-  async handleCalWebhook(@Body() payload: CalWebhookPayload) {
-    return this.sessionsService.handleCalWebhook(payload);
-  }
 
   @Get()
   @Roles('USER', 'SEEKER', 'HELPER', 'ADMIN')

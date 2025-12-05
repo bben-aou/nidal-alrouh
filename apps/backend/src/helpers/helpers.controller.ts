@@ -42,6 +42,12 @@ export class HelpersController {
     return this.helpersService.searchHelpers(searchDto);
   }
 
+  @Get('me')
+  @Roles('HELPER', 'ADMIN')
+  getMyProfile(@Req() req: FastifyRequest & { user: AuthResponse['user'] }) {
+    return this.helpersService.getProfileByUserId(req.user.id);
+  }
+
   @Get(':id')
   @Roles('USER', 'SEEKER', 'HELPER', 'ADMIN')
   getProfile(@Param('id') id: string) {

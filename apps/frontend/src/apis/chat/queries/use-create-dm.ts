@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { CHAT_ENDPOINTS } from '@/apis/config/endpoints';
@@ -32,6 +32,10 @@ const createDmApiCall = async (
 export const useCreateDm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const params = useParams();
+  const locale = Array.isArray(params?.locale)
+    ? params.locale[0]
+    : params?.locale || 'en';
 
   return useMutation<CreateDmResponse, ApiClientError, CreateDmParams>({
     mutationKey: [CREATE_DM_KEY],
@@ -41,11 +45,11 @@ export const useCreateDm = () => {
 
       const room = response.data;
       if (room?.id) {
-        router.push(`/dashboard/chat?roomId=${room.id}`);
+        // Redirect to chat page with locale and roomId
+        router.push(`/${locale}/dashboard/chat?roomId=${room.id}`);
+        toast.success(response.message || 'Chat created successfully');
       } else {
-        // We might need to check if response itself is the room if the backend returns it directly
-        // But based on CreateDmResponse interface, it should be in data
-        toast.success('Chat created');
+        toast.error('Chat created but unable to navigate');
       }
     },
     onError: (error) => {

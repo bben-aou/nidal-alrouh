@@ -24,7 +24,9 @@ export function ResourceMetadata({
     <div className="flex items-center gap-4 text-sm text-muted-foreground">
       <div className="flex items-center gap-2">
         <Avatar className="h-6 w-6 ring-1 ring-border">
-          {author.avatarUrl && <AvatarImage src={author.avatarUrl} />}
+          {author.avatarUrl && (
+            <AvatarImage src={author.avatarUrl ?? '/default-profile.jpg'} />
+          )}
           <AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
         </Avatar>
         <span className="truncate max-w-[100px] font-medium text-foreground/80">

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import { useCreateDm } from '@/apis/chat/queries/use-create-dm';
 import { useGetHelperById } from '@/apis/helpers/queries/use-get-helper-by-id';
 import HelperAboutSection from '@/components/helpers/profile/helper-about-section';
 import HelperProfileHeader from '@/components/helpers/profile/helper-profile-header';
@@ -33,19 +34,19 @@ const HelperProfilePage = () => {
   const isRTL = locale === 'ar';
 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [isCreatingDm, setIsCreatingDm] = useState(false);
 
   const { data: helper, isLoading, error } = useGetHelperById({ id: helperId });
+  const { mutate: createDm, isPending: isCreatingDm } = useCreateDm();
 
   const t = useTranslations('helpers.discovery.profile');
   const isScrolled = useStickyScrolled(100);
 
   const handleMessage = () => {
-    setIsCreatingDm(true);
-    setTimeout(() => {
-      toast.success(t('chatCreated'));
-      setIsCreatingDm(false);
-    }, 1000);
+    if (!helper?.user?.id) {
+      toast.error('Unable to create chat');
+      return;
+    }
+    createDm({ otherUserId: helper.user.id });
   };
 
   const handleShare = () => {

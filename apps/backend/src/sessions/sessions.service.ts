@@ -50,12 +50,38 @@ export class SessionsService {
       throw new BadRequestException('No attendee found in booking');
     }
 
-    const helper = await this.prisma.user.findUnique({
+    // Try to find helper by email first
+    let helper = await this.prisma.user.findUnique({
       where: { email: organizerEmail },
       include: { helperProfile: true },
     });
 
+    // If not found by email, try to find by calUsername from organizer name or booking type
     if (!helper || !helper.helperProfile) {
+      // Cal.com organizer name often includes the username slug
+      // Also try extracting from the booking type (e.g., "username/30min")
+      const bookingType = bookingData.type; // e.g., "helper-username/30min"
+      const calUsername = bookingType?.split('/')[0];
+
+      if (calUsername) {
+        const helperProfile = await this.prisma.helperProfile.findFirst({
+          where: { calUsername },
+          include: { user: true },
+        });
+
+        if (helperProfile) {
+          helper = {
+            ...helperProfile.user,
+            helperProfile,
+          };
+        }
+      }
+    }
+
+    if (!helper || !helper.helperProfile) {
+      this.logger.error(
+        `Helper not found for organizer email: ${organizerEmail}, booking type: ${bookingData.type}`
+      );
       throw new NotFoundException('Helper profile not found');
     }
 

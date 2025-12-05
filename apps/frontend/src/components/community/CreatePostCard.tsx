@@ -72,7 +72,11 @@ export function CreatePostCard({
             <div className="rounded-md border p-3 text-sm relative">
               <div className="flex items-center gap-2 mb-2">
                 <Avatar className="h-6 w-6">
-                  <AvatarImage src="" alt="" className="object-cover" />
+                  <AvatarImage
+                    src="/default-profile.jpg"
+                    alt=""
+                    className="object-cover"
+                  />
                   <AvatarFallback className="text-[10px] leading-none">
                     {quotedPost.avatar}
                   </AvatarFallback>

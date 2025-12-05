@@ -152,13 +152,12 @@ export class HelpersService {
     const { sessions, verificationDocs, verifiedBy, ...publicProfile } =
       profile;
 
+    // Return flat fields to match frontend HelperDetails type
     return {
       ...publicProfile,
-      stats: {
-        completedSessions,
-        avgRating: Math.round(avgRating * 10) / 10,
-        totalReviews,
-      },
+      rating: Math.round(avgRating * 10) / 10,
+      reviewCount: totalReviews,
+      completedSessions,
     };
   }
 

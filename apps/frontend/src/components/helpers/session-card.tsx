@@ -48,7 +48,10 @@ export function SessionCard({
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={otherPerson?.avatarUrl} alt={otherPerson?.name} />
+            <AvatarImage
+              src={otherPerson?.avatarUrl ?? '/default-profile.jpg'}
+              alt={otherPerson?.name}
+            />
             <AvatarFallback>{otherPerson?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>

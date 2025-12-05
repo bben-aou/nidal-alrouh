@@ -73,7 +73,9 @@ export function ResourceDetailHeader({
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={resource.author.avatarUrl || undefined} />
+                <AvatarImage
+                  src={resource.author.avatarUrl ?? '/default-profile.jpg'}
+                />
                 <AvatarFallback>
                   {resource.author.name?.[0] || 'U'}
                 </AvatarFallback>

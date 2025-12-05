@@ -67,7 +67,7 @@ export function CommentItem({ comment, onDelete, t }: CommentItemProps) {
       <div className="flex-shrink-0">
         <Avatar className="h-9 w-9">
           <AvatarImage
-            src={comment.user?.avatar ?? ''}
+            src={comment.user?.avatar ?? '/default-profile.jpg'}
             alt={comment.user?.name ?? 'User'}
           />
           <AvatarFallback className="text-xs font-medium">

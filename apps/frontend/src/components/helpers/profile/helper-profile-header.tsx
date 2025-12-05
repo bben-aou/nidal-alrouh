@@ -47,7 +47,7 @@ export default function HelperProfileHeader({
           >
             <Avatar className="w-32 h-32 border-2 border-border shadow-sm">
               <AvatarImage
-                src={helper.user.image || '/placeholder.svg'}
+                src={helper.user.image || '/default-profile.jpg'}
                 alt={helper.user.name}
                 className="object-cover"
               />
