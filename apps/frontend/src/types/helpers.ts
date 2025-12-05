@@ -59,6 +59,7 @@ export interface ApiHelperProfile {
 export interface HelperDetails {
   id: string;
   user: {
+    id: string;
     name: string;
     image?: string;
   };
@@ -101,9 +102,13 @@ export interface HelperReview {
   rating: number;
   comment?: string;
   createdAt: string;
-  user: {
+  user?: {
     name: string;
     image?: string;
+  };
+  seeker?: {
+    name: string;
+    avatarUrl?: string | null;
   };
 }
 

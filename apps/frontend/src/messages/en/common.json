@@ -12,7 +12,8 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "success": "Success",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "message": "Message"
   },
   "language": {
     "english": "English",

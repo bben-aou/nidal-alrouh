@@ -59,9 +59,7 @@ export function HelperProfileSidebar({
               <div className="text-muted-foreground">{t('stats.joined')}</div>
             </div>
           </div>
-
           <Separator />
-
           <div>
             <h4 className="font-semibold mb-2">{t('specializations')}</h4>
             <div className="flex flex-wrap gap-2">
@@ -72,7 +70,6 @@ export function HelperProfileSidebar({
               ))}
             </div>
           </div>
-
           <div>
             <h4 className="font-semibold mb-2">{t('languages')}</h4>
             <div className="flex flex-wrap gap-2">
@@ -85,7 +82,6 @@ export function HelperProfileSidebar({
           </div>
         </CardContent>
       </Card>
-
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">{t('about')}</CardTitle>

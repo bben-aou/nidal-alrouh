@@ -140,21 +140,34 @@
       "languages": "اللغات"
     },
     "profile": {
-      "about": "About",
-      "specializations": "Can help with",
-      "languages": "Languages",
+      "message": "رسالة",
+      "about": "نبذة",
+      "readMore": "اقرأ المزيد",
+      "showLess": "عرض أقل",
+      "specializations": "مجالات المساعدة",
+      "languages": "اللغات",
       "stats": {
-        "rating": "Average Rating",
-        "sessions": "Sessions Completed",
-        "joined": "Joined"
+        "rating": "متوسط التقييم",
+        "sessions": "الجلسات المكتملة",
+        "joined": "تاريخ الانضمام"
       },
-      "bookSession": "Book a Session",
-      "backToSearch": "Back to Search",
-      "reviews": "Recent Reviews",
-      "noReviews": "No reviews yet.",
+      "bookSession": "حجز جلسة",
+      "bookingDescription": "جدولة جلسة لمدة 30 دقيقة مع {name}",
+      "close": "إغلاق",
+      "backToSearch": "العودة إلى البحث",
+      "reviews": "المراجعات الأخيرة",
+      "noReviews": "لا توجد مراجعات بعد.",
       "loadingReviews": "جاري تحميل المراجعات...",
       "notFound": "المساعد غير موجود",
-      "reviewCount": "{count} مراجعات"
+      "reviewCount": "{count} مراجعات",
+      "chatCreated": "تم إنشاء المحادثة بنجاح",
+      "linkCopied": "تم نسخ رابط الملف الشخصي إلى الحافظة",
+      "trust": {
+        "verifiedTitle": "هوية موثقة",
+        "verifiedSubtitle": "تم التحقق من الهوية والاعتمادات",
+        "fastTitle": "استجابة سريعة",
+        "fastSubtitle": "خلال 24 ساعة"
+      }
     }
   },
   "sessions": {

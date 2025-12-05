@@ -141,6 +141,9 @@
     },
     "profile": {
       "about": "About",
+      "readMore": "Read more",
+      "showLess": "Show less",
+      "message": "Message",
       "specializations": "Can help with",
       "languages": "Languages",
       "stats": {
@@ -149,12 +152,22 @@
         "joined": "Joined"
       },
       "bookSession": "Book a Session",
+      "bookingDescription": "Schedule a 30-minute session with {name}",
+      "close": "Close",
       "backToSearch": "Back to Search",
       "reviews": "Recent Reviews",
       "noReviews": "No reviews yet.",
       "loadingReviews": "Loading reviews...",
       "notFound": "Helper not found",
-      "reviewCount": "{count} reviews"
+      "reviewCount": "{count} reviews",
+      "chatCreated": "Chat created successfully",
+      "linkCopied": "Profile link copied to clipboard",
+      "trust": {
+        "verifiedTitle": "Verified Identity",
+        "verifiedSubtitle": "Credentials verified",
+        "fastTitle": "Fast Response",
+        "fastSubtitle": "Within 24 hours"
+      }
     }
   },
   "sessions": {

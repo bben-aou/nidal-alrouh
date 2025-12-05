@@ -10,6 +10,7 @@ import { SessionStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 import { CalWebhookPayload } from './dto/cal-webhook.dto';
+import { CreateBookingDto } from './dto/create-booking.dto';
 import { CreateSessionFeedbackDto } from './dto/create-feedback.dto';
 
 @Injectable()
@@ -356,5 +357,86 @@ export class SessionsService {
       ...f,
       seeker: f.isAnonymous ? null : f.seeker,
     }));
+  }
+
+  /**
+   * Get available time slots for a helper on a specific date.
+   */
+  getAvailableSlots(helperId: string, date: string) {
+    // For now, return mock data. In a real implementation, this would:
+    // 1. Check the helper's availability settings
+    // 2. Check existing bookings for conflicts
+    // 3. Return available time slots
+
+    const mockSlots = [
+      { time: '09:00', duration: 30, platform: 'Google Meet' },
+      { time: '09:30', duration: 30, platform: 'Google Meet' },
+      { time: '10:00', duration: 30, platform: 'Google Meet' },
+      { time: '14:00', duration: 30, platform: 'Google Meet' },
+      { time: '14:30', duration: 30, platform: 'Google Meet' },
+      { time: '15:00', duration: 30, platform: 'Google Meet' },
+    ];
+
+    return {
+      date,
+      timezone: 'Africa/Casablanca',
+      availableSlots: mockSlots,
+    };
+  }
+
+  /**
+   * Create a new booking session.
+   */
+  async createBooking(userId: string, dto: CreateBookingDto) {
+    // Validate helper exists
+    const helper = await this.prisma.helperProfile.findUnique({
+      where: { id: dto.helperId },
+      include: { user: true },
+    });
+
+    if (!helper) {
+      throw new NotFoundException('Helper not found');
+    }
+
+    // Parse date and time to create a proper datetime
+    const scheduledAt = new Date(`${dto.date}T${dto.time}:00`);
+
+    // Create the session
+    const session = await this.prisma.supportSession.create({
+      data: {
+        seekerId: userId,
+        helperId: helper.userId,
+        helperProfileId: dto.helperId,
+        scheduledAt,
+        duration: dto.duration,
+        seekerNote: dto.notes,
+        status: SessionStatus.SCHEDULED,
+      },
+      include: {
+        seeker: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          },
+        },
+        helper: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          },
+        },
+        helperProfile: true,
+      },
+    });
+
+    this.logger.log(
+      `Booking created for user ${userId} with helper ${dto.helperId}`
+    );
+
+    return session;
   }
 }

@@ -38,6 +38,7 @@ Thumbs.db
 apps/frontend/tasks
 apps/backend/tasks
 apps/backend/prisma/migrations/
+apps/backend/prisma/seed.ts
 # TypeScript
 *.tsbuildinfo
 

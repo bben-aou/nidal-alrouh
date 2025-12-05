@@ -19,7 +19,9 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { AuthResponse } from '../auth/interfaces/auth.interface';
 
+import { AvailableSlotsDto } from './dto/available-slots.dto';
 import { CalWebhookPayload } from './dto/cal-webhook.dto';
+import { CreateBookingDto } from './dto/create-booking.dto';
 import { CreateSessionFeedbackDto } from './dto/create-feedback.dto';
 import { SessionsService } from './sessions.service';
 
@@ -76,5 +78,20 @@ export class SessionsController {
   @Roles()
   getHelperFeedback(@Param('helperProfileId') helperProfileId: string) {
     return this.sessionsService.getHelperFeedback(helperProfileId);
+  }
+
+  @Get('bookings/available-slots')
+  @Roles()
+  getAvailableSlots(@Query() dto: AvailableSlotsDto) {
+    return this.sessionsService.getAvailableSlots(dto.helperId, dto.date);
+  }
+
+  @Post('bookings/create')
+  @Roles('USER', 'SEEKER', 'HELPER', 'ADMIN')
+  createBooking(
+    @Req() req: FastifyRequest & { user: AuthResponse['user'] },
+    @Body() dto: CreateBookingDto
+  ) {
+    return this.sessionsService.createBooking(req.user.id, dto);
   }
 }

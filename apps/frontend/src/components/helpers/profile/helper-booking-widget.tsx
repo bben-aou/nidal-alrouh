@@ -16,14 +16,11 @@ export function HelperBookingWidget({
   const t = useTranslations('helpers.discovery.profile');
 
   useEffect(() => {
-    // Load Cal.com embed script
     if (calUsername) {
       (async function () {
         const { getCalApi } = await import('@calcom/embed-react');
         const cal = await getCalApi();
-        cal('init', {
-          origin: 'https://cal.com',
-        });
+        cal('init', { origin: 'https://cal.com' });
       })();
     }
   }, [calUsername]);

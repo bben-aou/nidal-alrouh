@@ -41,7 +41,7 @@ export default function FindHelperPage() {
   };
 
   return (
-    <div className="container py-8 space-y-8">
+    <div className="container pb-8 space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground text-lg max-w-2xl">

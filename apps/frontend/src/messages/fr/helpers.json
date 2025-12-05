@@ -140,21 +140,34 @@
       "languages": "Langues"
     },
     "profile": {
-      "about": "About",
-      "specializations": "Can help with",
-      "languages": "Languages",
+      "message": "Message",
+      "about": "À propos",
+      "readMore": "Lire la suite",
+      "showLess": "Afficher moins",
+      "specializations": "Peut aider avec",
+      "languages": "Langues",
       "stats": {
-        "rating": "Average Rating",
-        "sessions": "Sessions Completed",
-        "joined": "Joined"
+        "rating": "Note moyenne",
+        "sessions": "Séances terminées",
+        "joined": "Inscription"
       },
-      "bookSession": "Book a Session",
-      "backToSearch": "Back to Search",
-      "reviews": "Recent Reviews",
-      "noReviews": "No reviews yet.",
+      "bookSession": "Réserver une séance",
+      "bookingDescription": "Planifier une séance de 30 minutes avec {name}",
+      "close": "Fermer",
+      "backToSearch": "Retour à la recherche",
+      "reviews": "Avis récents",
+      "noReviews": "Pas encore d'avis.",
       "loadingReviews": "Chargement des avis...",
       "notFound": "Aidant non trouvé",
-      "reviewCount": "{count} avis"
+      "reviewCount": "{count} avis",
+      "chatCreated": "Discussion créée avec succès",
+      "linkCopied": "Lien du profil copié dans le presse-papiers",
+      "trust": {
+        "verifiedTitle": "Identité vérifiée",
+        "verifiedSubtitle": "Identité et références vérifiées",
+        "fastTitle": "Réponse rapide",
+        "fastSubtitle": "Sous 24 heures"
+      }
     }
   },
   "sessions": {
