@@ -1,8 +1,9 @@
 'use client';
 
-import { LogOut, Settings, User } from 'lucide-react';
+import { LogOut, Settings, User, Heart } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,11 +15,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Link } from '@/i18n/navigation';
+import { TUserRole } from '@/types/user';
 
 interface User {
   name?: string;
   email?: string;
   avatar?: string;
+  role?: TUserRole;
 }
 
 interface UserProfileDropdownProps {
@@ -30,6 +33,7 @@ export function UserProfileDropdown({
   user,
   onLogout,
 }: UserProfileDropdownProps) {
+  const isHelper = user?.role === TUserRole.HELPER;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,8 +51,19 @@ export function UserProfileDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user?.name}</p>
+          <div className="flex flex-col space-y-1.5">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium leading-none">{user?.name}</p>
+              {isHelper && (
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary hover:bg-primary/15 text-[10px] px-1.5 py-0 h-4 font-medium"
+                >
+                  <Heart className="h-2.5 w-2.5 mr-0.5 fill-current" />
+                  Helper
+                </Badge>
+              )}
+            </div>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}
             </p>

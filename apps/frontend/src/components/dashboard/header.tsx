@@ -5,6 +5,7 @@ import { Settings } from 'lucide-react';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
+import { TUserRole } from '@/types/user';
 
 import { DesktopNavigation } from './desktop-navigation';
 import { Logo } from './logo';
@@ -21,6 +22,7 @@ interface User {
   name?: string;
   email?: string;
   avatar?: string;
+  role?: TUserRole;
 }
 
 interface HeaderProps {
