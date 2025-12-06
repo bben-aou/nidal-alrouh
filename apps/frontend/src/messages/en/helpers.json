@@ -177,15 +177,17 @@
       "past": "Past History"
     },
     "card": {
-      "with": "With",
+      "with": "Session",
       "date": "Date",
       "time": "Time",
       "status": "Status",
+      "minutes": "min session",
       "actions": {
         "join": "Join Meeting",
-        "complete": "Mark as Complete",
+        "complete": "Mark Complete",
         "feedback": "Leave Feedback",
-        "viewDetails": "View Details"
+        "viewDetails": "View Details",
+        "message": "Message"
       },
       "statusLabel": {
         "SCHEDULED": "Scheduled",
@@ -210,6 +212,7 @@
   },
   "dashboard": {
     "title": "Helper Dashboard",
+    "subtitle": "Track your sessions and connect with seekers",
     "viewProfile": "View Profile",
     "stats": {
       "totalSessions": "Total Sessions",

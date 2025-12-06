@@ -10,11 +10,13 @@ import {
   ReactNode,
 } from 'react';
 
+import { TUserRole } from '@/types/user';
+
 export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'USER' | 'SEEKER' | 'HELPER' | 'ADMIN';
+  role: TUserRole;
   status: 'pending' | 'active' | 'suspended';
   emailVerifiedAt: string | null;
   createdAt: string;
@@ -183,7 +185,7 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
     name: string,
     email: string,
     password: string,
-    role: User['role'] = 'USER'
+    role: User['role'] = TUserRole.USER
   ) => {
     setIsLoading(true);
     try {

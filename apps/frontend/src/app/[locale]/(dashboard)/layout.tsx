@@ -18,6 +18,7 @@ import { ProtectedRoute } from '@/components/auth/protected-route';
 import { Header } from '@/components/dashboard/header';
 import { useAuth } from '@/contexts/auth-context';
 import { usePathname } from '@/i18n/navigation';
+import { TUserRole } from '@/types/user';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -32,6 +33,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     await logout();
   };
 
+  const isHelper = user?.role === TUserRole.HELPER;
+
   const navigation = [
     { href: '/dashboard', icon: Home, label: t('nav.home') },
     {
@@ -39,8 +42,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: MessageCircle,
       label: t('nav.community'),
     },
-    { href: '/helpers/search', icon: Heart, label: t('nav.findHelper') },
-    ...(user?.role === 'HELPER'
+    ...(!isHelper
+      ? [{ href: '/helpers/search', icon: Heart, label: t('nav.findHelper') }]
+      : []),
+    ...(isHelper
       ? [
           {
             href: '/helpers/dashboard',

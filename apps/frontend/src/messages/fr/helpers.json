@@ -171,45 +171,48 @@
     }
   },
   "sessions": {
-    "title": "My Sessions",
+    "title": "Mes séances",
     "tabs": {
-      "upcoming": "Upcoming",
-      "past": "Past History"
+      "upcoming": "À venir",
+      "past": "Historique"
     },
     "card": {
-      "with": "With",
+      "with": "Séance",
       "date": "Date",
-      "time": "Time",
-      "status": "Status",
+      "time": "Heure",
+      "status": "Statut",
+      "minutes": "min de séance",
       "actions": {
-        "join": "Join Meeting",
-        "complete": "Mark as Complete",
-        "feedback": "Leave Feedback",
-        "viewDetails": "View Details"
+        "join": "Rejoindre",
+        "complete": "Terminer",
+        "feedback": "Laisser un avis",
+        "viewDetails": "Voir les détails",
+        "message": "Message"
       },
       "statusLabel": {
-        "SCHEDULED": "Scheduled",
-        "COMPLETED": "Completed",
-        "CANCELLED": "Cancelled"
+        "SCHEDULED": "Prévue",
+        "COMPLETED": "Terminée",
+        "CANCELLED": "Annulée"
       }
     },
     "empty": {
-      "upcoming": "No upcoming sessions scheduled.",
-      "past": "No past sessions found."
+      "upcoming": "Aucune séance à venir prévue.",
+      "past": "Aucune séance passée trouvée."
     },
     "feedback": {
-      "title": "Session Feedback",
-      "description": "How was your session? Your feedback helps us improve.",
-      "rating": "Rating",
-      "comment": "Comments (Optional)",
-      "commentPlaceholder": "Share your experience...",
-      "cancel": "Cancel",
-      "submit": "Submit Feedback",
-      "submitting": "Submitting..."
+      "title": "Retour sur la séance",
+      "description": "Comment s'est passée votre séance ? Votre retour nous aide à nous améliorer.",
+      "rating": "Note",
+      "comment": "Commentaires (Optionnel)",
+      "commentPlaceholder": "Partagez votre expérience...",
+      "cancel": "Annuler",
+      "submit": "Envoyer le retour",
+      "submitting": "Envoi en cours..."
     }
   },
   "dashboard": {
     "title": "Tableau de bord de l'aidant",
+    "subtitle": "Suivez vos séances et connectez-vous avec les demandeurs",
     "viewProfile": "Voir le profil",
     "stats": {
       "totalSessions": "Sessions totales",

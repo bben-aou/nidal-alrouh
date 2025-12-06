@@ -171,45 +171,48 @@
     }
   },
   "sessions": {
-    "title": "My Sessions",
+    "title": "جلساتي",
     "tabs": {
-      "upcoming": "Upcoming",
-      "past": "Past History"
+      "upcoming": "القادمة",
+      "past": "السجل السابق"
     },
     "card": {
-      "with": "With",
-      "date": "Date",
-      "time": "Time",
-      "status": "Status",
+      "with": "جلسة",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "status": "الحالة",
+      "minutes": "دقيقة",
       "actions": {
-        "join": "Join Meeting",
-        "complete": "Mark as Complete",
-        "feedback": "Leave Feedback",
-        "viewDetails": "View Details"
+        "join": "انضم",
+        "complete": "إكمال",
+        "feedback": "ترك تعليق",
+        "viewDetails": "عرض التفاصيل",
+        "message": "رسالة"
       },
       "statusLabel": {
-        "SCHEDULED": "Scheduled",
-        "COMPLETED": "Completed",
-        "CANCELLED": "Cancelled"
+        "SCHEDULED": "مجدولة",
+        "COMPLETED": "مكتملة",
+        "CANCELLED": "ملغاة"
       }
     },
     "empty": {
-      "upcoming": "No upcoming sessions scheduled.",
-      "past": "No past sessions found."
+      "upcoming": "لا توجد جلسات قادمة مجدولة.",
+      "past": "لا توجد جلسات سابقة."
     },
     "feedback": {
-      "title": "Session Feedback",
-      "description": "How was your session? Your feedback helps us improve.",
-      "rating": "Rating",
-      "comment": "Comments (Optional)",
-      "commentPlaceholder": "Share your experience...",
-      "cancel": "Cancel",
-      "submit": "Submit Feedback",
-      "submitting": "Submitting..."
+      "title": "ملاحظات الجلسة",
+      "description": "كيف كانت جلستك؟ ملاحظاتك تساعدنا على التحسن.",
+      "rating": "التقييم",
+      "comment": "تعليقات (اختياري)",
+      "commentPlaceholder": "شارك تجربتك...",
+      "cancel": "إلغاء",
+      "submit": "إرسال الملاحظات",
+      "submitting": "جاري الإرسال..."
     }
   },
   "dashboard": {
     "title": "لوحة تحكم المساعد",
+    "subtitle": "تتبع جلساتك وتواصل مع الباحثين",
     "viewProfile": "عرض الملف الشخصي",
     "stats": {
       "totalSessions": "إجمالي الجلسات",

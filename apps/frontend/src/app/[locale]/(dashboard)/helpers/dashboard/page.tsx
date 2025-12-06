@@ -6,60 +6,45 @@ import { useTranslations } from 'next-intl';
 
 import { useGetMyHelperStats } from '@/apis/helpers/queries';
 import { SessionsList } from '@/components/helpers/sessions-list';
+import { StatCard } from '@/components/journal/stat-card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useHelperStatsConfig } from '@/hooks/use-helper-stats-config';
 
 export default function HelperDashboardPage() {
   const t = useTranslations('helpers.dashboard');
   const { stats } = useGetMyHelperStats();
+  const helperStats = useHelperStatsConfig(stats ?? null);
 
   return (
     <div className="container pb-8 space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <Button variant="outline" asChild>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('subtitle')}</p>
+        </div>
+        <Button variant="outline" asChild className="gap-2">
           <Link href={`/helpers/${stats ? 'me' : ''}`}>
-            <User className="mr-2 h-4 w-4" />
+            <User className="h-4 w-4" />
             {t('viewProfile')}
           </Link>
         </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('stats.totalSessions')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {stats?.completedSessions ?? 0}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('stats.averageRating')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {stats?.rating?.toFixed(1) ?? 'N/A'}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('stats.totalReviews')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats?.reviewCount ?? 0}</div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-6 md:grid-cols-3">
+        {helperStats.map((stat) => (
+          <StatCard
+            key={stat.id}
+            icon={stat.icon}
+            label={stat.label}
+            value={stat.value}
+            change={stat.change}
+            changeColor={stat.changeColor}
+            bgColor={stat.bgColor}
+            iconBg={stat.iconBg}
+            pattern={stat.pattern}
+            fromLastWeek={stat.fromLastWeek}
+          />
+        ))}
       </div>
 
       <SessionsList />
