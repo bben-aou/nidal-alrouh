@@ -12,7 +12,7 @@ const getMyHelperStatsApiCall = async (): Promise<HelperStats> => {
 };
 
 export const useGetMyHelperStats = (
-  config?: UseQueryOptions<HelperStats, ApiClientError>
+  config?: Partial<UseQueryOptions<HelperStats, ApiClientError>>
 ) => {
   const queryKey = ['helpers', 'me', GET_MY_HELPER_STATS_KEY];
 

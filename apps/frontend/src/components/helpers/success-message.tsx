@@ -3,7 +3,7 @@
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -19,49 +19,80 @@ import {
 export function SuccessMessage() {
   const t = useTranslations('helpers.registration.success');
   const router = useRouter();
+  const locale = useLocale();
   const [countdown, setCountdown] = useState(3);
+  const total = 3;
+  const progressValue = ((total - countdown) / total) * 100;
+  const size = 96;
+  const strokeWidth = 8;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference * (1 - progressValue / 100);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          router.push('/helpers/dashboard');
-          return 0;
-        }
-        return prev - 1;
-      });
+      setCountdown((prev) => Math.max(0, prev - 1));
     }, 1000);
-
     return () => clearInterval(timer);
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      router.push(`/${locale}/helpers/dashboard`);
+    }
+  }, [countdown, router, locale]);
 
   return (
-    <div className="container max-w-md py-16 flex justify-center">
-      <Card className="w-full text-center border-green-200 dark:border-green-900 bg-green-50/50 dark:bg-green-900/10">
+    <div className="container max-w-xl py-20 flex justify-center">
+      <Card className="w-full text-center border-border/50 bg-card shadow-md">
         <CardHeader>
-          <div className="mx-auto w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
-            <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" />
+          <div className="mx-auto relative w-24 h-24 mb-6">
+            <svg width={size} height={size} className="absolute inset-0">
+              <circle
+                cx={size / 2}
+                cy={size / 2}
+                r={radius}
+                stroke="hsl(var(--muted-foreground))"
+                strokeWidth={strokeWidth}
+                fill="none"
+                className="opacity-20"
+              />
+              <circle
+                cx={size / 2}
+                cy={size / 2}
+                r={radius}
+                stroke="hsl(var(--primary))"
+                strokeWidth={strokeWidth}
+                fill="none"
+                strokeDasharray={circumference}
+                strokeDashoffset={dashOffset}
+                strokeLinecap="round"
+                className="transition-all duration-1000 ease-linear"
+                transform={`rotate(-90 ${size / 2} ${size / 2})`}
+              />
+            </svg>
+            <div className="absolute inset-0 rounded-full flex items-center justify-center bg-primary/10 text-primary">
+              <CheckCircle2 className="w-9 h-9" />
+            </div>
           </div>
-          <CardTitle className="text-2xl text-green-700 dark:text-green-300">
-            {t('title')}
-          </CardTitle>
-          <CardDescription className="text-green-600/80 dark:text-green-400/80">
-            {t('subtitle')}
-          </CardDescription>
+          <CardTitle className="text-3xl">{t('title')}</CardTitle>
+          <CardDescription>{t('subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground mb-4">{t('message')}</p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-base text-muted-foreground mb-6">{t('message')}</p>
+          <p
+            className="text-sm text-muted-foreground text-center"
+            aria-live="polite"
+          >
             {t('redirecting', { seconds: countdown })}
           </p>
         </CardContent>
         <CardFooter className="justify-center">
           <Button
             asChild
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
-            <Link href="/helpers/dashboard">
+            <Link href={`/${locale}/helpers/dashboard`}>
               {t('button')}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>

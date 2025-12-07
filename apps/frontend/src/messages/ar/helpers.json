@@ -1,76 +1,97 @@
 {
   "registration": {
-    "title": "Become a Volunteer Helper",
-    "description": "Join our community of compassionate listeners and make a difference in someone's life.",
-    "step": "Step",
-    "of": "of",
+    "title": "كن مساعداً متطوعاً",
+    "description": "انضم إلى مجتمع المستمعين المتعاطفين وأحدث فرقاً في حياة شخص ما.",
+    "step": "خطوة",
+    "of": "من",
     "steps": {
       "1": {
-        "label": "Guidelines"
+        "label": "الإرشادات"
       },
       "2": {
-        "label": "Profile"
+        "label": "الملف الشخصي"
       },
       "3": {
-        "label": "Availability"
+        "label": "التوفر"
       }
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next Step",
-      "submit": "Submit Application",
-      "submitting": "Submitting..."
+      "previous": "السابق",
+      "next": "الخطوة التالية",
+      "submit": "إرسال الطلب",
+      "submitting": "جاري الإرسال..."
     },
     "legal": {
-      "title": "Volunteer Guidelines & Disclaimer",
-      "subtitle": "Please read carefully before proceeding.",
-      "agreement": "I have read and agree to the volunteer guidelines and terms of service.",
+      "title": "إرشادات وإخلاء مسؤولية للمتطوعين",
+      "subtitle": "يرجى القراءة بعناية قبل المتابعة.",
+      "agreement": "لقد قرأت ووافقت على إرشادات المتطوعين وشروط الخدمة.",
       "guidelines": {
-        "title": "Community Guidelines for Helpers",
-        "intro": "As a volunteer, you play a crucial role in maintaining a safe and supportive environment.",
-        "point1": "Offer support and active listening, not professional therapy.",
-        "point2": "Respect user confidentiality and privacy at all times.",
-        "point3": "Never provide medical advice, diagnosis, or medication recommendations.",
-        "point4": "Refer seekers to professional crisis resources if they are in danger.",
-        "point5": "Maintain appropriate boundaries; do not share personal contact info outside the platform.",
-        "point6": "Act with empathy, respect, and non-judgment towards all users."
+        "title": "إرشادات المجتمع للمساعدين",
+        "intro": "كمتطوع، تلعب دورًا حيويًا في الحفاظ على بيئة آمنة وداعمة.",
+        "point1": "تقديم الدعم والاستماع الفعال، وليس العلاج المهني.",
+        "point2": "احترام سرية وخصوصية المستخدم في جميع الأوقات.",
+        "point3": "عدم تقديم نصائح طبية أو تشخيص أو توصيات دوائية أبدًا.",
+        "point4": "توجيه الباحثين إلى موارد الأزمات المهنية إذا كانوا في خطر.",
+        "point5": "الحفاظ على حدود مناسبة؛ عدم مشاركة معلومات الاتصال الشخصية خارج المنصة.",
+        "point6": "التصرف بتعاطف واحترام وعدم إصدار أحكام تجاه جميع المستخدمين."
       },
       "important": {
-        "title": "Important Notice",
-        "message": "You are volunteering as a peer supporter. You are NOT acting as a licensed mental health professional on this platform."
+        "title": "تنبيه هام",
+        "message": "أنت تتطوع كمقدم دعم نظير. أنت لا تتصرف كمتخصص في الصحة العقلية مرخص على هذه المنصة."
       },
       "platform": {
-        "title": "What Nidal-Alrouh Provides:",
-        "point1": "A connection to people seeking support.",
-        "point2": "Tools to schedule and manage sessions.",
-        "point3": "A community of like-minded volunteers."
+        "title": "ما تقدمه نضال الروح:",
+        "point1": "اتصال مع الأشخاص الذين يبحثون عن الدعم.",
+        "point2": "أدوات لجدولة وإدارة الجلسات.",
+        "point3": "مجتمع من المتطوعين ذوي التفكير المماثل."
       },
       "notPlatform": {
-        "title": "What We Are NOT:",
-        "point1": "We are NOT a healthcare provider.",
-        "point2": "We are NOT liable for interactions between users.",
-        "point3": "We do NOT employ volunteers."
+        "title": "ما نحن لسنا عليه:",
+        "point1": "نحن لسنا مقدم رعاية صحية.",
+        "point2": "نحن لسنا مسؤولين عن التفاعلات بين المستخدمين.",
+        "point3": "نحن لا نوظف متطوعين."
+      },
+      "professionalWarning": {
+        "title": "التحقق من الخدمات المهنية",
+        "message": "هذه المنصة مخصصة للدعم المتبادل فقط. إذا كنت محترفًا مرخصًا (طبيب نفسي، إلخ) وترغب في تقديم خدمات سريرية (تشخيص، علاج)، يجب عليك تقديم هذه الخدمات خارج نضال الروح."
       }
     },
     "profile": {
       "bio": {
-        "label": "About You",
-        "placeholder": "Share a bit about yourself, why you want to help, and your experience with mental health support...",
-        "minimum": "characters minimum",
-        "minError": "Please write at least 50 characters."
+        "label": "نبذة عنك",
+        "placeholder": "شارك نبذة قصيرة عن نفسك، لماذا ترغب في المساعدة، وتجربتك مع دعم الصحة النفسية...",
+        "minimum": "حد أدنى من الأحرف",
+        "minError": "يرجى كتابة 50 حرفًا على الأقل."
       },
       "specializations": {
-        "label": "Areas of Support",
-        "description": "Select topics you feel comfortable discussing.",
-        "error": "Please select at least one specialization."
+        "label": "مجالات المساعدة",
+        "description": "اختر المواضيع التي تشعر بالارتياح عند مناقشتها.",
+        "error": "يرجى اختيار تخصص واحد على الأقل.",
+        "options": {
+          "Anxiety": "القلق",
+          "Depression": "الاكتئاب",
+          "Stress Management": "إدارة التوتر",
+          "Grief & Loss": "الحزن والفقدان",
+          "Relationship Issues": "مشاكل العلاقات",
+          "Self-Esteem": "تقدير الذات",
+          "Life Transitions": "تحولات الحياة",
+          "Trauma": "الصدمات",
+          "General Support": "دعم عام"
+        }
       },
       "languages": {
-        "label": "Languages",
-        "error": "Please select at least one language."
+        "label": "اللغات",
+        "error": "يرجى اختيار لغة واحدة على الأقل.",
+        "options": {
+          "English": "الإنجليزية",
+          "Arabic": "العربية",
+          "French": "الفرنسية",
+          "Spanish": "الإسبانية"
+        }
       },
       "maxSessions": {
-        "label": "Max Sessions Per Week",
-        "description": "How many 30-minute sessions can you handle per week?"
+        "label": "الحد الأقصى للجلسات أسبوعيًا",
+        "description": "كم جلسة مدتها 30 دقيقة يمكنك التعامل معها أسبوعيًا؟"
       }
     },
     "cal": {
@@ -92,11 +113,11 @@
       }
     },
     "success": {
-      "title": "Application Submitted!",
-      "subtitle": "Welcome to the team",
-      "message": "Your profile has been created successfully. You are now a registered volunteer helper.",
-      "redirecting": "Redirecting to your dashboard in {seconds} seconds...",
-      "button": "Go to Dashboard"
+      "title": "تم إرسال الطلب!",
+      "subtitle": "مرحباً بك في الفريق",
+      "message": "تم إنشاء ملفك الشخصي بنجاح. أنت الآن مساعد متطوع مسجل.",
+      "redirecting": "سيتم التحويل إلى لوحة التحكم خلال {seconds} ثانية...",
+      "button": "الانتقال إلى لوحة التحكم"
     }
   },
   "discovery": {

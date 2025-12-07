@@ -1,76 +1,97 @@
 {
   "registration": {
-    "title": "Become a Volunteer Helper",
-    "description": "Join our community of compassionate listeners and make a difference in someone's life.",
-    "step": "Step",
-    "of": "of",
+    "title": "Devenir un aidant bénévole",
+    "description": "Rejoignez notre communauté d'assistants bienveillants et faites une différence dans la vie de quelqu'un.",
+    "step": "Étape",
+    "of": "de",
     "steps": {
       "1": {
-        "label": "Guidelines"
+        "label": "Directives"
       },
       "2": {
-        "label": "Profile"
+        "label": "Profil"
       },
       "3": {
-        "label": "Availability"
+        "label": "Disponibilité"
       }
     },
     "buttons": {
-      "previous": "Previous",
-      "next": "Next Step",
-      "submit": "Submit Application",
-      "submitting": "Submitting..."
+      "previous": "Précédent",
+      "next": "Étape suivante",
+      "submit": "Soumettre la candidature",
+      "submitting": "Envoi en cours..."
     },
     "legal": {
-      "title": "Volunteer Guidelines & Disclaimer",
-      "subtitle": "Please read carefully before proceeding.",
-      "agreement": "I have read and agree to the volunteer guidelines and terms of service.",
+      "title": "Directives et avis de non-responsabilité",
+      "subtitle": "Veuillez lire attentivement avant de continuer.",
+      "agreement": "J'ai lu et j'accepte les directives des bénévoles et les conditions d'utilisation.",
       "guidelines": {
-        "title": "Community Guidelines for Helpers",
-        "intro": "As a volunteer, you play a crucial role in maintaining a safe and supportive environment.",
-        "point1": "Offer support and active listening, not professional therapy.",
-        "point2": "Respect user confidentiality and privacy at all times.",
-        "point3": "Never provide medical advice, diagnosis, or medication recommendations.",
-        "point4": "Refer seekers to professional crisis resources if they are in danger.",
-        "point5": "Maintain appropriate boundaries; do not share personal contact info outside the platform.",
-        "point6": "Act with empathy, respect, and non-judgment towards all users."
+        "title": "Directives communautaires pour les aidants",
+        "intro": "En tant que bénévole, vous jouez un rôle crucial dans le maintien d'un environnement sûr et favorable.",
+        "point1": "Offrir un soutien et une écoute active, pas une thérapie professionnelle.",
+        "point2": "Respecter la confidentialité et la vie privée des utilisateurs à tout moment.",
+        "point3": "Ne jamais fournir de conseils médicaux, de diagnostics ou de recommandations de médicaments.",
+        "point4": "Orienter les demandeurs vers des ressources de crise professionnelles s'ils sont en danger.",
+        "point5": "Maintenir des limites appropriées ; ne pas partager d'informations de contact personnelles en dehors de la plateforme.",
+        "point6": "Agir avec empathie, respect et sans jugement envers tous les utilisateurs."
       },
       "important": {
-        "title": "Important Notice",
-        "message": "You are volunteering as a peer supporter. You are NOT acting as a licensed mental health professional on this platform."
+        "title": "Avis important",
+        "message": "Vous êtes bénévole en tant que pair aidant. Vous n'agissez PAS en tant que professionnel de la santé mentale agréé sur cette plateforme."
       },
       "platform": {
-        "title": "What Nidal-Alrouh Provides:",
-        "point1": "A connection to people seeking support.",
-        "point2": "Tools to schedule and manage sessions.",
-        "point3": "A community of like-minded volunteers."
+        "title": "Ce que Nidal-Alrouh fournit :",
+        "point1": "Une connexion avec les personnes cherchant du soutien.",
+        "point2": "Des outils pour planifier et gérer les séances.",
+        "point3": "Une communauté de bénévoles partageant les mêmes idées."
       },
       "notPlatform": {
-        "title": "What We Are NOT:",
-        "point1": "We are NOT a healthcare provider.",
-        "point2": "We are NOT liable for interactions between users.",
-        "point3": "We do NOT employ volunteers."
+        "title": "Ce que nous ne sommes PAS :",
+        "point1": "Nous ne sommes PAS un prestataire de santé.",
+        "point2": "Nous ne sommes PAS responsables des interactions entre utilisateurs.",
+        "point3": "Nous n'employons PAS de bénévoles."
+      },
+      "professionalWarning": {
+        "title": "Vérification des Services Professionnels",
+        "message": "Cette plateforme est uniquement destinée à l'entraide. Si vous êtes un professionnel agréé (psychiatre, etc.) et souhaitez fournir des services cliniques (diagnostic, thérapie), vous devez effectuer ces services EN DEHORS de Nidal-Alrouh."
       }
     },
     "profile": {
       "bio": {
-        "label": "About You",
-        "placeholder": "Share a bit about yourself, why you want to help, and your experience with mental health support...",
-        "minimum": "characters minimum",
-        "minError": "Please write at least 50 characters."
+        "label": "À propos de vous",
+        "placeholder": "Partagez quelques informations sur vous, pourquoi vous souhaitez aider, et votre expérience du soutien en santé mentale...",
+        "minimum": "caractères minimum",
+        "minError": "Veuillez écrire au moins 50 caractères."
       },
       "specializations": {
-        "label": "Areas of Support",
-        "description": "Select topics you feel comfortable discussing.",
-        "error": "Please select at least one specialization."
+        "label": "Domaines de soutien",
+        "description": "Sélectionnez les sujets que vous êtes à l'aise de discuter.",
+        "error": "Veuillez sélectionner au moins une spécialisation.",
+        "options": {
+          "Anxiety": "Anxiété",
+          "Depression": "Dépression",
+          "Stress Management": "Gestion du stress",
+          "Grief & Loss": "Deuil et perte",
+          "Relationship Issues": "Problèmes relationnels",
+          "Self-Esteem": "Estime de soi",
+          "Life Transitions": "Transitions de vie",
+          "Trauma": "Traumatisme",
+          "General Support": "Soutien général"
+        }
       },
       "languages": {
-        "label": "Languages",
-        "error": "Please select at least one language."
+        "label": "Langues",
+        "error": "Veuillez sélectionner au moins une langue.",
+        "options": {
+          "English": "Anglais",
+          "Arabic": "Arabe",
+          "French": "Français",
+          "Spanish": "Espagnol"
+        }
       },
       "maxSessions": {
-        "label": "Max Sessions Per Week",
-        "description": "How many 30-minute sessions can you handle per week?"
+        "label": "Séances max par semaine",
+        "description": "Combien de séances de 30 minutes pouvez-vous assurer par semaine ?"
       }
     },
     "cal": {

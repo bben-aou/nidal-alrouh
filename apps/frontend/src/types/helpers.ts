@@ -26,6 +26,15 @@ export interface StepProfileInfoProps {
   onDataChange: (data: Partial<StepProfileInfoProps['data']>) => void;
 }
 
+export interface HelperRegistrationFormData {
+  bio: string;
+  specializations: string[];
+  languages: string[];
+  maxSessionsPerWeek: number;
+  calUsername: string;
+  agreesToTerms: boolean;
+}
+
 export interface HelperProfile {
   id: string;
   user: {

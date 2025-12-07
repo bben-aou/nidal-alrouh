@@ -50,6 +50,10 @@
         "point1": "We are NOT a healthcare provider.",
         "point2": "We are NOT liable for interactions between users.",
         "point3": "We do NOT employ volunteers."
+      },
+      "professionalWarning": {
+        "title": "Professional Services Check",
+        "message": "This platform is for peer support only. If you are a licensed professional (psychiatrist, etc.) and wish to provide clinical services (diagnosis, therapy), you must conduct those services OUTSIDE of Nidal-Alrouh."
       }
     },
     "profile": {
@@ -62,11 +66,28 @@
       "specializations": {
         "label": "Areas of Support",
         "description": "Select topics you feel comfortable discussing.",
-        "error": "Please select at least one specialization."
+        "error": "Please select at least one specialization.",
+        "options": {
+          "Anxiety": "Anxiety",
+          "Depression": "Depression",
+          "Stress Management": "Stress Management",
+          "Grief & Loss": "Grief & Loss",
+          "Relationship Issues": "Relationship Issues",
+          "Self-Esteem": "Self-Esteem",
+          "Life Transitions": "Life Transitions",
+          "Trauma": "Trauma",
+          "General Support": "General Support"
+        }
       },
       "languages": {
         "label": "Languages",
-        "error": "Please select at least one language."
+        "error": "Please select at least one language.",
+        "options": {
+          "English": "English",
+          "Arabic": "Arabic",
+          "French": "French",
+          "Spanish": "Spanish"
+        }
       },
       "maxSessions": {
         "label": "Max Sessions Per Week",

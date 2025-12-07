@@ -2,6 +2,7 @@
 
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { StepProfileInfoProps } from '@/types/helpers';
 
-const AVAILABLE_SPECIALIZATIONS = [
+const SPECIALIZATION_KEYS = [
   'Anxiety',
   'Depression',
   'Stress Management',
@@ -19,12 +20,16 @@ const AVAILABLE_SPECIALIZATIONS = [
   'Life Transitions',
   'Trauma',
   'General Support',
-];
+] as const;
 
-const AVAILABLE_LANGUAGES = ['English', 'Arabic', 'French', 'Spanish'];
+const LANGUAGE_KEYS = ['English', 'Arabic', 'French', 'Spanish'] as const;
 
 export function StepProfileInfo({ data, onDataChange }: StepProfileInfoProps) {
   const t = useTranslations('helpers.registration.profile');
+
+  const [maxSessionsInput, setMaxSessionsInput] = useState(
+    String(data.maxSessionsPerWeek)
+  );
 
   const toggleSpecialization = (spec: string) => {
     const newSpecs = data.specializations.includes(spec)
@@ -70,7 +75,7 @@ export function StepProfileInfo({ data, onDataChange }: StepProfileInfoProps) {
           {t('specializations.description')}
         </p>
         <div className="flex flex-wrap gap-2">
-          {AVAILABLE_SPECIALIZATIONS.map((spec) => (
+          {SPECIALIZATION_KEYS.map((spec) => (
             <Badge
               key={spec}
               variant={
@@ -79,7 +84,7 @@ export function StepProfileInfo({ data, onDataChange }: StepProfileInfoProps) {
               className="cursor-pointer"
               onClick={() => toggleSpecialization(spec)}
             >
-              {spec}
+              {t(`specializations.options.${spec}`)}
               {data.specializations.includes(spec) && (
                 <X className="w-3 h-3 ml-1" />
               )}
@@ -98,14 +103,14 @@ export function StepProfileInfo({ data, onDataChange }: StepProfileInfoProps) {
           {t('languages.label')} <span className="text-destructive">*</span>
         </Label>
         <div className="flex flex-wrap gap-2">
-          {AVAILABLE_LANGUAGES.map((lang) => (
+          {LANGUAGE_KEYS.map((lang) => (
             <Badge
               key={lang}
               variant={data.languages.includes(lang) ? 'default' : 'outline'}
               className="cursor-pointer"
               onClick={() => toggleLanguage(lang)}
             >
-              {lang}
+              {t(`languages.options.${lang}`)}
               {data.languages.includes(lang) && <X className="w-3 h-3 ml-1" />}
             </Badge>
           ))}
@@ -122,10 +127,30 @@ export function StepProfileInfo({ data, onDataChange }: StepProfileInfoProps) {
           type="number"
           min="1"
           max="20"
-          value={data.maxSessionsPerWeek}
-          onChange={(e) =>
-            onDataChange({ maxSessionsPerWeek: parseInt(e.target.value) || 4 })
-          }
+          value={maxSessionsInput}
+          onChange={(e) => {
+            const val = e.target.value;
+            setMaxSessionsInput(val);
+            const parsed = Number.parseInt(val, 10);
+            if (!Number.isNaN(parsed)) {
+              const clamped = Math.max(1, Math.min(20, parsed));
+              onDataChange({ maxSessionsPerWeek: clamped });
+            }
+          }}
+          onBlur={() => {
+            if (maxSessionsInput === '') {
+              setMaxSessionsInput(String(data.maxSessionsPerWeek));
+              return;
+            }
+            const parsed = Number.parseInt(maxSessionsInput, 10);
+            if (!Number.isNaN(parsed)) {
+              const clamped = Math.max(1, Math.min(20, parsed));
+              onDataChange({ maxSessionsPerWeek: clamped });
+              setMaxSessionsInput(String(clamped));
+            } else {
+              setMaxSessionsInput(String(data.maxSessionsPerWeek));
+            }
+          }}
         />
         <p className="text-sm text-muted-foreground">
           {t('maxSessions.description')}

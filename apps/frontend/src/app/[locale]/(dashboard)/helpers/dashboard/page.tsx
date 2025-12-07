@@ -2,18 +2,37 @@
 
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 
 import { useGetMyHelperStats } from '@/apis/helpers/queries';
 import { SessionsList } from '@/components/helpers/sessions-list';
 import { StatCard } from '@/components/journal/stat-card';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/auth-context';
 import { useHelperStatsConfig } from '@/hooks/use-helper-stats-config';
+import { TUserRole } from '@/types/user';
 
 export default function HelperDashboardPage() {
   const t = useTranslations('helpers.dashboard');
-  const { stats } = useGetMyHelperStats();
+  const { user } = useAuth();
+  const isHelper = user?.role === TUserRole.HELPER;
+  const locale = useLocale();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && !isHelper) {
+      router.replace(`/${locale}/dashboard`);
+    }
+  }, [user, isHelper, router, locale]);
+
+  const { stats } = useGetMyHelperStats({ enabled: isHelper });
   const helperStats = useHelperStatsConfig(stats ?? null);
+
+  if (user && !isHelper) {
+    return null;
+  }
 
   return (
     <div className="container pb-8 space-y-8">
