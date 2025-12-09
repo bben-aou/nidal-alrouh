@@ -57,7 +57,7 @@ export class ChatController {
     }
     const otherUserId =
       dto.otherUserId ??
-      (await this.chatService.resolveUserIdByUsername(dto.otherUsername));
+      (await this.chatService.resolveUserIdByUsername(dto.otherUsername!));
     const room = await this.chatService.findOrCreateDmRoom(
       req.user.id,
       otherUserId

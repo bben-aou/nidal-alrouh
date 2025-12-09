@@ -295,7 +295,7 @@ export class RecommendationsService {
           not: resourceId,
         },
         tags: {
-          hasSome: resource.tags,
+          hasSome: resource?.tags || [],
         },
       },
       take: limit * 2,
@@ -311,7 +311,7 @@ export class RecommendationsService {
     });
 
     const scored = similarResources.map((r) => {
-      const overlap = r.tags.filter((tag) => resource.tags.includes(tag));
+      const overlap = r.tags.filter((tag) => resource?.tags?.includes(tag));
       return {
         resource: r,
         score: overlap.length,
