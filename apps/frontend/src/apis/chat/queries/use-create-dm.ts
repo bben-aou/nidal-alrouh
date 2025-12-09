@@ -9,7 +9,8 @@ import { ApiChatRoom } from '@/types/chat';
 import { GET_CHAT_ROOMS_KEY } from './use-get-rooms';
 
 interface CreateDmParams {
-  otherUserId: string;
+  otherUsername?: string;
+  otherUserId?: string;
 }
 
 interface CreateDmResponse {

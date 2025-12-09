@@ -12,6 +12,7 @@ interface MessageListProps {
   hasUnread?: boolean;
   onMarkRead?: () => void;
   markReadPending?: boolean;
+  onLoadMore?: (cursor: string) => Promise<void> | void;
 }
 
 function isSameDay(a: Date, b: Date) {
@@ -37,6 +38,7 @@ export default function MessageList({
   hasUnread,
   onMarkRead,
   markReadPending,
+  onLoadMore,
 }: Readonly<MessageListProps>) {
   const t = useTranslations('chat');
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -77,6 +79,10 @@ export default function MessageList({
     return el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
   };
 
+  const isAtTop = (el: HTMLDivElement) => {
+    return el.scrollTop <= 0;
+  };
+
   const attemptMarkReadIfNearBottom = () => {
     const el = containerRef.current;
     if (!el) return;
@@ -93,10 +99,18 @@ export default function MessageList({
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const handler = () => attemptMarkReadIfNearBottom();
+    const handler = () => {
+      attemptMarkReadIfNearBottom();
+      if (isAtTop(el) && messages.length > 0) {
+        const first = messages[0];
+        if (first && onLoadMore) {
+          void onLoadMore(first.id);
+        }
+      }
+    };
     el.addEventListener('scroll', handler);
     return () => el.removeEventListener('scroll', handler);
-  }, [hasUnread, markReadPending]);
+  }, [hasUnread, markReadPending, messages.length, onLoadMore]);
 
   return (
     <div

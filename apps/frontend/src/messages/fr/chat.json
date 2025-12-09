@@ -2,7 +2,16 @@
   "sidebar": {
     "searchPlaceholder": "Rechercher…",
     "newChat": "Nouvelle discussion",
-    "noResults": "Aucune salle trouvée"
+    "noResults": "Aucune salle trouvée",
+    "loading": "Chargement des discussions…",
+    "newChatHelp": "Recherchez et sélectionnez un utilisateur pour démarrer.",
+    "otherUsernamePlaceholder": "Nom d’utilisateur de l’autre personne",
+    "creating": "Création…",
+    "startChat": "Démarrer",
+    "searching": "Recherche…",
+    "noUserResults": "Aucun utilisateur trouvé",
+    "newChatDialogTitle": "Démarrer une nouvelle discussion",
+    "newChatDialogDescription": "Recherchez un utilisateur par nom ou pseudo pour commencer."
   },
   "room": {
     "empty": {
@@ -15,12 +24,16 @@
     "placeholder": "Tapez un message…",
     "send": "Envoyer",
     "attach": "Pièce jointe",
-    "emoji": "Emoji"
+    "emoji": "Emoji",
+    "attachComingSoon": "La pièce jointe arrive bientôt",
+    "emojiComingSoon": "Les emojis arrivent bientôt"
   },
   "header": {
     "actions": {
       "mute": "Muet",
-      "info": "Info"
+      "info": "Info",
+      "muteComingSoon": "La mise en sourdine arrive bientôt",
+      "infoComingSoon": "Les infos arrivent bientôt"
     },
     "participants": "{count, plural, one {# participant} other {# participants}}"
   },

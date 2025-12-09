@@ -25,11 +25,14 @@ export default function ChatPage() {
   const { user } = useAuth();
 
   const queryClient = useQueryClient();
-  const { data: rooms = [] } = useGetRooms();
+  const {
+    data: rooms = [],
+    isPending: roomsLoading,
+    error: roomsError,
+  } = useGetRooms();
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(
     searchParams.get('roomId')
   );
-  const [typing, setTyping] = useState<boolean>(false);
 
   useEffect(() => {
     const rid = searchParams.get('roomId');
@@ -45,7 +48,12 @@ export default function ChatPage() {
     [rooms, selectedRoomId]
   );
 
-  const { data: messages = [] } = useGetMessages({ roomId: selectedRoomId });
+  const {
+    data: messages = [],
+    fetchOlder,
+    isPending: messagesLoading,
+    error: messagesError,
+  } = useGetMessages({ roomId: selectedRoomId, limit: 50 });
   const { send } = useSendMessage();
   const { markRead, isPending: markReadPending } = useMarkRead();
 
@@ -100,6 +108,8 @@ export default function ChatPage() {
             rooms={rooms}
             selectedId={selectedRoomId}
             onSelect={setSelectedRoomId}
+            loading={roomsLoading}
+            errorMessage={roomsError?.message}
           />
         }
       >
@@ -107,11 +117,14 @@ export default function ChatPage() {
           room={room ?? undefined}
           messages={messages}
           myUserId={myUserId}
-          typing={typing}
           onSend={handleSend}
-          onTypingChange={setTyping}
           onMarkRead={handleMarkRead}
           markReadPending={markReadPending}
+          onLoadMore={async (cursor) => {
+            await fetchOlder(cursor);
+          }}
+          messagesLoading={messagesLoading}
+          messagesError={messagesError?.message}
         />
       </ChatLayout>
     </div>

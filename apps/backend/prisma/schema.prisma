@@ -7,6 +7,412 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  email               String                   @unique
+  name                String?
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+  id                  String                   @id @default(uuid()) @db.Uuid
+  emailVerifiedAt     DateTime?
+  passwordHash        String
+  role                UserRole                 @default(USER)
+  status              UserStatus               @default(active)
+  avatarUrl           String?
+  Comment             Comment[]
+  eventRegistrations  EventRegistration[]
+  events              Event[]                  @relation("UserEvents")
+  helperProfile       HelperProfile?           @relation("UserHelperProfile")
+  HiddenPost          HiddenPost[]
+  Message             Message[]                @relation("MessageSender")
+  PostLike            PostLike[]
+  PostReport          PostReport[]
+  Post                Post[]
+  reflections         Reflection[]
+  resourceBookmarks   ResourceBookmark[]       @relation("UserResourceBookmarks")
+  resourceCompletions ResourceCompletion[]     @relation("UserResourceCompletions")
+  resourceViews       ResourceView[]           @relation("UserResourceViews")
+  resources           Resource[]               @relation("UserResources")
+  RoomParticipant     RoomParticipant[]
+  sessionFeedback     SessionFeedback[]        @relation("SessionFeedback")
+  helperSessions      SupportSession[]         @relation("HelperSessions")
+  seekerSessions      SupportSession[]         @relation("SeekerSessions")
+  resourcePreferences UserResourcePreference[] @relation("UserResourcePreferences")
+  sessions            UserSession[]
+
+  @@map("users")
+}
+
+model UserSession {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @db.Uuid
+  refreshTokenHash String
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  userAgent        String?
+  ip               String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}
+
+model Reflection {
+  id        String            @id @default(uuid()) @db.Uuid
+  title     String
+  content   String
+  mood      ReflectionMood
+  privacy   ReflectionPrivacy @default(PRIVATE)
+  tags      String[]          @default([])
+  userId    String            @db.Uuid
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  wordCount Int               @default(0)
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("reflections")
+}
+
+model Prompt {
+  id           String              @id @default(uuid()) @db.Uuid
+  category     String?
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  isActive     Boolean             @default(true)
+  translations PromptTranslation[]
+
+  @@map("prompts")
+}
+
+model PromptTranslation {
+  id        String                @id @default(uuid()) @db.Uuid
+  promptId  String                @db.Uuid
+  locale    SupportedPromptLocale
+  text      String
+  tags      String[]              @default([])
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  prompt    Prompt                @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, locale])
+  @@map("prompt_translations")
+}
+
+model Post {
+  id           String                @id @default(uuid()) @db.Uuid
+  content      String
+  tags         String[]              @default([])
+  userId       String                @db.Uuid
+  isAnonymous  Boolean               @default(false)
+  privacy      PostPrivacy           @default(PUBLIC)
+  locale       SupportedPromptLocale
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  quotedPostId String?               @db.Uuid
+  comments     Comment[]
+  HiddenPost   HiddenPost[]
+  likes        PostLike[]
+  reports      PostReport[]
+  quotedPost   Post?                 @relation("QuotedPost", fields: [quotedPostId], references: [id])
+  quotes       Post[]                @relation("QuotedPost")
+  user         User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([locale, createdAt])
+  @@index([userId, createdAt])
+  @@index([quotedPostId])
+  @@map("posts")
+}
+
+model Comment {
+  id          String   @id @default(uuid()) @db.Uuid
+  postId      String   @db.Uuid
+  userId      String   @db.Uuid
+  content     String
+  isAnonymous Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@map("comments")
+}
+
+model PostLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("post_likes")
+}
+
+model PostReport {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  reason    String
+  status    String   @default("OPEN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId, status])
+  @@map("post_reports")
+}
+
+model HiddenPost {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("hidden_posts")
+}
+
+model ChatRoom {
+  id           String            @id @default(uuid()) @db.Uuid
+  type         ChatRoomType
+  name         String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  messages     Message[]
+  participants RoomParticipant[]
+
+  @@map("chat_rooms")
+}
+
+model RoomParticipant {
+  id         String    @id @default(uuid()) @db.Uuid
+  roomId     String    @db.Uuid
+  userId     String    @db.Uuid
+  joinedAt   DateTime  @default(now())
+  lastReadAt DateTime?
+  room       ChatRoom  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([userId])
+  @@map("room_participants")
+}
+
+model Message {
+  id        String   @id @default(uuid()) @db.Uuid
+  roomId    String   @db.Uuid
+  senderId  String   @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+
+  @@index([roomId, createdAt])
+  @@map("messages")
+}
+
+model Event {
+  id               String              @id @default(uuid()) @db.Uuid
+  title            String
+  description      String
+  type             EventType
+  status           EventStatus         @default(upcoming)
+  startDate        DateTime
+  endDate          DateTime
+  startTime        String
+  endTime          String
+  timezone         String
+  location         String?
+  meetingUrl       String?
+  maxAttendees     Int?
+  currentAttendees Int                 @default(0)
+  requiresApproval Boolean             @default(false)
+  coverImage       String?
+  tags             String[]            @default([])
+  organizerId      String              @db.Uuid
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  registrations    EventRegistration[]
+  organizer        User                @relation("UserEvents", fields: [organizerId], references: [id])
+
+  @@index([status, startDate])
+  @@index([type, startDate])
+  @@map("events")
+}
+
+model EventRegistration {
+  id        String             @id @default(uuid()) @db.Uuid
+  userId    String             @db.Uuid
+  eventId   String             @db.Uuid
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  notes     String?
+  status    RegistrationStatus @default(CONFIRMED)
+  event     Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@index([userId])
+  @@map("event_registrations")
+}
+
+model Resource {
+  id          String               @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  type        ResourceType
+  content     String?
+  url         String?
+  tags        String[]             @default([])
+  authorId    String               @db.Uuid
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  bookmarks   ResourceBookmark[]
+  completions ResourceCompletion[]
+  views       ResourceView[]
+  author      User                 @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([type, createdAt])
+  @@index([authorId])
+  @@map("resources")
+}
+
+model ResourceView {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  resourceId String   @db.Uuid
+  viewedAt   DateTime @default(now())
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user       User     @relation("UserResourceViews", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, viewedAt])
+  @@index([resourceId, viewedAt])
+  @@map("resource_views")
+}
+
+model ResourceBookmark {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  resourceId String   @db.Uuid
+  progress   Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user       User     @relation("UserResourceBookmarks", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId, updatedAt])
+  @@map("resource_bookmarks")
+}
+
+model ResourceCompletion {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  resourceId  String   @db.Uuid
+  completedAt DateTime @default(now())
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user        User     @relation("UserResourceCompletions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId, completedAt])
+  @@map("resource_completions")
+}
+
+model UserResourcePreference {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tag       String
+  score     Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation("UserResourcePreferences", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tag])
+  @@index([userId, score])
+  @@map("user_resource_preferences")
+}
+
+model HelperProfile {
+  id                 String           @id @default(uuid()) @db.Uuid
+  userId             String           @unique @db.Uuid
+  status             HelperStatus     @default(AUTO_VERIFIED)
+  bio                String
+  specializations    String[]         @default([])
+  languages          String[]         @default([])
+  maxSessionsPerWeek Int?             @default(4)
+  calUsername        String?
+  calEventTypeId     String?
+  bookingUrl         String?
+  licenseNumber      String?
+  yearsOfExperience  Int?
+  verificationDocs   String[]         @default([])
+  verifiedAt         DateTime?
+  verifiedBy         String?          @db.Uuid
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  user               User             @relation("UserHelperProfile", fields: [userId], references: [id], onDelete: Cascade)
+  sessions           SupportSession[]
+
+  @@index([status])
+  @@index([calUsername])
+  @@map("helper_profiles")
+}
+
+model SupportSession {
+  id              String           @id @default(uuid()) @db.Uuid
+  seekerId        String           @db.Uuid
+  helperId        String           @db.Uuid
+  helperProfileId String           @db.Uuid
+  status          SessionStatus    @default(SCHEDULED)
+  scheduledAt     DateTime
+  duration        Int              @default(50)
+  calBookingId    String?
+  calBookingUid   String?          @unique
+  meetingUrl      String?
+  topic           String?
+  seekerNote      String?
+  helperNote      String?
+  completedAt     DateTime?
+  cancelledAt     DateTime?
+  cancelledBy     String?          @db.Uuid
+  cancelReason    String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  feedback        SessionFeedback?
+  helper          User             @relation("HelperSessions", fields: [helperId], references: [id])
+  helperProfile   HelperProfile    @relation(fields: [helperProfileId], references: [id])
+  seeker          User             @relation("SeekerSessions", fields: [seekerId], references: [id])
+
+  @@index([seekerId, scheduledAt])
+  @@index([helperId, scheduledAt])
+  @@index([status, scheduledAt])
+  @@index([calBookingId])
+  @@map("support_sessions")
+}
+
+model SessionFeedback {
+  id          String         @id @default(uuid()) @db.Uuid
+  sessionId   String         @unique @db.Uuid
+  seekerId    String         @db.Uuid
+  rating      Int
+  comment     String?
+  isAnonymous Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  seeker      User           @relation("SessionFeedback", fields: [seekerId], references: [id], onDelete: Cascade)
+  session     SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([seekerId])
+  @@index([rating])
+  @@map("session_feedback")
+}
+
 enum UserRole {
   USER
   SEEKER
@@ -55,17 +461,11 @@ enum EventStatus {
   cancelled
 }
 
-// -------------------------------
-// Chat Feature
-// -------------------------------
 enum ChatRoomType {
   DM
   GROUP
 }
 
-// -------------------------------
-// Helper/Session Feature
-// -------------------------------
 enum HelperStatus {
   PENDING_VERIFICATION
   VERIFIED
@@ -81,293 +481,10 @@ enum SessionStatus {
   NO_SHOW
 }
 
-model User {
-  id              String     @id @default(uuid()) @db.Uuid
-  email           String     @unique
-  name            String?
-  avatarUrl       String?
-  passwordHash    String
-  role            UserRole   @default(USER)
-  status          UserStatus @default(active)
-  emailVerifiedAt DateTime?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-
-  // Relations
-  sessions            UserSession[]
-  reflections         Reflection[]
-  events              Event[]                  @relation("UserEvents")
-  Post                Post[]
-  Comment             Comment[]
-  PostLike            PostLike[]
-  PostReport          PostReport[]
-  HiddenPost          HiddenPost[]
-  // Chat relations
-  Message             Message[]                @relation("MessageSender")
-  RoomParticipant     RoomParticipant[]
-  eventRegistrations  EventRegistration[]
-  // Resource relations
-  resources           Resource[]               @relation("UserResources")
-  resourceViews       ResourceView[]           @relation("UserResourceViews")
-  resourceBookmarks   ResourceBookmark[]       @relation("UserResourceBookmarks")
-  resourceCompletions ResourceCompletion[]     @relation("UserResourceCompletions")
-  resourcePreferences UserResourcePreference[] @relation("UserResourcePreferences")
-  // Helper/Session relations
-  helperProfile       HelperProfile?           @relation("UserHelperProfile")
-  seekerSessions      SupportSession[]         @relation("SeekerSessions")
-  helperSessions      SupportSession[]         @relation("HelperSessions")
-  sessionFeedback     SessionFeedback[]        @relation("SessionFeedback")
-
-  @@map("users")
-}
-
-model UserSession {
-  id               String    @id @default(uuid()) @db.Uuid
-  userId           String    @db.Uuid
-  refreshTokenHash String
-  expiresAt        DateTime
-  revokedAt        DateTime?
-  userAgent        String?
-  ip               String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("user_sessions")
-}
-
-model Reflection {
-  id        String            @id @default(uuid()) @db.Uuid
-  title     String
-  content   String
-  mood      ReflectionMood
-  privacy   ReflectionPrivacy @default(PRIVATE)
-  tags      String[]          @default([])
-  wordCount Int               @default(0)
-  userId    String            @db.Uuid
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-
-  // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, createdAt])
-  @@map("reflections")
-}
-
-model Prompt {
-  id        String   @id @default(uuid()) @db.Uuid
-  category  String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  translations PromptTranslation[]
-
-  @@map("prompts")
-}
-
-model PromptTranslation {
-  id        String                @id @default(uuid()) @db.Uuid
-  promptId  String                @db.Uuid
-  locale    SupportedPromptLocale
-  text      String
-  tags      String[]              @default([])
-  createdAt DateTime              @default(now())
-  updatedAt DateTime              @updatedAt
-
-  // Relations
-  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
-
-  @@unique([promptId, locale])
-  @@map("prompt_translations")
-}
-
-// -------------------------------
-// Community Feed (Posts)
-// -------------------------------
-
 enum PostPrivacy {
   PUBLIC
   FRIENDS_ONLY
   PRIVATE
-}
-
-model Post {
-  id           String                @id @default(uuid()) @db.Uuid
-  content      String
-  tags         String[]              @default([])
-  userId       String                @db.Uuid
-  isAnonymous  Boolean               @default(false)
-  privacy      PostPrivacy           @default(PUBLIC)
-  locale       SupportedPromptLocale
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-  quotedPostId String?               @db.Uuid
-
-  // Relations
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments   Comment[]
-  likes      PostLike[]
-  reports    PostReport[]
-  quotedPost Post?        @relation("QuotedPost", fields: [quotedPostId], references: [id])
-  quotes     Post[]       @relation("QuotedPost")
-  HiddenPost HiddenPost[]
-
-  @@index([locale, createdAt])
-  @@index([userId, createdAt])
-  @@index([quotedPostId])
-  @@map("posts")
-}
-
-model Comment {
-  id          String   @id @default(uuid()) @db.Uuid
-  postId      String   @db.Uuid
-  userId      String   @db.Uuid
-  content     String
-  isAnonymous Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([postId, createdAt])
-  @@map("comments")
-}
-
-model PostLike {
-  id        String   @id @default(uuid()) @db.Uuid
-  postId    String   @db.Uuid
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now())
-
-  // Relations
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([postId, userId])
-  @@map("post_likes")
-}
-
-model PostReport {
-  id        String   @id @default(uuid()) @db.Uuid
-  postId    String   @db.Uuid
-  userId    String   @db.Uuid
-  reason    String
-  status    String   @default("OPEN") // OPEN | REVIEWED | REJECTED
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([postId, status])
-  @@map("post_reports")
-}
-
-model HiddenPost {
-  id        String   @id @default(uuid()) @db.Uuid
-  postId    String   @db.Uuid
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now())
-
-  // Relations
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([postId, userId])
-  @@map("hidden_posts")
-}
-
-// -------------------------------
-// Chat Models
-// -------------------------------
-
-model ChatRoom {
-  id        String       @id @default(uuid()) @db.Uuid
-  type      ChatRoomType
-  name      String?
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-
-  // Relations
-  participants RoomParticipant[]
-  messages     Message[]
-
-  @@map("chat_rooms")
-}
-
-model RoomParticipant {
-  id         String    @id @default(uuid()) @db.Uuid
-  roomId     String    @db.Uuid
-  userId     String    @db.Uuid
-  joinedAt   DateTime  @default(now())
-  lastReadAt DateTime?
-
-  // Relations
-  room ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([roomId, userId])
-  @@index([userId])
-  @@map("room_participants")
-}
-
-model Message {
-  id        String   @id @default(uuid()) @db.Uuid
-  roomId    String   @db.Uuid
-  senderId  String   @db.Uuid
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  room   ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  sender User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Restrict)
-
-  @@index([roomId, createdAt])
-  @@map("messages")
-}
-
-// -------------------------------
-// Community Events
-// -------------------------------
-
-model Event {
-  id               String      @id @default(uuid()) @db.Uuid
-  title            String
-  description      String
-  type             EventType
-  status           EventStatus @default(upcoming)
-  startDate        DateTime
-  endDate          DateTime
-  startTime        String
-  endTime          String
-  timezone         String
-  location         String?
-  meetingUrl       String?
-  maxAttendees     Int?
-  currentAttendees Int         @default(0)
-  requiresApproval Boolean     @default(false)
-  coverImage       String?
-  tags             String[]    @default([])
-  organizerId      String      @db.Uuid
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-
-  // Relations
-  organizer     User                @relation("UserEvents", fields: [organizerId], references: [id], onDelete: Restrict)
-  registrations EventRegistration[]
-
-  @@index([status, startDate])
-  @@index([type, startDate])
-  @@map("events")
 }
 
 enum RegistrationStatus {
@@ -376,219 +493,8 @@ enum RegistrationStatus {
   CANCELLED
 }
 
-model EventRegistration {
-  id        String             @id @default(uuid()) @db.Uuid
-  eventId   String             @db.Uuid
-  userId    String             @db.Uuid
-  status    RegistrationStatus @default(CONFIRMED)
-  notes     String?
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-
-  // Relations
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, userId])
-  @@index([userId])
-  @@map("event_registrations")
-}
-
-// -------------------------------
-// Resources Feature
-// -------------------------------
-
 enum ResourceType {
   ARTICLE
   VIDEO
   LINK
-}
-
-model Resource {
-  id          String       @id @default(uuid()) @db.Uuid
-  title       String
-  description String
-  type        ResourceType
-  content     String? // For articles
-  url         String? // For videos and links
-  tags        String[]     @default([])
-  authorId    String       @db.Uuid
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  // Relations
-  author      User                 @relation("UserResources", fields: [authorId], references: [id], onDelete: Cascade)
-  views       ResourceView[]
-  bookmarks   ResourceBookmark[]
-  completions ResourceCompletion[]
-
-  @@index([type, createdAt])
-  @@index([authorId])
-  @@map("resources")
-}
-
-// -------------------------------
-// Resource Interaction Tracking
-// -------------------------------
-
-model ResourceView {
-  id         String   @id @default(uuid()) @db.Uuid
-  userId     String   @db.Uuid
-  resourceId String   @db.Uuid
-  viewedAt   DateTime @default(now())
-
-  // Relations
-  user     User     @relation("UserResourceViews", fields: [userId], references: [id], onDelete: Cascade)
-  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@index([userId, viewedAt])
-  @@index([resourceId, viewedAt])
-  @@map("resource_views")
-}
-
-model ResourceBookmark {
-  id         String   @id @default(uuid()) @db.Uuid
-  userId     String   @db.Uuid
-  resourceId String   @db.Uuid
-  progress   Int      @default(0) // 0-100 percentage
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  // Relations
-  user     User     @relation("UserResourceBookmarks", fields: [userId], references: [id], onDelete: Cascade)
-  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, resourceId])
-  @@index([userId, updatedAt])
-  @@map("resource_bookmarks")
-}
-
-model ResourceCompletion {
-  id          String   @id @default(uuid()) @db.Uuid
-  userId      String   @db.Uuid
-  resourceId  String   @db.Uuid
-  completedAt DateTime @default(now())
-
-  // Relations
-  user     User     @relation("UserResourceCompletions", fields: [userId], references: [id], onDelete: Cascade)
-  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, resourceId])
-  @@index([userId, completedAt])
-  @@map("resource_completions")
-}
-
-model UserResourcePreference {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  tag       String
-  score     Float    @default(0) // Interest score for this tag
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  user User @relation("UserResourcePreferences", fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, tag])
-  @@index([userId, score])
-  @@map("user_resource_preferences")
-}
-
-// -------------------------------
-// Helper/Volunteer System
-// -------------------------------
-
-model HelperProfile {
-  id     String @id @default(uuid()) @db.Uuid
-  userId String @unique @db.Uuid
-
-  // MVP fields (required)
-  status             HelperStatus @default(AUTO_VERIFIED)
-  bio                String
-  specializations    String[]     @default([])
-  languages          String[]     @default([])
-  maxSessionsPerWeek Int?         @default(4)
-
-  // Cal.com integration (MVP)
-  calUsername    String? // e.g., "dr-amina" → cal.com/dr-amina
-  calEventTypeId String? // Their 30min session event type
-  bookingUrl     String? // Full URL: https://cal.com/dr-amina/30min
-
-  // Future fields (optional now, required later)
-  licenseNumber     String?
-  yearsOfExperience Int?
-  verificationDocs  String[]  @default([])
-  verifiedAt        DateTime?
-  verifiedBy        String?   @db.Uuid
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  user     User             @relation("UserHelperProfile", fields: [userId], references: [id], onDelete: Cascade)
-  sessions SupportSession[]
-
-  @@index([status])
-  @@index([calUsername])
-  @@map("helper_profiles")
-}
-
-model SupportSession {
-  id              String @id @default(uuid()) @db.Uuid
-  seekerId        String @db.Uuid
-  helperId        String @db.Uuid
-  helperProfileId String @db.Uuid
-
-  status      SessionStatus @default(SCHEDULED)
-  scheduledAt DateTime
-  duration    Int           @default(50) // minutes
-
-  // Cal.com integration
-  calBookingId  String? // Cal.com booking ID
-  calBookingUid String? @unique // Cal.com unique reference
-  meetingUrl    String? // Google Meet link (from Cal.com)
-
-  // Session info
-  topic      String?
-  seekerNote String? // Seeker's initial note
-  helperNote String? @db.Text // Helper's private notes (encrypted)
-
-  // Completion
-  completedAt  DateTime?
-  cancelledAt  DateTime?
-  cancelledBy  String?   @db.Uuid
-  cancelReason String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  seeker        User             @relation("SeekerSessions", fields: [seekerId], references: [id], onDelete: Restrict)
-  helper        User             @relation("HelperSessions", fields: [helperId], references: [id], onDelete: Restrict)
-  helperProfile HelperProfile    @relation(fields: [helperProfileId], references: [id], onDelete: Restrict)
-  feedback      SessionFeedback?
-
-  @@index([seekerId, scheduledAt])
-  @@index([helperId, scheduledAt])
-  @@index([status, scheduledAt])
-  @@index([calBookingId])
-  @@map("support_sessions")
-}
-
-model SessionFeedback {
-  id          String   @id @default(uuid()) @db.Uuid
-  sessionId   String   @unique @db.Uuid
-  seekerId    String   @db.Uuid
-  rating      Int // 1-5 stars
-  comment     String?  @db.Text
-  isAnonymous Boolean  @default(true)
-  createdAt   DateTime @default(now())
-
-  // Relations
-  session SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  seeker  User           @relation("SessionFeedback", fields: [seekerId], references: [id], onDelete: Cascade)
-
-  @@index([seekerId])
-  @@index([rating])
-  @@map("session_feedback")
 }

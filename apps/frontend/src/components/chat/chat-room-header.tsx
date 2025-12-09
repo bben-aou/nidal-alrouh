@@ -1,5 +1,6 @@
 'use client';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 import { TChatRoom } from '@/types/chat';
 
@@ -24,10 +25,18 @@ export default function ChatRoomHeader({
         )}
       </div>
       <div className="flex items-center gap-2">
-        <button className="rounded-md border px-2 py-1 text-xs hover:bg-muted">
+        <button
+          className="rounded-md border px-2 py-1 text-xs hover:bg-muted disabled:opacity-50"
+          onClick={() => toast.info(t('header.actions.muteComingSoon'))}
+          disabled
+        >
           {t('header.actions.mute')}
         </button>
-        <button className="rounded-md border px-2 py-1 text-xs hover:bg-muted">
+        <button
+          className="rounded-md border px-2 py-1 text-xs hover:bg-muted disabled:opacity-50"
+          onClick={() => toast.info(t('header.actions.infoComingSoon'))}
+          disabled
+        >
           {t('header.actions.info')}
         </button>
       </div>

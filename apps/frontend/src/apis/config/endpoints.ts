@@ -61,6 +61,13 @@ export const CHAT_ENDPOINTS = {
 
 export type ChatEndpoints = typeof CHAT_ENDPOINTS;
 
+export const USERS_ENDPOINTS = {
+  USERS: '/users',
+  SEARCH: '/users/search',
+} as const;
+
+export type UsersEndpoints = typeof USERS_ENDPOINTS;
+
 /**
  * Helpers API Endpoints Configuration
  * Centralized endpoint definitions for helpers-related API calls

@@ -2,7 +2,16 @@
   "sidebar": {
     "searchPlaceholder": "بحث…",
     "newChat": "محادثة جديدة",
-    "noResults": "لا توجد غرف"
+    "noResults": "لا توجد غرف",
+    "loading": "جاري تحميل المحادثات…",
+    "newChatHelp": "ابحث واختر المستخدم لبدء المحادثة.",
+    "otherUsernamePlaceholder": "اسم مستخدم الشخص الآخر",
+    "creating": "جاري الإنشاء…",
+    "startChat": "بدء المحادثة",
+    "searching": "جاري البحث…",
+    "noUserResults": "لا يوجد مستخدمون",
+    "newChatDialogTitle": "بدء محادثة جديدة",
+    "newChatDialogDescription": "ابحث عن مستخدم بالاسم أو اسم المستخدم للبدء."
   },
   "room": {
     "empty": {
@@ -15,12 +24,16 @@
     "placeholder": "اكتب رسالة…",
     "send": "إرسال",
     "attach": "إرفاق",
-    "emoji": "إيموجي"
+    "emoji": "إيموجي",
+    "attachComingSoon": "ميزة الإرفاق قريبًا",
+    "emojiComingSoon": "الرموز التعبيرية قريبًا"
   },
   "header": {
     "actions": {
       "mute": "كتم",
-      "info": "معلومات"
+      "info": "معلومات",
+      "muteComingSoon": "ميزة الكتم قريبًا",
+      "infoComingSoon": "المعلومات قريبًا"
     },
     "participants": "{count, plural, one {مشارك واحد} other {# مشاركين}}"
   },

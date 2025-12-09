@@ -107,6 +107,27 @@ export class ChatGateway
     return { success: true };
   }
 
+  @SubscribeMessage('chat:typing:update')
+  handleTypingUpdate(
+    client: AuthenticatedSocket,
+    data: { roomId: string; isTyping: boolean }
+  ) {
+    if (!client.userId) {
+      return { error: 'Not authenticated' };
+    }
+    const payload = {
+      roomId: data.roomId,
+      userId: client.userId,
+      isTyping: !!data.isTyping,
+      timestamp: new Date().toISOString(),
+    };
+    // Broadcast to room participants (including sender for symmetry)
+    this.server
+      .to(this.roomName(data.roomId))
+      .emit('chat:typing:update', payload);
+    return { success: true };
+  }
+
   emitMessageCreated(roomId: string, message: any) {
     const timestamp = new Date().toISOString();
     this.server.to(this.roomName(roomId)).emit('chat:message:created', {

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   Logger,
@@ -14,6 +15,28 @@ import { ChatGateway } from './chat.gateway';
 export class ChatService {
   constructor(private readonly prisma: PrismaService) {}
   private readonly logger = new Logger(ChatService.name);
+  async resolveUserIdByUsername(username: string): Promise<string> {
+    const trimmed = username.trim();
+    if (!trimmed) throw new BadRequestException('Username required');
+
+    // Try HelperProfile.calUsername first
+    const helper = await this.prisma.helperProfile.findFirst({
+      where: { calUsername: trimmed },
+      include: { user: { select: { id: true } } },
+    });
+    if (helper?.user?.id) return helper.user.id;
+
+    // Fallback to User.name exact match (case-insensitive)
+    const users = await this.prisma.user.findMany({
+      where: { name: { equals: trimmed, mode: 'insensitive' } },
+      select: { id: true },
+      take: 2,
+    });
+    if (users.length === 0) throw new NotFoundException('User not found');
+    if (users.length > 1)
+      throw new BadRequestException('Multiple users match this username');
+    return users[0].id;
+  }
   async findOrCreateDmRoom(currentUserId: string, otherUserId: string) {
     if (currentUserId === otherUserId) {
       throw new ForbiddenException('Cannot create a DM with yourself');

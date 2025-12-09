@@ -2,7 +2,16 @@
   "sidebar": {
     "searchPlaceholder": "Search…",
     "newChat": "New Chat",
-    "noResults": "No rooms found"
+    "noResults": "No rooms found",
+    "loading": "Loading chats…",
+    "newChatHelp": "Search and select a user to start.",
+    "otherUsernamePlaceholder": "Search by name or username",
+    "creating": "Creating…",
+    "startChat": "Start chat",
+    "searching": "Searching…",
+    "noUserResults": "No users found",
+    "newChatDialogTitle": "Start a new chat",
+    "newChatDialogDescription": "Search for a user by name or username to begin."
   },
   "room": {
     "empty": {
@@ -15,12 +24,16 @@
     "placeholder": "Type a message…",
     "send": "Send",
     "attach": "Attach",
-    "emoji": "Emoji"
+    "emoji": "Emoji",
+    "attachComingSoon": "Attachments coming soon",
+    "emojiComingSoon": "Emoji picker coming soon"
   },
   "header": {
     "actions": {
       "mute": "Mute",
-      "info": "Info"
+      "info": "Info",
+      "muteComingSoon": "Mute feature coming soon",
+      "infoComingSoon": "Info panel coming soon"
     },
     "participants": "{count, plural, one {# participant} other {# participants}}"
   },

@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   Logger,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -38,7 +39,7 @@ export class ChatController {
   private readonly logger = new Logger(ChatController.name);
 
   @Post('dm')
-  @ApiOperation({ summary: 'Create or get a DM room' })
+  @ApiOperation({ summary: 'Create or get a DM room by username' })
   @ApiBody({ type: CreateDmRoomDto })
   @ApiCreatedResponse({ description: 'DM room created or returned' })
   /**
@@ -51,9 +52,15 @@ export class ChatController {
     @Body() dto: CreateDmRoomDto,
     @Req() req: FastifyRequest & { user: AuthResponse['user'] }
   ) {
+    if (!dto.otherUserId && !dto.otherUsername) {
+      throw new BadRequestException('Provide otherUserId or otherUsername');
+    }
+    const otherUserId =
+      dto.otherUserId ??
+      (await this.chatService.resolveUserIdByUsername(dto.otherUsername));
     const room = await this.chatService.findOrCreateDmRoom(
       req.user.id,
-      dto.otherUserId
+      otherUserId
     );
     return { data: room, message: 'DM room ready' };
   }
