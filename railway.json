@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "yarn install && yarn workspace @nidal-alrouh/backend prisma generate && yarn workspace @nidal-alrouh/backend build && sed -i '/apps\\/frontend/d' package.json && rm -rf apps/frontend && rm -rf node_modules && yarn install --ignore-scripts --prefer-offline"
+    "buildCommand": "yarn install && yarn workspace @nidal-alrouh/backend prisma generate && yarn workspace @nidal-alrouh/backend build && sed -i '/apps\\/frontend/d' package.json && rm -rf node_modules && yarn install --production --ignore-scripts --prefer-offline"
   },
   "deploy": {
     "startCommand": "yarn workspace @nidal-alrouh/backend prisma migrate deploy && yarn workspace @nidal-alrouh/backend start",
