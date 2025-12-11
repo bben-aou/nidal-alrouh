@@ -1,10 +1,12 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "buildCommand": "corepack enable && corepack prepare yarn@1.22.22 --activate && yarn install --frozen-lockfile && yarn workspace @nidal-alrouh/backend run prisma generate && yarn workspace @nidal-alrouh/backend build",
-    "watchPatterns": ["apps/backend/**", "package.json", "yarn.lock"]
+    "builder": "NIXPACKS",
+    "buildCommand": "yarn install && yarn workspace @nidal-alrouh/backend prisma generate && yarn workspace @nidal-alrouh/backend build"
   },
   "deploy": {
-    "startCommand": "node apps/backend/dist/main.js"
+    "startCommand": "yarn workspace @nidal-alrouh/backend prisma migrate deploy && yarn workspace @nidal-alrouh/backend start",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
   }
 }
