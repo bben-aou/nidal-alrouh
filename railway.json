@@ -2,7 +2,13 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "buildCommand": "yarn workspace @nidal-alrouh/backend run prisma generate && yarn workspace @nidal-alrouh/backend build",
-    "watchPatterns": ["apps/backend/**", "package.json", "yarn.lock"]
+    "watchPatterns": [
+      "apps/backend/**",
+      "package.json",
+      "yarn.lock",
+      ".yarnrc",
+      ".yarn/**"
+    ]
   },
   "deploy": {
     "startCommand": "yarn workspace @nidal-alrouh/backend start"
