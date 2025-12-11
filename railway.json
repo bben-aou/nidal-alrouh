@@ -5,6 +5,6 @@
     "watchPatterns": ["apps/backend/**", "package.json", "yarn.lock"]
   },
   "deploy": {
-    "startCommand": "yarn workspace @nidal-alrouh/backend start"
+    "startCommand": "node apps/backend/dist/main.js"
   }
 }
