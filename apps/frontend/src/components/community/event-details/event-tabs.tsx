@@ -9,7 +9,7 @@ import { getUserAvatar } from '@/utils/community-events';
 
 interface EventTabsProps {
   event: CommunityEvent;
-  t: (key: string, params?: any) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
   formatDate: (date: string | Date) => string;
   activeTab: string;
   onTabChange: (value: string) => void;

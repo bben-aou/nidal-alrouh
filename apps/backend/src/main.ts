@@ -23,9 +23,22 @@ async function bootstrap() {
   );
 
   const config = app.get(ConfigService<Env>);
+  const logger = new Logger('Bootstrap');
 
   const prefix = config.get('API_PREFIX', { infer: true })!;
   const port = config.get('PORT', { infer: true })!;
+  const env = config.get('NODE_ENV', { infer: true })!;
+  const frontendUrl =
+    config.get('NEXT_PUBLIC_APP_URL', { infer: true }) ??
+    config.get('FRONTEND_URL', { infer: true });
+
+  logger.log('===================================================');
+  logger.log(`🚀 BACKEND ENVIRONMENT: ${env}`);
+  logger.log(`PORT:                  ${port}`);
+  logger.log(`API PREFIX:            ${prefix}`);
+  logger.log(`FRONTEND URL:          ${frontendUrl}`);
+  logger.log('===================================================');
+
   const allowedOrigins = config.get('CORS_ALLOWED_ORIGINS', { infer: true })!;
   const allowedMethods = config.get('CORS_ALLOWED_METHODS', { infer: true })!;
   const allowCredentials = config.get('CORS_CREDENTIALS', { infer: true })!;
@@ -90,7 +103,6 @@ async function bootstrap() {
   app.setGlobalPrefix(prefix);
   await app.listen(port, '0.0.0.0');
 
-  const logger = new Logger('Bootstrap');
   logger.log(`Backend listening on http://localhost:${port}/${prefix}`);
 }
 

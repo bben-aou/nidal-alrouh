@@ -10,6 +10,8 @@ export const envSchema = z.object({
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
     .default('info'),
   DATABASE_URL: z.string().url(),
+  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
+  FRONTEND_URL: z.string().url().optional(),
   // CORS configuration
   CORS_ALLOWED_ORIGINS: z
     .string()

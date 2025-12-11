@@ -100,6 +100,9 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ChartPayloadItem = Record<string, any>;
+
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
@@ -109,6 +112,8 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: 'line' | 'dot' | 'dashed';
       nameKey?: string;
       labelKey?: string;
+      payload?: ChartPayloadItem[];
+      label?: React.ReactNode;
     }
 >(
   (
@@ -259,9 +264,10 @@ const ChartLegend = RechartsPrimitive.Legend;
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> &
-    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+    Pick<RechartsPrimitive.LegendProps, 'verticalAlign'> & {
       hideIcon?: boolean;
       nameKey?: string;
+      payload?: ChartPayloadItem[];
     }
 >(
   (

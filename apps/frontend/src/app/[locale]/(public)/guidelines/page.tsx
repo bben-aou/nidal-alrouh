@@ -173,30 +173,33 @@ export default function CommunityGuidelinesPage() {
           </p>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {Object.entries(t.raw('sections.prohibited.categories')).map(
-              ([key, category]: [string, any]) => (
-                <div
-                  key={key}
-                  className="p-6 rounded-xl border border-border hover:border-destructive/50 transition-colors group"
-                >
-                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <AlertOctagon className="w-4 h-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {category.title}
-                  </h3>
-                  <ul className="space-y-2">
-                    {category.items.map((item: string, idx: number) => (
-                      <li
-                        key={idx}
-                        className="text-sm text-muted-foreground flex gap-2 items-start"
-                      >
-                        <span className="text-destructive mt-1.5 w-1 h-1 rounded-full shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            )}
+            {Object.entries(
+              t.raw('sections.prohibited.categories') as Record<
+                string,
+                { title: string; items: string[] }
+              >
+            ).map(([key, category]) => (
+              <div
+                key={key}
+                className="p-6 rounded-xl border border-border hover:border-destructive/50 transition-colors group"
+              >
+                <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <AlertOctagon className="w-4 h-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {category.title}
+                </h3>
+                <ul className="space-y-2">
+                  {category.items.map((item: string, idx: number) => (
+                    <li
+                      key={idx}
+                      className="text-sm text-muted-foreground flex gap-2 items-start"
+                    >
+                      <span className="text-destructive mt-1.5 w-1 h-1 rounded-full shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </section>
 

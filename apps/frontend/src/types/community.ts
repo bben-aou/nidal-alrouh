@@ -70,6 +70,7 @@ export interface RealtimePostCreatedPayload {
 export interface GetPostsParams {
   q?: string;
   limit?: number;
+  page?: number;
   /** Cursor for infinite pagination */
   cursor?: string;
 }
