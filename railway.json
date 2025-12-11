@@ -2,10 +2,10 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "yarn install && yarn workspace @nidal-alrouh/backend prisma generate && yarn workspace @nidal-alrouh/backend build"
+    "buildCommand": "npm install && npm run prisma:generate -w @nidal-alrouh/backend && npm run build -w @nidal-alrouh/backend"
   },
   "deploy": {
-    "startCommand": "yarn workspace @nidal-alrouh/backend prisma migrate deploy && yarn workspace @nidal-alrouh/backend start",
+    "startCommand": "npm run prisma:migrate -w @nidal-alrouh/backend && npm run start -w @nidal-alrouh/backend",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
