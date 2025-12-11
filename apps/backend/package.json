@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .ts",
     "type-check": "tsc --noEmit",
     "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "prisma:seed": "yarn prisma db seed",
     "db:seed": "yarn prisma db seed"
   },
