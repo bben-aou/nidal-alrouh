@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import path from 'node:path';
 
 // Log environment variables on startup
 console.log(
@@ -25,6 +26,9 @@ console.log(
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname, '../../'),
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'github.com', pathname: '/**' },
@@ -48,7 +52,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  /* config options here */
 };
 
 export default withNextIntl(nextConfig);

@@ -20,6 +20,6 @@ export class SignupDto {
   password!: string;
 
   @IsOptional()
-  @IsEnum(UserRole)
+  @IsEnum(UserRole || {})
   role?: UserRole;
 }
