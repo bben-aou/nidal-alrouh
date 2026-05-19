@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "dev": "concurrently --names \"frontend,backend\" --prefix-colors \"cyan,magenta\" \"yarn workspace @nidal-alrouh/frontend dev\" \"yarn workspace @nidal-alrouh/backend dev\"",
+    "start": "concurrently --names \"frontend,backend\" --prefix-colors \"cyan,magenta\" \"yarn workspace @nidal-alrouh/frontend start\" \"yarn workspace @nidal-alrouh/backend start\"",
     "build": "concurrently --names \"frontend,backend\" --prefix-colors \"cyan,magenta\" \"yarn workspace @nidal-alrouh/frontend build\" \"yarn workspace @nidal-alrouh/backend build\"",
     "test": "concurrently --names \"frontend,backend\" --prefix-colors \"cyan,magenta\" \"yarn workspace @nidal-alrouh/frontend test\" \"yarn workspace @nidal-alrouh/backend test\"",
     "test:watch": "yarn workspaces foreach -p run test:watch",
